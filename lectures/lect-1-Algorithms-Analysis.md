@@ -3,10 +3,29 @@ title: 'Analysis of Algorithms'
 presenter: 'Dr. Ruslee Sutthaweekul'
 course: 'Algorithm and Data Structures'
 semester: '1/2025'
+layout: cover
+background: https://cover.sli.dev
+transition: slide-left
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 
 # Analysis of Algorithms
+Semester 1/2025
+
+## 010153523 Algorithm and Data Structures
+Dr. Ruslee Sutthaweekul
+
+---
+hideInToc: false
+---
+
+## Outline
+
+<toc mode='onlySiblings' minDepth='2' columns='3'/>
+
+---
+
+## Analysis of Algorithms
 
 Understanding how algorithms perform.
 
@@ -19,12 +38,12 @@ Understanding how algorithms perform.
 ## Running Time Explained
 
 * Algorithms typically take inputs and produce outputs.
-* The time an algorithm takes usually increases as the input size gets larger.
+* The time an algorithm takes usually **increases as the input size gets larger**.
 * Figuring out the average time can be complex.
 * Therefore, we often concentrate on the **worst-case running time**.
 * Analyzing the worst case is simpler and vital for time-sensitive applications like gaming, finance, and robotics.
 
-(Diagram showing best, average, and worst-case running times vs. input size)
+<img src="https://essinstitute.in/wp-content/uploads/2023/06/worst-best-average-case-analusis-of-algorithms.webp" style="height:280px"/>
 
 ---
 
@@ -370,4 +389,3 @@ Concepts frequently used in algorithm analysis:
 * **`5n²` is `Ω(n²)`:** True. `5n² ≥ c * n²` holds for `c = 5`, `n₀ = 1`.
 * **`5n²` is `Ω(n)`:** True. `5n² ≥ c * n` holds for `c = 1`, `n₀ = 1` (it grows *faster* than `n`).
 * **`5n²` is `Θ(n²)`:** True. It's `O(n²)` (upper bound) and `Ω(n²)` (lower bound), so it has the same asymptotic growth rate. Requires finding `c'` and `c''`. Example: `1*n² ≤ 5n² ≤ 5*n²` for `n ≥ 1`.
-

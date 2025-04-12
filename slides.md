@@ -47,7 +47,7 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 ---
 
-<Toc />
+<Toc maxDepth="1"/>
 
 ---
 src: ./lectures/lect-0-Intro-to-Java.md

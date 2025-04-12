@@ -5,22 +5,25 @@ subtitle: 'Preparing for Algorithm and Data Structures'
 presenter: 'Dr. Ruslee Sutthaweekul'
 course: 'Algorithm and Data Structures'
 semester: '1/2025'
+layout: cover
+background: https://cover.sli.dev
+transition: slide-left
 ---
 
-# Introduction to Java Programming (for C/C++ developers)
-### Algorithm and Data Structures
-### semester 1/2025
-### Dr. Ruslee Sutthaweekul
+# Introduction to Java Programming & OOP
+Semester 1/2025
+
+## 010153523 Algorithm and Data Structures
+Dr. Ruslee Sutthaweekul
+
 
 ---
+hideInToc: false
+---
 
+## Outline
 
-## Welcome & Goals
-
-* **Welcome!** This session bridges your C/C++ knowledge to Java.
-* **Context:** Our Algorithm and Data Structures (ADS) course uses Java.
-* **Audience:** Assumes familiarity with programming concepts from C/C++.
-* **Goal:** Understand core Java features, syntax differences, and concepts crucial for implementing and analyzing algorithms and data structures in Java.
+<toc mode="onlySiblings" minDepth="2"/>
 
 ---
 
@@ -96,7 +99,7 @@ Much of the basic syntax will feel familiar coming from C/C++.
 Java is fundamentally object-oriented.
 
 * **Classes:** Blueprints for creating objects. Almost all Java code resides within classes.
-    ```java
+```java {*}{maxHeight:'250px'}
     public class Dog {
         // Fields (instance variables)
         String name;
@@ -113,12 +116,13 @@ Java is fundamentally object-oriented.
             System.out.println(this.name + " says Woof!");
         }
     }
-    ```
+```
+
 * **Objects:** Instances of classes. Created using the `new` keyword.
-    ```java
+```java
     Dog myDog = new Dog("Buddy", 3); // Creates a Dog object
     myDog.bark(); // Calls the bark method on the myDog object
-    ```
+```
 
 ---
 
@@ -225,7 +229,7 @@ Mechanism for dealing with runtime errors gracefully.
 
 Let's look at the basic structure and use an `ArrayList`.
 
-```java
+```java {*}{maxHeight:'350px'}
 // Import necessary class from the Collections Framework
 import java.util.ArrayList;
 import java.util.List;
@@ -286,5 +290,3 @@ How does this Java knowledge help in ADS?
 * **Crucial for ADS:** Master classes, objects, interfaces, inheritance, the Collections Framework (especially `List`, `Map`), and Generics. Understand references!
 * **Practice:** The best way to learn is by doing. Convert simple C++ programs, experiment with Collections, start implementing basic ADS structures.
 * **Course Resources:** Refer to the course materials, recommended textbooks, and don't hesitate to ask questions!
-
-Good luck with your Java journey for Algorithm and Data Structures!
