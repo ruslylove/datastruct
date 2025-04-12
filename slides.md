@@ -45,6 +45,32 @@ Presentation slides for developers
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
 -->
+---
+
+<Toc />
+
+---
+src: ./lectures/lect-0-Intro-to-Java.md
+---
+---
+src: ./lectures/lect-1-Algorithms-Analysis.md
+---
+
+---
+src: ./lectures/lect-2-Arrays.md
+---
+
+---
+src: ./lectures/lect-3-Singly-Linked-List.md
+---
+
+---
+src: ./lectures/lect-4-Doubly-Linked-List.md
+---
+
+---
+src: ./lectures/lect-5-Stack.md
+---
 
 ---
 transition: fade-out

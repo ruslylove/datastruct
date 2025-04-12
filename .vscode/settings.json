@@ -1,0 +1,9 @@
+{
+    "slidev.include": [
+        "**/slides.md",
+        "lectures/lect-1.md",
+        "lectures/lect-2-Arrays.md",
+        "lectures/lect-3-Singly-Linked-List.md",
+        "lectures/lect-4-Doubly-Linked-List.md"
+    ]
+}
