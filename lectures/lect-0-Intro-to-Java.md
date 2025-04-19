@@ -1,7 +1,6 @@
 ---
 # Cover Page / Title Slide (Level 1)
 title: 'Introduction to Java Programming for C/C++ Developers'
-<<<<<<< HEAD
 transition: slide-left
 theme: seriph
 layout: cover
@@ -12,23 +11,6 @@ background: https://cover.sli.dev
 ## Algorithm and Data Structures
 ### Semester 1/2025
 ### Dr. Ruslee Sutthaweekul
-=======
-subtitle: 'Preparing for Algorithm and Data Structures'
-presenter: 'Dr. Ruslee Sutthaweekul'
-course: 'Algorithm and Data Structures'
-semester: '1/2025'
-layout: cover
-background: https://cover.sli.dev
-transition: slide-left
----
-
-# Introduction to Java Programming & OOP
-Semester 1/2025
-
-## 010153523 Algorithm and Data Structures
-Dr. Ruslee Sutthaweekul
-
->>>>>>> a0a7e93a5c61ef7e294833dde0a395a1e92a40d7
 
 ---
 hideInToc: false
