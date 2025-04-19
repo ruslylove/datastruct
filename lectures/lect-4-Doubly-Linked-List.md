@@ -1,20 +1,22 @@
 ---
 # Cover Page Slide (Implicitly created by Slidev from metadata)
 title: 'Doubly Linked Lists'
-presenter: 'Dr. Ruslee Sutthaweekul'
-course: 'Algorithm and Data Structures'
-semester: '1/2025'
+transition: slide-left
+theme: seriph
+layout: cover
+background: https://cover.sli.dev
+
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 
-# Doubly Linked List
+# Doubly Linked Lists
 ### Algorithm and Data Structures
 ### semester 1/2025
 ### Dr. Ruslee Sutthaweekul
 
 ---
 
-# Doubly Linked Lists: Overview
+## Doubly Linked Lists: Overview
 
 * Unlike singly linked lists, doubly linked lists allow traversal in both forward and backward directions.
 
@@ -28,7 +30,7 @@ semester: '1/2025'
 
 ---
 
-# Insertion in a Doubly Linked List
+## Insertion in a Doubly Linked List
 
 To insert a new node `q` between an existing node `p` and its successor:
 
@@ -41,7 +43,7 @@ To insert a new node `q` between an existing node `p` and its successor:
 
 ---
 
-# Deletion in a Doubly Linked List
+## Deletion in a Doubly Linked List
 
 To remove an existing node `p`:
 
@@ -53,11 +55,11 @@ To remove an existing node `p`:
 
 ---
 
-# Doubly Linked List Node in Java
+## Doubly Linked List Node in Java
 
 We define the `Node` structure, typically as a private static nested class.
 
-```java
+```java {*}{maxHeight:'350px'}
 /** A basic doubly linked list implementation. */
 public class DoublyLinkedList<E> {
 
@@ -90,11 +92,11 @@ public class DoublyLinkedList<E> {
 
 ---
 
-# Doubly Linked List Class Structure (Java)
+## Doubly Linked List Class Structure (Java)
 
 The main class manages the list using sentinel nodes.
 
-```java
+```java {*}{maxHeight:'350px'}
 public class DoublyLinkedList<E> {
     // (Nested Node class defined previously)
 
@@ -134,11 +136,11 @@ public class DoublyLinkedList<E> {
 
 ---
 
-# Public Update Methods (Java)
+## Public Update Methods (Java)
 
 These methods provide the primary interface for adding/removing elements. They often utilize private helper methods.
 
-```java
+```java {*}{maxHeight:'350px'}
 public class DoublyLinkedList<E> {
     // ... (Node class, sentinels, size, constructor, basic accessors) ...
 
@@ -170,11 +172,11 @@ public class DoublyLinkedList<E> {
 
 ---
 
-# Private Helper Methods (Java)
+## Private Helper Methods (Java)
 
 These internal methods handle the core logic of linking and unlinking nodes.
 
-```java
+```java {*}{maxHeight:'350px'}
 public class DoublyLinkedList<E> {
     // ... (public methods and instance variables) ...
 
@@ -198,3 +200,4 @@ public class DoublyLinkedList<E> {
     }
 
 } // End of DoublyLinkedList class
+```

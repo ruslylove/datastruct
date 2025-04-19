@@ -1,12 +1,11 @@
-
 ---
 # Cover Page / Title Slide (Level 1)
 title: 'Stacks'
-presenter: 'Dr. Ruslee Sutthaweekul'
-course: 'Algorithm and Data Structures'
-semester: '1/2025'
+transition: slide-left
+theme: seriph
 layout: cover
 background: https://cover.sli.dev
+
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 
@@ -200,7 +199,7 @@ Algorithm push(o):
 
 ## Array-Based Stack Snippet (Java)
 
-```java
+```java {*}{maxHeight:'380px'}
 public class ArrayStack<E> implements Stack<E> {
     public static final int CAPACITY = 1000; // Default capacity
     private E[] data;        // Generic array used for storage
@@ -242,6 +241,7 @@ public class ArrayStack<E> implements Stack<E> {
     }
 }
 ```
+
 *(Note: Added more methods from the interface for completeness)*
 
 ---
@@ -250,7 +250,7 @@ public class ArrayStack<E> implements Stack<E> {
 
 Stacks can be used with different data types thanks to Java Generics.
 
-```java
+```java {*}{maxHeight:'350px'}
 public class ArrayReverser {
 
     /** Reverses the elements of an Integer array using a Stack. */
@@ -276,6 +276,7 @@ public class ArrayReverser {
     }
 }
 ```
+
 *(Note: Provided a more complete example showing reversal)*
 
 ---
@@ -296,7 +297,7 @@ public class ArrayReverser {
 
 Uses a stack to track opening delimiters.
 
-```java
+```java 
 public static boolean isMatched(String expression) {
     final String opening = "({["; // Allowed opening delimiters
     final String closing = ")}]"; // Corresponding closing delimiters
@@ -323,24 +324,35 @@ public static boolean isMatched(String expression) {
 
 ---
 
-## Application: HTML Tag Matching
+## Parentheses Matching Algorithm (Java)
 
-* Problem: Verify if HTML tags (`<tag>`) have corresponding closing tags (`</tag>`) correctly nested.
-* Example:
-    ```html
-    <body>
-    <center>
-    <h1> The Little Boat </h1>
-    </center>
-    <p> The storm tossed ... </p>
-    <ol>
-    <li> Will the salesman die? </li>
-    <li> What color is the boat? </li>
-    <li> And what about Naomi? </li>
-    </ol>
-    </body>
-    ```
-* For well-formed HTML, every `<name>` must have a matching `</name>`.
+Uses a stack to track opening delimiters.
+
+```java {*}{maxHeight:'360px'}
+public static boolean isMatched(String expression) {
+    final String opening = "({["; // Allowed opening delimiters
+    final String closing = ")}]"; // Corresponding closing delimiters
+    Stack<Character> buffer = new ArrayStack<>(); // Or LinkedStack
+
+    for (char c : expression.toCharArray()) {
+        if (opening.indexOf(c) != -1) { // If it's an opening delimiter...
+            buffer.push(c);             // ...push it onto the stack.
+        } else if (closing.indexOf(c) != -1) { // If it's a closing delimiter...
+            if (buffer.isEmpty()) {     // ...and stack is empty, mismatch.
+                return false;
+            }
+            // Check if the closing delimiter matches the top of the stack
+            if (closing.indexOf(c) != opening.indexOf(buffer.pop())) {
+                return false; // Mismatched delimiter type
+            }
+        }
+    }
+    // If stack is empty at the end, all delimiters were matched.
+    return buffer.isEmpty();
+}
+```
+
+*(Note: Used ArrayStack based on previous context, LinkedStack also works)*
 
 ---
 
@@ -348,7 +360,7 @@ public static boolean isMatched(String expression) {
 
 Uses a stack to keep track of opened tags.
 
-```java
+```java {*}{maxHeight:'380px'}
 public static boolean isHTMLMatched(String html) {
     Stack<String> buffer = new ArrayStack<>(); // Use a stack for tag names
     int j = html.indexOf('<'); // Find the first '<'
@@ -394,7 +406,7 @@ public static boolean isHTMLMatched(String html) {
 
 Uses two stacks: `valStk` for numbers, `opStk` for operators.
 
-```text
+```text {*}{maxHeight:'380px'}
 Algorithm doOp(): // Performs one operation
   x = valStk.pop()
   y = valStk.pop()
@@ -421,6 +433,7 @@ Algorithm EvalExp():
   repeatOps($) // Perform remaining operations
   return valStk.top() // Final result
 ```
+
 *(Note: `prec(op)` is a function returning precedence level)*
 
 ---

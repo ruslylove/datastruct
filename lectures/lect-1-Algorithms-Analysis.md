@@ -1,12 +1,20 @@
 ---
 title: 'Analysis of Algorithms'
-presenter: 'Dr. Ruslee Sutthaweekul'
-course: 'Algorithm and Data Structures'
-semester: '1/2025'
+# Cover Page / Title Slide (Level 1)
+transition: slide-left
+theme: seriph
+layout: cover
+background: https://cover.sli.dev
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
-
 # Analysis of Algorithms
+## Algorithm and Data Structures
+### Semester 1/2025
+### Dr. Ruslee Sutthaweekul
+
+---
+
+## Analysis of Algorithms
 
 Understanding how algorithms perform.
 

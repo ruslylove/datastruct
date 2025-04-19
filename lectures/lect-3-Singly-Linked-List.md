@@ -1,8 +1,5 @@
 ---
 title: 'Singly Linked Lists'
-presenter: 'Dr. Ruslee Sutthaweekul'
-course: 'Algorithm and Data Structures'
-semester: '1/2025'
 transition: slide-left
 theme: seriph
 layout: cover
@@ -13,12 +10,12 @@ background: https://cover.sli.dev
 
 # Singly Linked List
 ### Algorithm and Data Structures
-### semester 1/2025
+### Semester 1/2025
 ### Dr. Ruslee Sutthaweekul
 
 ---
 
-# Singly Linked Lists: Introduction
+## Singly Linked Lists: Introduction
 
 A singly linked list is a data structure built from a sequence of nodes.
 
@@ -32,7 +29,7 @@ A singly linked list is a data structure built from a sequence of nodes.
 
 ---
 
-# Implementing Nodes: A Nested Class
+## Implementing Nodes: A Nested Class
 
 We often define the `Node` structure as a private static nested class within the linked list class itself. This encapsulates the node's details.
 
@@ -65,7 +62,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-# SinglyLinkedList Class Structure
+## SinglyLinkedList Class Structure
 
 The main `SinglyLinkedList` class manages the nodes.
 
@@ -103,7 +100,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-# Adding an Element to the Front (Head)
+## Adding an Element to the Front (Head)
 
 1.  **Allocate:** Create a new node containing the element.
 2.  **Link New Node:** Set the `next` reference of the new node to point to the current `head`.
@@ -113,7 +110,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-# Adding an Element to the End (Tail)
+## Adding an Element to the End (Tail)
 
 1.  **Allocate:** Create a new node with the element and its `next` reference set to `null`.
 2.  **Link Old Tail:** Set the `next` reference of the current `tail` node to point to the new node. (Handle the case where the list was initially empty).
@@ -123,7 +120,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-# Java Implementation: `addFirst` and `addLast`
+## Java Implementation: `addFirst` and `addLast`
 
 ```java {*}{maxHeight:'400px'}
 public class SinglyLinkedList<E> {
@@ -156,7 +153,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-# Removing the First Element (Head)
+## Removing the First Element (Head)
 
 1.  **Target:** Identify the node currently pointed to by `head`.
 2.  **Update Head:** Change the `head` reference to point to the *next* node in the sequence (`head.getNext()`).
@@ -166,7 +163,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-# Java Implementation: `removeFirst`
+## Java Implementation: `removeFirst`
 
 ```java
 public class SinglyLinkedList<E> {
@@ -190,7 +187,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-# Challenge: Removing from the Tail
+## Challenge: Removing from the Tail
 
 * Removing the last element efficiently in a *singly* linked list is problematic.
 * To update the `tail` reference correctly, you need access to the node *before* the current tail.

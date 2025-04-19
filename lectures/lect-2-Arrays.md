@@ -1,12 +1,19 @@
 ---
 title: 'Arrays in Data Structures'
-presenter: 'Dr. Ruslee Sutthaweekul'
-course: 'Algorithm and Data Structures'
-semester: '1/2025'
-# Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
+transition: slide-left
+theme: seriph
+layout: cover
+background: https://cover.sli.dev
 ---
 
-# Arrays: The Basics
+# Arrays in Data Structures
+## Algorithm and Data Structures
+### Semester 1/2025
+### Dr. Ruslee Sutthaweekul
+---
+
+
+## Arrays: The Basics
 
 An array provides a way to store a sequence of items, where all items are of the same data type.
 
@@ -14,11 +21,12 @@ An array provides a way to store a sequence of items, where all items are of the
 * **Index:** A unique number (starting from 0) used to access a specific cell.
 * **Element:** The value stored within a particular cell.
 
-(Diagram illustrating an array 'A' with indexed cells 0, 1, 2, ..., i, ..., n)
+
+<img src="https://logicmojo.com/assets/dist/new_pages/images/Arrayjava.png" style="height:300px;padding:10px"  />
 
 ---
 
-# Array Length vs. Capacity
+## Array Length vs. Capacity
 
 * The **length** of an array dictates the total number of elements it can hold.
 * We often refer to this length as the array's **capacity**.
@@ -30,7 +38,7 @@ An array provides a way to store a sequence of items, where all items are of the
 
 ---
 
-# Creating Arrays: Method 1 (Literal Assignment)
+## Creating Arrays: Method 1 (Literal Assignment)
 
 One way to create and initialize an array is by using a literal assignment when you declare it:
 
@@ -44,7 +52,7 @@ elementType[] arrayName = {initialValue_0, initialValue_1, ..., initialValue_N-1
 
 ---
 
-# Creating Arrays: Method 2 (Using `new`)
+## Creating Arrays: Method 2 (Using `new`)
 
 The second common method uses the `new` operator:
 
@@ -63,7 +71,7 @@ int[] scores = new int[10]; // Creates an integer array of size 10
 
 ---
 
-# Storing Different Data Types
+## Storing Different Data Types
 
 Arrays are versatile:
 
@@ -77,7 +85,7 @@ Arrays are versatile:
 
 ---
 
-# Java Example: `GameEntry` Class
+## Java Example: `GameEntry` Class
 
 Let's define a simple class to store a player's name and their high score.
 
@@ -107,7 +115,7 @@ public class GameEntry {
 
 ---
 
-# Java Example: `Scoreboard` Class
+## Java Example: `Scoreboard` Class
 
 Now, let's use an array to manage a list of high scores using `GameEntry` objects. We'll keep the array sorted by score.
 
@@ -129,7 +137,7 @@ public class Scoreboard {
 
 ---
 
-# Adding an Entry to a Sorted Array
+## Adding an Entry to a Sorted Array
 
 To insert a new entry `e` at a specific index `i` in our sorted `board` array, we first need to make space.
 
@@ -140,7 +148,7 @@ To insert a new entry `e` at a specific index `i` in our sorted `board` array, w
 
 ---
 
-# Java Example: `add` Method for Scoreboard
+## Java Example: `add` Method for Scoreboard
 
 This method adds a new `GameEntry` if it's a high score or if there's space. It maintains the sorted order.
 
@@ -168,7 +176,7 @@ public void add(GameEntry e) {
 
 ---
 
-# Removing an Entry from an Array
+## Removing an Entry from an Array
 
 To remove an entry `e` currently at index `i`:
 
@@ -180,7 +188,7 @@ To remove an entry `e` currently at index `i`:
 
 ---
 
-# Java Example: `remove` Method (Conceptual)
+## Java Example: `remove` Method (Conceptual)
 
 Here's how you might implement the removal logic:
 

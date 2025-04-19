@@ -1,15 +1,15 @@
 ---
 # Cover Page / Title Slide (Level 1)
 title: 'Introduction to Java Programming for C/C++ Developers'
-subtitle: 'Preparing for Algorithm and Data Structures'
-presenter: 'Dr. Ruslee Sutthaweekul'
-course: 'Algorithm and Data Structures'
-semester: '1/2025'
+transition: slide-left
+theme: seriph
+layout: cover
+background: https://cover.sli.dev
 ---
 
-# Introduction to Java Programming (for C/C++ developers)
-### Algorithm and Data Structures
-### semester 1/2025
+# Introduction to Java Programming <br> (for C/C++ developers)
+## Algorithm and Data Structures
+### Semester 1/2025
 ### Dr. Ruslee Sutthaweekul
 
 ---
