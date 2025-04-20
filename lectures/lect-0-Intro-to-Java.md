@@ -68,6 +68,8 @@ Much of the basic syntax will feel familiar coming from C/C++.
 
 ## Basic Syntax: Key Differences & Java Specifics
 
+<transform scale="0.9">
+
 * **No Pointers:** Java uses *references* to objects. Think of them as safer pointers managed by the JVM. You don't do pointer arithmetic.
 * **Strings:** `String` is a built-in *class*, not a null-terminated `char` array. Strings are immutable.
     ```java
@@ -86,6 +88,8 @@ Much of the basic syntax will feel familiar coming from C/C++.
     input.close(); // Important to close scanner
     ```
 * **Primitives vs. Objects:** Java distinguishes between primitives (`int`, `float`) and Objects (`String`, `ArrayList`). Every primitive has a corresponding *Wrapper Class* (`Integer`, `Float`) used when an Object is needed (e.g., in Collections). Java often handles conversion automatically (autoboxing/unboxing).
+
+</transform>
 
 ---
 

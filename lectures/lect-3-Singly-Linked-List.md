@@ -33,7 +33,7 @@ A singly linked list is a data structure built from a sequence of nodes.
 
 We often define the `Node` structure as a private static nested class within the linked list class itself. This encapsulates the node's details.
 
-```java {*}{maxHeight:'350px'}
+```java {*}{maxHeight:'350px',lines:true}
 // Outer SinglyLinkedList class declaration
 public class SinglyLinkedList<E> {
 
@@ -66,7 +66,7 @@ public class SinglyLinkedList<E> {
 
 The main `SinglyLinkedList` class manages the nodes.
 
-```java {*}{maxHeight:'350px'}
+```java {*}{maxHeight:'380px',lines:true}
 public class SinglyLinkedList<E> {
     // (Nested Node class defined here previously)
 

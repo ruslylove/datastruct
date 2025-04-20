@@ -5,7 +5,7 @@ theme: seriph
 # like them? see https://unsplash.com/collections/94734566/slidev
 background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
-title: Welcome to Slidev
+title: Welcome to Algorithm and Data Structures
 info: |
   ## Slidev Starter Template
   Presentation slides for developers.
@@ -25,9 +25,9 @@ mdc: true
 #  ogImage: https://cover.sli.dev
 ---
 
-# Welcome to Slidev
-
-Presentation slides for developers
+# Welcome to Algorithms and Data Structures
+010153523 Algorithms and Data Structures <br>
+Semester 1/2025
 
 <div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
   Press Space for next page <carbon:arrow-right />
@@ -73,4 +73,6 @@ src: ./lectures/lect-4-Doubly-Linked-List.md
 ---
 src: ./lectures/lect-5-Stack.md
 ---
-
+---
+src: ./lectures/lect-6-Queues.md
+---

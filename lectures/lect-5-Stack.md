@@ -297,7 +297,7 @@ public class ArrayReverser {
 
 Uses a stack to track opening delimiters.
 
-```java 
+```java {*}{maxHeight:'350px',lines:true}
 public static boolean isMatched(String expression) {
     final String opening = "({["; // Allowed opening delimiters
     final String closing = ")}]"; // Corresponding closing delimiters
@@ -320,6 +320,7 @@ public static boolean isMatched(String expression) {
     return buffer.isEmpty();
 }
 ```
+
 *(Note: Used ArrayStack based on previous context, LinkedStack also works)*
 
 ---
@@ -328,7 +329,7 @@ public static boolean isMatched(String expression) {
 
 Uses a stack to track opening delimiters.
 
-```java {*}{maxHeight:'360px'}
+```java {*}{maxHeight:'360px',lines:true }
 public static boolean isMatched(String expression) {
     final String opening = "({["; // Allowed opening delimiters
     final String closing = ")}]"; // Corresponding closing delimiters
@@ -351,6 +352,7 @@ public static boolean isMatched(String expression) {
     return buffer.isEmpty();
 }
 ```
+
 
 *(Note: Used ArrayStack based on previous context, LinkedStack also works)*
 
@@ -360,7 +362,7 @@ public static boolean isMatched(String expression) {
 
 Uses a stack to keep track of opened tags.
 
-```java {*}{maxHeight:'380px'}
+```java {*}{maxHeight:'380px', lines:true}
 public static boolean isHTMLMatched(String html) {
     Stack<String> buffer = new ArrayStack<>(); // Use a stack for tag names
     int j = html.indexOf('<'); // Find the first '<'
@@ -406,7 +408,7 @@ public static boolean isHTMLMatched(String html) {
 
 Uses two stacks: `valStk` for numbers, `opStk` for operators.
 
-```text {*}{maxHeight:'380px'}
+```text {*}{maxHeight:'350px',lines:true}
 Algorithm doOp(): // Performs one operation
   x = valStk.pop()
   y = valStk.pop()
@@ -437,10 +439,13 @@ Algorithm EvalExp():
 *(Note: `prec(op)` is a function returning precedence level)*
 
 ---
-
+layout: two-cols
+---
 ## Expression Evaluation Example Trace
 
 Expression: `14 – 3 * 2 + 7 $` (`$` marks end)
+
+<transform scale="0.75">
 
 | Token | Action           | valStk      | opStk | Comment                       |
 | :---- | :--------------- | :---------- | :---- | :---------------------------- |
@@ -448,13 +453,25 @@ Expression: `14 – 3 * 2 + 7 $` (`$` marks end)
 | –     | repeatOps(-); push(-) | (14)      | (-)   | `prec(-) <= prec(top)` false |
 | 3     | push(3)          | (14, 3)     | (-)   |                               |
 | * | repeatOps(*); push(*) | (14, 3)     | (-, *) | `prec(*) <= prec(-)` false |
-| 2     | push(2)          | (14, 3, 2)  | (-, *) |                               |
+| 2     | push(2)          | (14, 3, 2)  | (-, *) |
+</transform>
+
+:: right ::
+
+<transform scale="0.75">
+
+| Token | Action           | valStk      | opStk | Comment                       |
+| :---- | :--------------- | :---------- | :---- | :---------------------------- |                           
 | +     | repeatOps(+); push(+) | (14, 6)     | (-)   | `prec(+) <= prec(*)` true -> doOp(*); `prec(+) <= prec(-)` true -> doOp(-) -> push(+) |
 |       |                  |             | (+)   | Now push '+'                |
 | 7     | push(7)          | (14, 6, 7)  | (+)   |                               |
 | $     | repeatOps($)     | (14, 13)    | ()    | `prec($) <= prec(+)` true -> doOp(+) |
 |       |                  | (15)        | ()    | `prec($) <= prec(empty)` false |
 | End   | return top       | (15)        | ()    | Result is 15                |
+
+</transform>
+
+
 
 *(Note: Simplified trace, actual precedence check might vary slightly)*
 
@@ -514,7 +531,7 @@ Algorithm spans1(X):
 
 ## Computing Spans: Linear Time Algorithm
 
-```text
+```text {*}{maxHeight:'300px'}
 Algorithm spans2(X):
   Input: array X of n integers
   Output: array S of spans of X
