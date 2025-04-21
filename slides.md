@@ -82,3 +82,6 @@ src: ./lectures/lect-7-Lists.md
 ---
 src: ./lectures/lect-8-Recursions.md
 ---
+---
+src: ./lectures/lect-9-Trees.md
+---
