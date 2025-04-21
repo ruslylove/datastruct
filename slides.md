@@ -76,3 +76,9 @@ src: ./lectures/lect-5-Stack.md
 ---
 src: ./lectures/lect-6-Queues.md
 ---
+---
+src: ./lectures/lect-7-Lists.md
+---
+---
+src: ./lectures/lect-8-Recursions.md
+---
