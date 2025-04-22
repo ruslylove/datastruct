@@ -28,24 +28,42 @@ background: https://cover.sli.dev
 * **Applications:** Managing standby lists, auctions, stock market orders (prioritizing by price/time).
 
 ---
+layout: two-cols
+---
 
 ## Priority Queue Example
 
+<transform scale="0.8">
+
 | Method Call    | Return Value | Priority Queue Contents (Key, Value pairs) |
 | :------------- | :----------- | :----------------------------------------- |
-| `insert(5, A)` |              | {(5, A)}                                   |
-| `insert(9, C)` |              | {(5, A), (9, C)}                           |
-| `insert(3, B)` |              | {(3, B), (5, A), (9, C)}                   |
-| `min()`        | (3, B)       | {(3, B), (5, A), (9, C)}                   |
-| `removeMin()`  | (3, B)       | {(5, A), (9, C)}                           |
-| `insert(7, D)` |              | {(5, A), (9, C), (7, D)}                   |
-| `min()`        | (5, A)       | {(5, A), (9, C), (7, D)}                   |
-| `removeMin()`  | (5, A)       | {(7, D), (9, C)}                           |
-| `removeMin()`  | (7, D)       | {(9, C)}                                   |
-| `removeMin()`  | (9, C)       | {}                                         |
-| `removeMin()`  | null         | {}                                         |
+| `insert(5, A)` |              | `{(5, A)}`                                  |
+| `insert(9, C)` |              | `{(5, A), (9, C)}`                           |
+| `insert(3, B)` |              | `{(3, B), (5, A), (9, C)}`                   |
+| `min()`        | (3, B)       | `{(3, B), (5, A), (9, C)}`                   |
+| `removeMin()`  | (3, B)       | `{(5, A), (9, C)}`                           |
+| `insert(7, D)` |              | `{(5, A), (9, C), (7, D)}`                   |
+
+</transform>
+
+:: right ::
+
+<transform scale="0.8">
+
+
+| Method Call    | Return Value | Priority Queue Contents (Key, Value pairs) |
+| :------------- | :----------- | :----------------------------------------- |
+| `min()`        | (5, A)       | `{(5, A), (9, C), (7, D)}`                   |
+| `removeMin()`  | (5, A)       | `{(7, D), (9, C)}`                           |
+| `removeMin()`  | (7, D)       | `{(9, C)}`                                   |
+| `removeMin()`  | (9, C)       | `{}`                                         |
+| `removeMin()`  | null         | `{}`                                         |
 
 *(Note: Internal order might vary depending on implementation, but `min`/`removeMin` always targets the smallest key.)*
+
+</transform>
+
+
 
 ---
 
