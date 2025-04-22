@@ -98,7 +98,7 @@ Much of the basic syntax will feel familiar coming from C/C++.
 Java is fundamentally object-oriented.
 
 * **Classes:** Blueprints for creating objects. Almost all Java code resides within classes.
-```java {*}{maxHeight:'250px'}
+```java {*}{maxHeight:'250px',lines:true}
     public class Dog {
         // Fields (instance variables)
         String name;
@@ -228,7 +228,7 @@ Mechanism for dealing with runtime errors gracefully.
 
 Let's look at the basic structure and use an `ArrayList`.
 
-```java {*}{maxHeight:'350px'}
+```java {*}{maxHeight:'350px',lines:true}
 // Import necessary class from the Collections Framework
 import java.util.ArrayList;
 import java.util.List;

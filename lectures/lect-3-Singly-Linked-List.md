@@ -25,7 +25,8 @@ A singly linked list is a data structure built from a sequence of nodes.
     * A **next** reference (or link) pointing to the subsequent node in the sequence.
 * The last node's `next` reference points to `null`.
 
-(Diagram showing head pointing to node A, which points to B, then C, then D, which points to null (Ø))
+<img src="./img/slinkedlist.png" style="height:200px"/>
+
 
 ---
 

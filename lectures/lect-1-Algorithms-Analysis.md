@@ -22,6 +22,8 @@ Understanding how algorithms perform.
 * **Algorithm:** The set of rules or steps.
 * **Output:** What comes out of the algorithm.
 
+<img src="https://www.simplilearn.com/ice9/free_resources_article_thumb/Soni-Article-new/what-is-an-algorithm-flowchart.png" style="height:350px;padding-bottom:30px" />
+
 ---
 
 ## Running Time Explained
@@ -35,6 +37,8 @@ Understanding how algorithms perform.
 <img src="https://essinstitute.in/wp-content/uploads/2023/06/worst-best-average-case-analusis-of-algorithms.webp" style="height:280px"/>
 
 ---
+layout: two-cols
+---
 
 ## Experimental Analysis
 
@@ -46,7 +50,9 @@ How to measure performance empirically:
     * Example: Use `System.currentTimeMillis()` before and after execution to find the elapsed time.
 4.  **Plot:** Graph the time taken against the input size.
 
-(Graph showing Time (ms) vs. Input Size)
+:: right ::
+
+<img src="./img/analysis_experiment.png" style="padding-top:20px"/>
 
 ---
 
@@ -77,6 +83,7 @@ A different approach to evaluating algorithms:
 * It's the preferred method for describing algorithms.
 * Keeps the focus on the logic, hiding implementation details.
 
+<img src="https://espresso.codeforces.com/c51c4cab4f906827e34da85733566ec45245713f.png" style="padding-top:50px;height:300px"/>
 ---
 
 ## Pseudocode Conventions
@@ -93,6 +100,8 @@ Common elements used:
     * Mathematical notation like `n²` is allowed.
 
 ---
+layout: two-cols
+---
 
 ## The RAM Model
 
@@ -103,8 +112,13 @@ Abstract model for analysis:
 * Each cell holds a number or character.
 * Cells are numbered, and accessing any cell takes a fixed amount of time (unit time).
 
----
+:: right ::
 
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20211210134854/ram.jpg" style="padding-top:50px;padding-left:20px"/>
+
+---
+layout: two-cols
+---
 ## Key Functions in Algorithm Analysis
 
 Seven common growth functions:
@@ -117,8 +131,9 @@ Seven common growth functions:
 * **Cubic:** ≈ n³
 * **Exponential:** ≈ 2ⁿ
 
-(Log-log chart showing the growth rates of these functions)
+:: right ::
 
+<img src="https://media.licdn.com/dms/image/v2/D4E12AQEvsKZNftrL5w/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1734702748422?e=2147483647&v=beta&t=Mp0AfdcOaVE6TQlsFmj-CIw9i9C0hXvAWk61IYqeH9w" style="height:350px;padding-top:100px"/>
 ---
 
 ## Visualizing Growth Rates (Normal Scale)
@@ -135,6 +150,8 @@ Comparing how different functions grow as input size 'n' increases:
 (Graphs comparing these functions on a standard scale)
 
 ---
+layout: two-cols
+---
 
 ## Primitive Operations
 
@@ -143,6 +160,10 @@ Comparing how different functions grow as input size 'n' increases:
 * Mostly independent of the specific programming language used.
 * We assume each takes a constant amount of time in the RAM model.
 * **Examples:** Evaluating expressions, assigning values, array indexing, calling/returning from methods.
+
+:: right ::
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*cCKgE6AgNQeAFTRKpaH00g.png" style="padding-top:50px;padding-left:20px"/>
 
 ---
 
@@ -154,6 +175,7 @@ Comparing how different functions grow as input size 'n' increases:
     * Finding the maximum element in an array.
     * Operations involve comparisons, assignments, loop control.
     * Analysis shows steps contribute operations like: 2 ops, 2 ops, 2n ops, 2n ops, up to n ops, 1 op.
+<img src="./img/analysis_arraymax.png" style="height:200px; padding-top:20px"/>
 
 ---
 
@@ -163,6 +185,9 @@ Comparing how different functions grow as input size 'n' increases:
 * If 'a' is the time for the fastest operation and 'b' is the time for the slowest:
 * The worst-case time T(n) is bounded: `a(4n + 5) ≤ T(n) ≤ b(5n + 5)`
 * This shows T(n) is bounded by two linear functions.
+
+<img src="./img/analysis_arraymax.png" style="height:200px; padding-top:20px"/>
+
 
 ---
 
@@ -182,7 +207,7 @@ Comparing how different functions grow as input size 'n' increases:
     * **Exponential (c 2ⁿ):** Time grows extremely rapidly.
 * Small changes in 'n' can lead to huge differences in runtime for less efficient algorithms.
 
-(Table showing runtime changes for n+1, 2n, 4n for different growth rates)
+<img src="./img/analyis_growthrate.png" style="height:250px"/>
 
 ---
 
@@ -205,7 +230,7 @@ Comparing how different functions grow as input size 'n' increases:
     * `10⁵n² + 10⁸n` behaves like a quadratic function (order n²).
 * As 'n' gets large, the highest-order term dictates the growth.
 
-(Graph showing linear and quadratic functions dominating lower-order terms and constants at large n)
+<img src="./img/analysis_bigo.png" style="height:300px"/>
 
 ---
 
@@ -227,7 +252,7 @@ Comparing how different functions grow as input size 'n' increases:
 * This inequality cannot hold for *all* `n ≥ n₀` because `n` grows indefinitely, while `c` must be a fixed constant.
 * Therefore, `n²` grows faster than `n`, so `n²` is not `O(n)`.
 
-(Graph showing `n²` eventually surpassing any `c*n`)
+<img src="./img/analysis_bigo.png" style="height:300px"/>
 
 ---
 

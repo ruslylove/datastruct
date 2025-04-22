@@ -85,3 +85,6 @@ src: ./lectures/lect-8-Recursions.md
 ---
 src: ./lectures/lect-9-Trees.md
 ---
+---
+src: ./lectures/lect-10-PriQ.md
+---
