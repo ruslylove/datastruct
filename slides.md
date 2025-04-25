@@ -49,7 +49,7 @@ The last comment block of each slide will be treated as slide notes. It will be 
 
 ## Content
 
-<Toc maxDepth='1' />
+<Toc maxDepth='1' columns='2' />
 
 ---
 src: ./lectures/lect-0-Intro-to-Java.md
@@ -87,4 +87,19 @@ src: ./lectures/lect-9-Trees.md
 ---
 ---
 src: ./lectures/lect-10-PriQ.md
+---
+---
+src: ./lectures/lect-11-Heap.md
+---
+---
+src: ./lectures/lect-12-Maps.md
+---
+---
+src: ./lectures/lect-13-Hash-Tables.md
+---
+---
+src: ./lectures/lect-14-Binary-Search-Trees.md
+---
+---
+src: ./lectures/lect-15-Mergesort-Quicksort.md
 ---
