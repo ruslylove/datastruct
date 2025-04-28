@@ -29,6 +29,14 @@ A singly linked list is a data structure built from a sequence of nodes.
 
 
 ---
+hideInToc: false
+---
+
+## Outline
+
+<toc mode="onlySiblings" minDepth="2"/>
+
+---
 
 ## Implementing Nodes: A Nested Class
 

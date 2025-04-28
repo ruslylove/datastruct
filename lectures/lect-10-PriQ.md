@@ -13,6 +13,15 @@ background: https://cover.sli.dev
 ### Dr. Ruslee Sutthaweekul
 
 ---
+hideInToc: false
+---
+
+## Outline
+
+<toc mode="onlySiblings" minDepth="2" columns="1"/>
+
+
+---
 
 ## Priority Queue Abstract Data Type (ADT)
 

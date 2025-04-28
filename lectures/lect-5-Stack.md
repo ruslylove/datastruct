@@ -15,6 +15,15 @@ background: https://cover.sli.dev
 ### Dr. Ruslee Sutthaweekul
 
 ---
+hideInToc: false
+---
+
+## Outline
+
+<toc mode="onlySiblings" minDepth="2" columns="3"/>
+
+
+---
 
 ## Abstract Data Types (ADTs)
 

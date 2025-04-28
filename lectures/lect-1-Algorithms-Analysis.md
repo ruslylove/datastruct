@@ -13,6 +13,14 @@ background: https://cover.sli.dev
 ### Dr. Ruslee Sutthaweekul
 
 ---
+hideInToc: false
+---
+
+## Outline
+
+<toc mode="onlySiblings" minDepth="2"/>
+
+---
 
 ## Analysis of Algorithms
 

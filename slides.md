@@ -103,3 +103,6 @@ src: ./lectures/lect-14-Binary-Search-Trees.md
 ---
 src: ./lectures/lect-15-Mergesort-Quicksort.md
 ---
+---
+src: ./lectures/lect-16-Graph.md
+---
