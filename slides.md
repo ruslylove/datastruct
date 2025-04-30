@@ -106,3 +106,6 @@ src: ./lectures/lect-15-Mergesort-Quicksort.md
 ---
 src: ./lectures/lect-16-Graph.md
 ---
+---
+src: ./lectures/lect-17-Shortest-path.md
+---
