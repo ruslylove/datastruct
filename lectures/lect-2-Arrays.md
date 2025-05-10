@@ -1,12 +1,12 @@
 ---
-title: 'Arrays in Data Structures'
+title: 'Arrays and Array List'
 transition: slide-left
 theme: seriph
 layout: cover
 background: https://cover.sli.dev
 ---
 
-# Arrays in Data Structures
+# Arrays and ArrayList
 ## Algorithm and Data Structures
 ### Semester 1/2025
 ### Dr. Ruslee Sutthaweekul
@@ -16,7 +16,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="2"/>
 
 ---
 
@@ -220,3 +220,225 @@ public GameEntry remove(int i) throws IndexOutOfBoundsException {
 }
 
 // Note: This method assumes 'numEntries' correctly tracks the number of actual entries.
+```
+
+---
+
+## Array Operations: Access and Modification
+
+* **Accessing:** `element = arrayName[index];`
+    * Time complexity: O(1) - very fast.
+* **Modifying:** `arrayName[index] = newValue;`
+    * Time complexity: O(1).
+
+```java
+int[] numbers = {10, 20, 30, 40, 50};
+
+int thirdNumber = numbers[2]; // thirdNumber becomes 30
+System.out.println("Third number: " + thirdNumber);
+
+numbers[0] = 15; // Modify the first element
+System.out.println("First number now: " + numbers[0]);
+
+// Attempting to access an out-of-bounds index will cause an
+// ArrayIndexOutOfBoundsException at runtime.
+// System.out.println(numbers[5]); // This would cause an error
+
+```
+
+---
+
+## Limitations of Basic Arrays
+
+* **Fixed Size:** Once an array is created, its size (length/capacity) cannot be changed.
+    * If you need more space, you have to create a new, larger array and copy elements over.
+    * If you allocate too much space, it's wasted.
+* **Manual Management for Insertions/Deletions:** Inserting or deleting an element in the middle requires manually shifting other elements, which can be inefficient (O(n)).
+
+These limitations lead to the need for more flexible data structures like `ArrayList`.
+
+---
+
+## Introduction to Java `ArrayList`
+
+* The `ArrayList` class is Java's implementation of a **resizable array** or **dynamic array**.
+* It's part of the **Java Collections Framework** (in the `java.util` package).
+* It implements the `List` interface.
+* **Key Features:**
+    * **Dynamic Size:** Automatically grows or shrinks as you add or remove elements.
+    * **Stores Objects:** Can store objects of any type (uses Generics for type safety).
+    * **Ordered:** Maintains the insertion order of elements.
+    * **Allows Duplicates:** You can store the same element multiple times.
+
+---
+
+## Creating an `ArrayList`
+
+You need to import `java.util.ArrayList` (and often `java.util.List`).
+
+```java
+import java.util.ArrayList;
+import java.util.List; // Good practice to code to the interface
+
+public class ArrayListExample {
+    public static void main(String[] args) {
+        // Creating an ArrayList of Strings
+        List<String> names = new ArrayList<>(); // Diamond operator for type inference
+
+        // Creating an ArrayList of Integers
+        // Note: Use wrapper class Integer for primitive int
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+
+        // Can also initialize with some capacity, though it grows automatically
+        List<Double> values = new ArrayList<>(20); // Initial capacity of 20
+    }
+}
+
+```
+
+* **Generics (`<Type>`):** Specify the type of objects the `ArrayList` will hold (e.g., `<String>`, `<Integer>`). This provides type safety.
+
+---
+layout: two-cols
+---
+
+## Common `ArrayList` Methods
+
+<transform scale="0.8">
+
+* **`add(E element)`:** Appends the element to the end of the list.
+    * Amortized O(1) time.
+* **`add(int index, E element)`:** Inserts the element at the specified index, shifting subsequent elements.
+    * O(n) time in the worst case.
+* **`get(int index)`:** Returns the element at the specified index.
+    * O(1) time.
+* **`set(int index, E element)`:** Replaces the element at the specified index with the new element. Returns the old element.
+    * O(1) time.
+* **`remove(int index)`:** Removes the element at the specified index, shifting subsequent elements. Returns the removed element.
+    * O(n) time in the worst case.
+</transform>
+
+::right::
+
+<transform scale="0.85">
+
+
+
+* **`remove(Object o)`:** Removes the first occurrence of the specified element. Returns `true` if an element was removed.
+    * O(n) time.
+* **`size()`:** Returns the number of elements in the list.
+    * O(1) time.
+* **`isEmpty()`:** Returns `true` if the list contains no elements.
+    * O(1) time.
+* **`clear()`:** Removes all elements from the list.
+* **`contains(Object o)`:** Returns `true` if the list contains the specified element.
+    * O(n) time.
+
+</transform>
+
+---
+
+## `ArrayList` Example Usage
+
+```java {*}{maxHeight:'420px'}
+import java.util.ArrayList;
+import java.util.List;
+
+public class StudentList {
+    public static void main(String[] args) {
+        List<String> students = new ArrayList<>();
+
+        // Adding students
+        students.add("Alice");
+        students.add("Bob");
+        students.add(0, "Charlie"); // Add Charlie at the beginning
+        System.out.println("Students: " + students); // Output: [Charlie, Alice, Bob]
+
+        // Getting a student
+        String firstStudent = students.get(0);
+        System.out.println("First student: " + firstStudent); // Output: Charlie
+
+        // Modifying a student
+        students.set(1, "Alicia");
+        System.out.println("Students after update: " + students); // Output: [Charlie, Alicia, Bob]
+
+        // Removing a student
+        String removedStudent = students.remove(2); // Removes Bob
+        System.out.println("Removed student: " + removedStudent); // Output: Bob
+        System.out.println("Students after removal: " + students); // Output: [Charlie, Alicia]
+
+        System.out.println("Number of students: " + students.size()); // Output: 2
+        System.out.println("Is the list empty? " + students.isEmpty()); // Output: false
+    }
+}
+
+```
+
+---
+
+## Iterating Through an `ArrayList`
+
+There are several ways to iterate over the elements:
+
+1.  **For-each loop (Enhanced for loop):** Simplest and most common.
+
+    ```java
+    List<String> fruits = new ArrayList<>();
+    fruits.add("Apple");
+    fruits.add("Banana");
+    fruits.add("Cherry");
+
+    System.out.println("Fruits (for-each):");
+    for (String fruit : fruits) {
+        System.out.println(fruit);
+    }
+    ```
+
+2.  **Traditional `for` loop with index:** Useful if you need the index.
+
+    ```java
+    System.out.println("\nFruits (indexed for loop):");
+    for (int i = 0; i < fruits.size(); i++) {
+        System.out.println("Index " + i + ": " + fruits.get(i));
+    }
+    ```
+
+---
+
+3.  **Using an `Iterator`:** Provides more control, including safe removal during iteration.
+
+    ```java
+    import java.util.Iterator;
+    // ... inside main or another method
+    System.out.println("\nFruits (Iterator):");
+    Iterator<String> it = fruits.iterator();
+    while (it.hasNext()) {
+        String fruit = it.next();
+        System.out.println(fruit);
+        // if (fruit.equals("Banana")) {
+        //     it.remove(); // Safely removes "Banana"
+        // }
+    }
+    // System.out.println("Fruits after iterator removal: " + fruits);
+    ```
+
+---
+
+## `ArrayList` vs. Basic Arrays
+
+<transform scale="0.6">
+
+| Feature             | Basic Array                                  | `ArrayList`                                       |
+| :------------------ | :------------------------------------------- | :------------------------------------------------ |
+| **Size** | Fixed at creation                            | Dynamic, resizable                                |
+| **Type** | Primitives or Objects                        | Objects only (uses wrapper classes for primitives) |
+| **Flexibility** | Low (manual resizing, shifting)              | High (built-in methods for add, remove, etc.)    |
+| **Performance (get/set)** | O(1)                                         | O(1)                                              |
+| **Performance (add/remove at end)** | N/A (fixed size) / O(1) if space exists | Amortized O(1)                                    |
+| **Performance (add/remove in middle)** | O(n) (manual shift)                        | O(n) (automatic shift)                            |
+| **Memory** | Can be precise if size known                 | Might have some unused capacity (for growth)      |
+| **Utility Methods** | Minimal (only `.length`)                     | Rich set of methods from `List` interface         |
+| **Usage** | When size is fixed and known, performance-critical for primitives | General-purpose dynamic lists of objects          |
+
+`ArrayList` is generally preferred when the number of elements is not known beforehand or can change frequently.
+</transform>
