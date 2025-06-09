@@ -14,6 +14,13 @@ background: https://cover.sli.dev
 ### Dr. Ruslee Sutthaweekul
 
 ---
+hideInToc: false
+---
+
+## Outline
+
+<toc mode="onlySiblings" minDepth="2"/>
+---
 
 ## Singly Linked Lists: Introduction
 
@@ -28,13 +35,7 @@ A singly linked list is a data structure built from a sequence of nodes.
 <img src="./img/slinkedlist.png" style="height:200px"/>
 
 
----
-hideInToc: false
----
 
-## Outline
-
-<toc mode="onlySiblings" minDepth="2"/>
 
 ---
 
@@ -108,15 +109,20 @@ public class SinglyLinkedList<E> {
 ```
 
 ---
-
+layout: two-cols
+---
 ## Adding an Element to the Front (Head)
 
 1.  **Allocate:** Create a new node containing the element.
 2.  **Link New Node:** Set the `next` reference of the new node to point to the current `head`.
 3.  **Update Head:** Change the list's `head` reference to point to the newly created node.
 
-(Diagram: (a) Initial list. (b) New node created, pointing to old head. (c) Head updated to point to the new node.)
+:: right ::
 
+<img src="./img/linkedlist_1.png" />
+
+---
+layout: two-cols
 ---
 
 ## Adding an Element to the End (Tail)
@@ -125,7 +131,9 @@ public class SinglyLinkedList<E> {
 2.  **Link Old Tail:** Set the `next` reference of the current `tail` node to point to the new node. (Handle the case where the list was initially empty).
 3.  **Update Tail:** Change the list's `tail` reference to point to the newly added node.
 
-(Diagram: (a) Initial list. (b) New node created. (c) Old tail points to new node, tail reference updated to new node.)
+:: right ::
+
+<img src="./img/linkedlist_3.png" />
 
 ---
 
@@ -161,15 +169,18 @@ public class SinglyLinkedList<E> {
 ```
 
 ---
+layout: two-cols
+---
 
 ## Removing the First Element (Head)
 
 1.  **Target:** Identify the node currently pointed to by `head`.
-2.  **Update Head:** Change the `head` reference to point to the *next* node in the sequence (`head.getNext()`).
+2.  **Update Head:** Change the `head` reference to point to the *next* node in the sequence (`head.next()`).
 3.  **Cleanup:** The original head node is now unreferenced and can be garbage collected. (Handle the case where the list becomes empty).
 
-(Diagram: (a) Initial list. (b) Head updated to point to the second node. (c) Original first node is effectively removed.)
+:: right ::
 
+<img src="./img/linkedlist_2.png" />
 ---
 
 ## Java Implementation: `removeFirst`
@@ -201,6 +212,41 @@ public class SinglyLinkedList<E> {
 * Removing the last element efficiently in a *singly* linked list is problematic.
 * To update the `tail` reference correctly, you need access to the node *before* the current tail.
 * There's no direct way to get the previous node without traversing the list from the `head`.
-* This traversal takes time proportional to the list's length, making tail removal inefficient (not constant time).
+* This traversal takes time proportional to the list's length, making tail removal inefficient (not constant time).<br><br>
+<img src="./img/linkedlist_4.png" />
 
-(Diagram showing a list and highlighting the difficulty of finding the node before the tail without traversing.)
+---
+
+## `Basic Arrays` vs. `ArrayList` vs. `Singly Linked List`
+
+<transform scale="0.9">
+
+| **Feature** | Basic Array | `ArrayList` | Singly Linked List |
+| :--- | :--- | :--- | :--- |
+| **Size** | Fixed at creation | Dynamic, resizable | Dynamic, node-based |
+| **Type** | Primitives or Objects | Objects only | Objects only |
+| **Flexibility** | Low (manual resizing, shifting) | High (built-in methods) | High (pointer manipulation) |
+| **Performance (get/set by index)**| O(1) | O(1) | O(n) (requires traversal) |
+| **Performance (add at front)** | O(n) (manual shift) | O(n) (automatic shift) | O(1) |
+| **Performance (remove at front)** | O(n) (manual shift) | O(n) (automatic shift) | O(1) |
+
+</transform>
+
+---
+
+<transform scale="0.9">
+
+| **Feature** | Basic Array | `ArrayList` | Singly Linked List |
+| :--- | :--- | :--- | :--- |
+| **Performance (add at end)** | N/A (fixed size) | Amortized O(1) | O(1) (with tail pointer) |
+| **Performance (remove at end)**| N/A (fixed size) | O(1) | O(n) (needs traversal for previous node) |
+| **Performance (add/remove in middle)**| O(n) (shift) | O(n) (shift) | O(n) (traversal) |
+| **Memory** | Low overhead | Moderate overhead (unused capacity)| High overhead (pointer per node) |
+| **Usage**| Fixed-size collections, performance-critical access | General-purpose dynamic lists | Frequent insertions/deletions at the start; implementing queues/stacks |
+
+`ArrayList` is generally preferred when you need a dynamic array with fast index-based access.<br> 
+`LinkedList` excels when you have frequent additions and removals at the beginning of the list.
+</transform>
+
+
+

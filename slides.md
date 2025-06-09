@@ -45,12 +45,17 @@ Semester 1/2025
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
 -->
+
+
 ---
 
 ## Content
 
 <Toc maxDepth='1' columns='2' />
 
+---
+src: ./lectures/syllabus.md
+---
 ---
 src: ./lectures/lect-0-Intro-to-Java.md
 ---
@@ -66,15 +71,15 @@ src: ./lectures/lect-2-Arrays.md
 src: ./lectures/lect-3-Singly-Linked-List.md
 ---
 
----
-src: ./lectures/lect-4-Doubly-Linked-List.md
----
 
 ---
 src: ./lectures/lect-5-Stack.md
 ---
 ---
 src: ./lectures/lect-6-Queues.md
+---
+---
+src: ./lectures/lect-4-Doubly-Linked-List.md
 ---
 ---
 src: ./lectures/lect-7-Lists.md

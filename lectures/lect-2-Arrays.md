@@ -424,18 +424,18 @@ There are several ways to iterate over the elements:
 
 ---
 
-## `ArrayList` vs. Basic Arrays
+##   `Basic Arrays` vs. `ArrayList`
 
 <transform scale="0.6">
 
-| Feature             | Basic Array                                  | `ArrayList`                                       |
+| **Feature**             | Basic Array                                  | **`ArrayList`**                                       |
 | :------------------ | :------------------------------------------- | :------------------------------------------------ |
 | **Size** | Fixed at creation                            | Dynamic, resizable                                |
 | **Type** | Primitives or Objects                        | Objects only (uses wrapper classes for primitives) |
 | **Flexibility** | Low (manual resizing, shifting)              | High (built-in methods for add, remove, etc.)    |
 | **Performance (get/set)** | O(1)                                         | O(1)                                              |
 | **Performance (add/remove at end)** | N/A (fixed size) / O(1) if space exists | Amortized O(1)                                    |
-| **Performance (add/remove in middle)** | O(n) (manual shift)                        | O(n) (automatic shift)                            |
+| **Performance (add/remove at front and in middle)** | O(n) (manual shift)                        | O(n) (automatic shift)                            |
 | **Memory** | Can be precise if size known                 | Might have some unused capacity (for growth)      |
 | **Utility Methods** | Minimal (only `.length`)                     | Rich set of methods from `List` interface         |
 | **Usage** | When size is fixed and known, performance-critical for primitives | General-purpose dynamic lists of objects          |
