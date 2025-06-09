@@ -1,6 +1,6 @@
 ---
 title: 'Singly Linked Lists'
-transition: slide-left
+transition: fade
 theme: seriph
 layout: cover
 background: https://cover.sli.dev
