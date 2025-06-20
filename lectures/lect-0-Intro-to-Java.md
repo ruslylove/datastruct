@@ -18,7 +18,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="2"/>
 
 ---
 
@@ -92,13 +92,15 @@ Much of the basic syntax will feel familiar coming from C/C++.
 </transform>
 
 ---
+layout: two-cols
+---
 
 ## Object-Oriented Programming (OOP) in Java - The Core
 
 Java is fundamentally object-oriented.
 
 * **Classes:** Blueprints for creating objects. Almost all Java code resides within classes.
-```java {*}{maxHeight:'250px',lines:true}
+```java {*}{maxHeight:'300px',lines:true}
     public class Dog {
         // Fields (instance variables)
         String name;
@@ -116,11 +118,24 @@ Java is fundamentally object-oriented.
         }
     }
 ```
+::right::
 
 * **Objects:** Instances of classes. Created using the `new` keyword.
 ```java
     Dog myDog = new Dog("Buddy", 3); // Creates a Dog object
     myDog.bark(); // Calls the bark method on the myDog object
+```
+Class diagram.
+```plantuml
+@startuml
+class Dog {
+    - name : String
+    - age : int
+
+    + Dog(name : String, age : int)
+    + bark() : void
+}
+@enduml
 ```
 
 ---
@@ -140,6 +155,174 @@ Java is fundamentally object-oriented.
 * **Abstraction:** Hiding implementation details. Achieved via `abstract` classes and `interfaces` (crucial for defining ADT contracts in Java).
 
 ---
+layout: two-cols-header
+---
+
+## 🧬 Inheritance
+:: left::
+A subclass Puppy that inherits from Dog.
+```java
+public class Puppy extends Dog {
+    public Puppy(String name, int age) {
+        super(name, age);
+    }
+
+    public void weep() {
+        System.out.println(this.name + " is weeping.");
+    }
+}
+```
+✅ Usage of Inheritance
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Puppy myPuppy = new Puppy("Charlie", 1);
+        myPuppy.bark();  // Inherited from Dog
+        myPuppy.weep();  // Defined in Puppy
+    }
+}
+```
+:: right ::
+Class diagram.
+```plantuml
+@startuml
+class Dog {
+    - name : String
+    - age : int
+
+    + Dog(name : String, age : int)
+    + bark() : void
+}
+
+class Puppy {
+    + Puppy(name : String, age : int)
+    + weep() : void
+}
+Dog <|-- Puppy
+@enduml
+```
+---
+layout: two-cols-header
+---
+
+## 🌀 Polymorphism
+
+:: left::
+Use the Dog class reference to refer to different types of dogs, including a subclass that overrides a method.
+```java
+public class Bulldog extends Dog {
+    public Bulldog(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void bark() {
+        System.out.println(this.name + " says Grrr!");
+    }
+}
+```
+✅ Usage of Polymorphism
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Dog myDog = new Dog("Max", 5);
+        Dog myBulldog = new Bulldog("Rocky", 3); // Polymorphic reference
+
+        myDog.bark();      // Max says Woof!
+        myBulldog.bark();  // Rocky says Grrr! (overridden)
+    }
+}
+```
+:: right ::
+Class diagram.
+```plantuml
+
+@startuml
+class Dog {
+    - name : String
+    - age : int
+
+    + Dog(name : String, age : int)
+    + bark() : void
+}
+
+class Bulldog {
+    + Bulldog(name : String, age : int)
+    + bark() : void
+}
+
+Dog <|-- Bulldog
+
+@enduml
+```
+
+---
+layout: two-cols-header
+---
+
+## 🧩 Abstraction
+
+:: left::
+Make Dog an abstract class, and force subclasses to implement a method.
+```java
+public abstract class Dog {
+    protected String name;
+    protected int age;
+
+    public Dog(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public abstract void bark(); // Abstract method
+}
+public class Beagle extends Dog {
+    public Beagle(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void bark() {
+        System.out.println(this.name + " says Awooo!");
+    }
+}
+```
+:: right ::
+
+✅ Usage of Abstraction
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Dog beagle = new Beagle("Buddy", 4);
+        beagle.bark(); // Buddy says Awooo!
+    }
+}
+```
+Class diagram.
+```plantuml
+
+@startuml
+abstract class Dog {
+    # name : String
+    # age : int
+
+    + Dog(name : String, age : int)
+    + bark() : void
+}
+
+class Beagle {
+    + Beagle(name : String, age : int)
+    + bark() : void
+}
+
+Dog <|-- Beagle
+@enduml
+```
+
+---
 
 ## Memory Management: Garbage Collection (GC)
 
@@ -153,6 +336,8 @@ This is a major difference from C++!
     * (+) Simplifies development.
     * (-) Less direct control over *when* memory is freed.
     * (-) Can introduce slight pauses during GC cycles (usually negligible for ADS).
+
+
 
 ---
 
