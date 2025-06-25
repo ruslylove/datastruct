@@ -92,6 +92,9 @@ Arrays are versatile:
     (Diagram showing an array holding references pointing to String objects: 'Janet', 'Jonas', 'Joseph', etc.)
 
 ---
+layout: two-cols
+---
+
 
 ## Java Example: `GameEntry` Class
 
@@ -120,7 +123,12 @@ public class GameEntry {
     }
 }
 ```
+:: right ::
 
+<img src="https://media.istockphoto.com/id/1408371591/vector/leaderboard-design-with-neon-borders-on-blue-futuristic-background.jpg?s=612x612&w=0&k=20&c=uhbQKEwZcBovVjL9-iZZOfE2HkIOF_l9Gah-MeAxm6M="/>
+
+---
+layout: two-cols
 ---
 
 ## Java Example: `Scoreboard` Class
@@ -143,6 +151,32 @@ public class Scoreboard {
 
 ```
 
+:: right ::
+
+```plantuml
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class GameEntry {
+  - name: String
+  - score: int
+  + GameEntry(String n, int s)
+  + getName(): String
+  + getScore(): int
+  + toString(): String
+}
+
+class Scoreboard {
+  - numEntries: int
+  - board: GameEntry[]
+  + Scoreboard(int capacity)
+}
+
+Scoreboard "1" *-- "0..*" GameEntry
+
+@enduml
+```
 ---
 
 ## Adding an Entry to a Sorted Array
@@ -152,7 +186,7 @@ To insert a new entry `e` at a specific index `i` in our sorted `board` array, w
 1.  Shift existing entries `board[i]` through `board[n-1]` one position to the right (towards higher indices).
 2.  Place the new entry `e` into the now-empty `board[i]`.
 
-(Diagram showing: initial array, array after shifting elements right, array with new element 'e' inserted at index 'i')
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/Insert-Operation-in-Sorted-Array.png" style="height:300px">
 
 ---
 
@@ -190,9 +224,9 @@ To remove an entry `e` currently at index `i`:
 
 1.  Identify the element to remove at `board[i]`.
 2.  Shift all subsequent elements (`board[i+1]` through `board[n-1]`) one position to the left to fill the gap.
-3.  (Optional but recommended) Update the count of actual entries and potentially nullify the last previously occupied slot.
+3.  Update the count of actual entries and potentially nullify the last previously occupied slot.
 
-(Diagram showing: initial array with 'e' at index 'i', array with 'e' removed creating a gap, array after shifting elements left to fill the gap)
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20220722211151/DeletedOperationinSortedArray.png" style="height:250px">
 
 ---
 
