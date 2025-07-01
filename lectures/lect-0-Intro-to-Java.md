@@ -249,7 +249,7 @@ public class Bulldog extends Dog {
 ```
 ✅ Usage of Polymorphism
 
-```java
+```java {*}{maxHeight:'100px'}
 public class Main {
     public static void main(String[] args) {
         Dog myDog = new Dog("Max", 5);
@@ -262,6 +262,9 @@ public class Main {
 ```
 :: right ::
 Class diagram.
+
+<Transform :scale="0.7">
+
 ```plantuml
 
 @startuml
@@ -282,8 +285,8 @@ Dog <|-- Bulldog
 
 @enduml
 ```
-
-<img src="/lectures/img/rocky_grrr.png" style="height:130px;position:fixed;right:10px;bottom:25px"/>
+</Transform>
+<img src="/lectures/img/rocky_grrr.png" style="height:190px;position:fixed;right:50px;bottom:25px"/>
 
 ---
 layout: two-cols-header
@@ -329,6 +332,9 @@ public class Main {
 }
 ```
 Class diagram.
+
+<Transform :scale="0.8">
+
 ```plantuml
 
 @startuml
@@ -348,8 +354,9 @@ class Beagle {
 Dog <|-- Beagle
 @enduml
 ```
+</Transform>
 
-<img src="/lectures/img/abstract_dog.png" style="height:220px;position:fixed;right:10px;bottom:30px"/>
+<img src="/lectures/img/abstract_dog.png" style="height:220px;position:fixed;right:30px;bottom:40px"/>
 
 ---
 

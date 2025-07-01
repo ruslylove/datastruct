@@ -21,6 +21,8 @@ hideInToc: false
 <toc mode="onlySiblings" minDepth="2" columns="3"/>
 
 ---
+layout: two-cols
+---
 
 ## Analysis of Algorithms
 
@@ -30,7 +32,9 @@ Understanding how algorithms perform.
 * **Algorithm:** The set of rules or steps.
 * **Output:** What comes out of the algorithm.
 
-<img src="https://www.simplilearn.com/ice9/free_resources_article_thumb/Soni-Article-new/what-is-an-algorithm-flowchart.png" style="height:350px;padding-bottom:30px" />
+:: right ::
+
+<img src="/lectures/img/algorithm_concept.png" />
 
 ---
 
@@ -71,6 +75,8 @@ Why experiments aren't always enough:
 * **Implementation Effort:** Coding the algorithm can be time-consuming and challenging.
 * **Limited Scope:** Results might only reflect performance on the specific inputs tested, not all possible inputs.
 * **Environment Dependency:** To compare algorithms fairly, tests must run on identical hardware and software setups.
+
+<img src="/lectures/img/environment_dependency.png" style="height:300px;margin:auto;padding-bottom:40px"/>
 
 ---
 
@@ -411,3 +417,53 @@ Concepts frequently used in algorithm analysis:
 * **`5n²` is `Ω(n²)`:** True. `5n² ≥ c * n²` holds for `c = 5`, `n₀ = 1`.
 * **`5n²` is `Ω(n)`:** True. `5n² ≥ c * n` holds for `c = 1`, `n₀ = 1` (it grows *faster* than `n`).
 * **`5n²` is `Θ(n²)`:** True. It's `O(n²)` (upper bound) and `Ω(n²)` (lower bound), so it has the same asymptotic growth rate. Requires finding `c'` and `c''`. Example: `1*n² ≤ 5n² ≤ 5*n²` for `n ≥ 1`.
+
+
+---
+
+## Linear Search: $O(n)$
+
+Linear search is a straightforward method for finding an element within a list. It sequentially checks each element until a match is found or the entire list has been searched.
+
+**Example:** Find the number `7` in the list `[4, 9, 2, 7, 5]`.
+
+1.  Start at the beginning: Is `4` equal to `7`? No.
+2.  Move to the next element: Is `9` equal to `7`? No.
+3.  Move to the next element: Is `2` equal to `7`? No.
+4.  Move to the next element: Is `7` equal to `7`? **Yes!** Found it.
+
+In the worst case, we check every single element. If the list has *n* elements, this takes *n* steps.
+
+* Big-O Notation: $O(n)$
+
+---
+
+## Binary Search: $O(\log n)$
+
+Binary search is a highly efficient algorithm for finding an element within a **sorted** list. It works by repeatedly dividing the search interval in half.
+
+**Example:** Find the number `7` in the sorted list `[2, 4, 5, 7, 9]`.
+
+1.  Find the middle element: `5`. Is `7` greater than `5`? Yes. Ignore the left half. New list: `[7, 9]`.
+2.  Find the new middle element: `7`. Is `7` equal to `7`? **Yes!** Found it.
+
+With each step, we eliminate half the remaining elements, making it much faster for large lists.
+
+* Big-O Notation: $O(\log n)$
+
+---
+
+## Comparison: $O(n)$ vs. $O(\log n)$
+
+| Algorithm | Big-O Notation | Description |
+|---|---|---|
+| **Linear Search** | $O(n)$ | Checks every element sequentially. Requires an unsorted list. |
+| **Binary Search**| $O(\log n)$ | Divides a **sorted** list in half with each step. |
+
+<br>
+
+For a list of **1,000,000** items:
+- **Linear Search** could take up to **1,000,000** steps.
+- **Binary Search** would take at most around **20** steps.
+
+This shows how algorithm choice dramatically impacts performance as data size increases.
