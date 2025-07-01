@@ -138,6 +138,10 @@ class Dog {
 @enduml
 ```
 
+<img src="/lectures/img/buddy_woof.png" style="height:200px;position:fixed;right:50px;bottom:30px"/>
+
+
+
 ---
 
 ## Key OOP Concepts in Java
@@ -153,6 +157,24 @@ class Dog {
     ```
 * **Polymorphism:** Objects of different classes responding to the same method call differently. Achieved through method overriding (`@Override` annotation is good practice).
 * **Abstraction:** Hiding implementation details. Achieved via `abstract` classes and `interfaces` (crucial for defining ADT contracts in Java).
+
+---
+layout: two-cols-header
+---
+
+## 💊 Encapsulation
+
+:: left::
+
+* Fields and methods operating on that data within a class. Controlled using access modifiers:
+    * `public`: Accessible from anywhere.
+    * `private`: Accessible only within the declaring class. (Common for fields).
+    * `protected`: Accessible within the class, subclasses, and package.
+    * *default* (package-private): Accessible only within the same package.
+
+:: right ::
+
+<img src="/lectures/img/encapsulation.png" />
 
 ---
 layout: two-cols-header
@@ -202,6 +224,9 @@ class Puppy {
 Dog <|-- Puppy
 @enduml
 ```
+
+<img src="/lectures/img/charlie_bark_weep.png" style="height:220px;position:fixed;right:10px;bottom:100px"/>
+
 ---
 layout: two-cols-header
 ---
@@ -257,6 +282,8 @@ Dog <|-- Bulldog
 
 @enduml
 ```
+
+<img src="/lectures/img/rocky_grrr.png" style="height:130px;position:fixed;right:10px;bottom:25px"/>
 
 ---
 layout: two-cols-header
@@ -321,6 +348,8 @@ class Beagle {
 Dog <|-- Beagle
 @enduml
 ```
+
+<img src="/lectures/img/abstract_dog.png" style="height:220px;position:fixed;right:10px;bottom:30px"/>
 
 ---
 
