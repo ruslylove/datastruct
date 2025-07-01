@@ -28,21 +28,15 @@ An array provides a way to store a sequence of items, where all items are of the
 * **Cell:** Each storage location within an array.
 * **Index:** A unique number (starting from 0) used to access a specific cell.
 * **Element:** The value stored within a particular cell.
+* The **length** (capacity) of an array dictates the total number of elements it can hold.
+    * In Java, you can get an array's length using `.length` (e.g., `myArray.length`). 
+    * We access the element at index `k` using square brackets: `a[k]`.
 
+<Transform scale="0.7">
 
-<img src="https://logicmojo.com/assets/dist/new_pages/images/Arrayjava.png" style="height:300px;padding:10px"  />
+<img src="https://dev.java/assets/images/language-basics/01_array.png" style="height:300px;padding:10px"  />
 
----
-
-## Array Length vs. Capacity
-
-* The **length** of an array dictates the total number of elements it can hold.
-* We often refer to this length as the array's **capacity**.
-* In Java, you can get an array's length using `.length` (e.g., `myArray.length`).
-* The valid indices for an array `a` range from `0` to `a.length - 1`.
-* You access the element at index `k` using square brackets: `a[k]`.
-
-(Diagram showing an array 'a' with indices 0 to n, highlighting index k)
+</Transform>
 
 ---
 
@@ -85,11 +79,17 @@ Arrays are versatile:
 
 * They can hold **primitive types**, like characters:
 
-    (Diagram showing an array holding 'S', 'A', 'M', 'P', 'L', 'E')
+    ```java
+        // Declare and initialize a character array
+        char[] sampleChars = {'S', 'A', 'M', 'P', 'L', 'E'};
+    ```
 
 * They can also store **references to objects**:
 
-    (Diagram showing an array holding references pointing to String objects: 'Janet', 'Jonas', 'Joseph', etc.)
+    ```java
+        // This array holds references to three different String objects.
+        String[] names = {"Janet", "Jonas", "Joseph"};
+    ```
 
 ---
 layout: two-cols
@@ -125,8 +125,11 @@ public class GameEntry {
 ```
 :: right ::
 
-<img src="https://media.istockphoto.com/id/1408371591/vector/leaderboard-design-with-neon-borders-on-blue-futuristic-background.jpg?s=612x612&w=0&k=20&c=uhbQKEwZcBovVjL9-iZZOfE2HkIOF_l9Gah-MeAxm6M="/>
+<Transform scale="0.75">
 
+<img src="https://media.istockphoto.com/id/1408371591/vector/leaderboard-design-with-neon-borders-on-blue-futuristic-background.jpg?s=612x612&w=0&k=20&c=uhbQKEwZcBovVjL9-iZZOfE2HkIOF_l9Gah-MeAxm6M=" style="margin:auto"/>
+
+</Transform>
 ---
 layout: two-cols
 ---
