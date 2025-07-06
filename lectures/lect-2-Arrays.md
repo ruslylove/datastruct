@@ -100,7 +100,9 @@ layout: two-cols
 
 Let's define a simple class to store a player's name and their high score.
 
-```java
+<Transform scale="0.9">
+
+```java 
 public class GameEntry {
     private String name; // Player's name
     private int score;   // Player's score
@@ -123,11 +125,14 @@ public class GameEntry {
     }
 }
 ```
+
+</Transform>
+
 :: right ::
 
 <Transform scale="0.75">
 
-<img src="https://media.istockphoto.com/id/1408371591/vector/leaderboard-design-with-neon-borders-on-blue-futuristic-background.jpg?s=612x612&w=0&k=20&c=uhbQKEwZcBovVjL9-iZZOfE2HkIOF_l9Gah-MeAxm6M=" style="margin:auto"/>
+<img src="https://media.istockphoto.com/id/1408371591/vector/leaderboard-design-with-neon-borders-on-blue-futuristic-background.jpg?s=612x612&w=0&k=20&c=uhbQKEwZcBovVjL9-iZZOfE2HkIOF_l9Gah-MeAxm6M=" style="margin:auto;padding-left:50px"/>
 
 </Transform>
 ---
@@ -156,7 +161,9 @@ public class Scoreboard {
 
 :: right ::
 
-```plantuml
+<div style="padding-left:150px;padding-top:50px">
+
+```plantuml {theme: 'neutral', scale: 1.3}
 @startuml
 
 skinparam classAttributeIconSize 0
@@ -180,6 +187,9 @@ Scoreboard "1" *-- "0..*" GameEntry
 
 @enduml
 ```
+
+</div>
+
 ---
 
 ## Adding an Entry to a Sorted Array
@@ -189,7 +199,7 @@ To insert a new entry `e` at a specific index `i` in our sorted `board` array, w
 1.  Shift existing entries `board[i]` through `board[n-1]` one position to the right (towards higher indices).
 2.  Place the new entry `e` into the now-empty `board[i]`.
 
-<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/Insert-Operation-in-Sorted-Array.png" style="height:300px">
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/Insert-Operation-in-Sorted-Array.png" style="height:300px;padding-top:30px">
 
 ---
 
@@ -229,7 +239,7 @@ To remove an entry `e` currently at index `i`:
 2.  Shift all subsequent elements (`board[i+1]` through `board[n-1]`) one position to the left to fill the gap.
 3.  Update the count of actual entries and potentially nullify the last previously occupied slot.
 
-<img src="https://media.geeksforgeeks.org/wp-content/uploads/20220722211151/DeletedOperationinSortedArray.png" style="height:250px">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20220722211151/DeletedOperationinSortedArray.png" style="height:250px;padding-top:30px">
 
 ---
 
@@ -292,7 +302,122 @@ System.out.println("First number now: " + numbers[0]);
     * If you allocate too much space, it's wasted.
 * **Manual Management for Insertions/Deletions:** Inserting or deleting an element in the middle requires manually shifting other elements, which can be inefficient (O(n)).
 
-These limitations lead to the need for more flexible data structures like `ArrayList`.
+These limitations lead to the need for more flexible data structures.
+
+---
+layout: two-cols
+---
+
+## Dynamic Arrays: Overcoming Fixed Size
+
+A **dynamic array** (or resizable array) is a data structure that manages a fixed-size array internally but makes it appear to have an unlimited capacity.
+
+*   It automatically grows when it runs out of space.
+*   This solves the "fixed size" problem of basic arrays.
+
+How does it work? By creating a new, larger array and copying the contents when the current one is full.
+
+::right::
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20230105182342/Dynamically-Growing-Array-in-C.png" style="height:350px; margin-top:50px"/>
+
+---
+
+## How Dynamic Arrays Grow
+
+Let's consider an `add` operation.
+
+1.  Check if the internal array is full (`size == capacity`).
+2.  **If it is full:**
+    a. Allocate a new, larger array. A common strategy is to **double the capacity**.
+    b. Copy all `n` elements from the old array to the new, larger array.
+    c. The old array is discarded, and we now use the new one.
+3.  Add the new element at the next available position (`A[size]`).
+4.  Increment the `size`.
+
+This resizing step is the key to the dynamic behavior.
+
+---
+layout: two-cols
+---
+
+
+## Analyzing the `add` Operation
+
+*   **Best Case:** If the array is not full, adding an element takes **O(1)** time.
+*   **Worst Case:** If the array *is* full, the `add` operation triggers a resize. This involves copying `n` elements, so the operation takes **O(n)** time.
+
+This worst-case `O(n)` time seems inefficient. Does this mean dynamic arrays are slow?
+
+Not necessarily. We need to look at the **amortized** cost.
+
+:: right ::
+
+* add operation of a dynamic array
+
+<div style="padding-left:20px">
+
+```java
+
+public void add(int element) {
+    // Check if the array needs to be resized
+    if (size == data.length) {
+        resize();
+    }
+    // Add the new element and increment the size
+    data[size] = element;
+    size++;
+}
+
+private void resize() {
+    int newCapacity = data.length * 2;
+    // The Arrays.copyOf method creates a new array and copies the elements
+    data = Arrays.copyOf(data, newCapacity);
+    System.out.println("Resized to new capacity: " + newCapacity); // For demonstration
+}
+
+```
+
+</div>
+
+---
+layout: two-cols
+---
+
+## Amortized Analysis of Growth
+
+While a single `add` can be slow (`O(n)`), these expensive resize operations don't happen with every insertion.
+
+*   If we **double the capacity** each time we resize, the cost of that `O(n)` copy is spread out over many "cheap" `O(1)` additions that came before it.
+*   This is called **amortized analysis**.
+*   The average time to perform an `add` operation over a long sequence of additions is **amortized O(1)**.
+
+This makes dynamic arrays very efficient in practice, which is why they are so widely used.
+
+:: right ::
+
+<div style="padding-top:100px;padding-left:20px">
+
+```mermaid {theme: 'neutral'}
+
+xychart-beta
+    title "Time Complexity of Dynamic Array 'add' Operation"
+    x-axis "Number of Elements (n)" 1 --> 18
+    y-axis "Computational Cost" 0 --> 50
+    
+    %% Most operations are fast (cost of 1)
+    %% Occasional spikes represent slow resizes (cost proportional to n)
+    
+    bar  [1, 1, 1, 4, 1, 1, 1,   1,  8,  1,  1,  1,  1,  1,  1,  1,  1, 16]
+    line [1, 2, 3, 7, 8, 9, 10, 11, 19, 20, 21, 22, 23, 24, 25, 26, 27, 43]
+
+    %% Annotations to explain the spikes
+    %% annotation "Resize (n=4)" (4, 4.5)
+    %% annotation "Resize (n=8)" (8, 8.5)
+    %% annotation "Resize (n=16)" (16, 9.5)
+
+```
+</div>
 
 ---
 
@@ -377,7 +502,9 @@ layout: two-cols
 
 ## `ArrayList` Example Usage
 
-```java {*}{maxHeight:'420px'}
+<Transform scale="0.8">
+
+```java {*}{lines:'true'}
 import java.util.ArrayList;
 import java.util.List;
 
@@ -410,6 +537,8 @@ public class StudentList {
 }
 
 ```
+
+</Transform>
 
 ---
 
@@ -479,3 +608,13 @@ There are several ways to iterate over the elements:
 
 `ArrayList` is generally preferred when the number of elements is not known beforehand or can change frequently.
 </transform>
+
+---
+
+## Summary
+
+*   **Arrays** are fundamental for storing sequences of data with fast **O(1)** access, but they have a **fixed size**.
+*   Inserting or deleting from a standard array is inefficient (**O(n)**) because it requires manually shifting elements.
+*   **Dynamic Arrays** (like Java's `ArrayList`) solve the fixed-size problem by automatically resizing a hidden internal array.
+*   While resizing can be slow (**O(n)**), **amortized analysis** shows that adding an element to the end is, on average, very fast (**amortized O(1)**).
+*   `ArrayList` provides a flexible and powerful way to manage dynamic lists of objects, making it one of the most commonly used data structures in Java.

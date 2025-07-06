@@ -32,8 +32,66 @@ A singly linked list is a data structure built from a sequence of nodes.
     * A **next** reference (or link) pointing to the subsequent node in the sequence.
 * The last node's `next` reference points to `null`.
 
-<img src="./img/slinkedlist.png" style="height:200px"/>
 
+```mermaid {scale:1}
+
+block-beta
+
+    columns 5
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+    space
+    space
+    tail(("tail"))
+    space
+    A(("'a'"))
+    
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    space
+    space
+    space
+    B(("'b'"))
+
+    block:node3
+        element3("element")
+        next3("next")
+    end
+    
+    null
+
+    space
+    space
+    space
+    
+    C(("'c'"))
+
+    next --> node2
+    next2 --> node3
+    next3 -- "end" --> null(("∅"))
+    head(("head")) -- "first" --> element
+    element --> A
+    element2 --> B
+    element3 --> C
+    tail -- "last" --> node3
+
+    %%style tail stroke-dasharray: 5 5
+
+
+```
+<!--
+<img src="./img/slinkedlist.png" style="height:200px"/>
+-->
 
 
 
