@@ -175,9 +175,148 @@ layout: two-cols
 2.  **Link New Node:** Set the `next` reference of the new node to point to the current `head`.
 3.  **Update Head:** Change the list's `head` reference to point to the newly created node.
 
+<br>
+
+```mermaid {scale:0.7}
+block-beta
+    columns 3
+    newnode(("new_node"))
+    space
+    block:node
+        element
+        next
+    end
+    space
+    space
+    T(("'t'"))
+
+    newnode --> node
+    element --> T
+
+    style node fill:#77f,stroke-width:4px,stroke:#333
+
+```
+
 :: right ::
 
+
+```mermaid
+
+block-beta
+
+    columns 4
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+
+    space
+    space
+    A(("'a'"))
+   space
+   space
+
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    
+    nn
+    block:newnode
+        elementnewnode("element")
+        nextnewnode("next")
+    end
+
+    B(("'b'"))
+
+    
+    null
+    space
+    T(("'t'"))
+    
+
+    next --> node2
+    next2 --> null(("∅"))
+    head(("head")) --> node1
+    element --> A
+    element2 --> B
+    nn(("new_node")) --> newnode
+    nextnewnode -- "new_node.next = head" --> node1
+    elementnewnode --> T
+
+    %%style tail stroke-dasharray: 5 5
+    style nextnewnode fill:#969,stroke:#333,stroke-width:4px
+    style newnode fill:#77f
+
+
+```
+
+```mermaid
+
+
+block-beta
+
+    columns 4
+
+    head
+    
+
+    block:node1
+        element
+        next
+    end
+
+     A(("'a'"))
+    space
+    space
+    head
+   
+    
+   space
+
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    nn(("new_node"))
+    block:newnode
+        elementnewnode("element")
+        nextnewnode("next")
+    end
+
+    B(("'b'"))
+
+    
+    null
+    space
+    T(("'t'"))
+    
+
+    next --> node2
+    next2 --> null(("∅"))
+    head(("head")) -- "head=new_node" --> newnode
+    element --> A
+    element2 --> B
+    nextnewnode --> node1
+    elementnewnode --> T
+
+    style nn stroke-dasharray: 5 5,fill:#eef
+    style head fill:#969,stroke:#333,stroke-width:4px
+    %%style newnode fill:#77f
+
+```
+
+
+<!--
 <img src="./img/linkedlist_1.png" />
+-->
 
 ---
 layout: two-cols
@@ -189,9 +328,149 @@ layout: two-cols
 2.  **Link Old Tail:** Set the `next` reference of the current `tail` node to point to the new node. (Handle the case where the list was initially empty).
 3.  **Update Tail:** Change the list's `tail` reference to point to the newly added node.
 
+<br>
+
+
+```mermaid {scale:0.7}
+block-beta
+    columns 3
+    newnode(("new_node"))
+    space
+    block:node
+        element
+        next
+    end
+    space
+    T(("'c'"))
+    null(("∅"))
+
+    newnode --> node
+    element --> T
+    next --> null
+
+    style node fill:#77f,stroke-width:4px,stroke:#333
+
+```
+
 :: right ::
 
+
+```mermaid {scale:0.55}
+
+block-beta
+
+    columns 4
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+    space
+    tail(("tail"))
+    space
+    A(("'a'"))
+
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    nn
+    space
+    space
+    space
+    space
+    space
+    block:newnode
+        elementnewnode("element")
+        nextnewnode("next")
+    end
+
+    null
+
+    B(("'b'"))
+
+    T(("'c'"))
+    
+
+    next --> node2
+    next2 -- "tail.next=new_node" --> newnode
+    head(("...")) --> node1
+    element --> A
+    element2 --> B
+    nn(("new_node")) --> newnode
+    nextnewnode --> null(("∅"))
+    elementnewnode --> T
+    tail --> node2
+
+    %%style tail stroke-dasharray: 5 5
+    style next2 fill:#969,stroke:#333,stroke-width:4px
+    style newnode fill:#77f
+
+
+```
+
+```mermaid {scale:0.55}
+
+
+block-beta
+
+    columns 4
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+    space
+     B(("'b'"))
+    tail(("tail"))
+    A(("'a'"))
+
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    nn(("new_node"))
+    space
+    space
+    space
+    space
+    space
+    space
+    block:newnode
+        elementnewnode("element")
+        nextnewnode("next")
+    end
+    null
+    T(("'c'"))
+    
+
+    next --> node2
+    next2 --> newnode
+    head(("...")) --> node1
+    element --> A
+    element2 --> B
+    nextnewnode --> null(("∅"))
+    elementnewnode --> T
+    tail --"tail=new_node"--> newnode
+
+    style nn stroke-dasharray: 5 5,fill:#eef
+    style tail fill:#969,stroke:#333,stroke-width:4px
+    %%style newnode fill:#77f
+
+```
+<!--
+
 <img src="./img/linkedlist_3.png" />
+
+-->
 
 ---
 
@@ -236,9 +515,244 @@ layout: two-cols
 2.  **Update Head:** Change the `head` reference to point to the *next* node in the sequence (`head.next()`).
 3.  **Cleanup:** The original head node is now unreferenced and can be garbage collected. (Handle the case where the list becomes empty).
 
+<br>
+
+```mermaid {scale:0.55}
+
+block-beta
+
+    columns 5
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+    space
+    space
+    tail(("tail"))
+    space
+    A(("'a'"))
+    
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    space
+    space
+    space
+    B(("'b'"))
+
+    block:node3
+        element3("element")
+        next3("next")
+    end
+    
+    null
+
+    space
+    space
+    space
+    
+    C(("'c'"))
+
+    next --> node2
+    next2 --> node3
+    next3 --> null(("∅"))
+    head(("head")) --> element
+    element --> A
+    element2 --> B
+    element3 --> C
+    tail  --> node3
+
+    %%style tail stroke-dasharray: 5 5
+
+
+```
+
 :: right ::
+```mermaid {scale:0.55}
+
+block-beta
+
+    columns 5
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+    space
+    space
+    tail(("tail"))
+    space
+    A(("'a'"))
+    
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    space
+    remove(("element"))
+    space
+    B(("'b'"))
+
+    block:node3
+        element3("element")
+        next3("next")
+    end
+    
+    null
+
+    space
+    space
+    space
+    
+    C(("'c'"))
+
+    next --> node2
+    next2 --> node3
+    next3 --> null(("∅"))
+    head(("head")) --> element
+    element --> A
+    element2 --> B
+    element3 --> C
+    tail --> node3
+    remove --> A
+
+    style node1 stroke-dasharray: 5 5,stroke-width:4,stroke:#777,fill:#eef
+
+
+```
+```mermaid {scale:0.55}
+
+block-beta
+
+    columns 5
+
+    
+    space
+    block:node1
+        element
+        next
+    end
+
+    space
+    space
+    tail(("tail"))
+    space
+    A(("'a'"))
+    
+    
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    space
+    remove(("element"))
+    head
+    B(("'b'"))
+
+    block:node3
+        element3("element")
+        next3("next")
+    end
+    
+    null
+
+    space
+    space
+    space
+    
+    C(("'c'"))
+
+    next --> node2
+    next2 --> node3
+    next3 --> null(("∅"))
+    head(("head")) --"head=head.next"--> node2
+    element --> A
+    element2 --> B
+    element3 --> C
+    tail --> node3
+    remove --> A
+
+    style node1 stroke-dasharray: 5 5,stroke-width:4,stroke:#777,fill:#eef
+    style head fill:#969,stroke:#333,stroke-width:4px
+
+
+```
+
+```mermaid {scale:0.55}
+
+block-beta
+
+    columns 5
+
+    
+    A(("'a'"))
+    head
+
+    space
+    space
+    tail(("tail"))
+    space
+    space
+    
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    space
+    remove(("element"))
+    space
+    B(("'b'"))
+
+    block:node3
+        element3("element")
+        next3("next")
+    end
+    
+    null
+
+    space
+    space
+    space
+    
+    C(("'c'"))
+
+
+    next2 --> node3
+    next3 --> null(("∅"))
+    head(("head")) --> node2
+
+    element2 --> B
+    element3 --> C
+    tail --> node3
+    remove -- "return" --> A
+
+    %%style head fill:#969,stroke:#333,stroke-width:4px
+    style remove stroke-dasharray: 5 5,stroke-width:4,stroke:#777,fill:#eef
+
+
+
+```
+<!--
 
 <img src="./img/linkedlist_2.png" />
+
+-->
 ---
 
 ## Java Implementation: `removeFirst`
@@ -271,13 +785,74 @@ public class SinglyLinkedList<E> {
 * To update the `tail` reference correctly, you need access to the node *before* the current tail.
 * There's no direct way to get the previous node without traversing the list from the `head`.
 * This traversal takes time proportional to the list's length, making tail removal inefficient (not constant time).<br><br>
-<img src="./img/linkedlist_4.png" />
+
+```mermaid
+
+block-beta
+
+    columns 5
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+    space
+    space
+    tail(("tail"))
+    space
+    A(("'a'"))
+    
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    space
+    space
+    space
+    B(("'b'"))
+
+    block:node3
+        element3("element")
+        next3("next")
+    end
+    
+    null
+
+    space
+    space
+    space
+    
+    C(("'c'"))
+
+    next --> node2
+    next2 --> node3
+    next3 --> null(("∅"))
+    head(("head")) --> element
+    element --> A
+    element2 --> B
+    element3 --> C
+    tail  --> node3
+
+    %%style tail stroke-dasharray: 5 5
+    style node3 stroke-dasharray: 5 5,stroke-width:4,stroke:#f77,fill:#fee
+
+
+
+```
+
+<!-- <img src="./img/linkedlist_4.png" />
+-->
 
 ---
 
 ## `Basic Arrays` vs. `ArrayList` vs. `Singly Linked List`
 
-<transform scale="0.9">
+<transform scale="0.8">
 
 | **Feature** | Basic Array | `ArrayList` | Singly Linked List |
 | :--- | :--- | :--- | :--- |
@@ -292,7 +867,7 @@ public class SinglyLinkedList<E> {
 
 ---
 
-<transform scale="0.9">
+<transform scale="0.8">
 
 | **Feature** | Basic Array | `ArrayList` | Singly Linked List |
 | :--- | :--- | :--- | :--- |
@@ -305,6 +880,21 @@ public class SinglyLinkedList<E> {
 `ArrayList` is generally preferred when you need a dynamic array with fast index-based access.<br> 
 `LinkedList` excels when you have frequent additions and removals at the beginning of the list.
 </transform>
+
+---
+
+## Summary
+
+*   **Structure:** A singly linked list is a sequence of **nodes**, where each node holds an element and a reference (pointer) to the next node.
+*   **Key Pointers:** The list is managed by `head` and `tail` references.
+*   **Strengths:**
+    *   Excellent performance for adding and removing at the **front (head)**: `addFirst` and `removeFirst` are **O(1)** operations.
+    *   Adding to the **end (tail)** is also **O(1)** if a `tail` pointer is maintained.
+*   **Weaknesses:**
+    *   Accessing an element by index is slow: **O(n)**, as it requires traversing from the head.
+    *   Removing from the tail is inefficient: **O(n)**, because you must find the second-to-last node.
+    *   Higher memory overhead than arrays due to the storage of `next` pointers.
+*   **Best Use Case:** Ideal for scenarios requiring frequent insertions and deletions at the beginning of the sequence, such as implementing a queue or stack.
 
 
 
