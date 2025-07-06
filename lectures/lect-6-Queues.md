@@ -22,12 +22,16 @@ hideInToc: false
 
 
 ---
+layout: image-right
+image: /queue.png
+---
+
 
 ## The Queue Abstract Data Type (ADT)
 
-* A **Queue** stores a collection of arbitrary objects.
-* It follows a **First-In, First-Out (FIFO)** principle. Think of a waiting line.
-* Insertions happen at the **rear** (end), and removals occur at the **front**.
+<Transform scale="0.7">
+
+* A **Queue** stores a collection of arbitrary objects. It follows a **First-In, First-Out (FIFO)** principle. Insertions happen at the **rear** (end), and removals occur at the **front**.
 * **Core Operations:**
     * `enqueue(object)`: Inserts an element at the rear of the queue.
     * `dequeue()`: Removes and returns the element from the front of the queue.
@@ -36,6 +40,8 @@ hideInToc: false
     * `size()`: Returns the number of elements currently in the queue.
     * `isEmpty()`: Checks if the queue contains any elements.
 * **Boundary Cases:** Attempting `dequeue()` or `first()` on an empty queue returns `null` (in this specific ADT definition).
+
+</Transform>
 
 ---
 layout: two-cols

@@ -38,11 +38,17 @@ hideInToc: false
     * **Errors:** Trying to buy/sell a non-existent stock, cancelling a non-existent order.
 
 ---
+layout: image-right
+image: /stack_asian.png
+---
 
 ## The Stack ADT
 
 * Stores a collection of arbitrary objects.
 * Operates on a **Last-In, First-Out (LIFO)** principle. Imagine a stack of plates.
+
+<Transform scale="0.9">
+
 * **Core Operations:**
     * `push(object)`: Adds an element to the top.
     * `pop()`: Removes and returns the element most recently added (the top element).
@@ -51,6 +57,7 @@ hideInToc: false
     * `size()`: Returns the number of elements currently in the stack.
     * `isEmpty()`: Checks if the stack contains any elements.
 
+</Transform>
 ---
 
 ## Stack Interface Definition in Java
