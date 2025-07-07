@@ -34,7 +34,7 @@ An array provides a way to store a sequence of items, where all items are of the
 
 <Transform scale="0.7">
 
-<img src="https://dev.java/assets/images/language-basics/01_array.png" style="height:300px;padding:10px"  />
+<img src="/array_new.png" style="height:200px;padding-top:20px"  />
 
 </Transform>
 
@@ -191,6 +191,8 @@ Scoreboard "1" *-- "0..*" GameEntry
 </div>
 
 ---
+layout: two-cols
+---
 
 ## Adding an Entry to a Sorted Array
 
@@ -199,7 +201,12 @@ To insert a new entry `e` at a specific index `i` in our sorted `board` array, w
 1.  Shift existing entries `board[i]` through `board[n-1]` one position to the right (towards higher indices).
 2.  Place the new entry `e` into the now-empty `board[i]`.
 
+:: right ::
+
+<img src="/insert_array.png" style="width:350px;margin:auto">
+<!--
 <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/Insert-Operation-in-Sorted-Array.png" style="height:300px;padding-top:30px">
+-->
 
 ---
 
@@ -305,8 +312,7 @@ System.out.println("First number now: " + numbers[0]);
 These limitations lead to the need for more flexible data structures.
 
 ---
-layout: two-cols
----
+
 
 ## Dynamic Arrays: Overcoming Fixed Size
 
@@ -317,9 +323,10 @@ A **dynamic array** (or resizable array) is a data structure that manages a fixe
 
 How does it work? By creating a new, larger array and copying the contents when the current one is full.
 
-::right::
+<img
+  src="/dynamic_array.png"
+  style="padding-top:5px;height:250px;margin:auto"/>
 
-<img src="https://media.geeksforgeeks.org/wp-content/uploads/20230105182342/Dynamically-Growing-Array-in-C.png" style="height:350px; margin-top:50px"/>
 
 ---
 

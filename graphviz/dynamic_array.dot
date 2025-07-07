@@ -1,0 +1,89 @@
+digraph DynamicallyGrowingArray {
+    // General styling for the graph
+    graph [rankdir="TB", splines=line];
+    node [shape=plaintext];
+
+    // Node for the main structure (like the 'dynamic_array' struct)
+    struct_node [
+        label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR><TD COLSPAN="2" BGCOLOR="lightblue"><B>dynamic_array</B></TD></TR>
+                <TR><TD>size</TD><TD>4</TD></TR>
+                <TR><TD>capacity</TD><TD>4</TD></TR>
+                <TR><TD PORT="ptr">array</TD><TD>0x1000</TD></TR>
+            </TABLE>
+        >
+    ];
+    
+    
+
+    // Nodes for the actual array in memory
+    // Using a record shape to make it look like a contiguous block
+    array_node [
+        label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR>
+                    <TD PORT="i0" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">10</TD>
+                    <TD PORT="i1" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">20</TD>
+                    <TD PORT="i2" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">30</TD>
+                    <TD PORT="i3" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">40</TD>
+                    <TD PORT="i4" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">50</TD>
+                    <TD PORT="i5" WIDTH="40" HEIGHT="40" BGCOLOR="lightgray"></TD>
+                    <TD PORT="i6" WIDTH="40" HEIGHT="40" BGCOLOR="lightgray"></TD>
+                    <TD PORT="i7" WIDTH="40" HEIGHT="40" BGCOLOR="lightgray"></TD>
+                </TR>
+            </TABLE>
+        >
+    ];
+    
+    array_node2 [
+        label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR>
+                    <TD PORT="i0" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">10</TD>
+                    <TD PORT="i1" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">20</TD>
+                    <TD PORT="i2" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">30</TD>
+                    <TD PORT="i3" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">40</TD>
+                    
+                </TR>
+            </TABLE>
+        >
+    ];
+    
+    new_element [
+        label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR>
+                    <TD PORT="i0" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">50</TD>
+                    
+                </TR>
+            </TABLE>
+        >
+    ];
+    
+    // Node for the main structure (like the 'dynamic_array' struct)
+    struct_node2 [
+        label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR><TD COLSPAN="2" BGCOLOR="lightblue"><B>dynamic_array</B></TD></TR>
+                <TR><TD>size</TD><TD>5</TD></TR>
+                <TR><TD>capacity</TD><TD>8</TD></TR>
+                <TR><TD PORT="ptr">array</TD><TD>0x2000</TD></TR>
+            </TABLE>
+        >
+    ];
+
+    
+    
+
+    // Edge from the 'array' pointer in the struct to the first element of the memory block
+    //struct_node:ptr -> array_node:i0:w [xlabel="  (Heap Memory)"]
+    array_node2:i0 -> array_node:i0
+    array_node2:i1 -> array_node:i1
+    array_node2:i2 -> array_node:i2
+    array_node2:i3 -> array_node:i3
+    new_element:i0 -> array_node:i4
+    struct_node -> struct_node2
+
+
+}

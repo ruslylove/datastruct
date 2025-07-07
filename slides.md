@@ -23,6 +23,8 @@ mdc: true
 # open graph
 # seoMeta:
 #  ogImage: https://cover.sli.dev
+addons:
+  - slidev-addon-graph
 ---
 
 # Welcome to Algorithms and Data Structures

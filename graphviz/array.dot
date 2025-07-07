@@ -1,0 +1,75 @@
+digraph ArrayDiagram {
+    // Set node and graph styles
+    graph [rankdir=BT]; // Arrange from left to right
+    node [shape=plaintext];
+
+    // Create the array using an HTML-like table structure
+
+    
+    array [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            // Header row for the indices
+            <TR>
+                <TD PORT="idx0" WIDTH="40" HEIGHT="25" BGCOLOR="lightblue"><B>0</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>1</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>2</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>3</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>4</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>5</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>6</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>7</B></TD>
+                <TD WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>8</B></TD>
+                <TD PORT="idx9" WIDTH="40" HEIGHT="25" BGCOLOR="lightgray"><B>9</B></TD>
+            </TR>
+            // Data row for the array elements
+            <TR>
+                <TD PORT="i0" WIDTH="40" HEIGHT="40">7</TD>
+                <TD PORT="i1" WIDTH="40" HEIGHT="40">1</TD>
+                <TD PORT="i2" WIDTH="40" HEIGHT="40">2</TD>
+                <TD PORT="i3" WIDTH="40" HEIGHT="40" BGCOLOR="#F2C84B">8</TD>
+                <TD PORT="i4" WIDTH="40" HEIGHT="40">5</TD>
+                <TD PORT="i5" WIDTH="40" HEIGHT="40">0</TD>
+                <TD PORT="i6" WIDTH="40" HEIGHT="40">4</TD>
+                <TD PORT="i7" WIDTH="40" HEIGHT="40">3</TD>
+                <TD PORT="i8" WIDTH="40" HEIGHT="40">0</TD>
+                <TD PORT="i9" WIDTH="40" HEIGHT="40">2</TD>
+            </TR>
+        </TABLE>
+    >];
+    
+   
+    
+
+
+    // Add the label below the array
+    //node [style=filled]
+    label_node [label="Array length is 10",style=filled, fillcolor=lightgray, shape=box];
+    //node [style=unfilled]
+    label_indices [label="indices"]
+    
+    
+
+
+    label_first [label="First index ('0')"];
+    label_third [label="Element at index 3"];
+    
+
+    // Make the label invisible so it doesn't create an edge
+    //edge [style=invis];
+    //array -> label_node; 
+    edge [style=vis];
+    
+    label_third -> array:i3
+    //label_indices -> array:idx9
+    
+    subgraph {
+        rank = same;
+        array:i9 -> label_indices [dir=back]
+        label_first -> array:i0
+        //label_indices -> array:idx9
+    }
+    
+    
+    
+    
+}

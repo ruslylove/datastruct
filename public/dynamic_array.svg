@@ -1,0 +1,128 @@
+<svg width="1256" height="1057" viewBox="0 0 942 792.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="translate(236,510.375) scale(1)">
+<title>DynamicallyGrowingArray</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-232 474,-232 474,4 -4,4"/>
+<!-- struct_node -->
+<g id="node1" class="node">
+<title>struct_node</title>
+<polygon fill="lightblue" stroke="none" points="8,-202 8,-224 108,-224 108,-202 8,-202"/>
+<polygon fill="none" stroke="black" points="8,-202 8,-224 108,-224 108,-202 8,-202"/>
+<text text-anchor="start" x="12.12" y="-209.4" font-family="Times,serif" font-weight="bold" font-size="14.00">dynamic_array</text>
+<polygon fill="none" stroke="black" points="8,-180 8,-202 60,-202 60,-180 8,-180"/>
+<text text-anchor="start" x="23.12" y="-186.4" font-family="Times,serif" font-size="14.00">size</text>
+<polygon fill="none" stroke="black" points="60,-180 60,-202 108,-202 108,-180 60,-180"/>
+<text text-anchor="start" x="80.5" y="-186.4" font-family="Times,serif" font-size="14.00">4</text>
+<polygon fill="none" stroke="black" points="8,-158 8,-180 60,-180 60,-158 8,-158"/>
+<text text-anchor="start" x="10.68" y="-164.4" font-family="Times,serif" font-size="14.00">capacity</text>
+<polygon fill="none" stroke="black" points="60,-158 60,-180 108,-180 108,-158 60,-158"/>
+<text text-anchor="start" x="80.5" y="-164.4" font-family="Times,serif" font-size="14.00">4</text>
+<polygon fill="none" stroke="black" points="8,-136 8,-158 60,-158 60,-136 8,-136"/>
+<text text-anchor="start" x="19.62" y="-142.4" font-family="Times,serif" font-size="14.00">array</text>
+<polygon fill="none" stroke="black" points="60,-136 60,-158 108,-158 108,-136 60,-136"/>
+<text text-anchor="start" x="63" y="-142.4" font-family="Times,serif" font-size="14.00">0x1000</text>
+</g>
+<!-- array_node -->
+<g id="node5" class="node">
+<title>struct_node2</title>
+<polygon fill="lightblue" stroke="none" points="8,-70 8,-92 108,-92 108,-70 8,-70"/>
+<polygon fill="none" stroke="black" points="8,-70 8,-92 108,-92 108,-70 8,-70"/>
+<text text-anchor="start" x="12.12" y="-77.4" font-family="Times,serif" font-weight="bold" font-size="14.00">dynamic_array</text>
+<polygon fill="none" stroke="black" points="8,-48 8,-70 60,-70 60,-48 8,-48"/>
+<text text-anchor="start" x="23.12" y="-54.4" font-family="Times,serif" font-size="14.00">size</text>
+<polygon fill="none" stroke="black" points="60,-48 60,-70 108,-70 108,-48 60,-48"/>
+<text text-anchor="start" x="80.5" y="-54.4" font-family="Times,serif" font-size="14.00">5</text>
+<polygon fill="none" stroke="black" points="8,-26 8,-48 60,-48 60,-26 8,-26"/>
+<text text-anchor="start" x="10.68" y="-32.4" font-family="Times,serif" font-size="14.00">capacity</text>
+<polygon fill="none" stroke="black" points="60,-26 60,-48 108,-48 108,-26 60,-26"/>
+<text text-anchor="start" x="80.5" y="-32.4" font-family="Times,serif" font-size="14.00">8</text>
+<polygon fill="none" stroke="black" points="8,-4 8,-26 60,-26 60,-4 8,-4"/>
+<text text-anchor="start" x="19.62" y="-10.4" font-family="Times,serif" font-size="14.00">array</text>
+<polygon fill="none" stroke="black" points="60,-4 60,-26 108,-26 108,-4 60,-4"/>
+<text text-anchor="start" x="63" y="-10.4" font-family="Times,serif" font-size="14.00">0x2000</text>
+</g>
+<!-- array_node2 -->
+<g id="edge6" class="edge">
+<title style="">struct_node-&gt;struct_node2</title>
+<path fill="none" stroke="black" d="M58,-132.07C58,-123.97 58,-115.46 58,-107.11"/>
+<polygon fill="black" stroke="black" points="61.5,-107.38 58,-97.38 54.5,-107.38 61.5,-107.38"/>
+</g>
+<!-- array_node2&#45;&gt;array_node -->
+<g id="node2" class="node">
+<title>array_node</title>
+<polygon fill="lightgreen" stroke="none" points="142,-28 142,-68 182,-68 182,-28 142,-28"/>
+<polygon fill="none" stroke="black" points="142,-28 142,-68 182,-68 182,-28 142,-28"/>
+<text text-anchor="start" x="155" y="-43.8" font-family="Times,serif" font-size="14.00">10</text>
+<polygon fill="lightgreen" stroke="none" points="182,-28 182,-68 222,-68 222,-28 182,-28"/>
+<polygon fill="none" stroke="black" points="182,-28 182,-68 222,-68 222,-28 182,-28"/>
+<text text-anchor="start" x="195" y="-43.8" font-family="Times,serif" font-size="14.00">20</text>
+<polygon fill="lightgreen" stroke="none" points="222,-28 222,-68 262,-68 262,-28 222,-28"/>
+<polygon fill="none" stroke="black" points="222,-28 222,-68 262,-68 262,-28 222,-28"/>
+<text text-anchor="start" x="235" y="-43.8" font-family="Times,serif" font-size="14.00">30</text>
+<polygon fill="lightgreen" stroke="none" points="262,-28 262,-68 302,-68 302,-28 262,-28"/>
+<polygon fill="none" stroke="black" points="262,-28 262,-68 302,-68 302,-28 262,-28"/>
+<text text-anchor="start" x="275" y="-43.8" font-family="Times,serif" font-size="14.00">40</text>
+<polygon fill="lightgreen" stroke="none" points="302,-28 302,-68 342,-68 342,-28 302,-28"/>
+<polygon fill="none" stroke="black" points="302,-28 302,-68 342,-68 342,-28 302,-28"/>
+<text text-anchor="start" x="315" y="-43.8" font-family="Times,serif" font-size="14.00">50</text>
+<polygon fill="lightgray" stroke="none" points="342,-28 342,-68 382,-68 382,-28 342,-28"/>
+<polygon fill="none" stroke="black" points="342,-28 342,-68 382,-68 382,-28 342,-28"/>
+<polygon fill="lightgray" stroke="none" points="382,-28 382,-68 422,-68 422,-28 382,-28"/>
+<polygon fill="none" stroke="black" points="382,-28 382,-68 422,-68 422,-28 382,-28"/>
+<polygon fill="lightgray" stroke="none" points="422,-28 422,-68 462,-68 462,-28 422,-28"/>
+<polygon fill="none" stroke="black" points="422,-28 422,-68 462,-68 462,-28 422,-28"/>
+</g>
+<!-- array_node2&#45;&gt;array_node -->
+<g id="node3" class="node">
+<title>array_node2</title>
+<polygon fill="lightgreen" stroke="none" points="142,-160 142,-200 182,-200 182,-160 142,-160"/>
+<polygon fill="none" stroke="black" points="142,-160 142,-200 182,-200 182,-160 142,-160"/>
+<text text-anchor="start" x="155" y="-175.8" font-family="Times,serif" font-size="14.00">10</text>
+<polygon fill="lightgreen" stroke="none" points="182,-160 182,-200 222,-200 222,-160 182,-160"/>
+<polygon fill="none" stroke="black" points="182,-160 182,-200 222,-200 222,-160 182,-160"/>
+<text text-anchor="start" x="195" y="-175.8" font-family="Times,serif" font-size="14.00">20</text>
+<polygon fill="lightgreen" stroke="none" points="222,-160 222,-200 262,-200 262,-160 222,-160"/>
+<polygon fill="none" stroke="black" points="222,-160 222,-200 262,-200 262,-160 222,-160"/>
+<text text-anchor="start" x="235" y="-175.8" font-family="Times,serif" font-size="14.00">30</text>
+<polygon fill="lightgreen" stroke="none" points="262,-160 262,-200 302,-200 302,-160 262,-160"/>
+<polygon fill="none" stroke="black" points="262,-160 262,-200 302,-200 302,-160 262,-160"/>
+<text text-anchor="start" x="275" y="-175.8" font-family="Times,serif" font-size="14.00">40</text>
+</g>
+<!-- array_node2&#45;&gt;array_node -->
+<g id="edge1" class="edge">
+<title>array_node2:i0-&gt;array_node:i0</title>
+<path fill="none" stroke="black" d="M162,-159C162,-159 162,-104.62 162,-80.4"/>
+<polygon fill="black" stroke="black" points="165.5,-80.51 162,-70.51 158.5,-80.51 165.5,-80.51"/>
+</g>
+<!-- array_node2&#45;&gt;array_node -->
+<g id="edge2" class="edge">
+<title>array_node2:i1-&gt;array_node:i1</title>
+<path fill="none" stroke="black" d="M202,-159C202,-159 202,-104.62 202,-80.4"/>
+<polygon fill="black" stroke="black" points="205.5,-80.51 202,-70.51 198.5,-80.51 205.5,-80.51"/>
+</g>
+<!-- new -->
+<g id="edge3" class="edge">
+<title>array_node2:i2-&gt;array_node:i2</title>
+<path fill="none" stroke="black" d="M242,-159C242,-159 242,-104.62 242,-80.4"/>
+<polygon fill="black" stroke="black" points="245.5,-80.51 242,-70.51 238.5,-80.51 245.5,-80.51"/>
+</g>
+<!-- array -->
+<g id="edge4" class="edge">
+<title>array_node2:i3-&gt;array_node:i3</title>
+<path fill="none" stroke="black" d="M282,-159C282,-159 282,-104.62 282,-80.4"/>
+<polygon fill="black" stroke="black" points="285.5,-80.51 282,-70.51 278.5,-80.51 285.5,-80.51"/>
+</g>
+<!-- struct_node2 -->
+<g id="node4" class="node">
+<title>new_element</title>
+<polygon fill="lightgreen" stroke="none" points="336,-160 336,-200 376,-200 376,-160 336,-160"/>
+<polygon fill="none" stroke="black" points="336,-160 336,-200 376,-200 376,-160 336,-160"/>
+<text text-anchor="start" x="349" y="-175.8" font-family="Times,serif" font-size="14.00">50</text>
+</g>
+<!-- new_element&#45;&gt;array_node -->
+<g id="edge5" class="edge">
+<title>new_element:i0-&gt;array_node:i4</title>
+<path fill="none" stroke="black" d="M350.23,-160.34C343.07,-137.17 331.1,-98.43 325.32,-79.73"/>
+<polygon fill="black" stroke="black" points="328.74,-78.97 322.45,-70.45 322.06,-81.03 328.74,-78.97"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,90 @@
+digraph InsertionInSortedArray {
+    # General graph settings
+    graph [
+        rankdir=TB, 
+        label="Insertion Operation in a Sorted Array", 
+        labelloc=t, 
+        fontsize=20,
+        //fontname="Helvetica-Bold"
+    ];
+    node [shape=plaintext, /*fontname="Helvetica"*/];
+    edge [style=invis];
+
+    # --- STEP 1: Find the position ---
+    subgraph cluster0 {
+        rank = same;
+        label = "Original array";
+        fontsize=16;
+        labelloc=b;
+        color = "#f9f9f9";
+        style=filled;
+
+        step1_array [label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            
+            <TR>
+                    <TD BORDER="0" COLSPAN="16" ALIGN="RIGHT">new element</TD>
+                </TR>
+                
+                <TR>
+
+                    <TD PORT="e" WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen">40</TD>
+
+                </TR>
+                
+                
+            </TABLE>
+        >];
+    
+        //label = "\nSTEP 2: Shift elements to make space";
+        //fontsize=16;
+
+        step2_array [label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR>
+                    <TD BORDER="0" COLSPAN="3" ALIGN="LEFT"><FONT COLOR="darkblue">Find index 'i' →</FONT></TD>
+                </TR>
+                <TR>
+                    <TD WIDTH="40" HEIGHT="40">10</TD>
+                    <TD WIDTH="40" HEIGHT="40">20</TD>
+                    <TD WIDTH="40" HEIGHT="40">30</TD>
+                    <TD PORT="id4" WIDTH="40" HEIGHT="40" BGCOLOR="lightblue">50</TD>
+                    <TD PORT="id5" WIDTH="40" HEIGHT="40" BGCOLOR="lightblue">60</TD>
+                    <TD PORT="id6" WIDTH="40" HEIGHT="40" ></TD>
+                </TR>
+                <TR>
+                    <TD BORDER="0" COLSPAN="6" ALIGN="RIGHT"><FONT COLOR="darkblue">Shift right →</FONT></TD>
+                </TR>
+            </TABLE>
+        >];
+    }
+
+    # --- STEP 3: Insert the element ---
+    subgraph cluster1 {
+        label = "\nInsert '40' at the correct position";
+        fontsize=16;
+        labelloc=b;
+
+        step3_array [label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR>
+                    <TD WIDTH="40" HEIGHT="40">10</TD>
+                    <TD WIDTH="40" HEIGHT="40">20</TD>
+                    <TD WIDTH="40" HEIGHT="40">30</TD>
+                    <TD WIDTH="40" HEIGHT="40" BGCOLOR="lightgreen"><B>40</B></TD>
+                    <TD WIDTH="40" HEIGHT="40" BGCOLOR="lightblue">50</TD>
+                    <TD WIDTH="40" HEIGHT="40" BGCOLOR="lightblue">60</TD>
+                </TR>
+            </TABLE>
+        >];
+    }
+
+    # Control the vertical layout with invisible edges
+    step1_array -> step2_array -> step3_array;
+    edge [style=vis];
+    step1_array:e -> step2_array:id4
+    
+    //step2_array:id5 -> step2_array:id6
+    //step2_array:id4 -> step2_array:id5
+    
+}
