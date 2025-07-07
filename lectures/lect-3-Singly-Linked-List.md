@@ -78,14 +78,16 @@ block-beta
 
     next --> node2
     next2 --> node3
-    next3 -- "end" --> null(("∅"))
-    head(("head")) -- "first" --> element
+    next3 --> null(("∅"))
+    head(("head")) --> node1
     element --> A
     element2 --> B
     element3 --> C
-    tail -- "last" --> node3
+    tail --> node3
 
     %%style tail stroke-dasharray: 5 5
+    style head fill:#fee,stroke:#333
+    style tail fill:#fee,stroke:#333
 
 
 ```
@@ -179,6 +181,7 @@ layout: two-cols
 
 ```mermaid {scale:0.7}
 block-beta
+    
     columns 3
     newnode(("new_node"))
     space
@@ -189,6 +192,7 @@ block-beta
     space
     space
     T(("'t'"))
+    
 
     newnode --> node
     element --> T
@@ -203,6 +207,8 @@ block-beta
 ```mermaid
 
 block-beta
+
+    block:border
 
     columns 4
 
@@ -238,10 +244,12 @@ block-beta
     null
     space
     T(("'t'"))
+
+    end
     
 
     next --> node2
-    next2 --> null(("∅"))
+    next2 --> null(("..."))
     head(("head")) --> node1
     element --> A
     element2 --> B
@@ -252,6 +260,7 @@ block-beta
     %%style tail stroke-dasharray: 5 5
     style nextnewnode fill:#969,stroke:#333,stroke-width:4px
     style newnode fill:#77f
+    style border fill:#fff,stroke:#333
 
 
 ```
@@ -260,6 +269,8 @@ block-beta
 
 
 block-beta
+
+    block:border
 
     columns 4
 
@@ -297,10 +308,12 @@ block-beta
     null
     space
     T(("'t'"))
+
+    end
     
 
     next --> node2
-    next2 --> null(("∅"))
+    next2 --> null(("..."))
     head(("head")) -- "head=new_node" --> newnode
     element --> A
     element2 --> B
@@ -310,6 +323,8 @@ block-beta
     style nn stroke-dasharray: 5 5,fill:#eef
     style head fill:#969,stroke:#333,stroke-width:4px
     %%style newnode fill:#77f
+
+    style border fill:#fff,stroke:#333
 
 ```
 
@@ -333,6 +348,7 @@ layout: two-cols
 
 ```mermaid {scale:0.7}
 block-beta
+
     columns 3
     newnode(("new_node"))
     space
@@ -355,9 +371,11 @@ block-beta
 :: right ::
 
 
-```mermaid {scale:0.55}
+```mermaid {scale:0.64}
 
 block-beta
+
+    block:border
 
     columns 4
 
@@ -379,9 +397,11 @@ block-beta
     end
 
     nn
+    T(("'c'"))
     space
     space
-    space
+    
+    
     space
     space
     block:newnode
@@ -393,7 +413,9 @@ block-beta
 
     B(("'b'"))
 
-    T(("'c'"))
+    
+
+    end
     
 
     next --> node2
@@ -409,14 +431,17 @@ block-beta
     %%style tail stroke-dasharray: 5 5
     style next2 fill:#969,stroke:#333,stroke-width:4px
     style newnode fill:#77f
+    style border fill:#fff,stroke:#333
 
 
 ```
 
-```mermaid {scale:0.55}
+```mermaid {scale:0.64}
 
 
 block-beta
+
+    block:border
 
     columns 4
 
@@ -439,7 +464,7 @@ block-beta
 
     nn(("new_node"))
     space
-    space
+    T(("'c'"))
     space
     space
     space
@@ -449,8 +474,9 @@ block-beta
         nextnewnode("next")
     end
     null
-    T(("'c'"))
     
+    
+    end
 
     next --> node2
     next2 --> newnode
@@ -464,6 +490,7 @@ block-beta
     style nn stroke-dasharray: 5 5,fill:#eef
     style tail fill:#969,stroke:#333,stroke-width:4px
     %%style newnode fill:#77f
+    style border fill:#fff,stroke:#333
 
 ```
 <!--
@@ -476,7 +503,9 @@ block-beta
 
 ## Java Implementation: `addFirst` and `addLast`
 
-```java {*}{maxHeight:'400px'}
+<Transform scale="0.9">
+
+```java {*}{lines:true}
 public class SinglyLinkedList<E> {
     // ... (Node class, head, tail, size, constructor, accessors) ...
 
@@ -504,6 +533,7 @@ public class SinglyLinkedList<E> {
     // ... (removeFirst method) ...
 }
 ```
+</Transform>
 
 ---
 layout: two-cols
@@ -575,10 +605,10 @@ block-beta
 ```
 
 :: right ::
-```mermaid {scale:0.55}
+```mermaid {scale:0.56}
 
 block-beta
-
+    block:border
     columns 5
 
     head
@@ -601,7 +631,7 @@ block-beta
 
     space
     space
-    remove(("element"))
+    remove(("rm_e"))
     space
     B(("'b'"))
 
@@ -617,6 +647,7 @@ block-beta
     space
     
     C(("'c'"))
+    end
 
     next --> node2
     next2 --> node3
@@ -626,15 +657,20 @@ block-beta
     element2 --> B
     element3 --> C
     tail --> node3
-    remove --> A
+    remove --"rm_e=head.element"--> A
 
     style node1 stroke-dasharray: 5 5,stroke-width:4,stroke:#777,fill:#eef
+    style border fill:#fff,stroke:#333
+    style remove fill:#969,stroke:#333,stroke-width:4px
+
 
 
 ```
-```mermaid {scale:0.55}
+```mermaid {scale:0.56}
 
 block-beta
+
+    block:border
 
     columns 5
 
@@ -659,7 +695,7 @@ block-beta
 
     space
     space
-    remove(("element"))
+    remove(("rm_e"))
     head
     B(("'b'"))
 
@@ -675,6 +711,8 @@ block-beta
     space
     
     C(("'c'"))
+
+    end
 
     next --> node2
     next2 --> node3
@@ -688,14 +726,17 @@ block-beta
 
     style node1 stroke-dasharray: 5 5,stroke-width:4,stroke:#777,fill:#eef
     style head fill:#969,stroke:#333,stroke-width:4px
+    style border fill:#fff,stroke:#333
+
 
 
 ```
 
-```mermaid {scale:0.55}
+```mermaid {scale:0.56}
 
 block-beta
 
+    block:border
     columns 5
 
     
@@ -715,7 +756,7 @@ block-beta
 
     space
     space
-    remove(("element"))
+    remove(("rm_e"))
     space
     B(("'b'"))
 
@@ -732,6 +773,8 @@ block-beta
     
     C(("'c'"))
 
+    end
+
 
     next2 --> node3
     next3 --> null(("∅"))
@@ -740,10 +783,12 @@ block-beta
     element2 --> B
     element3 --> C
     tail --> node3
-    remove -- "return" --> A
+    remove -- "return rm_e" --> A
 
     %%style head fill:#969,stroke:#333,stroke-width:4px
     style remove stroke-dasharray: 5 5,stroke-width:4,stroke:#777,fill:#eef
+    style border fill:#fff,stroke:#333
+    style A fill:#969,stroke:#333,stroke-width:4px
 
 
 

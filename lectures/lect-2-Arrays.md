@@ -402,14 +402,14 @@ This makes dynamic arrays very efficient in practice, which is why they are so w
 
 xychart-beta
     title "Time Complexity of Dynamic Array 'add' Operation"
-    x-axis "Number of Elements (n)" 1 --> 18
+    x-axis "Number of Elements (n)" 1 --> 20
     y-axis "Computational Cost" 0 --> 50
     
     %% Most operations are fast (cost of 1)
     %% Occasional spikes represent slow resizes (cost proportional to n)
     
-    bar  [1, 1, 1, 4, 1, 1, 1,   1,  8,  1,  1,  1,  1,  1,  1,  1,  1, 16]
-    line [1, 2, 3, 7, 8, 9, 10, 11, 19, 20, 21, 22, 23, 24, 25, 26, 27, 43]
+    bar  [1, 1, 1, 4, 1, 1, 1,   1,  8,  1,  1,  1,  1,  1,  1,  1,  1, 16, 1, 1]
+    line [1, 2, 3, 7, 8, 9, 10, 11, 19, 20, 21, 22, 23, 24, 25, 26, 27, 43, 44, 45]
 
     %% Annotations to explain the spikes
     %% annotation "Resize (n=4)" (4, 4.5)
