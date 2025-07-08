@@ -1,0 +1,51 @@
+
+// Tree Terminology Definitions based on the provided graph:
+
+// Root: The node with no incoming edges.
+//  - A is the root node.
+
+// Internal Nodes: Nodes that have at least one child.
+//  - A, B, C, F are internal nodes.
+
+// External Nodes (Leaves): Nodes that have no children.
+//  - D, E, G, H, I, J, K are external nodes.
+
+// Ancestors: The nodes on the path from the root to a specific node (excluding the node itself).
+//  - Ancestors of K are F, B, A.
+//  - Ancestors of H are C, A.
+
+// Descendants: The nodes in the subtree rooted at a specific node (excluding the node itself).
+//  - Descendants of B are E, F, I, J, K.
+//  - Descendants of C are G, H.
+
+// Depth of a Node: The number of edges on the path from the root to that node.
+//  - Depth of A: 0
+//  - Depth of B, C, D: 1
+//  - Depth of E, F, G, H: 2
+//  - Depth of I, J, K: 3
+
+// Height of the Tree: The number of edges on the longest path from the root to a leaf.
+//  - The height of this tree is 3 (e.g., path A -> B -> F -> K).
+
+digraph Tree {
+    // General graph settings
+    graph [
+        rankdir=TB,
+        labelloc=t,
+        fontsize=20,
+        dpi=300
+    ];
+    node [shape=ellipse, style=filled, fillcolor=lightyellow];  
+    edge [style=solid, color=black];
+    A -> B;
+    A -> C;
+    A -> D;
+    B -> E;
+    B -> F;
+    C -> G;
+    C -> H;
+    F -> I;
+    F -> J;
+    F -> K;
+}
+

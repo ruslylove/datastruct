@@ -1,0 +1,17 @@
+digraph TreeExample {
+    node [shape=ellipse, style=filled, fillcolor=lightyellow];
+
+    "Computer R Us" -> "Sales"
+    "Computer R Us" -> "R&D"
+    "Computer R Us" -> "Manufacturing"
+    "Computer R Us" -> "Purchasing"
+
+    "Sales" -> "Domestic"
+    "Sales" -> "International"
+
+    "International" -> "Canada"
+    "International" -> "S. America"
+    "International" -> "Europe"
+    "International" -> "Asia"
+    "International" -> "Africa"
+}
