@@ -1,0 +1,182 @@
+digraph Remove {
+    // General graph settings
+    graph [
+        rankdir=BT,
+        label="Remove Element from a Sorted Array",
+        labelloc=t,
+        fontsize=20,
+        dpi=300;
+        //fontname="Helvetica-Bold"
+    ];
+    node [shape=plaintext, /*fontname="Helvetica"*/];
+    edge [style=invis];
+
+    step1_array [shape=none, label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR>
+                <TD WIDTH="40" HEIGHT="40">42</TD>
+                <TD WIDTH="40" HEIGHT="40">31</TD>
+                <TD WIDTH="40" HEIGHT="40">29</TD>
+                <TD WIDTH="40" HEIGHT="40">23</TD>
+                <TD WIDTH="40" HEIGHT="40">17</TD>
+                <TD WIDTH="40" HEIGHT="40">14</TD>
+                <TD WIDTH="40" HEIGHT="40">11</TD>
+                <TD WIDTH="40" HEIGHT="40">8</TD>
+                <TD WIDTH="40" HEIGHT="40">5</TD>
+                <TD WIDTH="40" HEIGHT="40">3</TD>
+            </TR>
+            </TABLE>
+        >];
+        rankdir=TB;
+
+    // --- STEP 1: Find the element to remove ---
+    // --- STEP 1: Find the element to remove (14 is highlighted) ---
+    subgraph cluster0 {
+        label = "\n1. Identify the element to remove (14)";
+        fontsize=16;
+        labelloc=t;
+
+        step1_array [label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR>
+                    <TD WIDTH="40" HEIGHT="40">42</TD>
+                    <TD WIDTH="40" HEIGHT="40">31</TD>
+                    <TD WIDTH="40" HEIGHT="40">29</TD>
+                    <TD WIDTH="40" HEIGHT="40">23</TD>
+                    <TD WIDTH="40" HEIGHT="40">17</TD>
+                    <TD PORT="id5" WIDTH="40" HEIGHT="40" BGCOLOR="#F2C84B"><B>14</B></TD>
+                    <TD WIDTH="40" HEIGHT="40">11</TD>
+                    <TD WIDTH="40" HEIGHT="40">8</TD>
+                    <TD WIDTH="40" HEIGHT="40">5</TD>
+                    <TD WIDTH="40" HEIGHT="40">3</TD>
+                </TR>
+            </TABLE>
+        >];
+    }
+
+    // --- STEP 2: Shift elements to fill the gap of 14 ---
+    subgraph cluster1 {
+        label = "\n2. Shift elements to fill the gap of 14";
+        fontsize=16;
+        labelloc=t;
+
+        step2_array [label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR>
+                <TD PORT="id0" WIDTH="40" HEIGHT="40">42</TD>
+                <TD PORT="id1" WIDTH="40" HEIGHT="40">31</TD>
+                <TD PORT="id2" WIDTH="40" HEIGHT="40">29</TD>
+                <TD PORT="id3" WIDTH="40" HEIGHT="40">23</TD>
+                <TD PORT="id4" WIDTH="40" HEIGHT="40">17</TD>
+                <TD PORT="id5" WIDTH="40" HEIGHT="40" BGCOLOR="#F8D7DA"></TD>
+                <TD PORT="id6" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>11</B></TD>
+                <TD PORT="id7" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>8</B></TD>
+                <TD PORT="id8" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>5</B></TD>
+                <TD PORT="id9" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>3</B></TD>
+            </TR>
+            </TABLE>
+        >];
+
+        // Arrow from element 11 to the blank at 14
+        step2_array:id6 -> step2_array:id5 [
+            color="#1E88E5",
+            penwidth=2,
+            arrowhead=normal,
+            arrowsize=1,
+            constraint=false,
+            tailclip=true,
+            headclip=true,
+            minlen=2,
+            label="",
+            decorate=true,
+            dir=forward,
+            splines=curved,
+            style=dashed
+        ];
+
+        // Arrow from element 11 to the blank at 14
+        step2_array:id9 -> step2_array:id8 [
+            color="#1E88E5",
+            penwidth=2,
+            arrowhead=normal,
+            arrowsize=1,
+            constraint=false,
+            tailclip=true,
+            headclip=true,
+            minlen=2,
+            label="",
+            decorate=true,
+            dir=forward,
+            splines=curved,
+            style=dashed
+        ];
+
+        step2_array:id8 -> step2_array:id7 [
+            color="#1E88E5",
+            penwidth=2,
+            arrowhead=normal,
+            arrowsize=1,
+            constraint=false,
+            tailclip=true,
+            headclip=true,
+            minlen=2,
+            label="",
+            decorate=true,
+            dir=forward,
+            splines=curved,
+            style=dashed
+        ];
+        step2_array:id7 -> step2_array:id6 [
+            color="#1E88E5",
+            penwidth=2,
+            arrowhead=normal,
+            arrowsize=1,
+            constraint=false,
+            tailclip=true,
+            headclip=true,
+            minlen=2,
+            label="",
+            decorate=true,
+            dir=forward,
+            splines=curved,
+            style=dashed
+        ];
+    
+
+
+        
+        //step2_array -> step3_array [style=invis, weight=100, constraint=true];
+
+        
+    }
+    // --- STEP 3: Final array after removal ---
+    subgraph cluster2 {
+        label = "\n3. Final array after removal";
+        fontsize=16;
+        labelloc=t;
+
+        step3_array [label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+                <TR>
+                    <TD PORT="id0" WIDTH="40" HEIGHT="40">42</TD>
+                    <TD PORT="id1" WIDTH="40" HEIGHT="40">31</TD>
+                    <TD PORT="id2" WIDTH="40" HEIGHT="40">29</TD>
+                    <TD PORT="id3" WIDTH="40" HEIGHT="40">23</TD>
+                    <TD PORT="id4" WIDTH="40" HEIGHT="40">17</TD>
+                    <TD PORT="id5" WIDTH="40" HEIGHT="40">11</TD>
+                    <TD PORT="id6" WIDTH="40" HEIGHT="40">8</TD>
+                    <TD PORT="id7" WIDTH="40" HEIGHT="40">5</TD>
+                    <TD PORT="id8" WIDTH="40" HEIGHT="40">3</TD>
+                    <TD PORT="id9" WIDTH="40" HEIGHT="40" BGCOLOR="#E0E0E0">&#8709;</TD>
+                </TR>
+            </TABLE>
+        >];
+    }
+
+    { rank=same; }
+        step1_array -> step2_array -> step3_array [style=invis, weight=100, constraint=true];
+
+
+    
+
+}

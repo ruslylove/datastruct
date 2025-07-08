@@ -130,11 +130,15 @@ public class GameEntry {
 
 :: right ::
 
+<img src="/leaderboard.png" style="padding-top:50px">
+
+<!--
 <Transform scale="0.75">
 
 <img src="https://media.istockphoto.com/id/1408371591/vector/leaderboard-design-with-neon-borders-on-blue-futuristic-background.jpg?s=612x612&w=0&k=20&c=uhbQKEwZcBovVjL9-iZZOfE2HkIOF_l9Gah-MeAxm6M=" style="margin:auto;padding-left:50px"/>
 
 </Transform>
+-->
 ---
 layout: two-cols
 ---
@@ -237,6 +241,8 @@ public void add(GameEntry e) {
 ```
 
 ---
+layout: two-cols
+---
 
 ## Removing an Entry from an Array
 
@@ -246,7 +252,15 @@ To remove an entry `e` currently at index `i`:
 2.  Shift all subsequent elements (`board[i+1]` through `board[n-1]`) one position to the left to fill the gap.
 3.  Update the count of actual entries and potentially nullify the last previously occupied slot.
 
+
+:: right ::
+
+<img src="/remove_element_array.png">
+
+
+<!--
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/20220722211151/DeletedOperationinSortedArray.png" style="height:250px;padding-top:30px">
+-->
 
 ---
 

@@ -1,0 +1,38 @@
+digraph Leaderboard {
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor=lightblue];
+    graph [dpi=300];
+
+    labelloc="t";
+    label="🏆 Leaderboard: Top 10 Players 🏆";
+    fontsize=24;
+    fontcolor=goldenrod;
+    fontname="Helvetica Bold";
+
+    leaderboard [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>Rank</B></TD><TD><B>Player</B></TD><TD><B>Score</B></TD></TR>
+            <TR><TD>1</TD><TD>Alice</TD><TD>980</TD></TR>
+            <TR><TD>2</TD><TD>Bob</TD><TD>950</TD></TR>
+            <TR><TD>3</TD><TD>Charlie</TD><TD>920</TD></TR>
+            <TR><TD>4</TD><TD>Dana</TD><TD>900</TD></TR>
+            <TR><TD>5</TD><TD>Eve</TD><TD>870</TD></TR>
+            <TR><TD>6</TD><TD>Frank</TD><TD>860</TD></TR>
+            <TR><TD>7</TD><TD>Grace</TD><TD>850</TD></TR>
+            <TR><TD>8</TD><TD>Heidi</TD><TD>830</TD></TR>
+            <TR><TD>9</TD><TD>Ivan</TD><TD>820</TD></TR>
+            <TR><TD>10</TD><TD>Judy</TD><TD>800</TD></TR>
+        </TABLE>
+    >];
+
+    // Highlight the top player
+    GameEntry [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>Player</B></TD><TD><B>Score</B></TD></TR>
+            <TR><TD>ExamplePlayer</TD><TD>1234</TD></TR>
+        </TABLE>
+    >, shape=none, width=0.1, height=0.1];
+
+    leaderboard [fillcolor=gold, style=filled];
+    GameEntry [fillcolor=lightgreen, style=filled];       
+}
