@@ -56,7 +56,7 @@ digraph Remove {
 
     // --- STEP 2: Shift elements to fill the gap of 14 ---
     subgraph cluster1 {
-        label = "\n2. Shift elements to fill the gap of 14";
+        label = "\n2. Shift elements to fill the gap";
         fontsize=16;
         labelloc=t;
 
@@ -68,12 +68,15 @@ digraph Remove {
                 <TD PORT="id2" WIDTH="40" HEIGHT="40">29</TD>
                 <TD PORT="id3" WIDTH="40" HEIGHT="40">23</TD>
                 <TD PORT="id4" WIDTH="40" HEIGHT="40">17</TD>
-                <TD PORT="id5" WIDTH="40" HEIGHT="40" BGCOLOR="#F8D7DA"></TD>
+                <TD PORT="id5" WIDTH="40" HEIGHT="40" BGCOLOR="#F8D7DA"><i>14</i></TD>
                 <TD PORT="id6" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>11</B></TD>
                 <TD PORT="id7" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>8</B></TD>
                 <TD PORT="id8" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>5</B></TD>
                 <TD PORT="id9" WIDTH="40" HEIGHT="40" BGCOLOR="#B3D8F7"><B>3</B></TD>
             </TR>
+            <TR>
+                    <TD BORDER="0" COLSPAN="10" ALIGN="RIGHT"><FONT COLOR="darkblue">← Shift left </FONT></TD>
+                </TR>
             </TABLE>
         >];
 
@@ -93,7 +96,7 @@ digraph Remove {
             splines=curved,
             style=dashed
         ];
-
+/*
         // Arrow from element 11 to the blank at 14
         step2_array:id9 -> step2_array:id8 [
             color="#1E88E5",
@@ -110,6 +113,7 @@ digraph Remove {
             splines=curved,
             style=dashed
         ];
+        */
 
         step2_array:id8 -> step2_array:id7 [
             color="#1E88E5",

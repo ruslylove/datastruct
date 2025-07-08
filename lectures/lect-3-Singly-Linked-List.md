@@ -33,7 +33,7 @@ A singly linked list is a data structure built from a sequence of nodes.
 * The last node's `next` reference points to `null`.
 
 
-```mermaid {scale:1}
+```mermaid
 
 block-beta
 
@@ -85,7 +85,7 @@ block-beta
     element3 --> C
     tail --> node3
 
-    %%style tail stroke-dasharray: 5 5
+    
     style head fill:#fee,stroke:#333
     style tail fill:#fee,stroke:#333
 
@@ -257,7 +257,7 @@ block-beta
     nextnewnode -- "new_node.next = head" --> node1
     elementnewnode --> T
 
-    %%style tail stroke-dasharray: 5 5
+    
     style nextnewnode fill:#969,stroke:#333,stroke-width:4px
     style newnode fill:#77f
     style border fill:#fff,stroke:#333
@@ -322,8 +322,6 @@ block-beta
 
     style nn stroke-dasharray: 5 5,fill:#eef
     style head fill:#969,stroke:#333,stroke-width:4px
-    %%style newnode fill:#77f
-
     style border fill:#fff,stroke:#333
 
 ```
@@ -428,7 +426,6 @@ block-beta
     elementnewnode --> T
     tail --> node2
 
-    %%style tail stroke-dasharray: 5 5
     style next2 fill:#969,stroke:#333,stroke-width:4px
     style newnode fill:#77f
     style border fill:#fff,stroke:#333
@@ -489,7 +486,6 @@ block-beta
 
     style nn stroke-dasharray: 5 5,fill:#eef
     style tail fill:#969,stroke:#333,stroke-width:4px
-    %%style newnode fill:#77f
     style border fill:#fff,stroke:#333
 
 ```
@@ -599,7 +595,6 @@ block-beta
     element3 --> C
     tail  --> node3
 
-    %%style tail stroke-dasharray: 5 5
 
 
 ```
@@ -785,7 +780,6 @@ block-beta
     tail --> node3
     remove -- "return rm_e" --> A
 
-    %%style head fill:#969,stroke:#333,stroke-width:4px
     style remove stroke-dasharray: 5 5,stroke-width:4,stroke:#777,fill:#eef
     style border fill:#fff,stroke:#333
     style A fill:#969,stroke:#333,stroke-width:4px
@@ -883,7 +877,6 @@ block-beta
     element3 --> C
     tail  --> node3
 
-    %%style tail stroke-dasharray: 5 5
     style node3 stroke-dasharray: 5 5,stroke-width:4,stroke:#f77,fill:#fee
 
 
