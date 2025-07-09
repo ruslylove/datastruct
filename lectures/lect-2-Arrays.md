@@ -292,6 +292,46 @@ public GameEntry remove(int i) throws IndexOutOfBoundsException {
 
 ---
 
+## Class diagram for `Scoreboard`
+<br>
+<br>
+<br>
+
+```mermaid
+classDiagram
+    direction LR
+
+    class GameEntry {
+        -String name
+        -int score
+        +GameEntry(String name, int score)
+        +getName() String
+        +getScore() int
+        +toString() String
+    }
+
+    class Scoreboard {
+        -int numEntries
+        -GameEntry[] board
+        +Scoreboard(int capacity)
+        +add(GameEntry e) void
+        +remove(int i) GameEntry
+        +toString() String
+    }
+
+    class TestScoreboard {
+        +main(String[] args) void
+    }
+
+    Scoreboard "1" *-- "0..*" GameEntry : contains
+    TestScoreboard ..> Scoreboard : uses
+    TestScoreboard ..> GameEntry : uses
+
+```
+
+
+---
+
 ## Array Operations: Access and Modification
 
 * **Accessing:** `element = arrayName[index];`
