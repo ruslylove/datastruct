@@ -131,6 +131,8 @@ public class SinglyLinkedList<E> {
 ```
 
 ---
+layout: two-cols
+---
 
 ## SinglyLinkedList Class Structure
 
@@ -167,6 +169,45 @@ public class SinglyLinkedList<E> {
     // Update methods (addFirst, addLast, removeFirst) will follow...
 }
 ```
+
+:: right ::
+
+<div style="padding-left:50px">
+
+```plantuml
+
+@startuml
+' Define the main class for the singly linked list
+class SinglyLinkedList<E> {
+  - head: Node<E>
+  - tail: Node<E>
+  - size: int
+  + SinglyLinkedList()
+  + size(): int
+  + isEmpty(): boolean
+  + first(): E
+  + last(): E
+  ' Add other public methods like addFirst, addLast, etc.
+}
+
+' Define the nested Node class
+class Node<E> {
+  - element: E
+  - next: Node<E>
+  + Node(e: E, n: Node<E>)
+  + getElement(): E
+  + getNext(): Node<E>
+  + setNext(n: Node<E>): void
+}
+
+SinglyLinkedList "1" o-- "1" Node : "head"
+SinglyLinkedList "1" o-- "1" Node : "tail"
+Node "1" --|> "0..1" Node
+@enduml
+
+```
+</div>
+
 
 ---
 layout: two-cols
