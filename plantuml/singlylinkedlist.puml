@@ -1,0 +1,27 @@
+@startuml
+hide stereotypes
+
+class SinglyLinkedList<E> {
+  - Node<E> head
+  - Node<E> tail
+  - int size
+  + int size()
+  + boolean isEmpty()
+  + E first()
+  + E last()
+  + void addFirst(E e)
+  + void addLast(E e)
+  + E removeFirst()
+}
+
+class Node<E> {
+  - E element
+  - Node<E> next
+  + Node(E e, Node<E> n)
+  + E getElement()
+  + Node<E> getNext()
+  + void setNext(Node<E> n)
+}
+
+SinglyLinkedList o-- Node : contains
+@enduml

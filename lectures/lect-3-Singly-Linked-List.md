@@ -21,6 +21,11 @@ hideInToc: false
 
 <toc mode="onlySiblings" minDepth="2"/>
 ---
+dragPos:
+  square: 660,125,162,67
+  node2: 884,139,74,40
+  node1: 666,122,167,70
+---
 
 ## Singly Linked Lists: Introduction
 
@@ -96,14 +101,24 @@ block-beta
 -->
 
 
+<img v-drag="'node1'" src="/node.png">
 
+<v-drag-arrow pos="801,157,85,0"/>
+<v-drag-arrow pos="594,161,68,-1"/>
+
+---
+layout: two-cols
 ---
 
 ## Implementing Nodes: A Nested Class
 
+<Transform scale="0.85">
+
+
+
 We often define the `Node` structure as a private static nested class within the linked list class itself. This encapsulates the node's details.
 
-```java {*}{maxHeight:'350px',lines:true}
+```java {*}{maxHeight:'360px',lines:false}
 // Outer SinglyLinkedList class declaration
 public class SinglyLinkedList<E> {
 
@@ -129,6 +144,32 @@ public class SinglyLinkedList<E> {
     // Remainder of the SinglyLinkedList class implementation follows...
 }
 ```
+</Transform>
+
+:: right ::
+
+<div style="padding-left:50px;padding-top:200px">
+
+```plantuml {scale:'1.5'}
+
+@startuml
+
+' Define the nested Node class
+class Node<E> {
+  - element: E
+  - next: Node<E>
+  + Node(e: E, n: Node<E>)
+  + getElement(): E
+  + getNext(): Node<E>
+  + setNext(n: Node<E>): void
+}
+
+Node "1" --|> "0..1" Node
+@enduml
+
+```
+</div>
+
 
 ---
 layout: two-cols
@@ -220,6 +261,13 @@ layout: two-cols
 
 <br>
 
+```java
+    Node<E> new_node = new Node<>(element, null);
+        
+```
+
+<br>
+
 ```mermaid {scale:0.7}
 block-beta
     
@@ -231,12 +279,14 @@ block-beta
         next
     end
     space
-    space
     T(("'t'"))
+    null(("∅"))
     
 
     newnode --> node
     element --> T
+    next --> null
+
 
     style node fill:#77f,stroke-width:4px,stroke:#333
 
@@ -834,6 +884,8 @@ block-beta
 
 -->
 ---
+layout: two-cols
+---
 
 ## Java Implementation: `removeFirst`
 
@@ -856,6 +908,44 @@ public class SinglyLinkedList<E> {
     }
 } // End of SinglyLinkedList class
 ```
+
+:: right ::
+
+<div style="padding-left:100px">
+
+```plantuml
+
+@startuml
+
+
+class SinglyLinkedList<E> {
+  - Node<E> head
+  - Node<E> tail
+  - int size
+  + int size()
+  + boolean isEmpty()
+  + E first()
+  + E last()
+  + void addFirst(E e)
+  + void addLast(E e)
+  + E removeFirst()
+}
+
+class Node<E> {
+  - E element
+  - Node<E> next
+  + Node(E e, Node<E> n)
+  + E getElement()
+  + Node<E> getNext()
+  + void setNext(Node<E> n)
+}
+
+SinglyLinkedList o-- Node : contains
+@enduml
+
+```
+
+</div>
 
 ---
 
@@ -927,6 +1017,8 @@ block-beta
 <!-- <img src="./img/linkedlist_4.png" />
 -->
 
+
+
 ---
 
 ## `Basic Arrays` vs. `ArrayList` vs. `Singly Linked List`
@@ -974,6 +1066,3 @@ block-beta
     *   Removing from the tail is inefficient: **O(n)**, because you must find the second-to-last node.
     *   Higher memory overhead than arrays due to the storage of `next` pointers.
 *   **Best Use Case:** Ideal for scenarios requiring frequent insertions and deletions at the beginning of the sequence, such as implementing a queue or stack.
-
-
-

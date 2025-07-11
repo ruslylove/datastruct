@@ -1,0 +1,18 @@
+digraph LinkedListNode {
+    graph [
+        rankdir=LR, 
+        dpi=300
+    ];
+    node [shape=record, style=filled, fillcolor=lightyellow];
+    edge [style=solid, color=black];            
+    node [shape=record, style=filled, fillcolor=lightblue];
+
+    // Create nodes
+    Node1 [label="{ <data> element | <next> next }"];
+
+
+
+    // Optional: Add an example of how nodes might link
+    // Node1 -> Node2;
+    // Node2 -> Node3;
+}
