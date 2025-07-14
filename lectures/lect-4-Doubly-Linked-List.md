@@ -24,7 +24,10 @@ hideInToc: false
 
 ---
 
+
 ## Doubly Linked Lists: Overview
+
+
 
 * Unlike singly linked lists, doubly linked lists allow traversal in both forward and backward directions.
 
@@ -34,20 +37,76 @@ hideInToc: false
     * A `next` link to the next node.
 * **Sentinels:** Special `header` and `trailer` nodes are often used at the beginning and end. These don't store user data but simplify insertion and deletion logic, especially at the ends.
 
-(Diagram showing header sentinel -> node A <-> node B <-> ... <-> trailer sentinel. Highlighting `prev` and `next` links.)
+
+<br>    
+
+<div style="margin:auto">
+
+```mermaid {scale:0.8}
+graph LR
+    
+        H((Header))
+        T((Trailer))
+        A[Node A]
+        B[Node B]
+        DOTS[...]
+
+        H -- next --> A
+        A -- prev --> H
+
+        A -- next --> B
+        B -- prev --> A
+
+        B -- next --> DOTS
+        DOTS -- prev --> B
+
+        DOTS -- next --> T
+        T -- prev --> DOTS
+ 
+
+    style H stroke:#8A2BE2,stroke-width:2px,fill:transparent
+    style T stroke:#8A2BE2,stroke-width:2px,fill:transparent
+```
+
+</div>
 
 ---
 
 ## Insertion in a Doubly Linked List
 
-To insert a new node `q` between an existing node `p` and its successor:
+To insert a new node `q` between an existing node `p` and its successor `s`:
 
 1.  Set `q`'s `prev` link to point to `p`.
-2.  Set `q`'s `next` link to point to `p`'s original successor.
-3.  Set the `prev` link of `p`'s original successor to point to `q`.
+2.  Set `q`'s `next` link to point to `s`.
+3.  Set the `prev` link of `s` to point to `q`.
 4.  Set `p`'s `next` link to point to `q`.
 
-(Diagram illustrating the 4 link updates required to insert node 'X' between nodes 'A' and 'B'.)
+<div style="margin:auto; padding-top: 1em;">
+```mermaid
+graph LR
+    P[Node p]
+    Q[Node q]
+    S[Node s]
+
+    %% Original links (to be replaced)
+    P -.-> S
+    S -.-> P
+
+    %% New links being created, numbered by step
+    P -- "4" --> Q
+    Q -- "1" --> P
+    Q -- "2" --> S
+    S -- "3" --> Q
+
+    %% Styling
+    style Q fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    linkStyle 0,1 stroke-dasharray: 5 5, stroke:grey, stroke-width:1px
+    linkStyle 2,4 stroke:#CD5C5C,stroke-width:2px
+    linkStyle 3,5 stroke:#87CEEB,stroke-width:2px
+```
+</div>
+
+
 
 ---
 
@@ -59,7 +118,29 @@ To remove an existing node `p`:
 2.  Set the `prev` link of `p`'s successor to point to `p`'s predecessor.
 3.  Node `p` is now bypassed and can be garbage collected.
 
-(Diagram illustrating the 2 link updates required to remove node 'B' located between 'A' and 'C'.)
+<div style="margin:auto; padding-top: 1em;">
+```mermaid
+graph LR
+    A[Node A]
+    B(Node B)
+    C[Node C]
+
+    %% Original links that are removed
+    A -- next --> B
+    B -- prev --> A
+    B -- next --> C
+    C -- prev --> B
+
+    %% New links that are created
+    A -- "1.(A.next) = C" --> C
+    C -- "2.(C.prev) = A" --> A
+
+    %% Styling
+    style B fill:#FFCCCB,stroke:#CD5C5C,stroke-width:2px,stroke-dasharray: 5 5
+    linkStyle 0,1,2,3 stroke-dasharray: 5 5, stroke:grey, stroke-width:1px
+    linkStyle 4,5 stroke:#2E8B57,stroke-width:2px
+```
+</div>
 
 ---
 

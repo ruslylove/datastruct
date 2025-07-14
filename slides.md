@@ -54,7 +54,6 @@ The last comment block of each slide will be treated as slide notes. It will be 
 ## Content
 
 <Toc maxDepth='1' columns='2' />
-
 ---
 src: ./lectures/syllabus.md
 ---
@@ -72,8 +71,6 @@ src: ./lectures/lect-2-Arrays.md
 ---
 src: ./lectures/lect-3-Singly-Linked-List.md
 ---
-
-
 ---
 src: ./lectures/lect-5-Stack.md
 ---
