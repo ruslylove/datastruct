@@ -142,7 +142,7 @@ pie
 * **40-45:** D
 * **0-39:** F
 
-<div style="position:fixed;right:0;top:0;padding-right:190px;padding-top:30px">
+<div style="position:fixed;right:0;top:0;padding-right:170px;padding-top:30px">
 ```mermaid {scale:0.6}
 graph BT
 

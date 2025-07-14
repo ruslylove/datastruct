@@ -112,13 +112,11 @@ layout: two-cols
 
 ## Implementing Nodes: A Nested Class
 
-<Transform scale="0.85">
-
-
+<Transform scale="0.80">
 
 We often define the `Node` structure as a private static nested class within the linked list class itself. This encapsulates the node's details.
 
-```java {*}{maxHeight:'360px',lines:false}
+```java {*}{maxHeight:'400px',lines:false}
 // Outer SinglyLinkedList class declaration
 public class SinglyLinkedList<E> {
 
@@ -150,7 +148,7 @@ public class SinglyLinkedList<E> {
 
 <div style="padding-left:50px;padding-top:200px">
 
-```plantuml {scale:'1.5'}
+```plantuml {scale:'1.2'}
 
 @startuml
 
@@ -213,7 +211,7 @@ public class SinglyLinkedList<E> {
 
 :: right ::
 
-<div style="padding-left:50px">
+<div style="padding-left:100px">
 
 ```plantuml
 

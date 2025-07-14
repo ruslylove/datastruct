@@ -268,6 +268,9 @@ To remove an entry `e` currently at index `i`:
 
 Here's how you might implement the removal logic:
 
+<div style="padding-right:300px">
+
+
 ```java
 /** Removes the entry at index i and shifts subsequent entries left. */
 public GameEntry remove(int i) throws IndexOutOfBoundsException {
@@ -290,45 +293,45 @@ public GameEntry remove(int i) throws IndexOutOfBoundsException {
 // Note: This method assumes 'numEntries' correctly tracks the number of actual entries.
 ```
 
----
+</div>
 
-## Class diagram for `Scoreboard`
-<br>
-<br>
-<br>
+<div style="position:fixed;right:0;top:0;padding-top:30px">
 
-```mermaid
-classDiagram
-    direction LR
 
-    class GameEntry {
-        -String name
-        -int score
-        +GameEntry(String name, int score)
-        +getName() String
-        +getScore() int
-        +toString() String
-    }
+```plantuml {scale: 0.8}
+@startuml
 
-    class Scoreboard {
-        -int numEntries
-        -GameEntry[] board
-        +Scoreboard(int capacity)
-        +add(GameEntry e) void
-        +remove(int i) GameEntry
-        +toString() String
-    }
+skinparam classAttributeIconSize 0
 
-    class TestScoreboard {
-        +main(String[] args) void
-    }
+class GameEntry {
+  - name: String
+  - score: int
+  + GameEntry(String name, int s)
+  + getName(): String
+  + getScore(): int
+  + toString(): String
+}
 
-    Scoreboard "1" *-- "0..*" GameEntry : contains
-    TestScoreboard ..> Scoreboard : uses
-    TestScoreboard ..> GameEntry : uses
+class Scoreboard {
+  - numEntries: int
+  - board: GameEntry[]
+  + Scoreboard(int capacity)
+  + add(e: GameEntry): void
+  + remove(i: int): GameEntry
+  + toString(): String
+}
 
+class TestScoreboard {
+  + main(args: String[]): void
+}
+
+Scoreboard "1" *-- "0..*" GameEntry : contains
+TestScoreboard ..> Scoreboard : uses
+TestScoreboard ..> GameEntry : uses
+
+@enduml
 ```
-
+</div>
 
 ---
 
