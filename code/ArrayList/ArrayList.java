@@ -9,6 +9,7 @@ public class ArrayList<E> {
     private int size;
     private static final int INITIAL_CAPACITY = 10;
 
+    @SuppressWarnings("unchecked")
     public ArrayList() {
         elements = (E[]) new Object[INITIAL_CAPACITY];
         size = 0;
@@ -33,6 +34,7 @@ public class ArrayList<E> {
     }
 
     private void resize() {
+        @SuppressWarnings("unchecked")
         E[] newArray = (E[]) new Object[elements.length * 2];
         System.arraycopy(elements, 0, newArray, 0, elements.length);
         elements = newArray;

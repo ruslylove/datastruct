@@ -46,6 +46,17 @@ public class SinglyLinkedList<E> {
 
     // Additional methods like remove, get, etc. can be added here
 
+    public E get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+        Node<E> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.getNext();
+        }
+        return current.getElement();
+    } 
+
     private static class Node<E> {
         private E element;
         private Node<E> next;
