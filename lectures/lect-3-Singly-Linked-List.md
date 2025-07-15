@@ -219,7 +219,7 @@ public class SinglyLinkedList<E> {
 
 :: right ::
 
-<div style="padding-left:100px">
+<div style="padding-left:10px">
 
 ```plantuml {scale:0.7}
 
@@ -317,6 +317,8 @@ block-beta
 
 ```
 </div>
+
+<img src="/linked_list_cartoon.png" style="position:fixed;right:30px;top:150px;width:220px"/>
 
 
 ---
