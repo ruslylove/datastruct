@@ -13,13 +13,21 @@ background: https://cover.sli.dev
 ### Semester 1/2025
 ### Dr. Ruslee Sutthaweekul
 
+
+
 ---
 hideInToc: false
 ---
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="2"/>
+
+
+---
+src: ./lect-7-Lists.md#6-8
+---
+
 ---
 dragPos:
   square: 660,125,162,67
@@ -213,7 +221,7 @@ public class SinglyLinkedList<E> {
 
 <div style="padding-left:100px">
 
-```plantuml
+```plantuml {scale:0.7}
 
 @startuml
 ' Define the main class for the singly linked list
@@ -243,6 +251,69 @@ SinglyLinkedList "1" o-- "1" Node : "head"
 SinglyLinkedList "1" o-- "1" Node : "tail"
 Node "1" --|> "0..1" Node
 @enduml
+
+```
+
+</div>
+
+<div style="position:fixed;bottom:30px">
+
+```mermaid {scale:0.5}
+
+block-beta
+
+    columns 5
+
+    head
+
+    block:node1
+        element
+        next
+    end
+
+    space
+    space
+    tail(("tail"))
+    space
+    A(("'a'"))
+    
+    block:node2
+        element2("element")
+        next2("next")
+    end
+
+    space
+    space
+    space
+    space
+    B(("'b'"))
+
+    block:node3
+        element3("element")
+        next3("next")
+    end
+    
+    null
+
+    space
+    space
+    space
+    
+    C(("'c'"))
+
+    next --> node2
+    next2 --> node3
+    next3 --> null(("∅"))
+    head(("head")) --> node1
+    element --> A
+    element2 --> B
+    element3 --> C
+    tail --> node3
+
+    
+    style head fill:#fee,stroke:#333
+    style tail fill:#fee,stroke:#333
+
 
 ```
 </div>
@@ -585,6 +656,7 @@ block-beta
 -->
 
 ---
+
 
 ## Java Implementation: `addFirst` and `addLast`
 
@@ -1028,9 +1100,9 @@ block-beta
 | **Size** | Fixed at creation | Dynamic, resizable | Dynamic, node-based |
 | **Type** | Primitives or Objects | Objects only | Objects only |
 | **Flexibility** | Low (manual resizing, shifting) | High (built-in methods) | High (pointer manipulation) |
-| **Performance (get/set by index)**| O(1) | O(1) | O(n) (requires traversal) |
-| **Performance (add at front)** | O(n) (manual shift) | O(n) (automatic shift) | O(1) |
-| **Performance (remove at front)** | O(n) (manual shift) | O(n) (automatic shift) | O(1) |
+| **Performance (get/set by index)**| $O(1)$ | $O(1)$ | $O(n)$ (requires traversal) |
+| **Performance (add at front)** | $O(n)$ (manual shift) | $O(n)$ (automatic shift) | $O(1)$ |
+| **Performance (remove at front)** | $O(n)$ (manual shift) | $O(n)$ (automatic shift) | $O(1)$ |
 
 </transform>
 
@@ -1040,14 +1112,14 @@ block-beta
 
 | **Feature** | Basic Array | `ArrayList` | Singly Linked List |
 | :--- | :--- | :--- | :--- |
-| **Performance (add at end)** | N/A (fixed size) | Amortized O(1) | O(1) (with tail pointer) |
-| **Performance (remove at end)**| N/A (fixed size) | O(1) | O(n) (needs traversal for previous node) |
-| **Performance (add/remove in middle)**| O(n) (shift) | O(n) (shift) | O(n) (traversal) |
+| **Performance (add at end)** | N/A (fixed size) | Amortized $O(1)$ | $O(1)$ (with tail pointer) |
+| **Performance (remove at end)**| N/A (fixed size) | $O(1)$ | $O(n)$ (needs traversal for previous node) |
+| **Performance (add/remove in middle)**| $O(n)$ (shift) | $O(n)$ (shift) | $O(n)$ (traversal) |
 | **Memory** | Low overhead | Moderate overhead (unused capacity)| High overhead (pointer per node) |
 | **Usage**| Fixed-size collections, performance-critical access | General-purpose dynamic lists | Frequent insertions/deletions at the start; implementing queues/stacks |
 
-`ArrayList` is generally preferred when you need a dynamic array with fast index-based access.<br> 
-`LinkedList` excels when you have frequent additions and removals at the beginning of the list.
+`ArrayList` is generally preferred when you need a dynamic array with fast **index-based access**.<br> 
+`LinkedList` excels when you have frequent **additions** and **removals** at the beginning of the list.
 </transform>
 
 ---
@@ -1056,11 +1128,11 @@ block-beta
 
 *   **Structure:** A singly linked list is a sequence of **nodes**, where each node holds an element and a reference (pointer) to the next node.
 *   **Key Pointers:** The list is managed by `head` and `tail` references.
-*   **Strengths:**
-    *   Excellent performance for adding and removing at the **front (head)**: `addFirst` and `removeFirst` are **O(1)** operations.
-    *   Adding to the **end (tail)** is also **O(1)** if a `tail` pointer is maintained.
-*   **Weaknesses:**
-    *   Accessing an element by index is slow: **O(n)**, as it requires traversing from the head.
-    *   Removing from the tail is inefficient: **O(n)**, because you must find the second-to-last node.
+*   **Strengths 🚀:**
+    *   Excellent performance for adding and removing at the **front (head)**: `addFirst` and `removeFirst` are **$O(1)$** operations.
+    *   Adding to the **end (tail)** is also **$O(1)$** if a `tail` pointer is maintained.
+*   **Weaknesses 🛺:**
+    *   Accessing an element by index is slow: **$O(n)$**, as it requires traversing from the head.
+    *   Removing from the tail is inefficient: **$O(n)$**, because you must find the second-to-last node.
     *   Higher memory overhead than arrays due to the storage of `next` pointers.
 *   **Best Use Case:** Ideal for scenarios requiring frequent insertions and deletions at the beginning of the sequence, such as implementing a queue or stack.

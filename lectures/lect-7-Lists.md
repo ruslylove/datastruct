@@ -69,18 +69,72 @@ layout: two-cols
 * **Advantages:**
     * `get(i)` and `set(i, e)` are very efficient (constant time, O(1)) because they involve direct array access `A[i]`, assuming `i` is a valid index.
 
-(Diagram showing an array A with indices 0, 1, 2...i...n)
+<br>
+<br>
 
+<table border='0' cellborder='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; font-family: monospace; font-size: 16px;'>
+        <tr>
+          <td port='c0' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[0]</td>
+          <td port='c1' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[1]</td>
+          <td port='c2' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[2]</td>
+          <td port='c3' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>...</td>
+          <td port='c4' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[i]</td>
+          <td port='c5' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>...</td>
+          <td port='c6' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[n-1]</td>
+        </tr>
+        <tr>
+          <td border='0' align='center'>0</td>
+          <td border='0' align='center'>1</td>
+          <td border='0' align='center'>2</td>
+          <td border='0' align='center'></td>
+          <td border='0' align='center'>i</td>
+          <td border='0' align='center'></td>
+          <td border='0' align='center'>n-1</td>
+        </tr>
+</table>
+  
 ---
 
 ## Array List: Insertion (`add(i, e)`)
 
+<Transform scale="0.9">
+
 * To insert an element `e` at index `i`, we need to create space.
 * This involves shifting `n - i` elements (from `A[i]` to `A[n-1]`) one position to the right (towards higher indices).
 * **Worst Case:** Inserting at the beginning (`i = 0`) requires shifting all `n` elements.
-* **Time Complexity:** O(n) in the worst case.
+* **Time Complexity:** $O(n)$ in the worst case.
 
-(Diagram showing shifting elements right to make space for insertion at index i)
+</Transform>
+
+
+```mermaid {scale:0.55}
+graph TD
+    subgraph one [1.initial array]
+        direction LR
+        A["el<sub>0</sub>"] --- B["el<sub>1</sub>"] --- C["..."] --- D["el<sub>i</sub>"] --- E["..."] --- F["el<sub>n-1</sub>"] --- G["(empty)"]
+        style D fill:#ffc,stroke:#333,stroke-width:2px
+        style G fill:#eee,stroke-dasharray: 5 5
+    end
+
+    subgraph two [2.shifted elements →→→]
+        direction LR
+        A2["el<sub>0</sub>"] --- B2["el<sub>1</sub>"] --- C2["..."] --- D2["(vacated)"] --- E2["el<sub>i</sub>"] --- F2["..."] --- G2["el<sub>n-1</sub>"]
+        style D2 fill:#9f9,stroke:#333,stroke-width:2px
+    end
+
+    subgraph three [3.insert new element 'e']
+        direction LR
+        A3["el<sub>0</sub>"] --- B3["el<sub>1</sub>"] --- C3["..."] --- D3["e"] --- E3["el<sub>i</sub>"] --- F3["..."] --- G3["el<sub>n-1</sub>"]
+        style D3 fill:#9f9,stroke:#333,stroke-width:2px
+    end
+
+    one --> two
+    two --> three
+    
+    %%"1. Initial Array" -- "Shift elements from index n-1 down to i" --> "2. Shift elements to the right"
+    %%"2. Shift elements to the right" -- "Place new element 'e' at index i" --> "3. Insert new element 'e'"
+    %%"3. Insert new element 'e'" --> End("End")
+```
 
 ---
 
@@ -89,9 +143,33 @@ layout: two-cols
 * To remove the element at index `i`, we need to close the gap.
 * This involves shifting `n - i - 1` elements (from `A[i+1]` to `A[n-1]`) one position to the left (towards lower indices).
 * **Worst Case:** Removing from the beginning (`i = 0`) requires shifting `n-1` elements.
-* **Time Complexity:** O(n) in the worst case.
+* **Time Complexity:** $O(n)$ in the worst case.
 
-(Diagram showing shifting elements left to fill the gap after removal at index i)
+```mermaid {scale:0.55}
+
+graph TD
+    subgraph one["1.Initial Array (Size n)"]
+        direction LR
+        A["el<sub>0</sub>"] --- B["..."] --- C["el<sub>i-1</sub>"] --- D["el<sub>i</sub>"] --- E["el<sub>i+1</sub>"] --- F["..."] --- G["el<sub>n-1</sub>"]
+        style D fill:#ffc,stroke:#c00,stroke-width:2px,stroke-dasharray: 5 5
+    end
+
+    subgraph two["2.Shift elements to the left"]
+        direction LR
+        A2["el<sub>0</sub>"] --- B2["..."] --- C2["el<sub>i-1</sub>"] --- D2["el<sub>i+1</sub>"] --- E2["el<sub>i+2</sub>"] --- F2["..."] --- G2["el<sub>n-1</sub>"] --- H2["(empty)"]
+        style D2 fill:#9f9,stroke:#333,stroke-width:2px
+        style H2 fill:#eee,stroke-dasharray: 5 5
+    end
+
+    subgraph three["3.Final Array (Size n-1)"]
+        direction LR
+        A3["el<sub>0</sub>"] --- B3["..."] --- C3["el<sub>i-1</sub>"] --- D3["el<sub>i+1</sub>"] --- E3["el<sub>i+2</sub>"] --- F3["..."] --- G3["el<sub>n-1</sub>"]
+    end
+
+    one --> two --> three
+
+```
+
 
 ---
 
@@ -99,10 +177,10 @@ layout: two-cols
 
 For a standard array-based list implementation:
 
-* **Space:** O(n) - proportional to the number of elements.
-* **`get(i)`, `set(i, e)`:** O(1) - constant time (very fast).
-* **`add(i, e)`, `remove(i)`:** O(n) - linear time in the worst case due to potential shifting.
-
+* **Space:** $O(n)$ - proportional to the number of elements.
+* **Time:**
+    * **`get(i)`, `set(i, e)`:** $O(1)$ - constant time (very fast). 🚀
+    * <ins>**`add(i, e)`, `remove(i)`:** $O(n)$ - linear time in the worst case due to potential shifting.</ins> 🐌
 * **Handling Full Arrays:** When adding an element to a full array, instead of failing, we can resize the underlying array (create a larger one and copy elements over).
 
 ---
