@@ -318,7 +318,7 @@ block-beta
 ```
 </div>
 
-<img src="/linked_list_cartoon.png" style="position:fixed;right:30px;top:150px;width:220px"/>
+<img src="/linked_list_cartoon.png" style="position:fixed;right:30px;top:100px;height:220px;width:220px;border-radius: 50px"/>
 
 
 ---
@@ -1095,7 +1095,7 @@ block-beta
 
 ## `Basic Arrays` vs. `ArrayList` vs. `Singly Linked List`
 
-<transform scale="0.8">
+<transform scale="0.9">
 
 | **Feature** | Basic Array | `ArrayList` | Singly Linked List |
 | :--- | :--- | :--- | :--- |
@@ -1110,7 +1110,7 @@ block-beta
 
 ---
 
-<transform scale="0.8">
+<transform scale="0.82">
 
 | **Feature** | Basic Array | `ArrayList` | Singly Linked List |
 | :--- | :--- | :--- | :--- |
