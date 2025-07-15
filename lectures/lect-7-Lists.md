@@ -68,30 +68,6 @@ layout: two-cols
 * The element at list index `i` is stored in the array cell `A[i]`.
 * **Advantages:**
     * `get(i)` and `set(i, e)` are very efficient (constant time, O(1)) because they involve direct array access `A[i]`, assuming `i` is a valid index.
-
-<br>
-<br>
-
-<table border='0' cellborder='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; font-family: monospace; font-size: 16px;'>
-        <tr>
-          <td port='c0' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[0]</td>
-          <td port='c1' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[1]</td>
-          <td port='c2' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[2]</td>
-          <td port='c3' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>...</td>
-          <td port='c4' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[i]</td>
-          <td port='c5' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>...</td>
-          <td port='c6' style='background-color: #EBF5FB; border: 1px solid #85C1E9;'>A[n-1]</td>
-        </tr>
-        <tr>
-          <td border='0' align='center'>0</td>
-          <td border='0' align='center'>1</td>
-          <td border='0' align='center'>2</td>
-          <td border='0' align='center'></td>
-          <td border='0' align='center'>i</td>
-          <td border='0' align='center'></td>
-          <td border='0' align='center'>n-1</td>
-        </tr>
-</table>
   
 ---
 
