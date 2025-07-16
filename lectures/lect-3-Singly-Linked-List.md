@@ -1021,9 +1021,9 @@ SinglyLinkedList o-- Node : contains
 
 ---
 
-## ⚠️ Removing from the Tail
+## Removing from the Tail
 
-* Removing the last element efficiently in a *singly* linked list is problematic.
+* Removing the last element efficiently in a *singly* linked list is problematic ⚠️.
 * To update the `tail` reference correctly, you need access to the node *before* the current tail.
 * There's no direct way to get the previous node without traversing the list from the `head`.
 * This traversal takes time proportional to the list's length, making tail removal inefficient (not constant time).<br><br>
