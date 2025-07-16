@@ -25,7 +25,7 @@ hideInToc: false
 
 
 ---
-src: ./lect-7-Lists.md#6-8
+src: ./lect-7-Lists.md#6-7,9-10
 ---
 
 ---
@@ -115,16 +115,17 @@ block-beta
 <v-drag-arrow pos="594,161,68,-1"/>
 
 ---
-layout: two-cols
+dragPos:
+  node1: -32,0,0,0
 ---
 
 ## Implementing Nodes: A Nested Class
 
-<Transform scale="0.80">
+<div style="padding-right:250px">
 
 We often define the `Node` structure as a private static nested class within the linked list class itself. This encapsulates the node's details.
 
-```java {*}{maxHeight:'400px',lines:false}
+```java {*}{maxHeight:'350px',lines:false}
 // Outer SinglyLinkedList class declaration
 public class SinglyLinkedList<E> {
 
@@ -150,13 +151,12 @@ public class SinglyLinkedList<E> {
     // Remainder of the SinglyLinkedList class implementation follows...
 }
 ```
-</Transform>
 
-:: right ::
+</div>
 
-<div style="padding-left:50px;padding-top:200px">
+<div style="position:fixed;right:20px;top:200px">
 
-```plantuml {scale:'1.2'}
+```plantuml {scale:'1'}
 
 @startuml
 
@@ -1021,7 +1021,7 @@ SinglyLinkedList o-- Node : contains
 
 ---
 
-## Challenge: Removing from the Tail
+## ⚠️ Removing from the Tail
 
 * Removing the last element efficiently in a *singly* linked list is problematic.
 * To update the `tail` reference correctly, you need access to the node *before* the current tail.
@@ -1089,7 +1089,7 @@ block-beta
 <!-- <img src="./img/linkedlist_4.png" />
 -->
 
-
+<v-drag-arrow pos="481,275,1,41"/>
 
 ---
 
@@ -1130,11 +1130,11 @@ block-beta
 
 *   **Structure:** A singly linked list is a sequence of **nodes**, where each node holds an element and a reference (pointer) to the next node.
 *   **Key Pointers:** The list is managed by `head` and `tail` references.
-*   **Strengths 🚀:**
+*   **Strengths 👍:**
     *   Excellent performance for adding and removing at the **front (head)**: `addFirst` and `removeFirst` are **$O(1)$** operations.
     *   Adding to the **end (tail)** is also **$O(1)$** if a `tail` pointer is maintained.
-*   **Weaknesses 🛺:**
+*   **Weaknesses 👎:**
     *   Accessing an element by index is slow: **$O(n)$**, as it requires traversing from the head.
     *   Removing from the tail is inefficient: **$O(n)$**, because you must find the second-to-last node.
     *   Higher memory overhead than arrays due to the storage of `next` pointers.
-*   **Best Use Case:** Ideal for scenarios requiring frequent insertions and deletions at the beginning of the sequence, such as implementing a queue or stack.
+*   **Best Use Case:** Ideal for scenarios requiring frequent insertions and deletions at the beginning of the sequence, such as implementing a `Queue` or `Stack`.

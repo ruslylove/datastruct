@@ -145,20 +145,6 @@ graph TD
     one --> two --> three
 
 ```
-
-
----
-
-## Array List: Performance Summary
-
-For a standard array-based list implementation:
-
-* **Space:** $O(n)$ - proportional to the number of elements.
-* **Time:**
-    * **`get(i)`, `set(i, e)`:** $O(1)$ - constant time (very fast). 🚀
-    * <ins>**`add(i, e)`, `remove(i)`:** $O(n)$ - linear time in the worst case due to potential shifting.</ins> 🐌
-* **Handling Full Arrays:** When adding an element to a full array, instead of failing, we can resize the underlying array (create a larger one and copy elements over).
-
 ---
 
 ## Array List: Java Implementation Snippets (Get/Set)
@@ -230,6 +216,21 @@ public E remove(int i) throws IndexOutOfBoundsException {
 }
 
 ```
+
+
+---
+
+## Array List: Performance Summary
+
+For a standard array-based list implementation:
+
+* **Space:** $O(n)$ - proportional to the number of elements.
+* **Time:**
+    * **`get(i)`, `set(i, e)`:** $O(1)$ - constant time (very fast). 🚀
+    * <ins>**`add(i, e)`, `remove(i)`:** $O(n)$ - linear time in the worst case due to potential shifting.</ins> 🐌
+* **Handling Full Arrays:** When adding an element to a full array, instead of failing, we can resize the underlying array (create a larger one and copy elements over).
+
+
 
 ---
 
