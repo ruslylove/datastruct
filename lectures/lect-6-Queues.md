@@ -93,8 +93,24 @@ layout: two-cols
     * `sz`: Current number of elements stored in the queue.
 * The position immediately after the rear element (where the next enqueue would occur) is calculated as `r = (f + sz) % N`. The modulo operator (`%`) handles the wrap-around.
 
-(Conceptual diagrams showing 'normal' and 'wrapped-around' configurations in a circular array)
+```mermaid
+graph TD
+    subgraph "Normal Configuration (f < r)"
+        direction LR
+        A["Array: [ , , E, E, E, , ,... ]<br>Indices: 0, 1, 2, 3, 4, 5, 6,..."]
+        P1["f=2"] --> A
+        P2["r=5"] --> A
+    end
+    subgraph "Wrapped-Around Configuration (r < f)"
+        direction LR
+        B["Array: [E, E, , ,..., , E, E]<br>Indices: 0, 1, 2, ..., N-2, N-1"]
+        P3["r=2"] --> B
+        P4["f=N-2"] --> B
+    end
+```
 
+---
+layout: two-cols
 ---
 
 ## Array-Based Queue: Basic Operations
@@ -109,9 +125,25 @@ Algorithm isEmpty():
   return (sz == 0)
 ```
 
-(Conceptual diagrams showing 'f' and 'r' pointers in a circular array)
+:: right ::
+
+
+```mermaid
+graph TD
+    subgraph "Circular Array Queue State"
+        direction LR
+        A["Array: [..., E, E, E, ..., E, ...]<br>f: index of front<br>r: index for next enqueue"]
+    end
+    subgraph "Pointers"
+        Front["f"] --> A
+        Rear["r = (f + sz) % N"] --> A
+    end
+```
 
 ---
+layout: two-cols
+---
+
 
 ## Array-Based Queue: Enqueue Operation
 
@@ -131,9 +163,26 @@ Algorithm enqueue(o):
 
 * Throws an exception if the queue is full (cannot add more elements). The specific exception depends on the implementation.
 
-(Conceptual diagrams showing 'f' and 'r' pointers in a circular array)
+
+:: right ::
+
+
+
+```mermaid {scale:0.8}
+graph TD
+    subgraph "Array Q"
+        direction LR
+        A["..."] --- B["Q[f]"] --- C["..."] --- D["(empty)"] --- E["..."]
+    end
+    f["f"] --> B
+    r["r"] --> D
+    r -. "new r" .-> E
+```
 
 ---
+layout: two-cols
+---
+
 
 ## Array-Based Queue: Dequeue Operation
 
@@ -152,7 +201,19 @@ Algorithm dequeue():
 
 * Returns `null` if the queue was empty (as per our ADT definition).
 
-(Conceptual diagrams showing 'f' and 'r' pointers in a circular array)
+
+:: right ::
+
+```mermaid {scale:0.7}
+graph TD
+    subgraph "Array Q"
+        direction LR
+        A["..."] --- B["Q[f] (removed)"] --- C["Q[f] (new)"] --- D["..."] --- E["Q[r]"] --- F["..."]
+    end
+    f["f"] --> B
+    f -. "new f" .-> C
+    r["r"] --> E
+```
 
 ---
 

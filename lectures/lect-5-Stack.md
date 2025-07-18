@@ -143,6 +143,9 @@ layout: two-cols
     * As components used to build more complex data structures.
 
 ---
+layout: two-cols
+---
+
 
 ## The JVM Method Stack
 
@@ -155,8 +158,40 @@ layout: two-cols
     * Control returns to the method represented by the new top frame.
 * This mechanism naturally supports **recursion**.
 
-(Diagram illustrating frames for main(), foo(), bar() being pushed and popped)
+:: right ::
 
+<Transform scale="0.6">
+
+
+```mermaid
+sequenceDiagram
+    participant C as Caller
+    participant S as JVM Stack
+
+    C->>+S: main() called
+    Note over S: Frame for main() pushed
+
+    C->>+S: foo() called
+    Note over S: Frame for foo() pushed
+
+    C->>+S: bar() called
+    Note over S: Frame for bar() pushed
+
+    S-->>-C: bar() returns
+    Note over S: Frame for bar() popped
+
+    S-->>-C: foo() returns
+    Note over S: Frame for foo() popped
+
+    S-->>-C: main() returns
+    Note over S: Frame for main() popped
+```
+
+</Transform>
+
+
+---
+layout: two-cols
 ---
 
 ## Array-Based Stack Implementation
@@ -178,8 +213,26 @@ Algorithm pop():
     return elementToReturn
 ```
 
-(Diagram showing array S with indices 0, 1, 2...t)
+:: right ::
 
+<div style="position:fixed;right:100px">
+
+```mermaid {scale:0.6}
+graph TD
+    subgraph Array ["Array 'S'"]
+        direction LR
+        s0["S[0]"] --- s1["S[1]"] --- s2["S[2]"] --- s_etc["..."] --- st["S[t]"] --- sn_etc["..."] --- sn["S[N-1]"]
+    end
+    subgraph "Top Index Pointer"
+      t_ptr["t"]
+    end
+    t_ptr --> st
+```
+
+</div>
+
+---
+layout: two-cols
 ---
 
 ## Array-Based Stack: Handling Fullness
@@ -197,16 +250,34 @@ Algorithm push(o):
     S[t] = o
 ```
 
-(Diagram showing array S with indices 0, 1, 2...t, indicating `t` at the end)
+:: right ::
+
+<div style="position:fixed;right:100px">
+
+
+```mermaid {scale:0.8}
+graph TD
+    subgraph Array [Array S Full]
+        direction LR
+        s0["S[0]"] --- s1["S[1]"] --- s2["S[2]"] --- s_etc["..."] --- st["S[t = N-1]"]
+    end
+    subgraph "Top Index Pointer"
+      t_ptr["t"]
+    end
+    t_ptr --> st
+```
+
+</div>
+
 
 ---
 
 ## Array-Based Stack: Performance & Limits
 
 * **Performance:**
-    * Let 'n' be the number of elements in the stack.
-    * Space complexity: O(n) - space used is proportional to the number of elements.
-    * Time complexity: O(1) - each operation (push, pop, top, size, isEmpty) takes constant time on average.
+    * Let $n$ be the number of elements in the stack.
+    * Space complexity: $O(n)$ - space used is proportional to the number of elements.
+    * Time complexity: $O(1)$ - each operation (push, pop, top, size, isEmpty) takes constant time on average.
 * **Limitations:**
     * The maximum capacity of the stack must be defined when the array is created and cannot be easily changed later.
     * Pushing onto a full stack results in an error/exception specific to the implementation.
@@ -540,8 +611,6 @@ Algorithm spans1(X):
     3.  If the stack becomes empty, it means all preceding elements are less than or equal to `X[i]`. The span `S[i]` is `i + 1`.
     4.  If the stack is not empty, the index `j` remaining on top is the index of the first preceding element *greater* than `X[i]`. The span `S[i]` is `i - j`.
     5.  Push the current index `i` onto the stack.
-
-(Diagram illustrating stack contents as the array is scanned)
 
 ---
 
