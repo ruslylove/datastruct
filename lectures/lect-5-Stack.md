@@ -20,7 +20,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="3"/>
+<toc mode="onlySiblings" minDepth="2" columns="4"/>
 
 
 ---
@@ -38,13 +38,11 @@ hideInToc: false
     * **Errors:** Trying to buy/sell a non-existent stock, cancelling a non-existent order.
 
 ---
-layout: image-right
-image: /stack_asian.png
----
+
 
 ## The Stack ADT
 
-<Transform scale="0.77">
+
 
 * Operates on a **Last-In, First-Out (LIFO)** principle.
 * **Core Operations:**
@@ -57,7 +55,10 @@ image: /stack_asian.png
 * **Error Conditions:**
     * Attempting to `pop()` or `top()` an empty stack should result in an error (typically by throwing an exception).
 
-</Transform>
+<div style="position:fixed;right:100px;width:200px;height:200px;top:100px">
+<img src="/stack_asian.png"/>
+</div>
+
 ---
 
 ## Stack Interface Definition in Java
@@ -191,10 +192,10 @@ layout: two-cols
 
 :: right ::
 
-<Transform scale="0.6">
+<div style="position:fixed;right:100px">
 
 
-```mermaid
+```mermaid {scale:0.6}
 sequenceDiagram
     participant C as Caller
     participant S as JVM Stack
@@ -218,7 +219,8 @@ sequenceDiagram
     Note over S: Frame for main() popped
 ```
 
-</Transform>
+
+</div>
 
 
 ---
@@ -770,3 +772,20 @@ Algorithm spans2(X):
 * Each index is popped from the stack at most once.
 * The total time spent in the `while` loop across all iterations of the `for` loop is proportional to `n`.
 * Therefore, the overall time complexity is **$O(n)$**.
+
+---
+
+## Summary: Stacks
+
+*   **Principle:** Last-In, First-Out (LIFO).
+*   **Core Operations:** `push`, `pop`, `top`, `isEmpty`, `size`.
+*   **Implementations:**
+    *   **Array-Based:**
+        *   **Pros:** Simple, memory-efficient.
+        *   **Cons:** Fixed capacity.
+        *   **Performance:** $O(1)$ for all operations.
+    *   **Linked-List-Based:**
+        *   **Pros:** Dynamic capacity.
+        *   **Cons:** Slightly more memory overhead per element.
+        *   **Performance:** $O(1)$ for all operations.
+*   **Key Applications:** Managing function calls (JVM), undo/redo, parsing expressions, and algorithm components.

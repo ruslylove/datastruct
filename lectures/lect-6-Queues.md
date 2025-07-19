@@ -22,14 +22,12 @@ hideInToc: false
 
 
 ---
-layout: image-right
-image: /queue.png
----
+
 
 
 ## The Queue Abstract Data Type (ADT)
 
-<Transform scale="0.65">
+
 
 * A **Queue** stores a collection of arbitrary objects. It follows a **First-In, First-Out (FIFO)** principle. Insertions happen at the **rear** (end), and removals occur at the **front**.
 * **Core Operations:**
@@ -42,7 +40,9 @@ image: /queue.png
 * **Error Conditions:**
     * Attempting to `dequeue()` or `first()` on an empty queue should result in an error (typically by throwing an exception).
 
-</Transform>
+<div style="position:fixed;right:50px;width:200px;height:200px;top:150px">
+<img src="/queue.png"/>
+</div>
 
 ---
 layout: two-cols
@@ -260,7 +260,7 @@ public interface Queue<E> {
 
 ## Array-Based Queue Implementation (Java Snippet)
 
-```java {*}{maxHeight:'380px',lines:true}
+```java {*}{maxHeight:'380px'}
 /** Implementation of the Queue ADT using a fixed-length circular array. */
 public class ArrayQueue<E> implements Queue<E> {
 
@@ -296,7 +296,7 @@ public class ArrayQueue<E> implements Queue<E> {
 
 ## Array-Based Queue: Enqueue/Dequeue (Java Snippet)
 
-```java {*}{maxHeight:'380px',lines:true}
+```java {*}{maxHeight:'380px'}
 // Continuing ArrayQueue<E> class...
 
 @Override
@@ -462,13 +462,15 @@ graph TD
     end
 ```
 
----
+
+--- 
+
 
 ## Application: Breadth-First Search (BFS)
 
 *   **BFS** is a fundamental graph traversal algorithm that explores a graph layer by layer.
-*   It starts at a source node and explores all its immediate neighbors before moving on to the next level of neighbors.
-*   A queue is the perfect data structure to manage the "frontier" of nodes to be visited in the correct order.
+*   It starts at a source node `s` and explores all its immediate neighbors before moving on.
+*   A queue manages the "frontier" of nodes to visit.
 
 **Algorithm:**
 1.  Initialize a queue and add the starting node `s`.
@@ -478,6 +480,29 @@ graph TD
     b.  For each unvisited neighbor `v` of `u`:
         i.  Mark `v` as visited.
         ii. Enqueue `v`.
+
+
+
+```mermaid
+graph TD
+    subgraph "Graph & Traversal"
+        direction TB
+        subgraph "Graph"
+            s --- v1["v1"]
+            s --- v2["v2"]
+            v1 --- v3["v3"]
+            v2 --- v4["v4"]
+        end
+        subgraph "Queue State"
+            direction LR
+            step1["<b>Start</b><br>Queue: [s]"]
+            step1 --> step2["<b>Dequeue u=s</b><br>Enqueue v1, v2<br>Queue: [v1, v2]"]
+            step2 --> step3["<b>Dequeue u=v1</b><br>Enqueue v3<br>Queue: [v2, v3]"]
+            step3 --> step4["<b>Dequeue u=v2</b><br>Enqueue v4<br>Queue: [v3, v4]"]
+        end
+    end
+```
+
 
 ---
 layout: two-cols
@@ -494,8 +519,30 @@ layout: two-cols
 
 :: right ::
 
+<div style="position:fixed;right:200px">
+
+
 ```mermaid
 graph TD
     Producer["Producer"] -- "enqueue(data)" --> Q[["Queue Buffer"]]
     Q -- "dequeue()" --> Consumer["Consumer"]
 ```
+
+</div>
+
+---
+
+## Summary: Queues
+
+*   **Principle:** First-In, First-Out (FIFO).
+*   **Core Operations:** `enqueue`, `dequeue`, `first`, `isEmpty`, `size`.
+*   **Implementations:**
+    *   **Array-Based (Circular):**
+        *   **Pros:** Memory-efficient.
+        *   **Cons:** Fixed capacity.
+        *   **Performance:** $O(1)$ for all operations.
+    *   **Linked-List-Based:**
+        *   **Pros:** Dynamic capacity.
+        *   **Cons:** Requires tracking both `front` and `rear` for $O(1)$ enqueue.
+        *   **Performance:** $O(1)$ for all operations.
+*   **Key Applications:** Scheduling (Round Robin), graph traversal (BFS), data buffering, and managing requests.

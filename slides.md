@@ -39,7 +39,7 @@ Semester 1/2025
   <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
     <carbon:edit />
   </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" class="slidev-icon-btn">
+  <a href="https://github.com/ruslylove/datastruct" target="_blank" class="slidev-icon-btn">
     <carbon:logo-github />
   </a>
 </div>
