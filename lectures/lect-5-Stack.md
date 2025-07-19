@@ -44,18 +44,18 @@ image: /stack_asian.png
 
 ## The Stack ADT
 
-* Stores a collection of arbitrary objects.
-* Operates on a **Last-In, First-Out (LIFO)** principle. Imagine a stack of plates.
+<Transform scale="0.77">
 
-<Transform scale="0.9">
-
+* Operates on a **Last-In, First-Out (LIFO)** principle.
 * **Core Operations:**
-    * `push(object)`: Adds an element to the top.
-    * `pop()`: Removes and returns the element most recently added (the top element).
+    * `push(object)`: Adds an element to the top of the stack.
+    * `pop()`: Removes and returns the top element of the stack.
 * **Helper Operations:**
-    * `top()`: Returns the top element without removing it.
-    * `size()`: Returns the number of elements currently in the stack.
-    * `isEmpty()`: Checks if the stack contains any elements.
+    * `top()`: Returns the top element of the stack without removing it.
+    * `size()`: Returns the number of elements in the stack.
+    * `isEmpty()`: Returns a boolean indicating whether the stack is empty.
+* **Error Conditions:**
+    * Attempting to `pop()` or `top()` an empty stack should result in an error (typically by throwing an exception).
 
 </Transform>
 ---
@@ -63,8 +63,9 @@ image: /stack_asian.png
 ## Stack Interface Definition in Java
 
 * This is a Java interface representing our Stack ADT concept.
-* Note: `top()` and `pop()` are defined here to return `null` if the stack is empty (this differs from throwing exceptions, which is another common approach).
-* This interface is distinct from Java's built-in `java.util.Stack` class.
+* This interface defines the standard Stack ADT, using exceptions for error handling.
+* `pop` and `top` operations will throw an `EmptyStackException` if the stack is empty.
+* This approach is generally preferred over returning `null` as it makes error conditions explicit.
 
 ```java
 public interface Stack<E> {
@@ -75,13 +76,13 @@ public interface Stack<E> {
   boolean isEmpty();
 
   /** Returns, but does not remove, the element at the top of the stack. */
-  E top(); // Returns null if empty
+  E top() throws EmptyStackException;
 
   /** Inserts an element at the top of the stack. */
   void push(E element);
 
   /** Removes and returns the element at the top of the stack. */
-  E pop(); // Returns null if empty
+  E pop() throws EmptyStackException;
 }
 ```
 
@@ -101,7 +102,7 @@ layout: two-cols
 | isEmpty()   | false        | (5)            |
 | pop()       | 5            | ()             |
 | isEmpty()   | true         | ()             |
-| pop()       | null         | ()             |
+| pop()       | throws Exception | ()             |
 
 </Transform>
 :: right ::
@@ -123,12 +124,42 @@ layout: two-cols
 </Transform>
 ---
 
-## Handling Errors: Exceptions vs. Null
+## Handling Errors with Exceptions
 
-* Performing ADT operations can sometimes lead to errors (e.g., popping from an empty stack).
-* Java uses **exceptions** to handle such runtime errors. An operation that fails might "throw" an exception.
-* In our specific Stack ADT definition here, we've chosen *not* to use exceptions for empty stack scenarios.
-* Instead, `pop()` and `top()` operations on an empty stack will simply return `null`.
+* An operation on a data structure may fail. For example, calling `pop()` on an empty stack is an error.
+* In Java, the preferred way to handle such errors is to throw an **exception**.
+* For our Stack ADT, `pop()` and `top()` will throw an `EmptyStackException` if the stack is empty.
+* This makes error handling explicit and robust, as the calling method must either handle the exception or propagate it.
+
+---
+
+## Using Exceptions in Java
+
+When a method declares that it `throws` an exception, you must handle it. The standard way is using a `try...catch` block.
+
+*   **`try` block:** Enclose the code that might throw an exception (e.g., `stack.pop()`).
+*   **`catch` block:** "Catches" the exception if it occurs and defines how to handle it (e.g., print an error message).
+
+```java {*}{maxHeight:'250px',lines:true}
+public class StackTester {
+    public static void main(String[] args) {
+        Stack<Integer> myStack = new ArrayStack<>(5);
+        myStack.push(10);
+        myStack.push(20);
+
+        try {
+            System.out.println("Top element is: " + myStack.top()); // Safe
+            System.out.println("Popped: " + myStack.pop());       // Safe
+            System.out.println("Popped: " + myStack.pop());       // Safe
+            System.out.println("Popped: " + myStack.pop());       // This will fail
+        } catch (EmptyStackException e) {
+            System.err.println("Error: Tried to pop from an empty stack.");
+            // In a real application, you might log this error or show a user-friendly message.
+        }
+        System.out.println("Program continues after handling the exception.");
+    }
+}
+```
 
 ---
 
@@ -206,7 +237,7 @@ Algorithm size():
 
 Algorithm pop():
   if isEmpty() then
-    return null
+    throw EmptyStackException()
   else
     elementToReturn = S[t]
     t = t - 1
@@ -314,13 +345,13 @@ public class ArrayStack<E> implements Stack<E> {
 
     @Override
     public E top() {
-        if (isEmpty()) return null;
+        if (isEmpty()) throw new EmptyStackException();
         return data[t];
     }
 
     @Override
     public E pop() {
-        if (isEmpty()) return null;
+        if (isEmpty()) throw new EmptyStackException();
         E answer = data[t];
         data[t] = null; // Dereference to help garbage collection
         t--;
@@ -330,6 +361,102 @@ public class ArrayStack<E> implements Stack<E> {
 ```
 
 *(Note: Added more methods from the interface for completeness)*
+
+---
+
+## Linked-List-Based Stack Implementation
+
+*   An alternative to an array-based stack is to use a **singly linked list**.
+*   The `top` of the stack is represented by the `head` of the linked list.
+*   A `push` operation corresponds to adding an element to the front of the list (`addFirst`).
+*   A `pop` operation corresponds to removing the element from the front of the list (`removeFirst`).
+*   This approach overcomes the fixed-capacity limitation of an array-based implementation.
+
+---
+
+
+## Linked-List-Based Stack
+
+*   We only need to maintain a reference to the `head` node (which we'll call `top`) and the `size`.
+*   `push(e)`: Creates a new node for `e`, sets its `next` to the current `top`, and then updates `top` to be the new node.
+*   `pop()`: Takes the element from the `top` node, updates `top` to `top.getNext()`, and returns the element.
+
+
+```mermaid
+graph TD
+    subgraph "Linked Stack"
+        direction LR
+        Top(("top")) --> A["Node A"]
+        A -- "next" --> B["Node B"]
+        B -- "next" --> C["Node C"]
+        C -- "next" --> Null["null"]
+    end
+```
+
+---
+
+## LinkedStack Implementation (Java)
+
+```java {*}{maxHeight:'430px'}
+public class LinkedStack<E> implements Stack<E> {
+
+    private static class Node<E> {
+        private E element;
+        private Node<E> next;
+        public Node(E e, Node<E> n) {
+            element = e;
+            next = n;
+        }
+        public E getElement() { return element; }
+        public Node<E> getNext() { return next; }
+    }
+
+    private Node<E> top = null;
+    private int size = 0;
+
+    public LinkedStack() { }
+
+    @Override
+    public int size() { return size; }
+
+    @Override
+    public boolean isEmpty() { return size == 0; }
+
+    @Override
+    public void push(E e) {
+        top = new Node<>(e, top);
+        size++;
+    }
+
+    @Override
+    public E top() {
+        if (isEmpty()) throw new EmptyStackException();
+        return top.getElement();
+    }
+
+    @Override
+    public E pop() {
+        if (isEmpty()) throw new EmptyStackException();
+        E answer = top.getElement();
+        top = top.getNext();
+        size--;
+        return answer;
+    }
+}
+```
+
+---
+
+## Linked-List Stack: Performance
+
+*   **Performance:**
+    *   Let $n$ be the number of elements in the stack.
+    *   Space complexity: $O(n)$ - each element requires a new node object.
+    *   Time complexity: $O(1)$ - all operations (`push`, `pop`, `top`, `size`, `isEmpty`) take constant time because they only involve a few pointer manipulations at the head of the list.
+*   **Advantages:**
+    *   No fixed capacity; the stack can grow as long as memory is available.
+    *   No need to worry about `IllegalStateException` for a full stack.
+
 
 ---
 
@@ -530,37 +657,36 @@ layout: two-cols
 ---
 ## Expression Evaluation Example Trace
 
-Expression: `14 – 3 * 2 + 7 $` (`$` marks end)
+<transform scale="0.68">
+Expression: `14 – 3 * 2 + 7` (processed token by token)
 
-<transform scale="0.75">
+| Token | Action | `valStk` | `opStk` | Comment |
+|:---|:---|:---|:---|:---|
+| 14 | push(14) | (14) | () | Push value |
+| – | push(–) | (14) | (–) | `opStk` was empty |
+| 3 | push(3) | (14, 3) | (–) | Push value |
+| * | push(*) | (14, 3) | (–, *) | `prec(*)` > `prec(–)` |
+| 2 | push(2) | (14, 3, 2) | (–, *) | Push value |
 
-| Token | Action           | valStk      | opStk | Comment                       |
-| :---- | :--------------- | :---------- | :---- | :---------------------------- |
-| 14    | push(14)         | (14)        | ()    |                               |
-| –     | repeatOps(-); push(-) | (14)      | (-)   | `prec(-) <= prec(top)` false |
-| 3     | push(3)          | (14, 3)     | (-)   |                               |
-| * | repeatOps(*); push(*) | (14, 3)     | (-, *) | `prec(*) <= prec(-)` false |
-| 2     | push(2)          | (14, 3, 2)  | (-, *) |
 </transform>
 
 :: right ::
 
-<transform scale="0.75">
+<transform scale="0.65">
 
-| Token | Action           | valStk      | opStk | Comment                       |
-| :---- | :--------------- | :---------- | :---- | :---------------------------- |                           
-| +     | repeatOps(+); push(+) | (14, 6)     | (-)   | `prec(+) <= prec(*)` true -> doOp(*); `prec(+) <= prec(-)` true -> doOp(-) -> push(+) |
-|       |                  |             | (+)   | Now push '+'                |
-| 7     | push(7)          | (14, 6, 7)  | (+)   |                               |
-| $     | repeatOps($)     | (14, 13)    | ()    | `prec($) <= prec(+)` true -> doOp(+) |
-|       |                  | (15)        | ()    | `prec($) <= prec(empty)` false |
-| End   | return top       | (15)        | ()    | Result is 15                |
+| Token | Action | `valStk` | `opStk` | Comment |
+|:---|:---|:---|:---|:---|
+| + | `prec(+)` <= `prec(*)` -> doOp(*) | (14, 6) | (–) | Pop *, 3, 2; push 6 |
+| | `prec(+)` <= `prec(–)` -> doOp(–) | (8) | () | Pop –, 6, 14; push 8 |
+| | push(+) | (8) | (+) | Now push + |
+| 7 | push(7) | (8, 7) | (+) | Push value |
+| end | `opStk` not empty -> doOp(+) | (15) | () | Pop +, 7, 8; push 15 |
+| | return top | 15 | | Final result |
+
+*(Note: Simplified trace, actual precedence check might vary slightly)*
 
 </transform>
 
-
-
-*(Note: Simplified trace, actual precedence check might vary slightly)*
 
 ---
 
@@ -597,7 +723,7 @@ Algorithm spans1(X):
 
 * This algorithm involves nested loops (the `while` loop inside the `for` loop).
 * In the worst case, the inner loop might run up to `i` times for each `i`.
-* The total time complexity is **O(n²)**.
+* The total time complexity is **$O(n²)$**.
 
 ---
 
@@ -643,4 +769,4 @@ Algorithm spans2(X):
 * Each array index `i` is pushed onto the stack exactly once.
 * Each index is popped from the stack at most once.
 * The total time spent in the `while` loop across all iterations of the `for` loop is proportional to `n`.
-* Therefore, the overall time complexity is **O(n)**.
+* Therefore, the overall time complexity is **$O(n)$**.

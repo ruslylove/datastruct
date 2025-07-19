@@ -18,7 +18,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="1"/>
+<toc mode="onlySiblings" minDepth="2" columns="2"/>
 
 
 ---
@@ -29,7 +29,7 @@ image: /queue.png
 
 ## The Queue Abstract Data Type (ADT)
 
-<Transform scale="0.7">
+<Transform scale="0.65">
 
 * A **Queue** stores a collection of arbitrary objects. It follows a **First-In, First-Out (FIFO)** principle. Insertions happen at the **rear** (end), and removals occur at the **front**.
 * **Core Operations:**
@@ -39,7 +39,8 @@ image: /queue.png
     * `first()`: Returns the front element without removing it.
     * `size()`: Returns the number of elements currently in the queue.
     * `isEmpty()`: Checks if the queue contains any elements.
-* **Boundary Cases:** Attempting `dequeue()` or `first()` on an empty queue returns `null` (in this specific ADT definition).
+* **Error Conditions:**
+    * Attempting to `dequeue()` or `first()` on an empty queue should result in an error (typically by throwing an exception).
 
 </Transform>
 
@@ -48,6 +49,8 @@ layout: two-cols
 ---
 
 ## Queue Operation Example
+
+<Transform :scale="0.9">
 
 | Method Call | Return Value | Queue Contents (Front to Rear) |
 | :---------- | :----------- | :----------------------------- |
@@ -58,11 +61,18 @@ layout: two-cols
 | dequeue()   | 3            | (7)                            |
 | first()     | 7            | (7)                            |
 | dequeue()   | 7            | ()                             |
-| dequeue()   | null         | ()                             |
+
+</Transform>
+
 
 :: right ::
+
+<Transform :scale="0.9">
+
+
 | Method Call | Return Value | Queue Contents (Front to Rear) |
 | :---------- | :----------- | :----------------------------- |
+| dequeue()   | throws Exception | ()                         |
 | isEmpty()   | true         | ()                             |
 | enqueue(9)  |              | (9)                            |
 | enqueue(7)  |              | (9, 7)                         |
@@ -70,6 +80,10 @@ layout: two-cols
 | enqueue(3)  |              | (9, 7, 3)                      |
 | enqueue(5)  |              | (9, 7, 3, 5)                   |
 | dequeue()   | 9            | (7, 3, 5)                      |
+
+
+</Transform>
+
 
 ---
 
@@ -191,7 +205,7 @@ Removes and returns the element from the front.
 ```text
 Algorithm dequeue():
   if isEmpty() then
-    return null // Or throw an exception, depending on design
+    throw EmptyQueueException() // Or a similar exception
   else
     o = Q[f] // Get the element at the front index
     f = (f + 1) % N // Move front index forward (circularly)
@@ -230,13 +244,13 @@ public interface Queue<E> {
   boolean isEmpty();
 
   /** Returns, but does not remove, the element at the front of the queue. */
-  E first(); // Returns null if empty
+  E first() throws EmptyQueueException;
 
   /** Inserts an element at the rear of the queue. */
   void enqueue(E e);
 
   /** Removes and returns the element at the front of the queue. */
-  E dequeue(); // Returns null if empty
+  E dequeue() throws EmptyQueueException;
 }
 ```
 
@@ -295,13 +309,13 @@ public void enqueue(E e) throws IllegalStateException {
 
 @Override
 public E first() {
-    if (isEmpty()) return null;
+    if (isEmpty()) throw new EmptyQueueException();
     return data[f];
 }
 
 @Override
 public E dequeue() {
-    if (isEmpty()) return null;
+    if (isEmpty()) throw new EmptyQueueException();
     E answer = data[f];
     data[f] = null; // Help garbage collection
     f = (f + 1) % data.length; // Move front index circularly
@@ -314,17 +328,111 @@ public E dequeue() {
 
 ---
 
-## Comparison with `java.util.Queue`
+## Linked-List-Based Queue Implementation
 
-Java's standard library also provides a `java.util.Queue` interface. It has similar concepts but often different method names and behaviors (especially regarding error handling - often throwing exceptions instead of returning null/false).
+*   A queue can also be implemented using a **singly linked list**.
+*   This approach avoids the fixed-size limitation of an array-based queue.
+*   We need to keep track of both the `front` (head) and `rear` (tail) of the list to achieve constant-time `enqueue` and `dequeue` operations.
 
-| Our `Queue<E>` Method | `java.util.Queue<E>` Method (Throws Exception) | `java.util.Queue<E>` Method (Returns Special Value) |
-| :-------------------- | :--------------------------------------------- | :-------------------------------------------------- |
-| `enqueue(e)`          | `add(e)`                                       | `offer(e)` (returns false if full)                  |
-| `dequeue()`           | `remove()`                                     | `poll()` (returns null if empty)                    |
-| `first()`             | `element()`                                    | `peek()` (returns null if empty)                    |
-| `size()`              | `size()`                                       | `size()`                                            |
-| `isEmpty()`           | `isEmpty()`                                    | `isEmpty()`                                         |
+**Operations:**
+*   `enqueue(e)`: Adds a new element to the `rear` of the list (`addLast`).
+*   `dequeue()`: Removes an element from the `front` of the list (`removeFirst`).
+
+---
+
+
+## Linked-List-Based Queue
+
+*   We maintain two references: `front` (points to the first node) and `rear` (points to the last node).
+*   `enqueue(e)`: Create a new node. Set the `next` of the current `rear` to the new node, and then update `rear` to be the new node.
+*   `dequeue()`: Remove the `front` node and update `front` to be the next node in the list.
+
+
+```mermaid
+graph TD
+    subgraph "Linked Queue"
+        direction LR
+        Front(("front")) --> A["Node A"]
+        A -- "next" --> B["Node B"]
+        B -- "next" --> C["Node C"]
+        C -- "next" --> Null["null"]
+        Rear(("rear")) --> C
+    end
+```
+
+---
+
+## LinkedQueue Implementation (Java)
+
+```java {*}{maxHeight:'430px'}
+public class LinkedQueue<E> implements Queue<E> {
+
+    private static class Node<E> {
+        private E element;
+        private Node<E> next;
+        public Node(E e, Node<E> n) {
+            element = e;
+            next = n;
+        }
+        public E getElement() { return element; }
+        public Node<E> getNext() { return next; }
+    }
+
+    private Node<E> front = null;
+    private Node<E> rear = null;
+    private int size = 0;
+
+    public LinkedQueue() { }
+
+    @Override
+    public int size() { return size; }
+
+    @Override
+    public boolean isEmpty() { return size == 0; }
+
+    @Override
+    public void enqueue(E e) {
+        Node<E> newest = new Node<>(e, null);
+        if (isEmpty()) {
+            front = newest;
+        } else {
+            rear.next = newest;
+        }
+        rear = newest;
+        size++;
+    }
+
+    @Override
+    public E first() {
+        if (isEmpty()) throw new EmptyQueueException();
+        return front.getElement();
+    }
+
+    @Override
+    public E dequeue() {
+        if (isEmpty()) throw new EmptyQueueException();
+        E answer = front.getElement();
+        front = front.getNext();
+        size--;
+        if (isEmpty()) {
+            rear = null;
+        }
+        return answer;
+    }
+}
+```
+
+---
+
+## Linked-List Queue: Performance
+
+*   **Performance:**
+    *   Space complexity: $O(n)$, where $n$ is the number of elements.
+    *   Time complexity: $O(1)$ for all operations (`enqueue`, `dequeue`, `first`, `size`, `isEmpty`).
+*   **Advantages:**
+    *   No capacity limitations, unlike the array-based implementation.
+    *   Efficient use of memory, as nodes are created only when needed.
+
 
 ---
 
@@ -338,4 +446,56 @@ Java's standard library also provides a `java.util.Queue` interface. It has simi
     3.  `Q.enqueue(e)` (Put the process back at the end of the queue).
 * Repeat these steps.
 
-(Diagram showing a queue feeding into a shared service and elements being enqueued back after service)
+```mermaid {scale:0.8}
+graph TD
+    subgraph "Round Robin Scheduler"
+        direction LR
+        Q["Queue (FIFO)"]
+        CPU["CPU Service"]
+
+        Q -- "1.Dequeue Process" --> CPU
+        CPU -- "2.Run for Time Slice" --> Serviced{"
+           Process
+          (serviced)
+        "}
+        Serviced -- "3.Enqueue back" --> Q
+    end
+```
+
+---
+
+## Application: Breadth-First Search (BFS)
+
+*   **BFS** is a fundamental graph traversal algorithm that explores a graph layer by layer.
+*   It starts at a source node and explores all its immediate neighbors before moving on to the next level of neighbors.
+*   A queue is the perfect data structure to manage the "frontier" of nodes to be visited in the correct order.
+
+**Algorithm:**
+1.  Initialize a queue and add the starting node `s`.
+2.  Mark `s` as visited.
+3.  While the queue is not empty:
+    a.  Dequeue a node `u`.
+    b.  For each unvisited neighbor `v` of `u`:
+        i.  Mark `v` as visited.
+        ii. Enqueue `v`.
+
+---
+layout: two-cols
+---
+
+
+
+## Application: Data Buffering
+
+*   Queues are essential for **buffering** data between two processes that produce and consume data at different rates.
+*   **Producer:** A process that generates data and `enqueues` it (e.g., a network card receiving packets, a user typing on a keyboard).
+*   **Consumer:** A process that `dequeues` data and processes it (e.g., an application processing the packets, a text editor displaying characters).
+*   The queue acts as a temporary storage area, smoothing out variations in speed and preventing data loss.
+
+:: right ::
+
+```mermaid
+graph TD
+    Producer["Producer"] -- "enqueue(data)" --> Q[["Queue Buffer"]]
+    Q -- "dequeue()" --> Consumer["Consumer"]
+```
