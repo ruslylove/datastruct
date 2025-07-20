@@ -9,7 +9,8 @@ background: https://cover.sli.dev
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 
-# Doubly Linked Lists
+# Doubly Linked Lists & <br> Double-Ended Queues
+
 ### Algorithm and Data Structures
 ### semester 1/2025
 ### Dr. Ruslee Sutthaweekul
@@ -290,3 +291,67 @@ public class DoublyLinkedList<E> {
 
 } // End of DoublyLinkedList class
 ```
+
+---
+
+## The Deque (Double-Ended Queue) ADT
+
+*   A **Deque** (pronounced "deck") is a generalization of a queue that supports insertion and deletion at both the front and the rear.
+*   It is more versatile than both stacks and queues.
+*   **Core Operations:**
+    *   `addFirst(e)`: Adds an element to the front.
+    *   `addLast(e)`: Adds an element to the rear.
+    *   `removeFirst()`: Removes and returns the element from the front.
+    *   `removeLast()`: Removes and returns the element from the rear.
+*   **Accessor Operations:** `first()`, `last()`.
+*   **A Deque can be used as a Stack:** by using only `addFirst` and `removeFirst`.
+*   **A Deque can be used as a Queue:** by using `addLast` and `removeFirst`.
+
+---
+
+## Deque Interface in Java
+
+This interface formalizes the Deque ADT. Like our Stack and Queue, it should throw exceptions for invalid operations on an empty deque.
+
+```java
+public interface Deque<E> {
+  int size();
+  boolean isEmpty();
+  E first() throws EmptyDequeException;
+  E last() throws EmptyDequeException;
+  void addFirst(E e);
+  void addLast(E e);
+  E removeFirst() throws EmptyDequeException;
+  E removeLast() throws EmptyDequeException;
+}
+```
+
+---
+
+## Implementing a Deque with a Doubly Linked List
+
+A doubly linked list is the perfect data structure for implementing a Deque. The sentinel nodes make insertions and deletions at both ends highly efficient.
+
+| Deque Method    | DoublyLinkedList Method | Complexity |
+| :-------------- | :---------------------- | :--------- |
+| `addFirst(e)`   | `addFirst(e)`           | $O(1)$     |
+| `addLast(e)`    | `addLast(e)`            | $O(1)$     |
+| `removeFirst()` | `removeFirst()`         | $O(1)$     |
+| `removeLast()`  | `removeLast()`          | $O(1)$     |
+| `first()`       | `first()`               | $O(1)$     |
+| `last()`        | `last()`                | $O(1)$     |
+
+*All core Deque operations can be implemented in constant time.*
+
+---
+
+## Summary: Doubly Linked Lists & Deques
+
+*   **Doubly Linked List:**
+    *   Nodes have `next` and `prev` pointers, allowing for bidirectional traversal.
+    *   **Sentinels** (header and trailer) are used to simplify code and eliminate special cases for insertions/deletions at the ends.
+    *   All insertions and deletions at either end, or next to a known node, are $O(1)$.
+*   **Deque (Double-Ended Queue):**
+    *   A versatile ADT supporting $O(1)$ insertion and deletion at both front and rear.
+    *   Can be used to implement both Stacks and Queues.
+    *   A **doubly linked list** provides a natural and highly efficient implementation for the Deque ADT.
