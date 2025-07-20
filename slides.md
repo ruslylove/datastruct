@@ -81,6 +81,10 @@ src: ./lectures/lect-6-Queues.md
 src: ./lectures/lect-4-Doubly-Linked-List.md
 ---
 ---
+src: ./lectures/lect-6-Queues-DEQ.md
+---
+
+---
 src: ./lectures/lect-7-Lists.md
 ---
 ---

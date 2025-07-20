@@ -57,6 +57,19 @@ public class SinglyLinkedList<E> {
         return current.getElement();
     } 
 
+    public E removeFirst() {
+        if (isEmpty()) {
+            return null; // Or throw NoSuchElementException
+        }
+        E element = head.getElement();
+        head = head.getNext();
+        size--;
+        if (isEmpty()) {
+            tail = null; // Special case: list becomes empty
+        }
+        return element;
+    }
+
     private static class Node<E> {
         private E element;
         private Node<E> next;

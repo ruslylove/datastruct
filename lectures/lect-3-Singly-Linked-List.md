@@ -1020,6 +1020,9 @@ SinglyLinkedList o-- Node : contains
 </div>
 
 ---
+routeAlias: remove_tail
+---
+
 
 ## Removing from the Tail
 

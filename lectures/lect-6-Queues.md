@@ -23,11 +23,7 @@ hideInToc: false
 
 ---
 
-
-
 ## The Queue Abstract Data Type (ADT)
-
-
 
 * A **Queue** stores a collection of arbitrary objects. It follows a **First-In, First-Out (FIFO)** principle. Insertions happen at the **rear** (end), and removals occur at the **front**.
 * **Core Operations:**
@@ -45,14 +41,16 @@ hideInToc: false
 </div>
 
 ---
-layout: two-cols
+layout: two-cols-header
 ---
 
 ## Queue Operation Example
 
+:: left ::
+
 <Transform :scale="0.9">
 
-| Method Call | Return Value | Queue Contents (Front to Rear) |
+| **Method Call** | **Return Value** | **Queue Contents (Front to Rear)** |
 | :---------- | :----------- | :----------------------------- |
 | enqueue(5)  |              | (5)                            |
 | enqueue(3)  |              | (5, 3)                         |
@@ -61,18 +59,16 @@ layout: two-cols
 | dequeue()   | 3            | (7)                            |
 | first()     | 7            | (7)                            |
 | dequeue()   | 7            | ()                             |
+| dequeue()   | throws Exception | ()                         |
 
 </Transform>
-
 
 :: right ::
 
 <Transform :scale="0.9">
 
-
-| Method Call | Return Value | Queue Contents (Front to Rear) |
+| **Method Call** | **Return Value** | **Queue Contents (Front to Rear)** |
 | :---------- | :----------- | :----------------------------- |
-| dequeue()   | throws Exception | ()                         |
 | isEmpty()   | true         | ()                             |
 | enqueue(9)  |              | (9)                            |
 | enqueue(7)  |              | (9, 7)                         |
@@ -125,6 +121,7 @@ graph TD
 
 ---
 layout: two-cols
+hide: true
 ---
 
 ## Array-Based Queue: Basic Operations
@@ -180,7 +177,7 @@ Algorithm enqueue(o):
 
 :: right ::
 
-
+<div style="position:fixed;right:100px">
 
 ```mermaid {scale:0.8}
 graph TD
@@ -192,6 +189,8 @@ graph TD
     r["r"] --> D
     r -. "new r" .-> E
 ```
+
+</div>
 
 ---
 layout: two-cols
@@ -218,6 +217,7 @@ Algorithm dequeue():
 
 :: right ::
 
+<div style="position:fixed;right:100px">
 ```mermaid {scale:0.7}
 graph TD
     subgraph "Array Q"
@@ -228,6 +228,7 @@ graph TD
     f -. "new f" .-> C
     r["r"] --> E
 ```
+</div>
 
 ---
 
@@ -328,110 +329,92 @@ public E dequeue() {
 
 ---
 
-## Linked-List-Based Queue Implementation
+## Array-Based Queue: Performance & Limits
 
-*   A queue can also be implemented using a **singly linked list**.
-*   This approach avoids the fixed-size limitation of an array-based queue.
-*   We need to keep track of both the `front` (head) and `rear` (tail) of the list to achieve constant-time `enqueue` and `dequeue` operations.
+*   **Performance:**
+    *   Space complexity: $O(n)$, where $n$ is the fixed capacity of the array.
+    *   Time complexity: $O(1)$ for all operations (`enqueue`, `dequeue`, `first`, `size`, `isEmpty`).
 
-**Operations:**
-*   `enqueue(e)`: Adds a new element to the `rear` of the list (`addLast`).
-*   `dequeue()`: Removes an element from the `front` of the list (`removeFirst`).
+*   **Limitations:**
+    *   **Fixed Capacity:** The most significant limitation is that the queue has a fixed maximum capacity. If the queue becomes full, `enqueue` operations will fail (e.g., throw an `IllegalStateException`). This requires pre-determining the maximum size, which can be inefficient if usage patterns vary widely.
+    *   **Potential for Wasted Space:** If the allocated array size is much larger than the average number of elements stored, memory is wasted.
+    *   **No Dynamic Resizing (typically):** While it's theoretically possible to implement resizing for a circular array, it adds significant complexity and overhead (copying elements to a new, larger array), which often negates the simplicity and efficiency benefits of an array-based approach.
+
+---
+layout: two-cols-header
+---
+
+## Linked-Based Queue Implementation
+:: left ::
+A `LinkedQueue` can be created by adapting the `SinglyLinkedList` class.
+
+
+The **adapter pattern** modifies an existing class so its methods match those of a related, but different, interface.
+
+- We define a new class that contains an instance of the existing class as a hidden field.
+- We then implement the methods of the new class by calling methods on the hidden instance.
+
+For our `LinkedQueue`, `enqueue` operations will add to the "rear" (or tail) of the linked list, and `dequeue` operations will remove from the "front" (or head) of the linked list. Both operations are done in constant time.
+
+:: right ::
+
+| **Queue Method** | **SinglyLinkedList Method** |
+|---|---|
+| `enqueue(e)` | `list.addLast(e)` |
+| `dequeue()` | `list.removeFirst()` |
+| `first()` | `list.get(0)` |
+| `size()` | `list.size()` |
+| `isEmpty()` | `list.isEmpty()` |
 
 ---
 
+## LinkedQueue Implementation (Java) - Adapter Pattern
 
-## Linked-List-Based Queue
+This implementation uses the Adapter pattern, leveraging the `SinglyLinkedList` class to provide queue functionality.
 
-*   We maintain two references: `front` (points to the first node) and `rear` (points to the last node).
-*   `enqueue(e)`: Create a new node. Set the `next` of the current `rear` to the new node, and then update `rear` to be the new node.
-*   `dequeue()`: Remove the `front` node and update `front` to be the next node in the list.
-
-
-```mermaid
-graph TD
-    subgraph "Linked Queue"
-        direction LR
-        Front(("front")) --> A["Node A"]
-        A -- "next" --> B["Node B"]
-        B -- "next" --> C["Node C"]
-        C -- "next" --> Null["null"]
-        Rear(("rear")) --> C
-    end
-```
-
----
-
-## LinkedQueue Implementation (Java)
-
-```java {*}{maxHeight:'430px'}
+```java {*}{maxHeight:'350px'}
 public class LinkedQueue<E> implements Queue<E> {
 
-    private static class Node<E> {
-        private E element;
-        private Node<E> next;
-        public Node(E e, Node<E> n) {
-            element = e;
-            next = n;
-        }
-        public E getElement() { return element; }
-        public Node<E> getNext() { return next; }
-    }
-
-    private Node<E> front = null;
-    private Node<E> rear = null;
-    private int size = 0;
+    private SinglyLinkedList<E> list = new SinglyLinkedList<>(); // The adaptee
 
     public LinkedQueue() { }
 
     @Override
-    public int size() { return size; }
+    public int size() { return list.size(); }
 
     @Override
-    public boolean isEmpty() { return size == 0; }
+    public boolean isEmpty() { return list.isEmpty(); }
 
     @Override
     public void enqueue(E e) {
-        Node<E> newest = new Node<>(e, null);
-        if (isEmpty()) {
-            front = newest;
-        } else {
-            rear.next = newest;
-        }
-        rear = newest;
-        size++;
+        list.addLast(e); // Enqueue corresponds to adding to the rear of the list
     }
 
     @Override
-    public E first() {
+    public E first() throws EmptyQueueException {
         if (isEmpty()) throw new EmptyQueueException();
-        return front.getElement();
+        return list.get(0); // First corresponds to getting the first element
     }
 
     @Override
-    public E dequeue() {
+    public E dequeue() throws EmptyQueueException {
         if (isEmpty()) throw new EmptyQueueException();
-        E answer = front.getElement();
-        front = front.getNext();
-        size--;
-        if (isEmpty()) {
-            rear = null;
-        }
-        return answer;
+        return list.removeFirst(); // Dequeue corresponds to removing from the front
     }
 }
 ```
 
 ---
 
-## Linked-List Queue: Performance
+## Linked-List Queue: Performance (Adapter Pattern)
 
 *   **Performance:**
-    *   Space complexity: $O(n)$, where $n$ is the number of elements.
-    *   Time complexity: $O(1)$ for all operations (`enqueue`, `dequeue`, `first`, `size`, `isEmpty`).
+    *   Space complexity: $O(n)$, where $n$ is the number of elements. Each element requires a new node object within the underlying `SinglyLinkedList`.
+    *   Time complexity: $O(1)$ for all operations (`enqueue`, `dequeue`, `first`, `size`, `isEmpty`) because they delegate to `SinglyLinkedList` methods (`addLast`, `removeFirst`, `get(0)`, `size`, `isEmpty`) which are all $O(1)$ for a singly linked list with head and tail references.
 *   **Advantages:**
     *   No capacity limitations, unlike the array-based implementation.
     *   Efficient use of memory, as nodes are created only when needed.
+    *   **Code Reusability:** Leverages an existing data structure (`SinglyLinkedList`) for implementation, promoting cleaner and more modular code.
 
 
 ---
@@ -538,11 +521,9 @@ graph TD
 *   **Core Operations:** `enqueue`, `dequeue`, `first`, `isEmpty`, `size`.
 *   **Implementations:**
     *   **Array-Based (Circular):**
-        *   **Pros:** Memory-efficient.
-        *   **Cons:** Fixed capacity.
-        *   **Performance:** $O(1)$ for all operations.
-    *   **Linked-List-Based:**
-        *   **Pros:** Dynamic capacity.
-        *   **Cons:** Requires tracking both `front` and `rear` for $O(1)$ enqueue.
+        *   **Pros:** Memory-efficient, $O(1)$ for all operations.
+        *   **Cons:** Fixed capacity, potential for wasted space, no dynamic resizing.
+    *   **Linked-List-Based (Adapter Pattern):**
+        *   **Pros:** Dynamic capacity, efficient use of memory, code reusability.
         *   **Performance:** $O(1)$ for all operations.
 *   **Key Applications:** Scheduling (Round Robin), graph traversal (BFS), data buffering, and managing requests.

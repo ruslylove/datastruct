@@ -39,10 +39,7 @@ hideInToc: false
 
 ---
 
-
 ## The Stack ADT
-
-
 
 * Operates on a **Last-In, First-Out (LIFO)** principle.
 * **Core Operations:**
@@ -55,7 +52,7 @@ hideInToc: false
 * **Error Conditions:**
     * Attempting to `pop()` or `top()` an empty stack should result in an error (typically by throwing an exception).
 
-<div style="position:fixed;right:100px;width:200px;height:200px;top:100px">
+<div style="position:fixed;right:50px;width:250px;height:250px;top:80px">
 <img src="/stack_asian.png"/>
 </div>
 
@@ -302,19 +299,6 @@ graph TD
 
 </div>
 
-
----
-
-## Array-Based Stack: Performance & Limits
-
-* **Performance:**
-    * Let $n$ be the number of elements in the stack.
-    * Space complexity: $O(n)$ - space used is proportional to the number of elements.
-    * Time complexity: $O(1)$ - each operation (push, pop, top, size, isEmpty) takes constant time on average.
-* **Limitations:**
-    * The maximum capacity of the stack must be defined when the array is created and cannot be easily changed later.
-    * Pushing onto a full stack results in an error/exception specific to the implementation.
-
 ---
 
 ## Array-Based Stack Snippet (Java)
@@ -366,150 +350,130 @@ public class ArrayStack<E> implements Stack<E> {
 
 ---
 
-## Linked-List-Based Stack Implementation
+## Array-Based Stack: Performance & Limits
 
-*   An alternative to an array-based stack is to use a **singly linked list**.
-*   The `top` of the stack is represented by the `head` of the linked list.
-*   A `push` operation corresponds to adding an element to the front of the list (`addFirst`).
-*   A `pop` operation corresponds to removing the element from the front of the list (`removeFirst`).
-*   This approach overcomes the fixed-capacity limitation of an array-based implementation.
+<Transform :scale="0.85">
+
+* **Performance:**
+    * Let $n$ be the number of elements in the stack.
+    * Space complexity: $O(n)$ - space used is proportional to the number of elements.
+    * Time complexity: $O(1)$ - each operation (push, pop, top, size, isEmpty) takes constant time on average.
+* **Limitations:**
+    * **Fixed Capacity:** The most significant limitation is that the maximum capacity of the stack is fixed at the time of its creation. This means you must pre-determine the maximum number of elements the stack will ever hold.
+    * **Potential for `IllegalStateException`:** If a `push` operation is attempted when the array is already full, it will result in an `IllegalStateException` (or similar error), preventing further insertions. This can be problematic if the exact maximum size is unknown or fluctuates.
+    * **Wasted Space:** If the allocated array capacity is much larger than the actual number of elements stored, memory is wasted.
+    * **Resizing Overhead (if implemented):** While it's possible to implement a resizing mechanism (like doubling the array size when full), this adds complexity and can lead to occasional $O(n)$ time complexity for `push` operations during resizing, although the amortized time remains $O(1)$. Without resizing, the fixed capacity is a hard limit.
+
+</Transform>
+
+
+---
+layout: two-cols-header
+---
+
+## Linked-Based Stack Implementation
+:: left ::
+A `LinkedStack` can be created by adapting the `SinglyLinkedList` class.
+
+
+The **adapter pattern** modifies an existing class so its methods match those of a related, but different, interface.
+
+- We define a new class that contains an instance of the existing class as a hidden field.
+- We then implement the methods of the new class by calling methods on the hidden instance.
+
+For our `LinkedStack`, the "top" of the stack will be the "front" (or head) of the linked list, because insertions and deletions at the front are done in constant time.
+
+:: right ::
+
+| **Stack Method** | **SinglyLinkedList Method** |
+|---|---|
+| `push(e)` | `list.addFirst(e)` |
+| `pop()` | `list.removeFirst()` |
+| `top()` | `list.first()` |
+| `size()` | `list.size()` |
+| `isEmpty()` | `list.isEmpty()` |
+
 
 ---
 
+## LinkedStack Implementation (Java) - Adapter Pattern
 
-## Linked-List-Based Stack
+This implementation uses the Adapter pattern, leveraging the `SinglyLinkedList` class to provide stack functionality.
 
-*   We only need to maintain a reference to the `head` node (which we'll call `top`) and the `size`.
-*   `push(e)`: Creates a new node for `e`, sets its `next` to the current `top`, and then updates `top` to be the new node.
-*   `pop()`: Takes the element from the `top` node, updates `top` to `top.getNext()`, and returns the element.
-
-
-```mermaid
-graph TD
-    subgraph "Linked Stack"
-        direction LR
-        Top(("top")) --> A["Node A"]
-        A -- "next" --> B["Node B"]
-        B -- "next" --> C["Node C"]
-        C -- "next" --> Null["null"]
-    end
-```
-
----
-
-## LinkedStack Implementation (Java)
-
-```java {*}{maxHeight:'430px'}
+```java {*}{maxHeight:'350px'}
 public class LinkedStack<E> implements Stack<E> {
 
-    private static class Node<E> {
-        private E element;
-        private Node<E> next;
-        public Node(E e, Node<E> n) {
-            element = e;
-            next = n;
-        }
-        public E getElement() { return element; }
-        public Node<E> getNext() { return next; }
-    }
-
-    private Node<E> top = null;
-    private int size = 0;
-
+    private SinglyLinkedList<E> list = new SinglyLinkedList<>(); // The adaptee
+    
     public LinkedStack() { }
 
     @Override
-    public int size() { return size; }
+    public int size() { return list.size(); }
 
     @Override
-    public boolean isEmpty() { return size == 0; }
+    public boolean isEmpty() { return list.isEmpty(); }
 
     @Override
     public void push(E e) {
-        top = new Node<>(e, top);
-        size++;
+        list.addFirst(e); // Push corresponds to adding to the front of the list
     }
 
     @Override
     public E top() {
         if (isEmpty()) throw new EmptyStackException();
-        return top.getElement();
+        return list.get(0); // Top corresponds to getting the first element
     }
 
     @Override
     public E pop() {
         if (isEmpty()) throw new EmptyStackException();
-        E answer = top.getElement();
-        top = top.getNext();
-        size--;
-        return answer;
+        return list.removeFirst(); // Pop corresponds to removing from the front
     }
 }
 ```
 
 ---
 
-## Linked-List Stack: Performance
+## Linked-List Stack: Performance (Adapter Pattern)
 
 *   **Performance:**
     *   Let $n$ be the number of elements in the stack.
-    *   Space complexity: $O(n)$ - each element requires a new node object.
-    *   Time complexity: $O(1)$ - all operations (`push`, `pop`, `top`, `size`, `isEmpty`) take constant time because they only involve a few pointer manipulations at the head of the list.
+    *   Space complexity: $O(n)$ - each element requires a new node object within the underlying `SinglyLinkedList`.
+    *   Time complexity: $O(1)$ - all operations (`push`, `pop`, `top`, `size`, `isEmpty`) take constant time because they delegate to `SinglyLinkedList` methods (`addFirst`, `removeFirst`, `size`, `isEmpty`, `get(0)`) which are all $O(1)$ for a singly linked list with head and tail references.
 *   **Advantages:**
     *   No fixed capacity; the stack can grow as long as memory is available.
     *   No need to worry about `IllegalStateException` for a full stack.
+    *   **Code Reusability:** Leverages an existing data structure (`SinglyLinkedList`) for implementation, promoting cleaner and more modular code.
 
 
 ---
-
-## Example Usage in Java (Generics)
-
-Stacks can be used with different data types thanks to Java Generics.
-
-```java {*}{maxHeight:'350px'}
-public class ArrayReverser {
-
-    /** Reverses the elements of an Integer array using a Stack. */
-    public static void reverse(Integer[] a) {
-        Stack<Integer> buffer = new ArrayStack<>(a.length);
-        for (int i = 0; i < a.length; i++) {
-            buffer.push(a[i]);
-        }
-        for (int i = 0; i < a.length; i++) {
-            a[i] = buffer.pop();
-        }
-    }
-
-     /** Reverses the elements of a Float array using a Stack. */
-    public static void reverse(Float[] f) {
-        Stack<Float> buffer = new ArrayStack<>(f.length);
-         for (int i = 0; i < f.length; i++) {
-            buffer.push(f[i]);
-        }
-        for (int i = 0; i < f.length; i++) {
-            f[i] = buffer.pop();
-        }
-    }
-}
-```
-
-*(Note: Provided a more complete example showing reversal)*
-
+layout: two-cols-header
 ---
 
-## Application: Parentheses Matching
+## Application: Matching Parentheses & HTML Tag
+
+<Transform :scale="0.88">
 
 * Problem: Check if delimiters like `()`, `{}`, `[]` are correctly paired and nested in a string.
-* **Examples:**
+* **Examples (Parentheses):**
     * Correct: `()(( )){([( )])}`
     * Correct: `((( )(( )){([( )])}`
     * Incorrect: `)(( )){([( )])}` (Closing parenthesis before opening)
     * Incorrect: `({[ ])}` (Mismatched types)
     * Incorrect: `(` (Unmatched opening)
 
+* **Examples (HTML Tags):**                                                                                                                                                                       
+    * Correct: `<body><p>Hello <b>World</b></p></body>`                                                                                                                                           
+    * Correct: `<outer><inner>Content</inner></outer>`                                                                                                                                            
+    * Incorrect: `<div><span></div>` (Mismatched nesting)                                                                                                                                         
+    * Incorrect: `<p>Text</p></b>` (Unopened closing tag)                                                                                                                                         
+    * Incorrect: `<a><b></c></a>` (Mismatched tags)    
+
+</Transform>
+
 ---
 
-## Parentheses Matching Algorithm (Java)
+## Parentheses Matching 
 
 Uses a stack to track opening delimiters.
 
@@ -539,42 +503,10 @@ public static boolean isMatched(String expression) {
 
 *(Note: Used ArrayStack based on previous context, LinkedStack also works)*
 
----
-
-## Parentheses Matching Algorithm (Java)
-
-Uses a stack to track opening delimiters.
-
-```java {*}{maxHeight:'360px',lines:true }
-public static boolean isMatched(String expression) {
-    final String opening = "({["; // Allowed opening delimiters
-    final String closing = ")}]"; // Corresponding closing delimiters
-    Stack<Character> buffer = new ArrayStack<>(); // Or LinkedStack
-
-    for (char c : expression.toCharArray()) {
-        if (opening.indexOf(c) != -1) { // If it's an opening delimiter...
-            buffer.push(c);             // ...push it onto the stack.
-        } else if (closing.indexOf(c) != -1) { // If it's a closing delimiter...
-            if (buffer.isEmpty()) {     // ...and stack is empty, mismatch.
-                return false;
-            }
-            // Check if the closing delimiter matches the top of the stack
-            if (closing.indexOf(c) != opening.indexOf(buffer.pop())) {
-                return false; // Mismatched delimiter type
-            }
-        }
-    }
-    // If stack is empty at the end, all delimiters were matched.
-    return buffer.isEmpty();
-}
-```
-
-
-*(Note: Used ArrayStack based on previous context, LinkedStack also works)*
 
 ---
 
-## HTML Tag Matching Algorithm (Java)
+## HTML Tag Matching 
 
 Uses a stack to keep track of opened tags.
 
@@ -655,11 +587,8 @@ Algorithm EvalExp():
 *(Note: `prec(op)` is a function returning precedence level)*
 
 ---
-layout: two-cols
----
-## Expression Evaluation Example Trace
 
-<transform scale="0.68">
+## Expression Evaluation Example Trace
 Expression: `14 – 3 * 2 + 7` (processed token by token)
 
 | Token | Action | `valStk` | `opStk` | Comment |
@@ -669,16 +598,15 @@ Expression: `14 – 3 * 2 + 7` (processed token by token)
 | 3 | push(3) | (14, 3) | (–) | Push value |
 | * | push(*) | (14, 3) | (–, *) | `prec(*)` > `prec(–)` |
 | 2 | push(2) | (14, 3, 2) | (–, *) | Push value |
+| + | `prec(+)` <= `prec(*)` -> doOp(*) | (14, 6) | (–) | Pop *, 3, 2; push 6 |
 
-</transform>
+---
 
-:: right ::
-
-<transform scale="0.65">
+## Expression Evaluation Example Trace (Cont.)
+Expression: `14 – 3 * 2 + 7` (processed token by token)
 
 | Token | Action | `valStk` | `opStk` | Comment |
 |:---|:---|:---|:---|:---|
-| + | `prec(+)` <= `prec(*)` -> doOp(*) | (14, 6) | (–) | Pop *, 3, 2; push 6 |
 | | `prec(+)` <= `prec(–)` -> doOp(–) | (8) | () | Pop –, 6, 14; push 8 |
 | | push(+) | (8) | (+) | Now push + |
 | 7 | push(7) | (8, 7) | (+) | Push value |
@@ -687,7 +615,6 @@ Expression: `14 – 3 * 2 + 7` (processed token by token)
 
 *(Note: Simplified trace, actual precedence check might vary slightly)*
 
-</transform>
 
 
 ---
@@ -784,7 +711,7 @@ Algorithm spans2(X):
         *   **Pros:** Simple, memory-efficient.
         *   **Cons:** Fixed capacity.
         *   **Performance:** $O(1)$ for all operations.
-    *   **Linked-List-Based:**
+    *   **Linked-Based:**
         *   **Pros:** Dynamic capacity.
         *   **Cons:** Slightly more memory overhead per element.
         *   **Performance:** $O(1)$ for all operations.

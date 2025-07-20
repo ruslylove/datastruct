@@ -297,13 +297,16 @@ Algorithm addAtEnd(o): // Simplified add at the very end
 
 ---
 
-## Positional Lists ADT
+## Position-based Lists
 
+* A **Positional Lists ADT**
 * An extension of the List concept where we can refer to elements by their **Position**.
 * A `Position` acts like a marker or token for a specific element within the list.
 * Key Idea: A `Position` remains valid even if other elements are added/removed *around* it. It only becomes invalid if the element *at that position* is explicitly removed.
 * **Position Object Method:**
     * `p.getElement()`: Returns the element stored at position `p`.
+
+
 
 ---
 
