@@ -117,3 +117,6 @@ src: ./lectures/lect-16-Graph.md
 ---
 src: ./lectures/lect-17-Shortest-path.md
 ---
+---
+src: ./lectures/class-diagram.md
+---
