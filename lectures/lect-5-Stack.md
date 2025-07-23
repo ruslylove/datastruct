@@ -25,17 +25,72 @@ hideInToc: false
 
 ---
 
-## Abstract Data Types (ADTs)
+## Abstract Data Types (ADTs) 
 
-* An **Abstract Data Type (ADT)** is a conceptual model of a data structure.
-* It defines:
-    * What kind of data is stored.
-    * Which operations can be performed on the data.
-    * Potential error conditions related to those operations.
-* **Example (Stock Trading System):**
-    * **Data:** Buy/sell orders.
-    * **Operations:** `order buy(...)`, `order sell(...)`, `void cancel(...)`.
-    * **Errors:** Trying to buy/sell a non-existent stock, cancelling a non-existent order.
+### The "What," Not the "How"
+
+Think of an ADT as a **blueprint for a machine**. It defines **what** the machine does from the outside, completely ignoring the complex engineering inside.
+
+It's a conceptual model that specifies three key aspects:
+1.  **Data:** What kind of items or information does it manage?
+2.  **Operations:** What actions can you perform with it?
+3.  **Errors:** What can go wrong during those operations?
+
+The ADT is the public-facing **interface**; the underlying implementation is kept private.
+
+---
+layout: two-cols
+---
+
+## The Vending Machine ADT
+
+A vending machine is a perfect real-world ADT. You only need to know how to use its interface, not how it works internally.
+
+*   **The "What" (The ADT Interface):**
+    *   **Data:** Holds drinks & snacks.
+    *   **Operations:** `selectItem(code)`, `insertMoney(amount)`.
+    *   **Errors:** "Item Sold Out," "Insufficient Funds."
+
+*   **The "How" (The Hidden Implementation):**
+    *   The complex system of coils, payment validators, and inventory logic that makes it all work. As a user, you don't need to see or understand this part.
+
+::right::
+
+<div style="position:fixed;right:30px;width:450px;height:450px;top:20px">
+
+```mermaid {scale:0.5}
+graph TD
+    subgraph "Vending Machine as an ADT"
+        subgraph "Interface (What you see)"
+            direction LR
+            A[Buttons to select]
+            B[Slot for money]
+            C[Item dispenser]
+        end
+        subgraph "Implementation (What you don't see)"
+            direction LR
+            D{Internal Coils}
+            E{Payment Validator}
+            F{Inventory Logic}
+        end
+    end
+
+    User --> A
+    User --> B
+    C --> User
+
+    style A fill:#cde4ff,stroke:#333,stroke-width:2px
+    style B fill:#cde4ff,stroke:#333,stroke-width:2px
+    style C fill:#cde4ff,stroke:#333,stroke-width:2px
+    style D fill:#f9f9f9,stroke:#999,stroke-width:1px,stroke-dasharray: 5 5
+    style E fill:#f9f9f9,stroke:#999,stroke-width:1px,stroke-dasharray: 5 5
+    style F fill:#f9f9f9,stroke:#999,stroke-width:1px,stroke-dasharray: 5 5
+```
+</div>
+
+<div style="position:fixed;bottom:20px;right:30px;width:200;width:200px">
+<img src="/vending_17852845.png"/>
+</div>
 
 ---
 
@@ -176,7 +231,7 @@ layout: two-cols
 ---
 
 
-## The JVM Method Stack
+## Application: The JVM Method Stack
 
 * The Java Virtual Machine (JVM) uses a stack to manage active method calls.
 * When a method is invoked:
@@ -505,6 +560,51 @@ public static boolean isMatched(String expression) {
 
 
 ---
+layout: two-cols-header
+---
+
+## Visualizing Parentheses Matching
+
+:: left ::
+<Transform scale="0.92">
+
+Let's trace the expression: `({[]})`
+
+| Character | Action | Stack (Bottom -> Top) |
+| :--- | :--- | :--- |
+| `(` | Push `(` | `(` |
+| `{` | Push `{` | `(`, `{` |
+| `[` | Push `[` | `(`, `{`, `[` |
+| `]` | Pop `[`. Matches. | `(`, `{` |
+| `}` | Pop `{`. Matches. | `(` |
+| `)` | Pop `(`. Matches. | (empty) |
+
+
+
+**Final Check:** The stack is empty. The string is **matched**.
+
+</Transform>
+
+
+::right::
+<Transform scale="0.92">
+
+Another Example: `({[}])`
+
+| Character | Action | Stack (Bottom -> Top) |
+| :--- | :--- | :--- |
+| `(` | Push `(` | `(` |
+| `{` | Push `{` | `(`, `{` |
+| `[` | Push `[` | `(`, `{`, `[` |
+| `}` | Pop `[`. **Mismatch!** `}` != `[` | `(`, `{` |
+
+
+
+**Result:** The expression is **not matched**. The moment `pop()` returns a value that doesn't correspond to the current closing delimiter, the algorithm stops and returns `false`.
+
+</Transform>
+
+---
 
 ## HTML Tag Matching 
 
@@ -699,6 +799,28 @@ Algorithm spans2(X):
 * Each index is popped from the stack at most once.
 * The total time spent in the `while` loop across all iterations of the `for` loop is proportional to `n`.
 * Therefore, the overall time complexity is **$O(n)$**.
+
+---
+
+## Visualizing The Span Algorithm
+
+<Transform :scale="0.77">
+
+
+Let's trace the algorithm with `X = [6, 3, 4, 5, 2]`. The stack stores *indices*.
+
+| i | X[i] | Stack (before loop) | `while(X[stack.top()] <= X[i])` | Stack (after loop) | Span `S[i]` Calculation | `S[i]` |
+|:-:|:----:|:-------------------:|:--------------------------------|:------------------:|:--------------------------|:------:|
+| 0 | 6 | `[]` | Loop doesn't run | `[]` | `isEmpty()` -> `0 + 1` | **1** |
+| 1 | 3 | `[0]` | `X[0]<=X[1]` (6<=3) is false | `[0]` | `1 - top()` -> `1 - 0` | **1** |
+| 2 | 4 | `[0, 1]` | `X[1]<=X[2]` (3<=4) is true -> pop 1 | `[0]` | `2 - top()` -> `2 - 0` | **2** |
+| 3 | 5 | `[0, 2]` | `X[2]<=X[3]` (4<=5) is true -> pop 2 | `[0]` | `3 - top()` -> `3 - 0` | **3** |
+| 4 | 2 | `[0, 3]` | `X[3]<=X[4]` (5<=2) is false | `[0, 3]` | `4 - top()` -> `4 - 3` | **1** |
+
+After each step, `i` is pushed onto the stack. The final stack would be `[0, 3, 4]`.
+
+</Transform>
+
 
 ---
 
