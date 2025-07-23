@@ -25,7 +25,7 @@ A **class diagram** specifically shows:
 
 ## The Class Box 📦
 
-A class is represented by a rectangle with three compartments stacked vertically. [cite: 78]
+A class is represented by a rectangle with three compartments stacked vertically.
 
 | Compartment | Content | Example |
 |---|---|---|
@@ -131,8 +131,8 @@ class BoxedItem implements Sellable, Transportable {
   - price: int
 }
 
-BoxedItem .u.|> Sellable
-BoxedItem .u.|> Transportable
+'BoxedItem .u.|> Sellable
+'BoxedItem .u.|> Transportable
 @enduml
 ```
 
