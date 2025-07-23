@@ -165,6 +165,8 @@ LinkedStack *-- "1" SinglyLinkedList
 ```
 
 ---
+layout: two-cols
+---
 
 ## Summary of Relationships
 
@@ -173,3 +175,54 @@ LinkedStack *-- "1" SinglyLinkedList
 | **Inheritance** | "is-a" | Hollow Triangle | Solid |
 | **Implementation**| "implements" | Hollow Triangle | Dashed |
 | **Composition** | "has-a" / "part-of" | Filled Diamond | Solid |
+
+
+
+Here is a diagram that combines all the relationship types we've discussed.
+
+:: right ::
+
+<Transform :scale="0.85">
+
+*   **Inheritance:** `Car` is a type of `Vehicle`.
+*   **Implementation:** `Car` implements the `Drivable` interface.
+*   **Composition:** `Car` has an `Engine` (represented by the `engine` attribute).
+
+
+
+```plantuml 
+@startuml
+skinparam classAttributeIconSize 0
+
+' Interface for behavior
+interface Drivable <<interface>> {
+  + drive()
+}
+
+' A component class
+class Engine {
+  - horsepower: int
+  + start()
+}
+
+' A general base class
+class Vehicle {
+  # speed: double
+}
+
+' A concrete class showing all relationships
+' 1. Extends Vehicle (Inheritance)
+' 2. Implements Drivable (Implementation)
+' 3. Has an Engine (Composition)
+class Car extends Vehicle implements Drivable {
+  - model: String
+  - engine: Engine
+  + drive()
+}
+
+' Composition: A Car "has-a" Engine.
+Car *-- "1" Engine
+@enduml
+```
+
+</Transform>
