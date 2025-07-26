@@ -363,7 +363,33 @@ Algorithm addAtEnd(o): // Simplified add at the very end
     * A `next` link.
 * Using `header` and `trailer` sentinel nodes simplifies edge cases (operations at the beginning/end).
 
-(Diagram showing header/trailer sentinels and nodes with prev/next links representing positions)
+```mermaid {scale:0.7}
+graph LR
+    subgraph Sentinels
+        Header(header)
+        Trailer(trailer)
+        style Header fill:#eee,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5
+        style Trailer fill:#eee,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5
+    end
+
+    subgraph "Nodes (Positions)"
+        NodeA("elem: A")
+        NodeB("elem: B")
+        NodeC("elem: C")
+    end
+
+    Header -- "next" --> NodeA
+    NodeA -- "prev" --> Header
+
+    NodeA -- "next" --> NodeB
+    NodeB -- "prev" --> NodeA
+
+    NodeB -- "next" --> NodeC
+    NodeC -- "prev" --> NodeB
+
+    NodeC -- "next" --> Trailer
+    Trailer -- "prev" --> NodeC
+```
 
 ---
 
@@ -374,7 +400,33 @@ To insert a new node `q` (representing the new position) between existing nodes 
 1.  Link `q` forward: `q.prev = p`, `q.next = p.next`.
 2.  Link neighbours to `q`: `p.next.prev = q`, `p.next = q`.
 
-(Diagram showing the 4 link updates for insertion)
+<div style="position:fixed;right:30px;top:120px">
+
+
+```mermaid {scale:0.9}
+graph TD
+
+    subgraph "The 4 Link Updates"
+        p1("p")
+        s1("s")
+        q1("q")
+
+        p1 -.-> s1
+        
+
+        q1 -- "1 [q.prev = p]" --> p1
+        q1 -- "2 [q.next = s]" --> s1
+        p1 -- "3 [p.next = q]" --> q1
+        s1 -- "4 [s.prev = q]" --> q1
+
+        s1 -.-> p1
+  
+
+    end
+
+```
+
+</div>
 
 ---
 
@@ -386,7 +438,30 @@ To remove the node `p`:
 2.  Bypass `p`: `p.next.prev = p.prev`.
 3.  Node `p` is now unlinked and its element can be returned. The `Position` represented by `p` is now invalid.
 
-(Diagram showing the 2 link updates for deletion)
+```mermaid
+graph TD
+
+
+    subgraph "Link Updates"
+        direction LR
+        pred1("pred")
+        p1("p")
+        succ1("succ")
+
+        pred1 -.-> p1
+        p1 -.-> succ1
+
+        pred1 -- "1.[pred.next = succ]" --> succ1
+        p1 -.-> succ1
+        p1 -.-> pred1
+        succ1 -- "2.[succ.prev = pred]" --> pred1
+
+        
+
+
+        
+    end
+```
 
 ---
 
@@ -394,6 +469,27 @@ To remove the node `p`:
 
 * An **Iterator** is a design pattern providing a standard way to traverse through the elements of a collection sequentially, one by one.
 * It abstracts the underlying structure (array, linked list, etc.) from the traversal logic.
+
+```mermaid {scale:0.65}
+graph LR
+    subgraph Collection
+        A[Element 1] --> B[Element 2]
+        B --> C[Element 3]
+        C --> D[...]
+    end
+
+    Iterator(Iterator) -- "requests next element" --> Collection
+    Collection -- "returns element" --> Iterator
+    Iterator -- "hasNext()" --> Collection
+    Collection -- "true/false" --> Iterator
+
+    style Collection fill:#f9f,stroke:#333,stroke-width:2px
+    style Iterator fill:#ccf,stroke:#333,stroke-width:2px
+
+    Iterator -- "provides elements to" --> UserCode
+```
+
+
 
 ---
 
@@ -416,6 +512,62 @@ The object returned by `iterator()` implements the `Iterator<E>` interface:
 * `next()`: Returns the next element in the sequence and advances the iterator's position. Throws `NoSuchElementException` if called when `hasNext()` is false.
 * `remove()` (Optional): Removes the element most recently returned by `next()` from the underlying collection. Not always supported.
 
+---
+
+## Implementing an Iterator
+
+To implement an `Iterator` for a custom collection, you typically need:
+
+1.  **An inner class:** This class will implement the `java.util.Iterator` interface.
+2.  **State variables:** The inner class needs to keep track of the current position in the collection.
+3.  **`hasNext()` method:** Checks if there are more elements to iterate over.
+4.  **`next()` method:** Returns the next element and advances the iterator.
+5.  **`remove()` method (optional):** Implements removal of the last element returned by `next()`.
+
+```java {*}{maxHeight:'220px',lines:true}
+// Example: Basic Iterator for a simple array-based list
+public class MyArrayList<E> implements Iterable<E> {
+    private E[] data;
+    private int size;
+
+    // ... constructor and other list methods ...
+
+    @Override
+    public Iterator<E> iterator() {
+        return new MyArrayIterator();
+    }
+
+    private class MyArrayIterator implements Iterator<E> {
+        private int j = 0; // current position
+        private boolean removable = false; // can remove be called?
+
+        @Override
+        public boolean hasNext() {
+            return j < size;
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if (!hasNext()) throw new NoSuchElementException("No such element");
+            removable = true;
+            return data[j++]; // return element and then advance
+        }
+
+        @Override
+        public void remove() throws IllegalStateException {
+            if (!removable) throw new IllegalStateException("Nothing to remove");
+            // Shift elements to fill the gap
+            for (int k = j - 1; k < size - 1; k++) {
+                data[k] = data[k + 1];
+            }
+            data[size - 1] = null; // Help garbage collection
+            size--;
+            j--; // Adjust current position due to shift
+            removable = false;
+        }
+    }
+}
+```
 ---
 
 ## Using an Iterator
