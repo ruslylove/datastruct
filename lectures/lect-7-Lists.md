@@ -502,6 +502,14 @@ graph LR
 * Standard collections like `ArrayList`, `LinkedList` implement `Iterable`.
 * Calling `iterator()` typically returns a *new* iterator instance each time, allowing multiple independent traversals.
 
+```plantuml
+@startuml
+interface Iterable<E> {
+    + Iterator<E> iterator()
+}
+@enduml
+```
+
 ---
 
 ## The `java.util.Iterator` Interface
@@ -512,6 +520,18 @@ The object returned by `iterator()` implements the `Iterator<E>` interface:
 * `next()`: Returns the next element in the sequence and advances the iterator's position. Throws `NoSuchElementException` if called when `hasNext()` is false.
 * `remove()` (Optional): Removes the element most recently returned by `next()` from the underlying collection. Not always supported.
 
+```plantuml
+@startuml
+interface Iterator<E> {
+    + boolean hasNext()
+    + E next()
+    + void remove()
+}
+@enduml
+```
+
+---
+layout: two-cols
 ---
 
 ## Implementing an Iterator
@@ -524,7 +544,69 @@ To implement an `Iterator` for a custom collection, you typically need:
 4.  **`next()` method:** Returns the next element and advances the iterator.
 5.  **`remove()` method (optional):** Implements removal of the last element returned by `next()`.
 
-```java {*}{maxHeight:'220px',lines:true}
+:: right ::
+
+
+```plantuml
+
+@startuml
+' Hides the default attribute icon for a cleaner look
+skinparam classAttributeIconSize 0
+
+' Define the standard Java interfaces for context
+interface Iterable<E> {
+  + iterator(): Iterator<E>
+}
+
+interface Iterator<E> {
+  + hasNext(): boolean
+  + next(): E
+  + remove(): void
+}
+
+' Define the main MyArrayList class
+class MyArrayList<E> {
+  - data: E[]
+  - size: int
+  --
+  ' ... constructor and other list methods ...
+  + iterator(): Iterator<E>
+}
+
+' Define the private inner iterator class
+class MyArrayIterator {
+  - j: int
+  - removable: boolean
+  --
+  + hasNext(): boolean
+  + next(): E
+  + remove(): void
+}
+
+' --- Relationships ---
+
+' MyArrayList implements the Iterable interface
+MyArrayList .u.|> Iterable
+
+' MyArrayIterator implements the Iterator interface
+MyArrayIterator .u.|> Iterator
+
+' MyArrayList contains MyArrayIterator as a nested class.
+' The '+' indicates a nested relationship.
+MyArrayList +-- MyArrayIterator
+
+' The iterator() method in MyArrayList creates an instance of MyArrayIterator.
+' This is a dependency relationship.
+MyArrayList ..> MyArrayIterator : "creates"
+
+@enduml
+```
+
+---
+
+## Example: Basic Iterator for a simple array-based list
+
+```java {*}{maxHeight:'430px',lines:true}
 // Example: Basic Iterator for a simple array-based list
 public class MyArrayList<E> implements Iterable<E> {
     private E[] data;
@@ -568,9 +650,10 @@ public class MyArrayList<E> implements Iterable<E> {
     }
 }
 ```
+
 ---
 
-## Using an Iterator
+## Example: Using an Iterator
 
 ```java
 List<String> names = new ArrayList<>();
@@ -617,3 +700,29 @@ for (String currentName : names) {
 ```
 
 * This loop implicitly uses an `Iterator` behind the scenes. It's equivalent to the `while (it.hasNext())` loop structure shown previously (without the `remove` call).
+---
+layout: two-cols
+---
+
+## Summary
+
+*   **List ADT:** Basic operations and their time complexities.
+*   **Array-based List Implementation:**
+    *   Efficient `get` and `set` (O(1)).
+    *   Inefficient `add` and `remove` (O(n)) due to shifting.
+    *   Importance of **doubling strategy** for resizing to achieve amortized O(1) for `addLast`.
+*   **Positional List ADT:**
+    *   Introduced the concept of `Position` as a marker for elements.
+    *   Doubly linked lists are a natural fit for implementation.
+:: right ::
+*   **Doubly Linked List Operations:**
+    *   Efficient insertion and deletion (O(1)) by updating links.
+    *   Use of **sentinel nodes** (header/trailer) to simplify edge cases.
+*   **Iterators:**
+    *   Design pattern for sequential traversal of collections.
+    *   `Iterable` and `Iterator` interfaces in Java.
+    *   How to implement a custom iterator.
+    *   The convenience of the **for-each loop**.
+
+
+---
