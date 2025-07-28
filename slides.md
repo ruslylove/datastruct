@@ -25,6 +25,8 @@ mdc: true
 #  ogImage: https://cover.sli.dev
 addons:
   - slidev-addon-graph
+
+favicon: favicon.png
 ---
 
 # Welcome to Algorithms and Data Structures
