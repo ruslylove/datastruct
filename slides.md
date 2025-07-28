@@ -26,7 +26,7 @@ mdc: true
 addons:
   - slidev-addon-graph
 
-favicon: favicon.png
+favicon: favicon_2.png
 ---
 
 # Welcome to Algorithms and Data Structures
