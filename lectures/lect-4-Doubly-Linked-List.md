@@ -40,13 +40,13 @@ hideInToc: false
 
 <br>    
 
-<div style="margin:auto">
+<div style="margin:auto;padding-left:80px">
 
 ```mermaid {scale:0.8}
 graph LR
     
-        H((Header))
-        T((Trailer))
+        H[Header]
+        T[Trailer]
         A[Node A]
         B[Node B]
         DOTS[...]
@@ -81,7 +81,8 @@ To insert a new node `q` between an existing node `p` and its successor `s`:
 3.  Set the `prev` link of `s` to point to `q`.
 4.  Set `p`'s `next` link to point to `q`.
 
-<div style="margin:auto; padding-top: 1em;">
+
+<div style="margin:auto; padding-top: 1em;padding-left:200px">
 ```mermaid
 graph LR
     P[Node p]
@@ -107,7 +108,6 @@ graph LR
 </div>
 
 
-
 ---
 
 ## Deletion in a Doubly Linked List
@@ -118,7 +118,7 @@ To remove an existing node `p`:
 2.  Set the `prev` link of `p`'s successor to point to `p`'s predecessor.
 3.  Node `p` is now bypassed and can be garbage collected.
 
-<div style="margin:auto; padding-top: 1em;">
+<div style="margin:auto; padding-top: 1em;padding-left:200px">
 ```mermaid
 graph LR
     A[Node A]
@@ -143,10 +143,15 @@ graph LR
 </div>
 
 ---
+layout: two-cols-header
+---
 
-## Doubly Linked List Node in Java
+## Doubly Linked List Node
+
+:: left ::
 
 We define the `Node` structure, typically as a private static nested class.
+
 
 ```java {*}{maxHeight:'350px'}
 /** A basic doubly linked list implementation. */
@@ -178,10 +183,59 @@ public class DoublyLinkedList<E> {
     // ... rest of DoublyLinkedList class ...
 }
 ```
+:: right ::
+
+<div style="padding-left:50px">
+
+```plantuml 
+@startuml
+' Set diagram direction and style for clarity
+top to bottom direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' Define the nested generic class for Node
+' The note explains its role as a private static nested class
+class "Node<E>" as Node {
+  - element: E
+  - prev: Node<E>
+  - next: Node<E>
+  + Node(e: E, p: Node<E>, n: Node<E>)
+  + getElement(): E
+  + getPrev(): Node<E>
+  + getNext(): Node<E>
+  + setPrev(p: Node<E>): void
+  + setNext(n: Node<E>): void
+}
+note top of Node: private static nested class
+
+@enduml
+```
+
+```mermaid
+
+graph TD
+    subgraph Single Node Structure
+        direction LR
+        
+        %% Define the node with three compartments for prev, element, and next
+        Node["<prev> prev | <element> element: E | <next> next"]
+        
+    end
+
+    %% Style the main node to make it stand out
+    style Node fill:#E6E6FA,stroke:#333,stroke-width:2px
+
+```
+
+</div>
+
+
+
 
 ---
 
-## Doubly Linked List Class Structure (Java)
+## Doubly Linked List Class Structure
 
 The main class manages the list using sentinel nodes.
 
@@ -225,7 +279,7 @@ public class DoublyLinkedList<E> {
 
 ---
 
-## Public Update Methods (Java)
+## Public Update Methods
 
 These methods provide the primary interface for adding/removing elements. They often utilize private helper methods.
 
@@ -261,7 +315,7 @@ public class DoublyLinkedList<E> {
 
 ---
 
-## Private Helper Methods (Java)
+## Private Helper Methods
 
 These internal methods handle the core logic of linking and unlinking nodes.
 
@@ -298,3 +352,40 @@ public class DoublyLinkedList<E> {
 *   Nodes have `next` and `prev` pointers, allowing for bidirectional traversal.
 *   **Sentinels** (header and trailer) are used to simplify code and eliminate special cases for insertions/deletions at the ends.
 *   All insertions and deletions at either end, or next to a known node, are $O(1)$.
+
+<br>
+<br>
+<br>
+
+
+```mermaid
+
+graph LR
+        
+        %% Define Nodes
+
+        Header(Header)
+        Trailer(Trailer)
+        NodeA["element: A"]
+        NodeB["element: B"]
+        NodeC["element: C"]
+
+        %% Forward Links (next pointers)
+        Header -- next --> NodeA
+        NodeA  -- next --> NodeB
+        NodeB  -- next --> NodeC
+        NodeC  -- next --> Trailer
+        
+
+
+        %% Backward Links (prev pointers)
+        Trailer -- prev --> NodeC
+        NodeC   -- prev --> NodeB
+        NodeB   -- prev --> NodeA
+        NodeA   -- prev --> Header
+
+
+    %% Style the sentinel nodes to distinguish them
+    style Header fill:#E6E6FA,stroke:#8A2BE2,stroke-width:2px
+    style Trailer fill:#E6E6FA,stroke:#8A2BE2,stroke-width:2px
+```

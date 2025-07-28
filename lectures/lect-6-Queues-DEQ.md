@@ -105,13 +105,13 @@ layout: two-cols-header
 graph TD
     subgraph "Doubly Linked List Deque"
         direction LR
-        Header(("Header")) <--> A["Node A"]
+        Header["Header"] <--> A["Node A"]
         A <--> B["Node B"]
         B <--> C["Node C"]
-        C <--> Trailer(("Trailer"))
+        C <--> Trailer["Trailer"]
 
-        Front["front"] --> A
-        Rear["rear"] --> C
+        Front(("front")) --> A
+        Rear(("rear")) --> C
     end
 ```
 :: right ::
@@ -151,6 +151,8 @@ public interface Deque<E> {
 *   This is highly efficient and avoids the fixed-capacity issue of an array-based implementation.
 
 ---
+layout: two-cols
+---
 
 ## Summary: Deque
 
@@ -165,6 +167,8 @@ public interface Deque<E> {
     *   **Doubly Linked List (Ideal):**
         *   **Pros:** Dynamic capacity, highly efficient.
         *   **Performance:** $O(1)$ for all operations.
+:: right ::
+
 *   **Applications:**
     *   Implementing a "undo" history in editors.
     *   Stealing work in scheduling algorithms (work-stealing schedulers).
