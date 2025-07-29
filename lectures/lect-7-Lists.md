@@ -465,7 +465,7 @@ graph TD
 
 ---
 
-## Iterators: Concept
+## Iterators
 
 * An **Iterator** is a design pattern providing a standard way to traverse through the elements of a collection sequentially, one by one.
 * It abstracts the underlying structure (array, linked list, etc.) from the traversal logic.
@@ -489,6 +489,7 @@ graph LR
     Iterator -- "provides elements to" --> UserCode
 ```
 
+<img src="/iterator.png" style="width:300px;position:fixed;right:50px;bottom:50px" />
 
 
 ---
