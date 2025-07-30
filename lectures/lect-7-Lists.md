@@ -35,9 +35,12 @@ The standard Java `List` interface defines core operations for list structures:
 * `remove(i)`: Removes and returns the element at index `i`, shifting subsequent elements. Throws an error if `i` is out of bounds.
 
 ---
-layout: two-cols
+layout: two-cols-header
 ---
+
 ## List Operation Example
+
+:: left ::
 
 | Method Call | Return Value | List Contents |
 | :---------- | :----------- | :------------ |
@@ -235,105 +238,178 @@ For a standard array-based list implementation:
 
 
 ---
+layout: two-cols-header
+---
 
-## Growable Array Lists
+## Growable Array Lists & Resizing Analysis
 
-* What happens when `add` is called on a full array? We can resize!
-* **Goal:** Replace the current array with a larger one and copy elements.
-* **Strategies for New Size:**
-    1.  **Incremental:** Increase size by a fixed constant `c`.
-    2.  **Doubling:** Double the current size.
+::left::
 
+When an `add` operation is called on a full array-backed list, we can **resize** it by creating a larger array and copying the elements over.
+
+#### Resizing Algorithm (for `addAtEnd`)
 ```text
-Algorithm addAtEnd(o): // Simplified add at the very end
-  if size == capacity then
-    // Resize Step
-    new_capacity = calculate_new_capacity(...) // e.g., capacity + c OR capacity * 2
-    New_Array = new array of size new_capacity
-    for j from 0 to size - 1 do
-      New_Array[j] = Old_Array[j]
-    Old_Array = New_Array
-    capacity = new_capacity
-    // End Resize Step
-  Old_Array[size] = o
-  size = size + 1
-
+if size == capacity then
+  // 1. Calculate new, larger capacity
+  new_capacity = ... 
+  // 2. Allocate new array
+  New_Array = new array of size new_capacity
+  // 3. Copy elements
+  for j from 0 to size-1 do
+    New_Array[j] = Old_Array[j]
+  // 4. Replace old array
+  Old_Array = New_Array
+  capacity = new_capacity
+Old_Array[size] = new_element
+size = size + 1
 ```
 
----
+::right::
 
-## Resizing Strategy Comparison
+**Strategy Comparison**
 
-* We analyze the **total time** `T(n)` for `n` `addAtEnd` operations starting from an empty list (initial capacity 1).
-* **Amortized Time:** The average time per operation, `T(n) / n`.
+We analyze the **amortized time** (average time per operation) for `n` additions.
 
----
+**1. Incremental Strategy**
+*   **How:** Increase capacity by a fixed constant `c`.
+*   **Analysis:** Total time for `n` additions is **O(n²)**.
+*   **Amortized Time:** **O(n)**. Performance degrades as the list grows.
 
-## Incremental Strategy Analysis
+**2. Doubling Strategy**
+*   **How:** Double the current capacity.
+*   **Analysis:** Total time for `n` additions is **O(n)**.
+*   **Amortized Time:** **O(1)**. Constant time on average.
 
-* If we increase capacity by a constant `c` each time it's full.
-* Resizing happens roughly `k = n / c` times.
-* Copying costs: `c`, `2c`, `3c`, ..., `kc`.
-* Total time `T(n)` is proportional to `n` (for insertions) + `c + 2c + ... + kc` (for copying).
-* `c(1 + 2 + ... + k) = c * k*(k+1)/2`, which is O(k²).
-* Since `k` is O(n), the copying cost is O(n²).
-* `T(n)` is O(n + n²) = **O(n²)**.
-* **Amortized time:** T(n)/n = **O(n)**. (Gets slower on average as n grows).
+<br/>
 
----
-
-## Doubling Strategy Analysis
-
-* If we double the capacity each time it's full.
-* Resizing happens `k = log₂ n` times.
-* Array sizes during resize: 1, 2, 4, 8, ..., 2ᵏ (where 2ᵏ is roughly n).
-* Copying costs: 1, 2, 4, 8, ..., 2ᵏ.
-* Total time `T(n)` is proportional to `n` (insertions) + `1 + 2 + 4 + ... + 2ᵏ` (copying).
-* The geometric series sum `1 + 2 + ... + 2ᵏ = 2ᵏ⁺¹ - 1`, which is `2 * 2ᵏ - 1`. Since `2ᵏ` is approx `n`, this sum is roughly `2n - 1`.
-* `T(n)` is proportional to `n + (2n - 1)`, which is **O(n)**.
-* **Amortized time:** T(n)/n = **O(1)**. (Constant time on average!).
-
-*Conclusion: The doubling strategy is significantly more efficient for growable arrays.*
+**Conclusion:** The **doubling strategy** is significantly more efficient and is the standard approach for dynamically sized arrays.
 
 ---
+layout: default
+---
 
-## Position-based Lists
+## Limitations of a standard `List`
 
-* A **Positional Lists ADT**
-* An extension of the List concept where we can refer to elements by their **Position**.
-* A `Position` acts like a marker or token for a specific element within the list.
-* Key Idea: A `Position` remains valid even if other elements are added/removed *around* it. It only becomes invalid if the element *at that position* is explicitly removed.
-* **Position Object Method:**
-    * `p.getElement()`: Returns the element stored at position `p`.
+Consider a standard `List` implemented with a **doubly linked list**.
+
+*   **Problem with Indices:** Operations like `get(i)` or `add(i, e)` are inefficient. To find index `i`, we must traverse from the beginning (or end), taking $O(i)$ or $O(n-i)$ time. This defeats the purpose of a linked list's $O(1)$ insertion/deletion capabilities.
+
+*   **Problem with Node References:** Exposing the internal `Node` objects to the user breaks encapsulation and is risky. The user could manipulate pointers and corrupt the list structure.
+
+*   **The Question:** How can we provide a safe and efficient way to refer to a specific "place" in a list, without using slow indices or exposing internal nodes?
+
+*   **The Solution:** The **Positional List ADT**. It abstracts the idea of a "place" into a clean `Position` object.
+
+---
+layout: two-cols
+---
+
+## The Position ADT: A "Marker" for Elements
+
+A **Positional List** is an Abstract Data Type that enhances a standard list by allowing access to elements through a `Position` object.
+
+*   **What is a `Position`?**
+    *   It's a simple object that acts as a **marker** or **token** for a *specific element* within the list.
+    *   Think of it as a "bookmark" that points to an element's location.
+
+<br>
+
+```plantuml
+@startuml
+skinparam classAttributeIconSize 0
+hide empty members
+
+interface Position<E> {
+  + {abstract} getElement(): E
+}
+
+note right of Position
+  Returns the element stored
+  at this position.
+  Throws IllegalStateException
+  if the position is no longer valid.
+end note
+@enduml
+```
+
+::right::
+
+
+*   **Key Property:**
+    *   A `Position` remains valid even if other elements are added or removed *around* it.
+    *   It only becomes invalid if the element it points to is explicitly removed from the list.
+
+
+*   **Core Method:**
+    *   The `Position` interface has just one primary method `getElement()` to retrieve the element it marks.
+
+
+
 
 
 
 ---
-
-## Positional List ADT: Methods
-
-**Accessor Methods:**
-
-* `size()`, `isEmpty()`: Same as standard List.
-* `first()`: Returns the `Position` of the first element (or null if empty).
-* `last()`: Returns the `Position` of the last element (or null if empty).
-* `before(p)`: Returns the `Position` of the element before `p` (or null if `p` is the first).
-* `after(p)`: Returns the `Position` of the element after `p` (or null if `p` is the last).
-
-*(Error conditions apply if `p` is invalid)*
-
+layout: two-cols-header
 ---
 
-## Positional List ADT: Update Methods
+## Positional List ADT: Core Update Methods
 
-* `addFirst(e)`: Adds element `e` at the front, returns its new `Position`.
-* `addLast(e)`: Adds element `e` at the end, returns its new `Position`.
-* `addBefore(p, e)`: Adds `e` immediately before position `p`, returns its new `Position`.
-* `addAfter(p, e)`: Adds `e` immediately after position `p`, returns its new `Position`.
-* `set(p, e)`: Replaces the element at position `p` with `e`, returns the old element.
-* `remove(p)`: Removes and returns the element at position `p`, invalidating `p`.
+These methods form the foundation for modifying a positional list. All return a `Position` or the original element.
 
-*(Error conditions apply if `p` is invalid)*
+::left::
+
+#### `addAfter(p, e)`
+*   Inserts a new element `e` immediately after `Position p`.
+*   Returns the `Position` of the new element.
+
+#### `addBefore(p, e)`
+*   Inserts a new element `e` immediately before `Position p`.
+*   Returns the `Position` of the new element.
+
+
+
+#### `set(p, e)`
+*   Replaces the element at `Position p` with `e`.
+*   Returns the *old* element that was replaced.
+
+::right::
+
+#### `remove(p)`
+*   Removes the element at `Position p`.
+*   Returns the removed element.
+*   Invalidates the position `p`.
+
+---
+layout: two-cols-header
+---
+
+## Positional List ADT: Navigation & Convenience
+
+These methods provide easy ways to access and traverse the list.
+::left::
+
+#### Navigation
+*   `first()`: Returns the `Position` of the first element.
+*   `last()`: Returns the `Position` of the last element.
+*   `after(p)`: Returns the `Position` after `p`.
+*   `before(p)`: Returns the `Position` before `p`.
+
+#### General
+*   `size()`: Returns the number of elements.
+*   `isEmpty()`: Returns `true` if the list is empty.
+
+::right::
+
+#### Convenience Additions
+*   `addFirst(e)`:
+    *   Adds `e` to the front of the list.
+    *   Returns the new `Position`.
+*   `addLast(e)`:
+    *   Adds `e` to the end of the list.
+    *   Returns the new `Position`.
+
+<br>
+<p class="text-sm text-gray-500">*All methods throw an error if a given position `p` is invalid.*</p>
 
 ---
 
@@ -462,6 +538,31 @@ graph TD
         
     end
 ```
+
+
+---
+layout: default
+---
+
+## The Need for Traversal
+
+We have powerful tools to navigate our list: `first()` and `after(p)`. We can use these to build a loop that visits every element.
+
+#### Manual Traversal with Positions:
+```java
+// How to loop through a Positional List manually
+Position<String> p = list.first();
+while (p != null) {
+    // 1. Process the element at the current position
+    System.out.println(p.getElement());
+    // 2. Advance to the next position
+    p = list.after(p);
+}
+```
+
+This pattern—sequentially accessing all elements in a collection—is fundamental.
+
+This leads to a core design pattern that formalizes this process, hiding the details of `Position` or array index management. This is the **Iterator**.
 
 ---
 
@@ -704,6 +805,38 @@ for (String currentName : names) {
 ```
 
 * This loop implicitly uses an `Iterator` behind the scenes. It's equivalent to the `while (it.hasNext())` loop structure shown previously (without the `remove` call).
+---
+layout: default
+---
+
+## Implementation Complexity Comparison
+
+Here’s how the choice of underlying data structure (Array vs. Doubly Linked List) affects the performance of List and Positional List operations.
+
+| **Operation**                 | **Array-Based List** | **Doubly Linked List** | **Notes**                               |
+| :------------------------ | :--------------: | :----------------: | :---------------------------------- |
+| `size()`, `isEmpty()`     |      $O(1)$      |       $O(1)$       | Fast for both.                      |
+| **Standard List (by index)** |                  |                    |                                     |
+| `get(i)`, `set(i, e)`     |      $O(1)$      |       $O(n)$       | Array is ideal for index access.    |
+| `add(i, e)`, `remove(i)`  |      $O(n)$      |       $O(n)$       | Both require finding `i` then shifting/linking. |
+
+---
+layout: default
+---
+
+## Implementation Complexity Comparison (Cont.)
+
+| **Operation**                 | **Array-Based List** | **Doubly Linked List** | **Notes**                               |
+| :------------------------ | :--------------: | :----------------: | :---------------------------------- |
+| **Positional List (by position)** |                  |                    |                                     |
+| `first()`, `last()`       |      $O(1)$      |       $O(1)$       | Direct access to ends.              |
+| `before(p)`, `after(p)`   |      $O(1)$      |       $O(1)$       | ARR through Iterator <br> DLL is ideal for relative access.   |
+| `addBefore(p, e)`         |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
+| `addAfter(p, e)`          |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
+| `remove(p)`               |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
+
+**Key Takeaway:** Use an **Array-based List** when you need fast index-based access (`get(i)`). Use a **Doubly Linked List** for a **Positional List** when you need fast insertions and deletions at arbitrary positions.
+
 ---
 layout: two-cols
 ---
