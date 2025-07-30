@@ -478,15 +478,18 @@ graph LR
         C --> D[...]
     end
 
-    Iterator(Iterator) -- "requests next element" --> Collection
     Collection -- "returns element" --> Iterator
-    Iterator -- "hasNext()" --> Collection
+    Iterator -- "any next element?" --> Collection
+    Iterator(Iterator) -- "requests next element" --> Collection
     Collection -- "true/false" --> Iterator
 
     style Collection fill:#f9f,stroke:#333,stroke-width:2px
     style Iterator fill:#ccf,stroke:#333,stroke-width:2px
 
-    Iterator -- "provides elements to" --> UserCode
+    Iterator <-- "provides elements through next() and hasNext()" --> User
+
+    linkStyle 3,5 stroke: blue,stroke-width:2px;
+    linkStyle 4,6 stroke: green,stroke-width:2px;
 ```
 
 <img src="/iterator.png" style="width:300px;position:fixed;right:50px;bottom:50px" />
@@ -709,15 +712,15 @@ layout: two-cols
 
 *   **List ADT:** Basic operations and their time complexities.
 *   **Array-based List Implementation:**
-    *   Efficient `get` and `set` (O(1)).
-    *   Inefficient `add` and `remove` (O(n)) due to shifting.
-    *   Importance of **doubling strategy** for resizing to achieve amortized O(1) for `addLast`.
+    *   Efficient `get` and `set` ($O(1)$).
+    *   Inefficient `add` and `remove` ($O(n)$) due to shifting.
+    *   Importance of **doubling strategy** for resizing to achieve amortized $O(1)$ for `addLast`.
 *   **Positional List ADT:**
     *   Introduced the concept of `Position` as a marker for elements.
     *   Doubly linked lists are a natural fit for implementation.
 :: right ::
 *   **Doubly Linked List Operations:**
-    *   Efficient insertion and deletion (O(1)) by updating links.
+    *   Efficient insertion and deletion ($O(1)$) by updating links.
     *   Use of **sentinel nodes** (header/trailer) to simplify edge cases.
 *   **Iterators:**
     *   Design pattern for sequential traversal of collections.
