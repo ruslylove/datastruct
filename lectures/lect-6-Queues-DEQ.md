@@ -18,7 +18,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="1"/>
 
 ---
 layout: two-cols-header
@@ -137,6 +137,51 @@ public interface Deque<E> {
   void addLast(E e);
   E removeFirst() throws EmptyDequeException;
   E removeLast() throws EmptyDequeException;
+}
+```
+
+---
+layout: two-cols
+---
+
+## Deque Implementation: The Adapter Pattern
+
+*   We can implement our `Deque` by **adapting** a `DoublyLinkedList`.
+    *   The `LinkedDeque` class (target) implements the `Deque` interface.
+    *   It contains a private instance of `DoublyLinkedList` (adaptee).
+    *   Each `Deque` method is implemented by calling the corresponding method on the `DoublyLinkedList` instance.
+*   This promotes code reuse and separates the Deque abstraction from its underlying implementation.
+
+:: right ::
+
+```java{*}{maxHeight:'450px',lines:false}
+// An implementation of the Deque interface using a DoublyLinkedList as the adaptee.
+public class LinkedDeque<E> implements Deque<E> {
+    private DoublyLinkedList<E> list = new DoublyLinkedList<>(); // The adapted list
+
+    @Override
+    public int size() { return list.size(); }
+
+    @Override
+    public boolean isEmpty() { return list.isEmpty(); }
+
+    @Override
+    public void addFirst(E e) { list.addFirst(e); }
+
+    @Override
+    public void addLast(E e) { list.addLast(e); }
+
+    @Override
+    public E removeFirst() { return list.removeFirst(); }
+
+    @Override
+    public E removeLast() { return list.removeLast(); }
+
+    @Override
+    public E first() { return list.first(); }
+
+    @Override
+    public E last() { return list.last(); }
 }
 ```
 
