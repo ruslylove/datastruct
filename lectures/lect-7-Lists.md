@@ -864,7 +864,7 @@ Here’s how the choice of underlying data structure (Array vs. Doubly Linked Li
 | `size()`, `isEmpty()`     |      $O(1)$      |       $O(1)$       | Fast for both.                      |
 | **Standard List (by index)** |                  |                    |                                     |
 | `get(i)`, `set(i, e)`     |      $O(1)$      |       $O(n)$       | Array is ideal for index access.    |
-| `add(i, e)`, `remove(i)`  |      $O(n)$      |       $O(n)$       | Both require finding `i` then shifting/linking. |
+| `add(i, e)`, `remove(i)`  |      $O(n)$      |       $O(n)$       | Array requires shifting. <br> DLL requires linking for finding `i`.|
 
 ---
 layout: default
@@ -875,11 +875,11 @@ layout: default
 | **Operation**                 | **Array-Based List** | **Doubly Linked List** | **Notes**                               |
 | :------------------------ | :--------------: | :----------------: | :---------------------------------- |
 | **Positional List (by position)** |                  |                    |                                     |
-| `first()`, `last()`       |      $O(1)$      |       $O(1)$       | Direct access to ends.              |
-| `before(p)`, `after(p)`   |      $O(1)$      |       $O(1)$       | ARR index increment/decrement <br> DLL is ideal for relative access.   |
-| `addBefore(p, e)`         |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
-| `addAfter(p, e)`          |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
-| `remove(p)`               |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
+| `first()`, `last()`       |      $O(1)$      |       $O(1)$       | `Both` direct access to ends.              |
+| `before(p)`, `after(p)`   |      $O(1)$      |       $O(1)$       | `Array` uses index artihmatic. <br> `DLL` is ideal for adjacent access.   |
+| `addBefore(p, e)`         |      $O(n)$      |       $O(1)$       | `DLL` excels at insertion.  |
+| `addAfter(p, e)`          |      $O(n)$      |       $O(1)$       | `DLL` excels at insertion. |
+| `remove(p)`               |      $O(n)$      |       $O(1)$       | `DLL` excels at removal.  |
 
 **Key Takeaway:** Use an **Array-based List** when you need fast index-based access (`get(i)`). Use a **Doubly Linked List** for a **Positional List** when you need fast insertions and deletions at arbitrary positions.
 
