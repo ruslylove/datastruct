@@ -38,7 +38,7 @@ The standard Java `List` interface defines core operations for list structures:
 layout: two-cols-header
 ---
 
-## List Operation Example
+### List Operation Example
 
 :: left ::
 
@@ -152,7 +152,7 @@ graph TD
 ```
 ---
 
-## Array List: Java Implementation Snippets (Get/Set)
+### Array List: Java Implementation Snippets (Get/Set)
 
 ```java {*}{maxHeight:'420px',lines:true}
 // Assumes 'data' is the underlying array and 'size' tracks the number of elements.
@@ -187,7 +187,7 @@ protected void checkIndex(int i, int n) throws IndexOutOfBoundsException {
 
 ---
 
-## Array List: Java Implementation Snippets (Add/Remove)
+### Array List: Java Implementation Snippets (Add/Remove)
 
 ```java {*}{maxHeight:'420px',lines:true}
 // Continuing the array-based list implementation...
@@ -380,27 +380,29 @@ These methods form the foundation for modifying a positional list. All return a 
 *   Invalidates the position `p`.
 
 ---
-layout: two-cols-header
+layout: two-cols
 ---
 
-## Positional List ADT: Navigation & Convenience
+## Positional List ADT: Navigation
 
 These methods provide easy ways to access and traverse the list.
-::left::
 
-#### Navigation
+
+**Navigation**
 *   `first()`: Returns the `Position` of the first element.
 *   `last()`: Returns the `Position` of the last element.
 *   `after(p)`: Returns the `Position` after `p`.
 *   `before(p)`: Returns the `Position` before `p`.
 
-#### General
+**General**
 *   `size()`: Returns the number of elements.
 *   `isEmpty()`: Returns `true` if the list is empty.
 
-::right::
+:: right ::
 
-#### Convenience Additions
+<div style="padding-top:100px">
+
+**Convenience Additions**
 *   `addFirst(e)`:
     *   Adds `e` to the front of the list.
     *   Returns the new `Position`.
@@ -409,11 +411,19 @@ These methods provide easy ways to access and traverse the list.
     *   Returns the new `Position`.
 
 <br>
-<p class="text-sm text-gray-500">*All methods throw an error if a given position `p` is invalid.*</p>
+
+*All methods throw an error if a given position `p` is invalid.*
+
+</div>
 
 ---
+layout: two-cols-header
+---
 
-## Positional List Example
+
+### Positional List Example
+
+:: left ::
 
 | Method Call           | Return Value | List Contents (Positions denoted by elements) |
 | :-------------------- | :----------- | :------------------------------------------ |
@@ -423,6 +433,11 @@ These methods provide easy ways to access and traverse the list.
 | `first()`             | pA           | (A, C, B)                                   |
 | `after(pC)`           | pB           | (A, C, B)                                   |
 | `before(pA)`          | null         | (A, C, B)                                   |
+
+:: right ::
+
+| Method Call           | Return Value | List Contents (Positions denoted by elements) |
+| :-------------------- | :----------- | :------------------------------------------ |
 | `remove(first())`     | A            | (C, B)                                      |
 | `set(pB, D)`          | B            | (C, D)                                      |
 | `addAfter(pC, E)`     | pE           | (C, E, D)                                   |
@@ -431,15 +446,17 @@ These methods provide easy ways to access and traverse the list.
 
 ## Positional List Implementation: Doubly Linked List
 
-* A **doubly linked list** is the most natural fit for implementing a Positional List.
+* A **doubly linked list** is the most natural fit for implementing a `Positional List`.
 * Each `Node` in the linked list can directly represent a `Position`.
 * The `Node` stores:
     * The element.
     * A `prev` link.
     * A `next` link.
-* Using `header` and `trailer` sentinel nodes simplifies edge cases (operations at the beginning/end).
 
-```mermaid {scale:0.7}
+<div style="position:fixed;right:130px;bottom:100px">
+
+
+```mermaid {scale:0.9}
 graph LR
     subgraph Sentinels
         Header(header)
@@ -448,7 +465,7 @@ graph LR
         style Trailer fill:#eee,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5
     end
 
-    subgraph "Nodes (Positions)"
+    subgraph "Positions (Nodes)"
         NodeA("elem: A")
         NodeB("elem: B")
         NodeC("elem: C")
@@ -467,22 +484,32 @@ graph LR
     Trailer -- "prev" --> NodeC
 ```
 
+
+</div>
+<br><br><br><br><br><br><br>
+
+* Using `header` and `trailer` sentinel nodes simplifies edge cases (operations at the beginning/end).
+
+---
+hide: false
 ---
 
-## Doubly Linked List: Insertion (`addBetween`)
+### Doubly Linked List: Insertion (`addBetween`)
 
-To insert a new node `q` (representing the new position) between existing nodes `p` (predecessor) and `p.next` (successor):
+This private utility method is the foundation for all public insertion methods like `addBefore(p, e)`, `addAfter(p, e)`, `addFirst(e)`, and `addLast(e)`.
 
-1.  Link `q` forward: `q.prev = p`, `q.next = p.next`.
-2.  Link neighbours to `q`: `p.next.prev = q`, `p.next = q`.
+To insert a new node `q` between existing nodes `p` (predecessor) and `s` (successor):
 
-<div style="position:fixed;right:30px;top:120px">
+1.  Link `q` forward: `q.prev = p`, `q.next = s`.
+2.  Link neighbours to `q`: `s.prev = q`, `p.next = q`.
+
+<br>
 
 
-```mermaid {scale:0.9}
-graph TD
+```mermaid {scale:1}
+graph LR
 
-    subgraph "The 4 Link Updates"
+    
         p1("p")
         s1("s")
         q1("q")
@@ -498,27 +525,28 @@ graph TD
         s1 -.-> p1
   
 
-    end
 
 ```
 
-</div>
 
 ---
+hide: false
+---
 
-## Doubly Linked List: Deletion (`remove`)
+### Doubly Linked List: Deletion (`remove`)
+
+This private utility method is the foundation for the public `remove(p)` method.
 
 To remove the node `p`:
 
-1.  Bypass `p`: `p.prev.next = p.next`.
-2.  Bypass `p`: `p.next.prev = p.prev`.
-3.  Node `p` is now unlinked and its element can be returned. The `Position` represented by `p` is now invalid.
+1.  Bypass `p` by linking its neighbors together: `p.prev.next = p.next`.
+2.  Bypass `p` in the other direction: `p.next.prev = p.prev`.
+3.  The node `p` is now unlinked. Its element can be returned and the `Position` `p` is invalidated.
+
+<br>
 
 ```mermaid
-graph TD
-
-
-    subgraph "Link Updates"
+graph LR
         direction LR
         pred1("pred")
         p1("p")
@@ -531,14 +559,32 @@ graph TD
         p1 -.-> succ1
         p1 -.-> pred1
         succ1 -- "2.[succ.prev = pred]" --> pred1
-
-        
-
-
-        
-    end
 ```
 
+
+---
+layout: two-cols-header
+---
+
+## Positional List Implementation: Array-Based
+
+While a doubly linked list is the natural fit, could we implement a Positional List with an array?
+
+:: left ::
+
+*   **Position Representation:** A `Position` could be represented by an object that simply holds the index of an element in the array.
+*   **Challenge: Maintaining Validity:** The core problem is that `add` and `remove` operations shift elements in the array.
+    *   If we insert an element at index `i`, all positions for elements at indices `j >= i` become invalid because their indices have changed.
+    *   This violates the principle that a `Position` should remain stable unless its specific element is removed.
+
+:: right ::
+
+*   **Performance:**
+    *   `first()`, `last()`: $O(1)$
+    *   `before(p)`, `after(p)`: $O(1)$ (just index arithmetic).
+    *   `addBefore(p, e)`, `addAfter(p, e)`, `remove(p)`: $O(n)$ due to the need to shift elements.
+
+**Conclusion:** An array is a poor choice for a general-purpose `Positional List` because it cannot efficiently maintain the stability of positions during insertions and deletions. The performance of modification operations is also worse than with a linked list.
 
 ---
 layout: default
@@ -709,7 +755,7 @@ MyArrayList ..> MyArrayIterator : "creates"
 
 ---
 
-## Example: Basic Iterator for a simple array-based list
+### Example: Basic Iterator for a simple array-based list
 
 ```java {*}{maxHeight:'430px',lines:true}
 // Example: Basic Iterator for a simple array-based list
@@ -758,7 +804,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
 ---
 
-## Example: Using an Iterator
+### Example: Using an Iterator
 
 ```java
 List<String> names = new ArrayList<>();
@@ -830,7 +876,7 @@ layout: default
 | :------------------------ | :--------------: | :----------------: | :---------------------------------- |
 | **Positional List (by position)** |                  |                    |                                     |
 | `first()`, `last()`       |      $O(1)$      |       $O(1)$       | Direct access to ends.              |
-| `before(p)`, `after(p)`   |      $O(1)$      |       $O(1)$       | ARR through Iterator <br> DLL is ideal for relative access.   |
+| `before(p)`, `after(p)`   |      $O(1)$      |       $O(1)$       | ARR index increment/decrement <br> DLL is ideal for relative access.   |
 | `addBefore(p, e)`         |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
 | `addAfter(p, e)`          |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
 | `remove(p)`               |      $O(n)$      |       $O(1)$       | DLL excels at local modifications.  |
