@@ -1,0 +1,29 @@
+digraph factorial_trace {
+    graph [rankdir=TB, splines=true, nodesep=0.8, ranksep=0.6, dpi=300];
+    node [shape=box, style="rounded,filled", fillcolor="#f0f4f8", fontname="Arial", fontsize=12, width=1.5, height=0.6];
+    edge [fontname="Arial", fontsize=10];
+
+    // Call nodes
+    f4 [label="factorial(4)"];
+    f3 [label="factorial(3)"];
+    f2 [label="factorial(2)"];
+    f1 [label="factorial(1)"];
+    f0 [label="factorial(0)"];
+
+    // Call edges (downward)
+    f4 -> f3 [label=" calls"];
+    f3 -> f2 [label=" calls"];
+    f2 -> f1 [label=" calls"];
+    f1 -> f0 [label=" calls"];
+
+    // Return edges (upward)
+    f0 -> f1 [style=dashed, color="#28a745", fontcolor="#28a745", label=" returns 1", constraint=false];
+    f1 -> f2 [style=dashed, color="#28a745", fontcolor="#28a745", label=" returns 1", constraint=false];
+    f2 -> f3 [style=dashed, color="#28a745", fontcolor="#28a745", label=" returns 2", constraint=false];
+    f3 -> f4 [style=dashed, color="#28a745", fontcolor="#28a745", label=" returns 6", constraint=false];
+    
+    // Final result annotation
+    final_result [shape=plaintext, fontcolor="#dc3545", fontsize=14, label="Result: 24"];
+    // This invisible edge helps position the final result text below factorial(4)
+    f4 -> final_result [style=invis, len=1.5]; 
+}

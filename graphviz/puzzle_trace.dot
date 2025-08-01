@@ -1,0 +1,27 @@
+digraph puzzle_trace {
+    graph [rankdir=TB, splines=true, nodesep=0.5, ranksep=0.5, dpi=300];
+    node [shape=record, style="rounded,filled", fillcolor="#e8f0fe", fontname="Courier", fontsize=11];
+    edge [fontname="Arial", fontsize=9];
+
+    p0 [label="PuzzleSolve(3, [], \{7,8,9\})"];
+
+    p1_7 [label="e=7 | PuzzleSolve(2, [7], \{8,9\})"];
+    p1_8 [label="e=8 | ..."];
+    p1_9 [label="e=9 | ..."];
+
+    p0 -> p1_7;
+    p0 -> p1_8;
+    p0 -> p1_9;
+
+    p2_78 [label="e=8 | PuzzleSolve(1, [7,8], \{9\})"];
+    p2_79 [label="e=9 | PuzzleSolve(1, [7,9], \{8\})"];
+
+    p1_7 -> p2_78;
+    p1_7 -> p2_79;
+
+    p3_789 [label="e=9 | S=[7,8,9] | Test solution"];
+    p3_798 [label="e=8 | S=[7,9,8] | Test solution"];
+
+    p2_78 -> p3_789;
+    p2_79 -> p3_798;
+}

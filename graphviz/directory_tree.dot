@@ -1,0 +1,30 @@
+digraph directory_tree {
+    graph [rankdir=TB, splines=ortho, nodesep=0.4, ranksep=0.5, dpi=300];
+    node [shape=folder, style="rounded,filled", fillcolor="#ffdead", fontname="Arial", fontsize=12, width=1.2, height=0.7];
+    edge [arrowhead=none];
+
+    // Directories
+    root [label="/"];
+    users [label="Users"];
+    programs [label="Programs"];
+    temp [label="Temp"];
+
+    // Files (using a different shape)
+    node [shape=note, fillcolor="#f0f8ff"];
+    a_txt [label="a.txt"];
+    b_doc [label="b.doc"];
+    app_exe [label="app.exe"];
+    log_txt [label="log.txt"];
+
+    // Structure
+    root -> users;
+    root -> programs;
+    root -> temp;
+
+    users -> a_txt;
+    users -> b_doc;
+
+    programs -> app_exe;
+
+    temp -> log_txt;
+}

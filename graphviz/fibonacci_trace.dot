@@ -1,0 +1,34 @@
+digraph fibonacci_trace {
+    graph [nodesep=0.2, ranksep=0.3, splines=true, dpi=300];
+    node [shape=circle, width=0.5, height=0.5, style=filled, fillcolor="#f8f9fa", fontname="Arial", fontsize=10, margin=0.05];
+    edge [arrowsize=0.6];
+
+    "f5" [label="F(5)"];
+    "f4" [label="F(4)"];
+    "f3a" [label="F(3)"];
+    "f5" -> {"f4", "f3a"};
+
+    "f3b" [label="F(3)"];
+    "f2a" [label="F(2)"];
+    "f4" -> {"f3b", "f2a"};
+
+    "f2b" [label="F(2)"];
+    "f1a" [label="F(1)"];
+    "f3a" -> {"f2b", "f1a"};
+
+    "f2c" [label="F(2)"];
+    "f1b" [label="F(1)"];
+    "f3b" -> {"f2c", "f1b"};
+
+    "f1c" [label="F(1)"];
+    "f0a" [label="F(0)"];
+    "f2a" -> {"f1c", "f0a"};
+
+    "f1d" [label="F(1)"];
+    "f0b" [label="F(0)"];
+    "f2b" -> {"f1d", "f0b"};
+
+    "f1e" [label="F(1)"];
+    "f0c" [label="F(0)"];
+    "f2c" -> {"f1e", "f0c"};
+}

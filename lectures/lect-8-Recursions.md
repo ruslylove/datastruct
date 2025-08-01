@@ -62,15 +62,12 @@ Every recursive method needs two key components:
     * Each recursive call must make progress towards reaching a base case (e.g., by solving a slightly smaller version of the problem).
 
 ---
+layout: two-cols
+---
 
 ## Visualizing Recursion: The Trace
 
 * A **recursion trace** helps visualize the flow of recursive calls.
-* Use a box for each call instance.
-* Draw arrows:
-    * From caller to callee (showing the call).
-    * From callee back to caller (showing the return value).
-
 * **Example: `factorial(4)`**
 
     ```
@@ -85,7 +82,191 @@ Every recursive method needs two key components:
     factorial(4) returns 4 * 6 = 24
     ```
 
-(Conceptual diagram showing boxes and arrows for the factorial(4) trace)
+:: right ::
+
+<div style="padding-left:60px">
+
+<Transform scale="0.73">
+
+![Factorial Trace](/factorial_trace.png)
+</Transform>
+
+</div>
+
+---
+
+## Binary Search: Recursive Approach
+
+* **Problem:** Efficiently find a `target` value within a *sorted* array `data`.
+* **Idea:** Compare the `target` with the middle element `data[mid]`.
+    * If `target == data[mid]`, found it! (Base Case)
+    * If `target < data[mid]`, recursively search the *left* half (`low` to `mid - 1`).
+    * If `target > data[mid]`, recursively search the *right* half (`mid + 1` to `high`).
+* **Base Case:** If `low > high`, the search interval is empty, target not found.
+
+---
+
+## Binary Search: Java Implementation
+
+```java
+/**
+ * Returns true if the target value is found in the specified portion
+ * of the sorted data array (from data[low] to data[high] inclusive).
+ */
+public static boolean binarySearchRecursive(int[] data, int target, int low, int high) {
+    if (low > high) {
+        return false; // Interval is empty; no match (Base Case)
+    } else {
+        int mid = (low + high) / 2;
+        if (target == data[mid]) {
+            return true; // Found a match (Base Case)
+        } else if (target < data[mid]) {
+            // Recur on the portion left of the middle
+            return binarySearchRecursive(data, target, low, mid - 1);
+        } else {
+            // Recur on the portion right of the middle
+            return binarySearchRecursive(data, target, mid + 1, high);
+        }
+    }
+}
+
+```
+
+---
+
+## Multiple Recursion
+
+* Algorithms where a method makes *more than one* recursive call within a single execution.
+* Examples:
+    * Recursive file system traversal (`diskUsage`).
+    * Naive Fibonacci (`fibonacciBad`).
+    * Recursive drawing (`drawInterval`).
+    * Many puzzle-solving algorithms.
+
+---
+layout: two-cols
+---
+
+## File Systems: Recursive Structure
+
+* File systems naturally exhibit a recursive structure.
+* A directory can contain:
+    * Files (base case for size calculation).
+    * Other directories (recursive step).
+
+:: right ::
+
+* **Example:** Calculate the total disk space used by a directory and all its subdirectories.
+
+![Directory Tree](/directory_tree.png)
+
+---
+
+## Calculating Disk Space Recursively (Java)
+
+```java
+import java.io.File;
+
+/** Calculates the total disk space (in bytes) used by a file/directory. */
+public static long diskUsage(File root) {
+    long total = root.length(); // Start with size of the file/directory entry itself
+
+    if (root.isDirectory()) { // If it's a directory...
+        File[] entries = root.listFiles(); // Get its contents
+        if (entries != null) {
+            for (File entry : entries) {
+                total += diskUsage(entry); // Recursive call for each entry
+            }
+        }
+    }
+    // Base case: If root is a file, total is just root.length()
+
+    return total;
+}
+
+```
+
+---
+
+## The Fibonacci Sequence
+
+* Defined recursively:
+    * `F₀ = 0`
+    * `F₁ = 1`
+    * `Fₙ = Fₙ₋₁ + Fₙ₋₂` for `n > 1`
+* Sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
+
+**Implementation:** A direct translation of the recursive definition.
+
+```java
+/** Returns the nth Fibonacci number (inefficiently). */
+public static long fibonacciBad(int n) {
+    if (n <= 1) {
+        return n; // Base cases F(0)=0, F(1)=1
+    } else {
+        // Recursive step: F(n) = F(n-1) + F(n-2)
+        return fibonacciBad(n - 1) + fibonacciBad(n - 2);
+    }
+}
+
+```
+
+---
+layout: two-cols-header
+---
+
+## Inefficiency of Naive Fibonacci Recursion
+
+:: left ::
+
+* This approach is computationally very expensive due to **redundant calculations**.
+* `fibonacciBad(n)` makes separate recursive calls for `(n-1)` and `(n-2)`.
+* The call for `(n-1)` will *also* compute `(n-2)`, leading to repeated work.
+* Example: `fibonacciBad(5)` calls `fibonacciBad(4)` and `fibonacciBad(3)`. `fibonacciBad(4)` calls `fibonacciBad(3)` again.
+* The number of calls grows exponentially! Roughly $O(2ⁿ)$.
+
+:: right ::
+
+<img src="/fibonacci_trace.png" style="padding-bottom:50px;padding-left:30px"/>
+
+
+---
+
+## Fibonacci: Efficient Recursive Implementation (Java)
+
+* Avoids redundant calculations by returning *both* `Fₙ` and `Fₙ₋₁`.
+* Uses an array `long[] { Fn, Fn-1 }` as the return type.
+
+```java {*}{maxHeight:'320px',lines:true}
+/** Returns the nth Fibonacci number efficiently using recursion. */
+public static long fibonacciGood(int n) {
+    if (n <= 1) {
+        return n; // Base cases handle F(0) and F(1) directly
+    } else {
+        // Start recursion to get { F(n), F(n-1) }
+        long[] result = fibonacciGoodHelper(n);
+        return result[0]; // Return F(n)
+    }
+}
+
+/** Helper returns { F(n), F(n-1) }. */
+private static long[] fibonacciGoodHelper(int n) {
+    if (n <= 1) {
+        // Base case: { F(1), F(0) } = { 1, 0 }
+        return new long[] {n, 0}; // Returns {1, 0} for n=1, {0, 0} for n=0 (F(-1) irrelevant)
+    } else {
+        // Recursive call for n-1: gets { F(n-1), F(n-2) }
+        long[] temp = fibonacciGoodHelper(n - 1);
+        // Calculate F(n) = F(n-1) + F(n-2)
+        long fn = temp[0] + temp[1];
+        // Return { F(n), F(n-1) }
+        return new long[] { fn, temp[0] };
+    }
+}
+
+```
+
+* This version makes only one recursive call per level, resulting in O(n) time complexity.
 
 ---
 
@@ -93,7 +274,25 @@ Every recursive method needs two key components:
 
 Recursion can be used to draw patterns like the ticks on an English ruler.
 
-(Image of an English ruler segment showing major and minor ticks)
+```text
+---- 0
+-
+--
+-
+---
+-
+--
+-
+---- 1
+-
+--
+-
+---
+-
+--
+-
+---- 2
+```
 
 ---
 
@@ -110,20 +309,38 @@ Define a recursive function `drawInterval(length)`:
         c.  Recursively call `drawInterval(length - 1)` to draw the bottom smaller interval.
     2.  If `length <= 0` (Base Case): Do nothing.
 
-(Diagram illustrating the recursive breakdown: drawInterval(L) calls drawInterval(L-1), draws line L, calls drawInterval(L-1))
-
+---
+layout: two-cols-header
 ---
 
 ## Recursive Drawing Method Trace
 
+:: left ::
+
 How `drawInterval` builds the pattern:
 
-<transform scale="0.7">
+
 
 * An interval with central tick length `L >= 1` consists of:
     * An interval with central tick length `L-1`.
     * A single tick of length `L`.
     * An interval with central tick length `L-1`.
+
+<br>
+
+```text
+-
+--
+-
+---
+-
+--
+-
+```
+
+:: right ::
+
+<Transform scale="0.9">
 
 * **Trace for `drawInterval(3)`:**
     * `drawInterval(3)` calls `drawInterval(2)`
@@ -136,11 +353,8 @@ How `drawInterval` builds the pattern:
     * `drawInterval(3)` draws line(3)
     * `drawInterval(3)` calls `drawInterval(2)` (repeats above pattern)
 
+</Transform>
 
-
-(Output showing the ruler tick pattern generated by the trace)
-
-</transform>
 
 ---
 
@@ -186,161 +400,46 @@ private static void drawLine(int tickLength) {
 
 ---
 
-## Binary Search: Recursive Approach
+## Algorithm for Solving Puzzles via Multiple Recursion
 
-* **Problem:** Efficiently find a `target` value within a *sorted* array `data`.
-* **Idea:** Compare the `target` with the middle element `data[mid]`.
-    * If `target == data[mid]`, found it! (Base Case)
-    * If `target < data[mid]`, recursively search the *left* half (`low` to `mid - 1`).
-    * If `target > data[mid]`, recursively search the *right* half (`mid + 1` to `high`).
-* **Base Case:** If `low > high`, the search interval is empty, target not found.
+A general pattern for exploring configurations:
 
----
+```text
+Algorithm PuzzleSolve(k, S, U):
+  Input: Target size k, current partial solution sequence S, set U of available elements
+  Output: Enumeration of valid k-length solutions extending S using unique elements from U
 
-## Binary Search: Java Implementation
+  for each element e in U:
+    Remove e from U // Mark e as used in this path
+    Add e to the end of S
 
-```java
-/**
- * Returns true if the target value is found in the specified portion
- * of the sorted data array (from data[low] to data[high] inclusive).
- */
-public static boolean binarySearchRecursive(int[] data, int target, int low, int high) {
-    if (low > high) {
-        return false; // Interval is empty; no match (Base Case)
-    } else {
-        int mid = (low + high) / 2;
-        if (target == data[mid]) {
-            return true; // Found a match (Base Case)
-        } else if (target < data[mid]) {
-            // Recur on the portion left of the middle
-            return binarySearchRecursive(data, target, low, mid - 1);
-        } else {
-            // Recur on the portion right of the middle
-            return binarySearchRecursive(data, target, mid + 1, high);
-        }
-    }
-}
+    if k == 1 then // Reached target size
+      if S is a valid solution then
+        Report S as a solution
+    else
+      PuzzleSolve(k - 1, S, U) // Recur to find extensions of length k-1
+
+    // Backtrack: Undo changes for the next iteration of the loop
+    Add e back to U // Mark e as available again
+    Remove e from the end of S
 
 ```
 
----
-
-## File Systems: Recursive Structure
-
-* File systems naturally exhibit a recursive structure.
-* A directory can contain:
-    * Files (base case for size calculation).
-    * Other directories (recursive step).
-
-* **Example:** Calculate the total disk space used by a directory and all its subdirectories.
-
-(Diagram showing a directory tree structure)
+* This explores a tree of possibilities.
 
 ---
 
-## Calculating Disk Space Recursively (Java)
+## Example: Cryptarithmetic Puzzle
 
-```java
-import java.io.File;
 
-/** Calculates the total disk space (in bytes) used by a file/directory. */
-public static long diskUsage(File root) {
-    long total = root.length(); // Start with size of the file/directory entry itself
+Solve $cbb + ba = abc$ where $a, b, c$ are distinct digits from 7, 8, 9.
 
-    if (root.isDirectory()) { // If it's a directory...
-        File[] entries = root.listFiles(); // Get its contents
-        if (entries != null) {
-            for (File entry : entries) {
-                total += diskUsage(entry); // Recursive call for each entry
-            }
-        }
-    }
-    // Base case: If root is a file, total is just root.length()
 
-    return total;
-}
+* Use `PuzzleSolve` with `k=3`, `S=[]`, `U={7,8,9}`.
+* Explore permutations like `[7,8,9]`, `[7,9,8]`, etc.
+* For each permutation (e.g., `a=7, b=8, c=9`), test if `988 + 87 == 789`.
 
-```
-
----
-
-## The Fibonacci Sequence
-
-* Defined recursively:
-    * `F₀ = 0`
-    * `F₁ = 1`
-    * `Fₙ = Fₙ₋₁ + Fₙ₋₂` for `n > 1`
-* Sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
-
----
-
-## Fibonacci: Naive Recursive Implementation (Java)
-
-A direct translation of the recursive definition.
-
-```java
-/** Returns the nth Fibonacci number (inefficiently). */
-public static long fibonacciBad(int n) {
-    if (n <= 1) {
-        return n; // Base cases F(0)=0, F(1)=1
-    } else {
-        // Recursive step: F(n) = F(n-1) + F(n-2)
-        return fibonacciBad(n - 1) + fibonacciBad(n - 2);
-    }
-}
-
-```
-
----
-
-## Inefficiency of Naive Fibonacci Recursion
-
-* This approach is computationally very expensive due to **redundant calculations**.
-* `fibonacciBad(n)` makes separate recursive calls for `(n-1)` and `(n-2)`.
-* The call for `(n-1)` will *also* compute `(n-2)`, leading to repeated work.
-* Example: `fibonacciBad(5)` calls `fibonacciBad(4)` and `fibonacciBad(3)`. `fibonacciBad(4)` calls `fibonacciBad(3)` again.
-
-(Recursion trace diagram for fibonacciBad(5) showing multiple calls to fibonacciBad(3), fibonacciBad(2), etc.)
-
-* The number of calls grows exponentially! Roughly O(2ⁿ).
-
----
-
-## Fibonacci: Efficient Recursive Implementation (Java)
-
-* Avoids redundant calculations by returning *both* `Fₙ` and `Fₙ₋₁`.
-* Uses an array `long[] { Fn, Fn-1 }` as the return type.
-
-```java {*}{maxHeight:'320px',lines:true}
-/** Returns the nth Fibonacci number efficiently using recursion. */
-public static long fibonacciGood(int n) {
-    if (n <= 1) {
-        return n; // Base cases handle F(0) and F(1) directly
-    } else {
-        // Start recursion to get { F(n), F(n-1) }
-        long[] result = fibonacciGoodHelper(n);
-        return result[0]; // Return F(n)
-    }
-}
-
-/** Helper returns { F(n), F(n-1) }. */
-private static long[] fibonacciGoodHelper(int n) {
-    if (n <= 1) {
-        // Base case: { F(1), F(0) } = { 1, 0 }
-        return new long[] {n, 0}; // Returns {1, 0} for n=1, {0, 0} for n=0 (F(-1) irrelevant)
-    } else {
-        // Recursive call for n-1: gets { F(n-1), F(n-2) }
-        long[] temp = fibonacciGoodHelper(n - 1);
-        // Calculate F(n) = F(n-1) + F(n-2)
-        long fn = temp[0] + temp[1];
-        // Return { F(n), F(n-1) }
-        return new long[] { fn, temp[0] };
-    }
-}
-
-```
-
-* This version makes only one recursive call per level, resulting in O(n) time complexity.
+<img src="/puzzle_trace.png" style="height:280px"/>
 
 ---
 
@@ -375,56 +474,3 @@ private static int factorialTailRec(int n, int accumulator) {
 ```
 
 * **Optimization:** Some compilers/languages can optimize tail recursion into simple iteration (a loop), eliminating the function call overhead and preventing stack overflow for deep recursions. Java's standard compiler typically *does not* perform this optimization.
-
----
-
-## Multiple Recursion
-
-* Algorithms where a method makes *more than one* recursive call within a single execution.
-* Examples:
-    * Naive Fibonacci (`fibonacciBad`).
-    * Recursive file system traversal (`diskUsage`).
-    * Recursive drawing (`drawInterval`).
-    * Many puzzle-solving algorithms.
-
----
-
-## Algorithm for Solving Puzzles via Multiple Recursion
-
-A general pattern for exploring configurations:
-
-```text
-Algorithm PuzzleSolve(k, S, U):
-  Input: Target size k, current partial solution sequence S, set U of available elements
-  Output: Enumeration of valid k-length solutions extending S using unique elements from U
-
-  for each element e in U:
-    Remove e from U // Mark e as used in this path
-    Add e to the end of S
-
-    if k == 1 then // Reached target size
-      if S is a valid solution then
-        Report S as a solution
-    else
-      PuzzleSolve(k - 1, S, U) // Recur to find extensions of length k-1
-
-    // Backtrack: Undo changes for the next iteration of the loop
-    Add e back to U // Mark e as available again
-    Remove e from the end of S
-
-```
-
-* This explores a tree of possibilities.
-
----
-
-## Example: Cryptarithmetic Puzzle
-
-Solve `cbb + ba = abc` where a, b, c are distinct digits from {7, 8, 9}.
-
-* Use `PuzzleSolve` with `k=3`, `S=[]`, `U={7,8,9}`.
-* Explore permutations like `[7,8,9]`, `[7,9,8]`, etc.
-* For each permutation (e.g., `a=7, b=8, c=9`), test if `988 + 87 == 789`.
-
-* (Trace diagram showing the recursive exploration of permutations like [7], [8], [9] -> [7,8], [7,9] -> [7,8,9])
-
