@@ -244,7 +244,24 @@ Algorithm inOrder(v):
 * **Postorder:** Useful for creating a postfix representation (Reverse Polish Notation). `2 5 * 3 1 - +`
 * **Inorder:** Useful for creating the standard infix representation (requires parentheses for correctness). `(2 * 5) + (3 - 1)`
 
-(Diagram of an expression tree: `+` root, left child `*`, right child `-`. `*` has children `2`, `5`. `-` has children `3`, `1`.)
+```mermaid
+graph TD
+    A((#43;))
+    B((#215;))
+    C((#45;))
+
+    A --> B
+    A --> C
+    B --> D["2"]
+    B --> E["5"]
+    C --> F["3"]
+    C --> G["1"]
+
+    style A fill:#ecd082,stroke:black;
+    style B fill:#ecd082,stroke:black;
+    style C fill:#ecd082,stroke:black;
+
+```
 
 ---
 
@@ -264,7 +281,24 @@ Algorithm evaluateExpression(v):
 
 ```
 
-(Diagram of the expression tree used previously, showing evaluation steps)
+```mermaid
+graph TD
+    A((#43;))
+    B((#215;))
+    C((#45;))
+
+    A --> B
+    A --> C
+    B --> D["2"]
+    B --> E["5"]
+    C --> F["3"]
+    C --> G["1"]
+
+    style A fill:#ecd082,stroke:black;
+    style B fill:#ecd082,stroke:black;
+    style C fill:#ecd082,stroke:black;
+
+```
 
 ---
 
@@ -276,8 +310,12 @@ Algorithm evaluateExpression(v):
     2.  From below (corresponds to inorder visit).
     3.  From the right (corresponds to postorder visit).
 
-(Diagram showing the path of an Euler tour around a binary tree, marking L, B, R visits)
+<br>
 
+<img src="/euler_tour.png" style="height:200px"/>
+
+---
+layout: two-cols
 ---
 
 ## Linked Structure for General Trees
@@ -288,8 +326,26 @@ Algorithm evaluateExpression(v):
     * A sequence (e.g., a List or Array) of references to its children nodes.
 * These node objects implement the `Position` ADT concept.
 
-(Diagram showing node objects with element, parent pointer, and a list/array of child pointers)
+```mermaid
+graph TD
+    B((B)) --> A((A))
+    B --> D((D))
+    B --> F((F))
+    D --> C((C))
+    D --> E((E))
 
+    style B fill:#ecd082,stroke:black;
+    style D fill:#ecd082,stroke:black;
+
+```
+
+:: right ::
+
+<img src="/linked_binary_tree.png" >
+
+
+---
+layout: two-cols
 ---
 
 ## Linked Structure for Binary Trees
@@ -301,4 +357,76 @@ Algorithm evaluateExpression(v):
     * A reference to the right child node.
 * Again, these node objects implement the `Position` ADT concept.
 
-(Diagram showing binary tree node objects with element, parent, left child, and right child pointers)
+```mermaid
+graph TD
+    B((B)) --> A((A))
+    B --> D((D))
+    D --> C((C))
+    D --> E((E))
+
+    style B fill:#ecd082,stroke:black;
+    style D fill:#ecd082,stroke:black;
+
+```
+
+
+:: right ::
+
+<img src="/linked_binary_tree_1.png" >
+
+---
+layout: two-cols-header
+---
+
+## Array-Based Representation of a Binary Tree
+
+:: left ::
+
+A binary tree can be stored in an array (or an `ArrayList`) by level-order traversal.
+
+*   The root is stored at index `p=0`.
+*   For a node at index `p`:
+    *   Left child: `2p + 1`
+    *   Right child: `2p + 2`
+    *   Parent: `floor((p - 1) / 2)`
+
+**Advantages:**
+*   Space-efficient for *complete* binary trees.
+*   No overhead for storing parent/child pointers.
+
+**Disadvantages:**
+*   Wastes space for skewed or incomplete trees.
+
+::right::
+
+**Example:**
+
+```mermaid {scale:0.8}
+graph TD
+    A["A (0)"] --> B["B (1)"]
+    A["A (0)"] --> C["C (2)"]
+    B["B (1)"] --> D["D (3)"]
+    B["B (1)"] --> E["E (4)"]
+    C["C (2)"] --> F["F (5)"]
+```
+
+**Array:**
+| Index | 0 | 1 | 2 | 3 | 4 | 5 |
+| :---: |:-:|:-:|:-:|:-:|:-:|:-:|
+| Value | A | B | C | D | E | F |
+
+---
+
+## Summary
+
+*   **Trees** are non-linear data structures representing hierarchical data.
+*   **Key Terminology:** Root, Parent, Child, Leaf, Internal Node, Depth, Height.
+*   **Tree ADT** provides a formal way to interact with tree structures (`root`, `parent`, `children`, etc.).
+*   **Traversals** are systematic ways to visit all nodes:
+    *   **Preorder:** Visit root, then left, then right.
+    *   **Postorder:** Visit left, then right, then root.
+    *   **Inorder (Binary Trees):** Visit left, then root, then right.
+*   **Binary Trees** are a fundamental variant where each node has at most two children.
+*   **Implementations:**
+    *   **Linked Structure:** Flexible, good for dynamic trees (nodes with pointers).
+    *   **Array-Based:** Space-efficient for complete trees, but can be wasteful for sparse or skewed trees.

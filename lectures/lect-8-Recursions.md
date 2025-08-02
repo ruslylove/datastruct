@@ -474,3 +474,21 @@ private static int factorialTailRec(int n, int accumulator) {
 ```
 
 * **Optimization:** Some compilers/languages can optimize tail recursion into simple iteration (a loop), eliminating the function call overhead and preventing stack overflow for deep recursions. Java's standard compiler typically *does not* perform this optimization.
+
+---
+layout: default
+transition: slide-up
+---
+
+## Summary
+
+**Recursion in a Nutshell:**
+*   **Core Idea:** A function that calls itself to solve smaller, self-similar problems.
+*   **Key Components:**
+    *   **Base Case(s):** Stops the recursion.
+    *   **Recursive Step:** Makes progress towards a base case.
+*   **Power:** Elegantly solves complex problems like traversing file systems, searching sorted data, and generating patterns.
+*   **Caution:** Be mindful of performance (stack overhead, redundant calls). Iteration can sometimes be more efficient.
+
+**Looking Ahead: Trees**
+Recursion is the natural language for navigating hierarchical structures. Our next topic, **Trees**, is a perfect example of a recursive data structure. Just as we explored directories within directories, we will soon traverse branches of a tree, with recursion as our guide.
