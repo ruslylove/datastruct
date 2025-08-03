@@ -346,6 +346,8 @@ public class DoublyLinkedList<E> {
 ```
 
 ---
+transition: slide-up
+---
 
 ## Summary: Doubly Linked Lists 
 

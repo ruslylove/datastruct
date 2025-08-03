@@ -276,6 +276,8 @@ The choice of algorithm has a dramatic impact on performance as data size increa
 *   Choosing an algorithm with a lower growth rate (e.g., `O(n)` vs. `O(n²)`) can lead to massive performance gains.
 
 ---
+transition: slide-up
+---
 
 ## Mathematical Background
 

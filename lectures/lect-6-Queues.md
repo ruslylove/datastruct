@@ -514,6 +514,8 @@ graph TD
 </div>
 
 ---
+transition: slide-up
+---
 
 ## Summary: Queues
 

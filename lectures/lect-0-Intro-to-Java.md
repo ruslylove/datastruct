@@ -504,6 +504,8 @@ How does this Java knowledge help in ADS?
 * **Recursion:** Java fully supports recursion, essential for many algorithms (tree traversals, sorting, etc.), managed via the JVM method stack.
 
 ---
+transition: slide-up
+---
 
 ## Summary & Next Steps
 

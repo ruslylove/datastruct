@@ -197,7 +197,9 @@ public class LinkedDeque<E> implements Deque<E> {
 
 ---
 layout: two-cols
+transition: slide-up
 ---
+
 
 ## Summary: Deque
 

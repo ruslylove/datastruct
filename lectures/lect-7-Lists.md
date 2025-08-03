@@ -885,7 +885,9 @@ layout: default
 
 ---
 layout: two-cols
+transition: slide-up
 ---
+
 
 ## Summary
 

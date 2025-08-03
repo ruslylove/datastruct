@@ -199,6 +199,8 @@ insert(9,9) -> P: [(7,7), (4,4), (8,8), (2,2), (5,5), (3,3), (9,9)]
     * Overall PQ-Sort time: O(n²). This is equivalent to **Insertion Sort**.
 
 ---
+transition: slide-up
+---
 
 ## Insertion Sort Example (using Sorted PQ)
 

@@ -823,6 +823,8 @@ After each step, `i` is pushed onto the stack. The final stack would be `[0, 3, 
 
 
 ---
+transition: slide-up
+---
 
 ## Summary: Stacks
 
