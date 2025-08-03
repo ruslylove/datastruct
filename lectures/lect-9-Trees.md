@@ -283,10 +283,10 @@ graph TD
 
     A --- B
     A --- C
-    B --- D["2"]
-    B --- E["5"]
-    C --- F["3"]
-    C --- G["1"]
+    B --- D("2")
+    B --- E("5")
+    C --- F("3")
+    C --- G("1")
 
     style A fill:#ecd082,stroke:black;
     style B fill:#ecd082,stroke:black;
@@ -320,10 +320,10 @@ graph TD
 
     A --- B
     A --- C
-    B --- D["2"]
-    B --- E["5"]
-    C --- F["3"]
-    C --- G["1"]
+    B --- D("2")
+    B --- E("5")
+    C --- F("3")
+    C --- G("1")
 
     style A fill:#ecd082,stroke:black;
     style B fill:#ecd082,stroke:black;
@@ -359,13 +359,13 @@ layout: two-cols
 
 <div style="padding-left:130px">
 
-```mermaid
+```mermaid {scale:0.7}
 graph TD
-    B((B)) --- A((A))
-    B --- D((D))
-    B --- F((F))
-    D --- C((C))
-    D --- E((E))
+    B(B) --- A(A)
+    B --- D(D)
+    B --- F(F)
+    D --- C(C)
+    D --- E(E)
 
     style B fill:#ecd082,stroke:black;
     style D fill:#ecd082,stroke:black;
@@ -396,12 +396,12 @@ layout: two-cols
 
 <div style="padding-left:130px">
 
-```mermaid
+```mermaid {scale:0.7}
 graph TD
-    B((B)) --- A((A))
-    B --- D((D))
-    D --- C((C))
-    D --- E((E))
+    B(B) --- A(A)
+    B --- D(D)
+    D --- C(C)
+    D --- E(E)
 
     style B fill:#ecd082,stroke:black;
     style D fill:#ecd082,stroke:black;
@@ -441,13 +441,17 @@ A binary tree can be stored in an array (or an `ArrayList`) by level-order trave
 
 **Example:**
 
-```mermaid {scale:0.9}
+```mermaid {scale:0.78}
 graph TD
-    A(["A (0)"]) --- B(["B (1)"])
-    A --- C(["C (2)"])
-    B --- D(["D (3)"])
-    B --- E(["E (4)"])
-    C --- F(["F (5)"])
+    A("A (0)") --- B("B (1)")
+    A --- C("C (2)")
+    B --- D("D (3)")
+    B --- E("E (4)")
+    C --- F("F (5)")
+    C -.- G("... (6)")
+
+    style G fill:#fff,stroke:black,border:1px black,stroke-dasharray: 5 5;
+
 ```
 
 **Array:**
