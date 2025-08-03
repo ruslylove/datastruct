@@ -10,9 +10,9 @@ background: https://cover.sli.dev
 ---
 
 # Stacks
-### Algorithm and Data Structures
-### semester 1/2025
-### Dr. Ruslee Sutthaweekul
+## {{ $slidev.configs.subject }}
+### Presented by {{ $slidev.configs.presenter }}
+### Semester {{ $slidev.configs.semester }}
 
 ---
 hideInToc: false

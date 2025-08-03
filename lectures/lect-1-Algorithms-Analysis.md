@@ -8,9 +8,9 @@ background: https://cover.sli.dev
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 # Analysis of Algorithms
-## Algorithm and Data Structures
-### Semester 1/2025
-### Dr. Ruslee Sutthaweekul
+## {{ $slidev.configs.subject }}
+### Presented by {{ $slidev.configs.presenter }}
+### Semester {{ $slidev.configs.semester }}
 
 ---
 hideInToc: false

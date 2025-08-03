@@ -9,9 +9,9 @@ background: https://cover.sli.dev
 ---
 
 # Singly Linked List
-### Algorithm and Data Structures
-### Semester 1/2025
-### Dr. Ruslee Sutthaweekul
+## {{ $slidev.configs.subject }}
+### Presented by {{ $slidev.configs.presenter }}
+### Semester {{ $slidev.configs.semester }}
 
 
 

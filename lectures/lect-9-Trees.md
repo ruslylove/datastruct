@@ -8,9 +8,9 @@ background: https://cover.sli.dev
 ---
 
 # Trees
-### Algorithm and Data Structures
-### semester 1/2025
-### Dr. Ruslee Sutthaweekul
+## {{ $slidev.configs.subject }}
+### Presented by {{ $slidev.configs.presenter }}
+### Semester {{ $slidev.configs.semester }}
 
 ---
 hideInToc: false
@@ -33,12 +33,17 @@ layout: two-cols
     * File systems (directories and files).
     * Structure in programming environments (e.g., syntax trees).
 :: right ::
+
+
+
 <img src="./img/tree_wahtisatree.png" style="padding-left:30px;padding-top:50px"/>
 
 ---
-layout: two-cols
+layout: two-cols-header
 ---
 ## Tree Terminology
+
+:: left ::
 
 * **Root:** The unique node with no parent (e.g., A).
 * **Internal Node:** A node possessing at least one child (e.g., A, B, C, F).
@@ -47,23 +52,52 @@ layout: two-cols
 * **Descendants:** Child, grandchild, great-grandchild, etc., tracing down from a node.
 * **Subtree:** The portion of the tree consisting of a node and all its descendants.
 * **Depth:** The number of ancestors a node has (root depth is 0).
-* **Height:** The maximum depth among all nodes in the tree.
-:: right ::
-<img src="./img/tree_terminology.png" style="padding-left:30px"/>
 
+:: right ::
+
+* **Height:** The maximum depth among all nodes in the tree.
+
+```mermaid {scale:1.3}
+graph TD
+
+    A((A)) --- B((B))
+    A --- C((C))
+    A --- D((D))
+    B --- E((E))
+    B --- F((F))
+    C --- G((G))
+    C --- H((H))
+    F --- I((I))
+    F --- J((J))
+    F --- K((K))
+
+    style A fill:#ecd082,stroke:black;
+    style B fill:#ecd082,stroke:black;
+    style C fill:#ecd082,stroke:black;
+    style F fill:#ecd082,stroke:black;
+
+```
+
+<!--
+<img src="./img/tree_terminology.png" style="padding-left:30px"/> -->
+
+---
+layout: two-cols
 ---
 
 ## Tree Abstract Data Type (ADT)
 
 * We use the concept of **Positions** to abstractly refer to nodes.
 
-<transform scale="0.8">
-
 * **Generic Methods:**
     * `size()`: Returns the total number of nodes.
     * `isEmpty()`: Checks if the tree has any nodes.
     * `iterator()`: Provides an iterator for the elements (often based on a traversal).
     * `positions()`: Returns an iterable collection of all node positions.
+
+*(Note: Update methods like add/remove are usually defined by specific tree implementations)*
+
+:: right ::
 * **Accessor Methods:**
     * `root()`: Returns the position of the root node.
     * `parent(p)`: Returns the position of the parent of `p`.
@@ -74,9 +108,6 @@ layout: two-cols
     * `isExternal(p)`: Checks if `p` is an external node (leaf).
     * `isRoot(p)`: Checks if `p` is the root node.
 
-*(Note: Update methods like add/remove are usually defined by specific tree implementations)*
-
-</transform>
 
 ---
 
@@ -250,12 +281,12 @@ graph TD
     B((#215;))
     C((#45;))
 
-    A --> B
-    A --> C
-    B --> D["2"]
-    B --> E["5"]
-    C --> F["3"]
-    C --> G["1"]
+    A --- B
+    A --- C
+    B --- D["2"]
+    B --- E["5"]
+    C --- F["3"]
+    C --- G["1"]
 
     style A fill:#ecd082,stroke:black;
     style B fill:#ecd082,stroke:black;
@@ -287,12 +318,12 @@ graph TD
     B((#215;))
     C((#45;))
 
-    A --> B
-    A --> C
-    B --> D["2"]
-    B --> E["5"]
-    C --> F["3"]
-    C --> G["1"]
+    A --- B
+    A --- C
+    B --- D["2"]
+    B --- E["5"]
+    C --- F["3"]
+    C --- G["1"]
 
     style A fill:#ecd082,stroke:black;
     style B fill:#ecd082,stroke:black;
@@ -312,7 +343,7 @@ graph TD
 
 <br>
 
-<img src="/euler_tour.png" style="height:200px"/>
+<img src="/euler_tour.png" style="height:250px"/>
 
 ---
 layout: two-cols
@@ -326,22 +357,27 @@ layout: two-cols
     * A sequence (e.g., a List or Array) of references to its children nodes.
 * These node objects implement the `Position` ADT concept.
 
+<div style="padding-left:130px">
+
 ```mermaid
 graph TD
-    B((B)) --> A((A))
-    B --> D((D))
-    B --> F((F))
-    D --> C((C))
-    D --> E((E))
+    B((B)) --- A((A))
+    B --- D((D))
+    B --- F((F))
+    D --- C((C))
+    D --- E((E))
 
     style B fill:#ecd082,stroke:black;
     style D fill:#ecd082,stroke:black;
 
 ```
 
+</div>
+
+
 :: right ::
 
-<img src="/linked_binary_tree.png" >
+<img src="/linked_binary_tree.png">
 
 
 ---
@@ -357,17 +393,22 @@ layout: two-cols
     * A reference to the right child node.
 * Again, these node objects implement the `Position` ADT concept.
 
+
+<div style="padding-left:130px">
+
 ```mermaid
 graph TD
-    B((B)) --> A((A))
-    B --> D((D))
-    D --> C((C))
-    D --> E((E))
+    B((B)) --- A((A))
+    B --- D((D))
+    D --- C((C))
+    D --- E((E))
 
     style B fill:#ecd082,stroke:black;
     style D fill:#ecd082,stroke:black;
 
 ```
+
+</div>
 
 
 :: right ::
@@ -383,7 +424,6 @@ layout: two-cols-header
 :: left ::
 
 A binary tree can be stored in an array (or an `ArrayList`) by level-order traversal.
-
 *   The root is stored at index `p=0`.
 *   For a node at index `p`:
     *   Left child: `2p + 1`
@@ -401,13 +441,13 @@ A binary tree can be stored in an array (or an `ArrayList`) by level-order trave
 
 **Example:**
 
-```mermaid {scale:0.8}
+```mermaid {scale:0.9}
 graph TD
-    A["A (0)"] --> B["B (1)"]
-    A["A (0)"] --> C["C (2)"]
-    B["B (1)"] --> D["D (3)"]
-    B["B (1)"] --> E["E (4)"]
-    C["C (2)"] --> F["F (5)"]
+    A(["A (0)"]) --- B(["B (1)"])
+    A --- C(["C (2)"])
+    B --- D(["D (3)"])
+    B --- E(["E (4)"])
+    C --- F(["F (5)"])
 ```
 
 **Array:**
@@ -434,14 +474,14 @@ layout: two-cols-header
 
 ```mermaid {scale:1.55}
 graph TD
-    A((8)) --> B((3))
-    A --> C((10))
-    B --> D((1))
-    B --> E((6))
-    C --> F((14))
-    E --> G((4))
-    E --> H((7))
-    F --> I((13))
+    A((8)) --- B((3))
+    A --- C((10))
+    B --- D((1))
+    B --- E((6))
+    C --- F((14))
+    E --- G((4))
+    E --- H((7))
+    F --- I((13))
 
     style A fill:#ecd082,stroke:black;
     style B fill:#ecd082,stroke:black;
@@ -485,16 +525,16 @@ layout: two-cols
 ```mermaid {scale:1.2}
 graph TD
     K((15)) -.-> A
-    A((8)) --> B((3))
-    A --> C((10))
+    A((8)) --- B((3))
+    A --- C((10))
     A -.-> C
-    B --> D((1))
-    B --> E((6))
-    C --> F((14))
+    B --- D((1))
+    B --- E((6))
+    C --- F((14))
     C -.-> F
-    E --> G((4))
-    E --> H((7))
-    F --> I((13))
+    E --- G((4))
+    E --- H((7))
+    F --- I((13))
     F -.-> J((15))
 
 
@@ -527,14 +567,14 @@ Deletion is more complex as we need to maintain the BST property. There are thre
 
 ```mermaid {scale:1.5}
 graph TD
-    A((8)) --> B((3))
-    A --> C((10))
-    B --> D((1))
-    B --> E((6))
-    C --> F((14))
-    E --> G((4))
-    E --> H((7))
-    F --> I((13))
+    A((8)) --- B((3))
+    A --- C((10))
+    B --- D((1))
+    B --- E((6))
+    C --- F((14))
+    E --- G((4))
+    E --- H((7))
+    F --- I((13))
 
     style A fill:#ecd082,stroke:black;
     style B fill:#ecd082,stroke:black;
