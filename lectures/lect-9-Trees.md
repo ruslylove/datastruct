@@ -62,6 +62,47 @@ graph TD
 ```
 <!-- 
 <img src="./img/tree_wahtisatree.png" style="padding-left:30px;padding-top:50px"/> -->
+---
+
+## Example: Structuring a Maze
+
+A tree is a natural way to model the structure of a maze.
+*   The **entrance** of the maze can be considered the **root** of the tree.
+*   Each **junction** or **decision point** becomes an **internal node**.
+*   **Dead ends** become **leaf nodes**.
+*   The **exit** is also a node in the tree.
+
+By representing the maze as a tree, algorithms like **depth-first search (DFS)** or **breadth-first search (BFS)** can be used to systematically find a path from the entrance to the exit.
+
+```mermaid {scale:0.67}
+graph LR
+    End(End)
+    Start(Start)
+    Start --> C12@{ shape: circle}
+    C12 --> C11@{ shape: circle}
+    C12 --> C22@{ shape: circle} --> C21@{ shape: circle} --> C31@{ shape: circle} --> C32@{ shape: circle} --> C33@{ shape: circle} -->C43@{ shape: circle} --> End
+    C12 --> C13@{ shape: circle} --> C14@{ shape: circle} --> C24@{ shape: circle} --> C34@{ shape: circle} --> C44@{ shape: circle}
+    C22 --> C23@{ shape: circle}
+    C32 --> C42@{ shape: circle} --> C41@{ shape: circle}
+    
+    %% Styling
+    class C11,C23,C41,C44 dead;
+    classDef dead fill:#f99,stroke:#333,stroke-width:2px;
+
+    style Start fill:#9f9,stroke:#333,stroke-width:2px
+    style End fill:#fe8,stroke:#333,stroke-width:2px
+
+```
+
+
+<img src="/z1io_sfhe_230426.jpg" style="position:fixed;height:50px;top:40px;right:180px"/>
+<img src="/ba5e78c1-3152-4e1f-bb7c-41ffa5e82c74.jpg" style="position:fixed;height:50px;top:215px;right:140px"/>
+
+<div style="position:fixed;right:130px;top:100px">
+<img src="/maze.png" style="height:120px"/>
+</div>
+
+
 
 ---
 layout: two-cols-header
