@@ -416,6 +416,134 @@ graph TD
 | Value | A | B | C | D | E | F |
 
 ---
+layout: two-cols-header
+---
+
+## Binary Search Trees (BST)
+
+:: left ::
+
+* A **Binary Search Tree** is a binary tree with a special property:
+    * For any node `n`, all values in its left subtree are less than `n`'s value.
+    * For any node `n`, all values in its right subtree are greater than `n`'s value.
+* This property makes searching for elements very efficient.
+* Both the left and right subtrees must also be binary search trees.
+
+:: right ::
+
+
+```mermaid {scale:1.55}
+graph TD
+    A((8)) --> B((3))
+    A --> C((10))
+    B --> D((1))
+    B --> E((6))
+    C --> F((14))
+    E --> G((4))
+    E --> H((7))
+    F --> I((13))
+
+    style A fill:#ecd082,stroke:black;
+    style B fill:#ecd082,stroke:black;
+    style C fill:#ecd082,stroke:black;
+    style E fill:#ecd082,stroke:black;
+    style F fill:#ecd082,stroke:black;
+```
+
+
+
+---
+
+## Searching in a BST
+
+* The BST property allows us to eliminate half of the tree at each step.
+* **Algorithm `TreeSearch(x, k)`:**
+    * If `x` is null or `k` is at `x`, return `x`.
+    * If `k` is smaller than the value at `x`, search the left subtree: `TreeSearch(left(x), k)`.
+    * If `k` is larger than the value at `x`, search the right subtree: `TreeSearch(right(x), k)`.
+* **Performance:** The time complexity is $O(h)$, where $h$  is the `height` of the tree. For a balanced tree, this is $O(log n)$.
+
+---
+layout: two-cols
+---
+
+## Insertion in a BST
+
+* To insert a new value `k`, we search for it until we reach an external node (a null link).
+* The new node is inserted at this position.
+* **Algorithm:**
+    1.  Start at the root.
+    2.  If the tree is empty, the new node becomes the root.
+    3.  Compare `k` with the current node's value.
+    4.  If `k` is smaller, move to the left child.
+    5.  If `k` is larger, move to the right child.
+    6.  Repeat until a null child is found.
+    7.  Insert the new node as that child.
+
+:: right ::
+
+```mermaid {scale:1.2}
+graph TD
+    K((15)) -.-> A
+    A((8)) --> B((3))
+    A --> C((10))
+    A -.-> C
+    B --> D((1))
+    B --> E((6))
+    C --> F((14))
+    C -.-> F
+    E --> G((4))
+    E --> H((7))
+    F --> I((13))
+    F -.-> J((15))
+
+
+    style A fill:#ecd082,stroke:black;
+    style B fill:#ecd082,stroke:black;
+    style C fill:#ecd082,stroke:black;
+    style E fill:#ecd082,stroke:black;
+    style K fill:#d0ec82,stroke:black;
+    style J fill:#d0ec82,stroke:black,style:dashed;
+
+```
+
+---
+layout: two-cols
+---
+
+## Deletion from a BST
+
+Deletion is more complex as we need to maintain the BST property. There are three cases for the node `z` to be deleted:
+
+1.  **`z` has no children:** Simply remove `z` (e.g., deleting 1, 4, 7, or 13 in the example).
+2.  **`z` has one child:** Replace `z` with its child (e.g., deleting 10).
+3.  **`z` has two children:**
+    *   Find `z`'s **inorder successor** (the smallest node in its right subtree). Let's call it `y`.
+    *   Replace `z`'s value with `y`'s value.
+    *   `y` has at most one child (a right child), so delete `y` using case 1 or 2.
+
+
+:: right ::
+
+```mermaid {scale:1.5}
+graph TD
+    A((8)) --> B((3))
+    A --> C((10))
+    B --> D((1))
+    B --> E((6))
+    C --> F((14))
+    E --> G((4))
+    E --> H((7))
+    F --> I((13))
+
+    style A fill:#ecd082,stroke:black;
+    style B fill:#ecd082,stroke:black;
+    style C fill:#ecd082,stroke:black;
+    style E fill:#ecd082,stroke:black;
+    style F fill:#ecd082,stroke:black;
+```
+
+---
 
 ## Summary
 
@@ -427,6 +555,7 @@ graph TD
     *   **Postorder:** Visit left, then right, then root.
     *   **Inorder (Binary Trees):** Visit left, then root, then right.
 *   **Binary Trees** are a fundamental variant where each node has at most two children.
+*   **Binary Search Trees (BSTs)** are binary trees with a special ordering property, enabling efficient searching, insertion, and deletion.
 *   **Implementations:**
     *   **Linked Structure:** Flexible, good for dynamic trees (nodes with pointers).
     *   **Array-Based:** Space-efficient for complete trees, but can be wasteful for sparse or skewed trees.
