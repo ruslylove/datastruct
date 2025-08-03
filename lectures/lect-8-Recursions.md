@@ -30,9 +30,7 @@ hideInToc: false
 * **Recursive Definition:**
     * `f(n) = 1` if `n = 0` (Base Case)
     * `f(n) = n * f(n-1)` if `n > 0` (Recursive Step)
-
 * **Java Implementation:**
-
 ```java
 public static int factorial(int n) throws IllegalArgumentException {
     if (n < 0) {
@@ -46,6 +44,8 @@ public static int factorial(int n) throws IllegalArgumentException {
 
 ```
 
+---
+hide: true
 ---
 
 ## Anatomy of a Recursive Method
@@ -65,7 +65,7 @@ Every recursive method needs two key components:
 layout: two-cols
 ---
 
-## Visualizing Recursion: The Trace
+## The Recursion Trace
 
 * A **recursion trace** helps visualize the flow of recursive calls.
 * **Example: `factorial(4)`**
@@ -94,6 +94,8 @@ layout: two-cols
 </div>
 
 ---
+layout: two-cols
+---
 
 ## Binary Search: Recursive Approach
 
@@ -104,11 +106,11 @@ layout: two-cols
     * If `target > data[mid]`, recursively search the *right* half (`mid + 1` to `high`).
 * **Base Case:** If `low > high`, the search interval is empty, target not found.
 
----
+:: right ::
 
-## Binary Search: Java Implementation
+**Java Implementation:**
 
-```java
+```java {*}
 /**
  * Returns true if the target value is found in the specified portion
  * of the sorted data array (from data[low] to data[high] inclusive).
@@ -153,18 +155,15 @@ layout: two-cols
 * A directory can contain:
     * Files (base case for size calculation).
     * Other directories (recursive step).
+* **Example:** Calculate the total disk space used by a directory and all its subdirectories.
+<br><br>
+<img src="/directory_tree.png" style="height:180px">
 
 :: right ::
 
-* **Example:** Calculate the total disk space used by a directory and all its subdirectories.
+**Java Implementation:**
 
-![Directory Tree](/directory_tree.png)
-
----
-
-## Calculating Disk Space Recursively (Java)
-
-```java
+```java {*}{lines:true}
 import java.io.File;
 
 /** Calculates the total disk space (in bytes) used by a file/directory. */
@@ -232,7 +231,7 @@ layout: two-cols-header
 
 ---
 
-## Fibonacci: Efficient Recursive Implementation (Java)
+## Fibonacci: Efficient Recursive Implementation
 
 * Avoids redundant calculations by returning *both* `Fₙ` and `Fₙ₋₁`.
 * Uses an array `long[] { Fn, Fn-1 }` as the return type.
@@ -266,8 +265,10 @@ private static long[] fibonacciGoodHelper(int n) {
 
 ```
 
-* This version makes only one recursive call per level, resulting in O(n) time complexity.
+* This version makes only one recursive call per level, resulting in $O(n)$ time complexity.
 
+---
+layout: two-cols
 ---
 
 ## Example: Drawing an English Ruler
@@ -294,9 +295,11 @@ Recursion can be used to draw patterns like the ticks on an English ruler.
 ---- 2
 ```
 
----
+:: right ::
 
-## Recursive Approach for Ruler Ticks
+<div style="padding-left:20px">
+
+**Recursive Approach for Ruler Ticks**
 
 Define a recursive function `drawInterval(length)`:
 
@@ -308,6 +311,9 @@ Define a recursive function `drawInterval(length)`:
         b.  Draw the central tick of the given `length`.
         c.  Recursively call `drawInterval(length - 1)` to draw the bottom smaller interval.
     2.  If `length <= 0` (Base Case): Do nothing.
+
+</div>
+
 
 ---
 layout: two-cols-header

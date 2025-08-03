@@ -22,8 +22,7 @@ hideInToc: false
 
 
 ---
-layout: two-cols
----
+
 ## What is a Tree?
 
 * In computer science, a **tree** is an abstract representation of a hierarchical structure.
@@ -32,11 +31,37 @@ layout: two-cols
     * Organizational charts.
     * File systems (directories and files).
     * Structure in programming environments (e.g., syntax trees).
-:: right ::
 
+```mermaid {scale:0.65}
+graph TD
 
+    
 
-<img src="./img/tree_wahtisatree.png" style="padding-left:30px;padding-top:50px"/>
+    A(🏪 7-Eleven Products) --- B(🌭 Food & Drinks)
+    A --- C(💊 Personal Care)
+    A --- D(🤵 Services)
+
+    B --- E(Ready-to-Eat)
+    B --- F(Snacks)
+    B --- G(Beverages)
+
+    E --- H("Krapao Rice")
+    E --- I("Sausage Buns")
+
+    G --- L("Slurpee")
+    G --- M("All Café")
+
+    C --- N(Skincare)
+    C --- S(Drugs)
+    D --- R("Bill Payment")
+
+    class A,B,C,D,E,F,G,H,I,L,M,N,R,S AB;
+    classDef AB fill:#ecd082,stroke:black,stroke-width:2px;
+    
+
+```
+<!-- 
+<img src="./img/tree_wahtisatree.png" style="padding-left:30px;padding-top:50px"/> -->
 
 ---
 layout: two-cols-header
@@ -71,10 +96,11 @@ graph TD
     F --- J((J))
     F --- K((K))
 
-    style A fill:#ecd082,stroke:black;
-    style B fill:#ecd082,stroke:black;
-    style C fill:#ecd082,stroke:black;
-    style F fill:#ecd082,stroke:black;
+    class A,B,C,F internal;
+    class D,E,G,H,I,J,K external;
+    classDef internal fill:#ecd082,stroke:black;
+    classDef external stroke:black;
+
 
 ```
 
@@ -184,6 +210,8 @@ Algorithm postOrder(v):
 <img src="./img/tree_postorder.png" style="height:200px"/>
 
 ---
+layout: two-cols
+---
 
 ## Binary Trees
 
@@ -195,25 +223,52 @@ Algorithm postOrder(v):
     * Arithmetic expressions.
     * Decision processes.
     * Binary search trees.
-<img src="./img/tree_binarytree.png" style="height:200px"/>
+ 
+:: right ::
 
+```mermaid {scale:1.2}
+graph TD
+    A((#43;))
+    B((#215;))
+    C((#215;))
+    H((#45;))
+    E("a")
+    I("1")
+
+    A --- B
+    A --- C
+    B --- D("2")
+    B --- H
+    C --- F("3")
+    C --- G("b")
+    H --- E
+    H --- I
+
+    class A,B,C,H internal;
+    class D,E,F,G,I external;
+
+    classDef internal fill:#ecd082,stroke:black,stroke-width:1px;
+    classDef external stroke:black,stroke-width:1px;
+
+```
+<!-- 
+<img src="./img/tree_binarytree.png" style="height:200px"/> -->
+
+---
+layout: two-cols-header
 ---
 
 ## Binary Tree ADT
 
+:: left ::
 Extends the basic Tree ADT with methods specific to binary trees:
 
 * `left(p)`: Returns the `Position` of the left child of `p` (or null if none).
 * `right(p)`: Returns the `Position` of the right child of `p` (or null if none).
 * `sibling(p)`: Returns the `Position` of the sibling of `p` (the other child of `p`'s parent, or null if none).
-
----
-
-## Binary Tree Interface in Java
-
-Extends the `Tree` interface.
-
-```java
+:: right ::
+**Binary Tree Interface extends the `Tree` interface.**
+```java {*}
 /** An interface for a binary tree, where each node has at most two children. */
 public interface BinaryTree<E> extends Tree<E> {
 
@@ -275,7 +330,7 @@ Algorithm inOrder(v):
 * **Postorder:** Useful for creating a postfix representation (Reverse Polish Notation). `2 5 * 3 1 - +`
 * **Inorder:** Useful for creating the standard infix representation (requires parentheses for correctness). `(2 * 5) + (3 - 1)`
 
-```mermaid
+```mermaid {scale:1.2}
 graph TD
     A((#43;))
     B((#215;))
@@ -288,9 +343,11 @@ graph TD
     C --- F("3")
     C --- G("1")
 
-    style A fill:#ecd082,stroke:black;
-    style B fill:#ecd082,stroke:black;
-    style C fill:#ecd082,stroke:black;
+    class A,B,C internal;
+    class D,E,F,G external;
+
+    classDef internal fill:#ecd082,stroke:black;
+    classDef external stroke:black;
 
 ```
 
@@ -298,7 +355,7 @@ graph TD
 
 ## Evaluating Arithmetic Expressions (Binary Tree)
 
-* A specialized postorder traversal can evaluate an expression tree.
+* A specialized **postorder traversal** can evaluate an expression tree.
 * **Algorithm:**
 
 ```text
@@ -325,9 +382,11 @@ graph TD
     C --- F("3")
     C --- G("1")
 
-    style A fill:#ecd082,stroke:black;
-    style B fill:#ecd082,stroke:black;
-    style C fill:#ecd082,stroke:black;
+    class A,B,C internal;
+    class D,E,F,G external;
+
+    classDef internal fill:#ecd082,stroke:black;
+    classDef external stroke:black;
 
 ```
 
@@ -367,8 +426,11 @@ graph TD
     D --- C(C)
     D --- E(E)
 
-    style B fill:#ecd082,stroke:black;
-    style D fill:#ecd082,stroke:black;
+    class B,D internal;
+    class A,B,C,D,E,F border;
+
+    classDef internal fill:#ecd082,stroke:black;
+    classDef border stroke-width:2px,stroke:black;
 
 ```
 
@@ -403,8 +465,11 @@ graph TD
     D --- C(C)
     D --- E(E)
 
-    style B fill:#ecd082,stroke:black;
-    style D fill:#ecd082,stroke:black;
+    class B,D internal;
+    class A,B,C,D,E border;
+
+    classDef internal fill:#ecd082,stroke:black;
+    classDef border stroke-width:2px,stroke:black;
 
 ```
 
@@ -428,7 +493,7 @@ A binary tree can be stored in an array (or an `ArrayList`) by level-order trave
 *   For a node at index `p`:
     *   Left child: `2p + 1`
     *   Right child: `2p + 2`
-    *   Parent: `floor((p - 1) / 2)`
+    *   Parent: `(p - 1) / 2` (integer division)
 
 **Advantages:**
 *   Space-efficient for *complete* binary trees.
@@ -449,6 +514,10 @@ graph TD
     B --- E("E (4)")
     C --- F("F (5)")
     C -.- G("... (6)")
+
+  
+    class A,B,C,D,E,F border;
+    classDef border stroke-width:2px,stroke:black,fill:#ecd082;
 
     style G fill:#fff,stroke:black,border:1px black,stroke-dasharray: 5 5;
 
@@ -497,6 +566,8 @@ graph TD
 
 
 ---
+layout: two-cols
+---
 
 ## Searching in a BST
 
@@ -506,6 +577,35 @@ graph TD
     * If `k` is smaller than the value at `x`, search the left subtree: `TreeSearch(left(x), k)`.
     * If `k` is larger than the value at `x`, search the right subtree: `TreeSearch(right(x), k)`.
 * **Performance:** The time complexity is $O(h)$, where $h$  is the `height` of the tree. For a balanced tree, this is $O(log n)$.
+
+:: right ::
+
+
+```mermaid {scale:1}
+graph TD
+    A((8)) --- B((3))
+    A --- C((14))
+    B --- D((1))
+    B --- E((6))
+    C --- F((12))
+    E --- G((4))
+    E --- H((7))
+    F --- I((10))
+    C --- J((18))
+    J --- K((16))
+    J --- L((20))
+    F --- M((13))
+    I --- N((9))
+    I --- O((11))
+
+    class A,B,C,E,F,I,J internal;
+    class A,B,C,D,E,F,G,H,I,J,K,L,M,N,O border;
+    classDef border stroke-width:2px,stroke:black;
+    classDef internal fill:#ecd082;
+
+
+
+```
 
 ---
 layout: two-cols
