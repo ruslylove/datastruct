@@ -232,7 +232,7 @@ graph TD
 
 ---
 
-## Queue Interface Definition in Java
+## Queue Interface Definition
 
 This interface formalizes the Queue ADT in Java.
 
@@ -259,7 +259,7 @@ public interface Queue<E> {
 
 ---
 
-## Array-Based Queue Implementation (Java Snippet)
+## Array-Based Queue Implementation
 
 ```java {*}{maxHeight:'380px'}
 /** Implementation of the Queue ADT using a fixed-length circular array. */
@@ -295,7 +295,7 @@ public class ArrayQueue<E> implements Queue<E> {
 
 ---
 
-## Array-Based Queue: Enqueue/Dequeue (Java Snippet)
+## Array-Based Queue: Enqueue/Dequeue
 
 ```java {*}{maxHeight:'380px'}
 // Continuing ArrayQueue<E> class...
@@ -368,7 +368,7 @@ For our `LinkedQueue`, `enqueue` operations will add to the "rear" (or tail) of 
 
 ---
 
-## LinkedQueue Implementation (Java) - Adapter Pattern
+## LinkedQueue Implementation - Adapter Pattern
 
 This implementation uses the Adapter pattern, leveraging the `SinglyLinkedList` class to provide queue functionality.
 
@@ -491,8 +491,6 @@ graph TD
 layout: two-cols
 ---
 
-
-
 ## Application: Data Buffering
 
 *   Queues are essential for **buffering** data between two processes that produce and consume data at different rates.
@@ -512,6 +510,73 @@ graph TD
 ```
 
 </div>
+
+---
+layout: two-cols-header
+---
+
+## Application: Queue from Stacks (Adapter Pattern)
+How can we implement a `Queue` using only `Stack`s? 
+```mermaid {scale:0.4}
+graph TD
+    subgraph "Enqueue Operation"
+        direction LR
+        A["Element"] -- "push" --> Inbound["Inbound Stack"]
+    end
+    subgraph "Dequeue Operation"
+        direction LR
+        Inbound2["Inbound Stack"] -- "1.Pop all & Push" --> Outbound["Outbound Stack"]
+        Outbound -- "2.Pop" --> Result["Element (Oldest)"]
+    end
+```
+:: left ::
+We use two stacks: `inbound` and `outbound`.
+*   **`dequeue()`:**
+    1.  If the `outbound` stack is empty, pop every element from `inbound` and push it onto `outbound`. This reverses the order of elements, placing the oldest element at the top of `outbound`.
+    2.  Pop and return the top element from `outbound`.
+:: right ::
+*   **`enqueue(e)`:** Push the new element `e` onto the `inbound` stack. This is an $O(1)$ operation.
+*   **Performance:**
+    *   `enqueue` is always $O(1)$.
+    *   `dequeue` is $O(1)$ when `outbound` is not empty.
+    *   `dequeue` is $O(n)$ when `outbound` is empty, as it moves $n$ elements. However, the **amortized time complexity** for `dequeue` is $O(1)$ because each element is moved between stacks only once.
+
+
+---
+layout: two-cols
+---
+
+## Application: Stack from Queues (Adapter Pattern)
+
+Implementing a `Stack` using only `Queue`s.
+
+We can use two queues, `q1` and `q2`, to simulate LIFO behavior.
+*   **`pop()`:**
+    1.  While `q1` has more than one element, dequeue from `q1` and enqueue into the secondary queue (`q2`).
+    2.  The last remaining element in `q1` is the one to be "popped". Dequeue it and return it.
+    3.  Swap the roles of `q1` and `q2`. The secondary queue now holds all the other elements and becomes the primary.
+:: right ::
+*   **`push(e)`:** Enqueue the new element `e` into the primary queue (`q1`). This is an $O(1)$ operation.
+
+*   **Performance:**
+    *   `push` is always $O(1)$.
+    *   `pop` is an $O(n)$ operation because it requires moving $n-1$ elements from one queue to the other.
+
+<br>
+
+```mermaid {scale:0.4}
+graph LR
+    subgraph "Initial State"
+        q1["q1: [1, 2, 3]"]
+        q2["q2: []"]
+    end
+    subgraph "Pop Operation"
+        step1["1.Dequeue until one left<br>q1: [3]<br>q2: [1, 2]"]
+        step2["2.Dequeue last element<br>Return: 3<br>q1: []<br>q2: [1, 2]"]
+        step3["3.Swap queues<br>q1: [1, 2]<br>q2: []"]
+    end
+    Initial --> step1 --> step2 --> step3
+```
 
 ---
 transition: slide-up
