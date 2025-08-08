@@ -26,7 +26,7 @@ hideInToc: false
 ## Priority Queue Abstract Data Type (ADT)
 
 * A **Priority Queue** stores a collection of entries.
-* Each entry is a pair: `(key, value)`. Keys represent priority and must be comparable.
+* Each entry is a pair: `(key, value)`. Keys represent priority and must be **comparable**.
 * **Core Operations:**
     * `insert(k, v)`: Adds an entry with key `k` and value `v`.
     * `removeMin()`: Removes and returns the entry with the *smallest* key (highest priority). Returns `null` if the queue is empty.
@@ -37,74 +37,30 @@ hideInToc: false
 * **Applications:** Managing standby lists, auctions, stock market orders (prioritizing by price/time).
 
 ---
-layout: two-cols
+layout: two-cols-header
 ---
 
 ## Priority Queue Example
+:: left ::
 
-<transform scale="0.8">
-
-| Method Call    | Return Value | Priority Queue Contents (Key, Value pairs) |
+| **Method Call**    | **Return Value** | **Priority Queue Contents (Key, Value pairs)** |
 | :------------- | :----------- | :----------------------------------------- |
 | `insert(5, A)` |              | `{(5, A)}`                                  |
 | `insert(9, C)` |              | `{(5, A), (9, C)}`                           |
 | `insert(3, B)` |              | `{(3, B), (5, A), (9, C)}`                   |
 | `min()`        | (3, B)       | `{(3, B), (5, A), (9, C)}`                   |
 | `removeMin()`  | (3, B)       | `{(5, A), (9, C)}`                           |
-| `insert(7, D)` |              | `{(5, A), (9, C), (7, D)}`                   |
-
-</transform>
 
 :: right ::
 
-<transform scale="0.8">
-
-
-| Method Call    | Return Value | Priority Queue Contents (Key, Value pairs) |
+| **Method Call**    | **Return Value** | **Priority Queue Contents (Key, Value pairs)** |
 | :------------- | :----------- | :----------------------------------------- |
+| `insert(7, D)` |              | `{(5, A), (9, C), (7, D)}`                   |
 | `min()`        | (5, A)       | `{(5, A), (9, C), (7, D)}`                   |
 | `removeMin()`  | (5, A)       | `{(7, D), (9, C)}`                           |
 | `removeMin()`  | (7, D)       | `{(9, C)}`                                   |
 | `removeMin()`  | (9, C)       | `{}`                                         |
 | `removeMin()`  | null         | `{}`                                         |
-
-*(Note: Internal order might vary depending on implementation, but `min`/`removeMin` always targets the smallest key.)*
-
-</transform>
-
-
-
----
-
-## Keys and Comparators
-
-* To determine the "smallest" key, we need a way to compare keys.
-* **Options:**
-    1.  Keys come from a domain with a **natural ordering** (e.g., integers, strings). The key type should implement the `Comparable` interface in Java.
-    2.  Provide a custom **Comparator** object. A comparator defines how to compare two keys. It's useful when the natural ordering isn't desired or doesn't exist.
-* The `java.util.Comparator` interface has one primary method:
-    * `compare(a, b)`: Returns `< 0` if `a < b`, `0` if `a == b`, `> 0` if `a > b`.
-
----
-
-## Default Comparator
-
-* If no custom comparator is provided, the priority queue typically relies on the keys' natural ordering.
-* Assumes keys implement `java.lang.Comparable`.
-* The `compareTo` method of the key type is used implicitly.
-
-```java
-import java.util.Comparator;
-
-/** Comparator based on the natural ordering of keys. */
-public class DefaultComparator<E extends Comparable<E>> implements Comparator<E> {
-    /** Compares two elements according to their natural ordering. */
-    public int compare(E a, E b) throws ClassCastException {
-        return a.compareTo(b);
-    }
-}
-
-```
 
 ---
 
@@ -126,6 +82,140 @@ public interface Entry<K, V> {
 ```
 
 * Concrete implementations of this interface would hold the actual key and value data.
+
+---
+
+## Keys and Comparators
+
+* To determine the "smallest" key, we need a way to compare keys.
+* **Options:**
+    1.  Keys come from a domain with a **natural ordering** (e.g., integers, strings). The key type should implement the `Comparable` interface in Java.
+    2.  Provide a custom **Comparator** object. A comparator defines how to compare two keys. It's useful when the natural ordering isn't desired or doesn't exist.
+* The `java.util.Comparator` interface has one primary method:
+    * `compare(a, b)`: Returns `< 0` if `a < b`, `0` if `a == b`, `> 0` if `a > b`.
+
+
+
+
+---
+layout: two-cols-header
+---
+
+## The `Comparable` Interface
+
+:: left ::
+
+*   The `java.lang.Comparable` interface defines a **natural ordering** for a class.
+*   A class that implements `Comparable` can be sorted automatically by methods like `Arrays.sort()` and `Collections.sort()`.
+*   It has a single method:
+    *   `compareTo(T other)`:
+        *   Returns a negative integer if `this` object is less than `other`.
+        *   Returns zero if `this` object is equal to `other`.
+        *   Returns a positive integer if `this` object is greater than `other`.
+
+:: right ::
+
+```plantuml
+@startuml
+skinparam classAttributeIconSize 0
+ 
+interface "Entry<K, V>" as Entry <<interface>> {
+  + getKey(): K
+  + getValue(): V
+}
+
+interface "Comparable<T>" as Comparable <<interface>> {
+  + compareTo(o: T): int
+}
+
+class "MyObject<K, V>" as MyObject implements Entry, Comparable {
+  ' An object that is both an Entry and is Comparable.
+  ' The comparison is typically based on its key.
+  + getKey(): K
+  + getValue(): V
+  + compareTo(other: MyObject<K, V>): int
+}
+
+@enduml
+```
+
+---
+layout: two-cols-header
+---
+
+## The `Comparator` Interface
+
+:: left ::
+
+*   The `java.util.Comparator` interface defines an **alternative ordering** for objects.
+*   It's a separate class, useful when:
+    *   You can't modify the class you want to sort.
+    *   You need multiple different sorting orders for the same class.
+*   It is a **functional interface** with one primary abstract method:
+    *   `compare(T o1, T o2)`:
+        *   Returns a negative integer if `o1` is less than `o2`.
+        *   Returns zero if `o1` is equal to `o2`.
+        *   Returns a positive integer if `o1` is greater than `o2`.
+
+:: right ::
+
+```plantuml
+@startuml
+skinparam classAttributeIconSize 0
+
+interface "Comparator<T>" as Comparator <<interface>> {
+  + compare(o1: T, o2: T): int
+}
+
+class MyCustomComparator implements Comparator<MyObject> {
+  + compare(o1: MyObject, o2: MyObject): int
+}
+MyCustomComparator .u.|> Comparator
+@enduml
+```
+
+---
+layout: two-cols
+---
+
+## Default Comparator
+
+*   If no custom comparator is provided, the priority queue typically relies on the keys' natural ordering.
+*   Assumes keys implement `java.lang.Comparable`.
+*   The `compareTo` method of the key type is used implicitly.
+
+```java {maxHeight:'200px'}
+public class DefaultComparator<E extends Comparable<E>>
+  implements Comparator<E> {
+
+  public int compare(E a, E b) {
+    return a.compareTo(b);
+  }
+}
+```
+
+:: right ::
+
+```plantuml
+@startuml
+skinparam classAttributeIconSize 0
+
+interface "Comparable<E>" as Comparable <<interface>> {
+  + compareTo(other: E): int
+}
+
+interface "Comparator<E>" as Comparator <<interface>> {
+  + compare(a: E, b: E): int
+}
+
+class "DefaultComparator<E>" implements Comparator {
+  + compare(a: E, b: E): int
+}
+
+DefaultComparator ..> Comparable : "uses E's compareTo"
+@enduml
+```
+
 
 ---
 
