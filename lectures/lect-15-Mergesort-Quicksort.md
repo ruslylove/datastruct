@@ -9,8 +9,10 @@ background: https://cover.sli.dev
 
 # Merge Sort and Quick Sort
 ## {{ $slidev.configs.subject }}
-### Presented by {{ $slidev.configs.presenter }}
 ### Semester {{ $slidev.configs.semester }}
+<br>
+
+### Presented by {{ $slidev.configs.presenter }}
 
 ---
 hideInToc: false

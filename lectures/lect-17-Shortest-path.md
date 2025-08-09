@@ -10,8 +10,10 @@ background: https://cover.sli.dev
 
 # Dijkstra's Algorithm
 ## {{ $slidev.configs.subject }}
-### Presented by {{ $slidev.configs.presenter }}
 ### Semester {{ $slidev.configs.semester }}
+<br>
+
+### Presented by {{ $slidev.configs.presenter }}
 
 
 

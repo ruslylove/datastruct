@@ -8,8 +8,11 @@ background: https://cover.sli.dev
 
 # Arrays and ArrayList
 ## {{ $slidev.configs.subject }}
-### Presented by {{ $slidev.configs.presenter }}
 ### Semester {{ $slidev.configs.semester }}
+<br>
+
+### Presented by {{ $slidev.configs.presenter }}
+
 ---
 hideInToc: false
 ---

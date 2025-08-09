@@ -10,8 +10,11 @@ background: https://cover.sli.dev
 # Introduction to Java Programming <br> (for C/C++ developers)
 
 ## {{ $slidev.configs.subject }}
-### Presented by {{ $slidev.configs.presenter }}
 ### Semester {{ $slidev.configs.semester }}
+<br>
+
+### Presented by {{ $slidev.configs.presenter }}
+
 
 ---
 hideInToc: false
