@@ -524,7 +524,6 @@ graph TD
 * **Problem:** Combine two heaps, `H₁` and `H₂`, into a single valid heap `H`.
 * **Simple Approach:** Create a new heap `H`. Insert all elements from `H₁` into `H`, then insert all elements from `H₂` into `H`.
 * **Complexity:** If `n₁` and `n₂` are the sizes, this takes $O(n₁ log(n₁+n₂) + n₂ log(n₁+n₂))$ time, roughly $O(n log n)$ where `n = n₁ + n₂`.
-* **Alternative (using bottom-up):** Concatenate the array representations of `H₁` and `H₂`. Then, apply the O(n) bottom-up heap construction algorithm to the combined array. This is more efficient.
 <div class="grid grid-cols-2 gap-8 items-center">
 <div>
 
@@ -550,7 +549,7 @@ graph TD
 </div>
 <div>
 
-**Efficient Merging Strategy ($O(n)$):**
+**Alternative Approach:** Efficient Merging Strategy ($O(n)$):**
 1.  Concatenate the array representations of `H₁` and `H₂`.
 2.  Apply the **bottom-up heap construction** algorithm to the new combined array.
 
