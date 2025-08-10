@@ -20,7 +20,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="1"/>
+<toc mode="onlySiblings" minDepth="2" columns="2"/>
 
 
 ---
@@ -54,7 +54,28 @@ hideInToc: false
     1.  **Heap-Order Property:** For every node `p` (other than the root), the key stored at `p` is *greater than or equal to* the key stored at its parent. This implies the smallest key is always at the root.
     2.  **Complete Binary Tree Property:** The tree `T` is a **complete binary tree**. This means the tree is perfectly balanced, and all levels are filled except possibly the last level, which is filled from left to right.
 
-(Diagram showing a heap with keys satisfying heap-order and the complete binary tree structure)
+<div class="grid grid-cols-2 gap-4 items-center">
+<div>
+
+*   **Heap-Order:** The key at any node is less than or equal to the keys of its children.
+    *   Example: `4 ≤ 5` and `4 ≤ 8`.
+*   **Completeness:** The tree is filled level by level, from left to right.
+
+</div>
+<div class="place-self-center">
+
+```mermaid {scale: 0.9}
+graph TD
+    A((4)) --> B((5))
+    A --> C((8))
+    B --> D((9))
+    B --> E((15))
+    C --> F((10))
+    C --> G((20))
+```
+
+</div>
+</div>
 
 ---
 
@@ -67,8 +88,46 @@ hideInToc: false
     * So, `n >= 2^h`. Taking `log₂` of both sides gives `log₂ n >= h`.
     * Thus, `h <= log₂ n`, meaning `h` is O(log n).
 
-(Diagram illustrating levels of a complete binary tree and the number of nodes at each level)
+<div style="position:fixed;right:120px;bottom:50px;">
+<!-- <div>
 
+| Level | Nodes at this Level | Total Nodes up to this Level |
+| :---: | :---: | :---: |
+| 0     | 1 = 2<sup>0</sup> | 1 |
+| 1     | 2 = 2<sup>1</sup> | 3 |
+| 2     | 4 = 2<sup>2</sup> | 7 |
+| ...   | ...               | ... |
+| i     | 2<sup>i</sup>     | 2<sup>i+1</sup> - 1 |
+
+<br>
+A tree of height `h` has at least `2^h` nodes.
+<br>
+`n ≥ 2^h  =>  log₂(n) ≥ h`
+
+</div> -->
+<div class="place-self-center">
+
+```mermaid {scale: 0.8}
+graph TD
+    subgraph "Level-0"
+        A(( ))
+    end
+    subgraph "Level-1"
+        B(( )) & C(( ))
+    end
+    subgraph "Level-2"
+        D(( )) & E(( )) & F(( )) & G(( ))
+    end
+
+    A --> B & C 
+    B --> D & E 
+    C --> F & G 
+```
+</div>
+</div>
+
+---
+layout: two-cols
 ---
 
 ## Heap Implementation: Array-Based List
@@ -82,7 +141,36 @@ hideInToc: false
         * Its parent is at index `floor((i - 1) / 2)`.
 * This allows direct index calculations to navigate between parent and children, without needing explicit node objects with links.
 
-(Diagram showing a heap tree and its corresponding array representation with index mapping)
+:: right ::
+
+<div class="grid grid-cols-2 gap-4 items-center">
+
+<div>
+
+**Array Representation:**
+
+| Value | 4 | 5 | 8 | 9 | 15 | 10 | 20 |
+| :---: |:-:|:-:|:-:|:-:|:--:|:--:|:--:|
+| Index | 0 | 1 | 2 | 3 | 4  | 5  | 6  |
+
+<br>
+
+<div class="place-self-center">
+
+```mermaid {scale: 0.9}
+graph TD
+    A("4 (0)") --> B("5 (1)")
+    A --> C("8 (2)")
+    B --> D("9 (3)")
+    B --> E("15 (4)")
+    C --> F("10 (5)")
+    C --> G("20 (6)")
+```
+
+</div>
+
+</div>
+</div>
 
 ---
 
@@ -96,7 +184,95 @@ hideInToc: false
         * Update `p` to be the position of its parent.
     3.  Repeat the upheap process until the heap-order property is restored.
 
-(Diagram illustrating the insertion of key '2' and the subsequent upheap swaps)
+---
+
+## Heap Insertion Example Trace
+
+<div class="grid grid-cols-2 gap-2 items-start">
+<div>
+
+**1. Add to End**
+
+Insert the new key `2` into the next available position to maintain the complete tree structure.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((4)) --> B((5))
+    A --> C((8))
+    B --> D((9))
+    B --> E((15))
+    C --> F((10))
+    C --> G((20))
+    D --> H((2))
+    style H fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+```
+
+</div>
+<div>
+
+**2. Upheap Swap 1**
+
+`2 < 9`, so swap `2` with its parent.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((4)) --> B((5))
+    A --> C((8))
+    B --> D((2))
+    B --> E((15))
+    C --> F((10))
+    C --> G((20))
+    D --> H((9))
+    style D fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+```
+
+</div>
+</div>
+---
+
+## Heap Insertion Example Trace (cont.)
+
+<div class="grid grid-cols-2 gap-2 items-start">
+
+<div>
+
+**3. Upheap Swap 2**
+
+`2 < 5`, so swap `2` with its new parent.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((4)) --> B((2))
+    A --> C((8))
+    B --> D((5))
+    B --> E((15))
+    C --> F((10))
+    C --> G((20))
+    D --> H((9))
+    style B fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+```
+
+</div>
+<div>
+
+**4. Final Swap**
+
+`2 < 4`, so swap `2` with its new parent. `2` is now the root. The heap property is restored.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((2)) --> B((4))
+    A --> C((8))
+    B --> D((5))
+    B --> E((15))
+    C --> F((10))
+    C --> G((20))
+    D --> H((9))
+    style A fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+```
+
+</div>
+</div>
 
 ---
 
@@ -115,7 +291,97 @@ hideInToc: false
         * Else (heap-order is locally satisfied): Break the loop.
     5.  Return the saved minimum entry.
 
-(Diagram illustrating the removal of the root '4' and the subsequent downheap swaps starting with '20' moved to the root)
+---
+
+## Heap Removal Example Trace
+
+<div class="grid grid-cols-2 gap-4 items-start">
+<div>
+
+**1. Remove Root, Replace with Last**
+
+Remove the root `4`. Move the last element `20` to the root position. The heap-order is now violated.
+```mermaid {scale: 0.8}
+graph TD
+    
+    A((4)) --> B((5))
+    A --> C((8))
+    B --> D((9))
+    B --> E((15))
+    C --> F((10))
+    C --> G((20))
+    G -. replace .-> A
+    style G fill:#f99,stroke:#c00,stroke-width:2px
+    style A fill:white
+```
+```mermaid {scale: 0.8}
+graph TD
+    A((20)) --> B((5))
+    A --> C((8))
+    B --> D((9))
+    B --> E((15))
+    C --> F((10))
+    style A fill:#f99,stroke:#c00,stroke-width:2px
+```
+</div>
+<div>
+
+**2. Downheap Swap 1**
+
+Compare `20` with its children (`5`, `8`). The smaller child is `5`. Since `20 > 5`, swap them.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((5)) --> B((20))
+    A --> C((8))
+    B --> D((9))
+    B --> E((15))
+    C --> F((10))
+    style B fill:#f99,stroke:#c00,stroke-width:2px
+```
+
+</div>
+</div>
+
+---
+
+## Heap Removal Example Trace (cont.)
+
+<div class="grid grid-cols-2 gap-4 items-start">
+<div>
+
+**3. Downheap Swap 2**
+
+Compare `20` with its new children (`9`, `15`). The smaller child is `9`. Since `20 > 9`, swap them.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((5)) --> B((9))
+    A --> C((8))
+    B --> D((20))
+    B --> E((15))
+    C --> F((10))
+    style D fill:#f99,stroke:#c00,stroke-width:2px
+```
+
+</div>
+<div>
+
+**4. Final Heap**
+
+`20` now has no children, so the downheap process stops. The heap property is restored.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((5)) --> B((9))
+    A --> C((8))
+    B --> D((20))
+    B --> E((15))
+    C --> F((10))
+```
+
+</div>
+</div>
 
 ---
 
@@ -139,7 +405,6 @@ hideInToc: false
     * Phase 2 (n removeMins): O(n log n) time.
     * Total Heap Sort time: **O(n log n)**.
 
-(Diagram illustrating the two phases of Heap Sort)
 
 ---
 
@@ -152,15 +417,105 @@ hideInToc: false
     2.  Iterate backwards from the index of the *last internal node* (`floor(n/2) - 1`) down to the root (index 0).
     3.  For each node `p` in this iteration, perform a **downheap** operation starting from `p` to fix the heap property within the subtree rooted at `p`.
 
-(Diagram showing an initial unsorted array and the state after downheap is applied to nodes progressively from right-to-left, bottom-up)
+---
 
+## Bottom-Up Heap Construction Example Trace
+
+<div class="grid grid-cols-2 gap-4 items-start">
+<div>
+
+**1. Initial Array as a Complete Tree**
+
+Start with the array as a tree. The **last internal node** is at index `floor(n/2)-1 = 3` (value 12). We process backwards from here.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((16)) --> B((15))
+    A --> C((4))
+    B --> D((12))
+    B --> E((6))
+    C --> F((7))
+    C --> G((23))
+    D --> H((20))
+    style D fill:#f99,stroke:#c00,stroke-width:2px
+```
+
+</div>
+<div>
+
+**2. Downheap from index 1 (value 15)**
+
+Downheap at index 3 (12) and 2 (4) cause no changes. At index 1, `15` is larger than its smaller child `6`, so they are swapped.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((16)) --> B((6))
+    A --> C((4))
+    B --> D((12))
+    B --> E((15))
+    C --> F((7))
+    C --> G((23))
+    D --> H((20))
+    style B fill:#f99,stroke:#c00,stroke-width:2px
+    style E fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+```
+
+</div>
+</div>
+
+---
+
+## Bottom-Up Heap Construction Example Trace (cont.)
+
+<div class="grid grid-cols-2 gap-4 items-start">
+<div>
+
+**3. Downheap from index 0 (value 16)**
+
+Downheap the root `16`. Its smaller child is `4`. Swap them. The `16` moves to index 2, but the subtree is still not a heap (`16 > 7`).
+
+```mermaid {scale: 0.8}
+graph TD
+    A((4)) --> B((6))
+    A --> C((16))
+    B --> D((12))
+    B --> E((15))
+    C --> F((7))
+    C --> G((23))
+    D --> H((20))
+    style A fill:#f99,stroke:#c00,stroke-width:2px
+    style C fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+```
+
+</div>
+<div>
+
+**4. Continue Downheap & Final Heap**
+
+Continue the downheap for `16`. Its smaller child is `7`. Swap them. The heap property is now satisfied for the entire tree.
+
+```mermaid {scale: 0.8}
+graph TD
+    A((4)) --> B((6))
+    A --> C((7))
+    B --> D((12))
+    B --> E((15))
+    C --> F((16))
+    C --> G((23))
+    D --> H((20))
+    style C fill:#f99,stroke:#c00,stroke-width:2px
+    style F fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+```
+
+</div>
+</div>
 ---
 
 ## Bottom-Up Heap Construction: Analysis
 
 * **Observation:** In the bottom-up approach, elements tend to perform fewer swaps during downheap compared to the upheap process in repeated insertions. Many elements near the bottom levels don't move far, or at all.
-* **Theorem:** Building a heap of `n` keys using the bottom-up construction method takes **O(n)** time.
-* **Implication for Heap Sort:** If we use bottom-up construction (O(n)) followed by `n` `removeMin` operations (O(n log n)), the overall Heap Sort time complexity remains **O(n log n)**, but the constant factors involved in the construction phase are improved.
+* **Theorem:** Building a heap of `n` keys using the bottom-up construction method takes **$O(n)$** time.
+* **Implication for Heap Sort:** If we use bottom-up construction ($O(n)$) followed by `n` `removeMin` operations ($O(n log n)$), the overall Heap Sort time complexity remains **$O(n log n)$**, but the constant factors involved in the construction phase are improved.
 
 ---
 
@@ -168,13 +523,69 @@ hideInToc: false
 
 * **Problem:** Combine two heaps, `H₁` and `H₂`, into a single valid heap `H`.
 * **Simple Approach:** Create a new heap `H`. Insert all elements from `H₁` into `H`, then insert all elements from `H₂` into `H`.
-* **Complexity:** If `n₁` and `n₂` are the sizes, this takes O(n₁ log(n₁+n₂) + n₂ log(n₁+n₂)) time, roughly O(n log n) where `n = n₁ + n₂`.
+* **Complexity:** If `n₁` and `n₂` are the sizes, this takes $O(n₁ log(n₁+n₂) + n₂ log(n₁+n₂))$ time, roughly $O(n log n)$ where `n = n₁ + n₂`.
 * **Alternative (using bottom-up):** Concatenate the array representations of `H₁` and `H₂`. Then, apply the O(n) bottom-up heap construction algorithm to the combined array. This is more efficient.
+<div class="grid grid-cols-2 gap-8 items-center">
+<div>
 
-(Diagram showing two heaps being merged conceptually)
+```mermaid
+graph TD
+    subgraph "Heap 1 (H₁)"
+        H1_A((10)) --> H1_B((15)) & H1_C((20))
+    end
+
+    subgraph "Heap 2 (H₂)"
+        H2_A((8)) --> H2_B((12))
+    end
+
+    subgraph "Final Merged Heap (H)"
+        H_A((8)) --> H_B((10)) & H_C((20))
+        H_B --> H_D((15)) & H_E((12))
+    end
+
+    H1 -- "Merge" --> H
+    H2 -- "Merge" --> H
+```
+
+</div>
+<div>
+
+**Efficient Merging Strategy ($O(n)$):**
+1.  Concatenate the array representations of `H₁` and `H₂`.
+2.  Apply the **bottom-up heap construction** algorithm to the new combined array.
+
+</div>
+</div>
 
 ---
+layout: two-cols-header
+transition: slide-up
+---
 
-## Bottom-Up Heap Construction Example Trace
+## Summary: Heaps
 
-(Series of diagrams showing the initial array [16, 15, 4, 12, 6, 7, 23, 20] and the state of the heap after downheap is applied starting from index 3 (value 12), then index 2 (value 4), index 1 (value 15), and finally index 0 (value 16), resulting in the final heap structure.)
+::left::
+
+*   **What is a Heap?** A binary tree that satisfies two properties:
+    1.  **Heap-Order:** A node's key is less than or equal to its children's keys (for a min-heap).
+    2.  **Completeness:** The tree is a complete binary tree, filled level-by-level.
+
+*   **Implementation:** An array-based list is highly efficient due to the complete tree structure, allowing for $O(1)$ navigation between parent/child nodes.
+
+*   **Height:** The height of a heap with `n` elements is always **$O(log n)$**.
+
+::right::
+<Transform scale="0.82">
+
+**Performance**
+
+| Operation | Performance | Method |
+| :--- | :---: | :--- |
+| `insert` | O(log n) | Upheap |
+| `removeMin` | O(log n) | Downheap |
+| `min`, `size`, `isEmpty` | O(1) | Direct access |
+| **Heap Sort** | **O(n log n)** | Build heap + n removals |
+| **Bottom-up Build** | **O(n)** | Optimized construction |
+
+**Key Takeaway:** The heap is the ideal data structure for implementing an efficient **Priority Queue**, providing logarithmic time for insertions and removals.
+</Transform>
