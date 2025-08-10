@@ -391,7 +391,7 @@ layout: two-cols
 transition: slide-up
 ---
 
-## Summary: Priority Queues & Simple Sorting
+## Summary: Priority Queues & PQ-Sort Sorting
 
 *   **Priority Queue (PQ):** An ADT that stores `(key, value)` pairs and prioritizes removing the entry with the smallest key.
     *   `insert(k, v)`
@@ -406,7 +406,7 @@ transition: slide-up
 
 ::right::
 
-### Implementation Performance
+* **Implementation Performance:**
 
 <Transform scale="0.85">
 

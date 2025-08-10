@@ -17,7 +17,7 @@ class: text-center
 drawings:
   persist: false
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
-transition: fade
+transition: slide-left
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
 # open graph
@@ -70,15 +70,22 @@ src: ./lectures/syllabus.md
 src: ./lectures/lect-0-Intro-to-Java.md
 ---
 ---
+src: ./lectures/end.md
+---
+---
 src: ./lectures/lect-1-Algorithms-Analysis.md
 ---
-
+---
+src: ./lectures/end.md
+---
 ---
 src: ./lectures/lect-2-Arrays.md
 ---
-
 ---
 src: ./lectures/lect-3-Singly-Linked-List.md
+---
+---
+src: ./lectures/end.md
 ---
 ---
 src: ./lectures/lect-5-Stack.md
@@ -87,14 +94,19 @@ src: ./lectures/lect-5-Stack.md
 src: ./lectures/lect-6-Queues.md
 ---
 ---
+src: ./lectures/end.md
+---
+---
 src: ./lectures/lect-4-Doubly-Linked-List.md
 ---
 ---
 src: ./lectures/lect-6-Queues-DEQ.md
 ---
-
 ---
 src: ./lectures/lect-7-Lists.md
+---
+---
+src: ./lectures/end.md
 ---
 ---
 src: ./lectures/lect-8-Recursions.md
@@ -103,16 +115,25 @@ src: ./lectures/lect-8-Recursions.md
 src: ./lectures/lect-9-Trees.md
 ---
 ---
+src: ./lectures/end.md
+---
+---
 src: ./lectures/lect-10-PriQ.md
 ---
 ---
 src: ./lectures/lect-11-Heap.md
 ---
 ---
+src: ./lectures/end.md
+---
+---
 src: ./lectures/lect-12-Maps.md
 ---
 ---
 src: ./lectures/lect-13-Hash-Tables.md
+---
+---
+src: ./lectures/end.md
 ---
 ---
 src: ./lectures/lect-14-Binary-Search-Trees.md

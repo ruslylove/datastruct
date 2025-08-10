@@ -561,7 +561,6 @@ graph TD
 
 ---
 layout: two-cols-header
-transition: slide-up
 ---
 
 ## Summary: Heaps
@@ -577,11 +576,10 @@ transition: slide-up
 *   **Height:** The height of a heap with `n` elements is always **$\bm{O(\log n)}$**.
 
 ::right::
-<Transform scale="0.82">
+* **Performace:**
+<Transform scale="0.85">
 
-**Performance**
-
-| Operation | Performance | Method |
+| **Operation** | **Performance** | **Method** |
 | :--- | :---: | :--- |
 | `insert` | $O(\log n)$ | Upheap |
 | `removeMin` | $O(\log n)$ | Downheap |
