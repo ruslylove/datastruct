@@ -24,6 +24,8 @@ hideInToc: false
 
 
 ---
+layout: two-cols
+---
 
 ## Recall: Priority Queue ADT
 
@@ -34,18 +36,18 @@ hideInToc: false
 * **Other Operations:** `min()`, `size()`, `isEmpty()`.
 * **Applications:** Standby lists, auctions, stock markets.
 
----
+:: right ::
 
-## Recall: PQ Sorting
-
-* Use a priority queue `P` to sort a sequence `S`.
+**Use a priority queue `P` to sort a sequence `S`:**
 * **Phase 1:** Insert all elements from `S` into `P`.
 * **Phase 2:** Repeatedly call `removeMin()` on `P` and place results back into `S` in order.
 * **Efficiency depends on P's implementation:**
-    * Unsorted sequence -> $O(n²)$ (Selection Sort)
-    * Sorted sequence -> $O(n²)$ (Insertion Sort)
+    * Unsorted sequence $\rightarrow O(n²)$ (Selection Sort)
+    * Sorted sequence $\rightarrow O(n²)$ (Insertion Sort)
 * **Question:** Can we achieve better sorting performance using a more efficient priority queue implementation?
 
+---
+layout: two-cols-header
 ---
 
 ## What is a Heap?
@@ -54,17 +56,16 @@ hideInToc: false
     1.  **Heap-Order Property:** For every node `p` (other than the root), the key stored at `p` is *greater than or equal to* the key stored at its parent. This implies the smallest key is always at the root.
     2.  **Complete Binary Tree Property:** The tree `T` is a **complete binary tree**. This means the tree is perfectly balanced, and all levels are filled except possibly the last level, which is filled from left to right.
 
-<div class="grid grid-cols-2 gap-4 items-center">
-<div>
+:: left ::
+
 
 *   **Heap-Order:** The key at any node is less than or equal to the keys of its children.
     *   Example: `4 ≤ 5` and `4 ≤ 8`.
 *   **Completeness:** The tree is filled level by level, from left to right.
 
-</div>
-<div class="place-self-center">
+:: right ::
 
-```mermaid {scale: 0.9}
+```mermaid 
 graph TD
     A((4)) --> B((5))
     A --> C((8))
@@ -74,21 +75,21 @@ graph TD
     C --> G((20))
 ```
 
-</div>
-</div>
+
 
 ---
-
+layout: two-cols
+---
 ## Heap Height
 
 * A heap `T` storing `n` entries has a height `h`.
-* **Theorem:** The height `h` of a heap with `n` entries is **$\bm{O(log n)}$**.
+* **Theorem:** The height `h` of a heap with `n` entries is **$\bm{O(\log n)}$**.
 * **Proof Idea:**
-    * A complete binary tree of height `h` has at least `1 + 2 + 4 + ... + 2^(h-1) + 1 = 2^h` nodes at levels 0 to h-1.
-    * So, `n >= 2^h`. Taking `log₂` of both sides gives `log₂ n >= h`.
-    * Thus, `h <= log₂ n`, meaning `h` is $O(log n)$.
+    * A complete binary tree of height `h` has at least $1 + 2 + 4 + ... + 2^{(h-1)} + 1 = 2^h$ nodes at levels 0 to h-1.
+    * So, $n \geq 2^h$. Taking $\log₂$ of both sides gives $\log_2 n \geq h$.
+    * Thus, $h \leq \log_2 n$, meaning $h$ is $O(\log n)$.
 
-<div style="position:fixed;right:120px;bottom:50px;">
+
 <!-- <div>
 
 | Level | Nodes at this Level | Total Nodes up to this Level |
@@ -102,12 +103,13 @@ graph TD
 <br>
 A tree of height `h` has at least `2^h` nodes.
 <br>
-`n ≥ 2^h  =>  log₂(n) ≥ h`
+`n ≥ 2^h  =>  \log₂(n) ≥ h`
 
 </div> -->
-<div class="place-self-center">
 
-```mermaid {scale: 0.8}
+:: right ::
+
+```mermaid 
 graph TD
     subgraph "Level-0"
         A(( ))
@@ -118,13 +120,24 @@ graph TD
     subgraph "Level-2"
         D(( )) & E(( )) & F(( )) & G(( ))
     end
+    subgraph "Level-3"
+        H(( )) & I(( )) & J(( )) & K(( )) & L(( )) & M(( )) & N(( )) & O(( ))
+    end
+    subgraph "Level-4"
+        P(( )) & Q(( ))
+    end
 
     A --> B & C 
     B --> D & E 
-    C --> F & G 
+    C --> F & G
+    D --> H & I
+    E --> J & K
+    F --> L & M
+    G --> N & O
+    H --> P & Q
 ```
-</div>
-</div>
+
+
 
 ---
 layout: two-cols
@@ -143,10 +156,6 @@ layout: two-cols
 
 :: right ::
 
-<div class="grid grid-cols-2 gap-4 items-center">
-
-<div>
-
 **Array Representation:**
 
 | Value | 4 | 5 | 8 | 9 | 15 | 10 | 20 |
@@ -155,9 +164,7 @@ layout: two-cols
 
 <br>
 
-<div class="place-self-center" style="position:relative;left:80px;">
-
-```mermaid {scale: 0.8}
+```mermaid 
 graph TD
     A("4 (0)") --> B("5 (1)")
     A --> C("8 (2)")
@@ -167,10 +174,6 @@ graph TD
     C --> G("20 (6)")
 ```
 
-</div>
-
-</div>
-</div>
 
 ---
 
@@ -195,7 +198,7 @@ graph TD
 
 Insert the new key `2` into the next available position to maintain the complete tree structure.
 
-```mermaid {scale: 0.8}
+```mermaid
 graph TD
     A((4)) --> B((5))
     A --> C((8))
@@ -214,7 +217,7 @@ graph TD
 
 `2 < 9`, so swap `2` with its parent.
 
-```mermaid {scale: 0.8}
+```mermaid
 graph TD
     A((4)) --> B((5))
     A --> C((8))
@@ -240,7 +243,7 @@ graph TD
 
 `2 < 5`, so swap `2` with its new parent.
 
-```mermaid {scale: 0.8}
+```mermaid 
 graph TD
     A((4)) --> B((2))
     A --> C((8))
@@ -259,7 +262,7 @@ graph TD
 
 `2 < 4`, so swap `2` with its new parent. `2` is now the root. The heap property is restored.
 
-```mermaid {scale: 0.8}
+```mermaid 
 graph TD
     A((2)) --> B((4))
     A --> C((8))
@@ -312,7 +315,7 @@ graph TD
     C --> G((20))
     G -. replace .-> A
     style G fill:#f99,stroke:#c00,stroke-width:2px
-    style A fill:white
+    style A fill:white,stroke:#000,stroke-width:2px
 ```
 ```mermaid {scale: 0.8}
 graph TD
@@ -330,7 +333,7 @@ graph TD
 
 Compare `20` with its children (`5`, `8`). The smaller child is `5`. Since `20 > 5`, swap them.
 
-```mermaid {scale: 0.8}
+```mermaid 
 graph TD
     A((5)) --> B((20))
     A --> C((8))
@@ -354,7 +357,7 @@ graph TD
 
 Compare `20` with its new children (`9`, `15`). The smaller child is `9`. Since `20 > 9`, swap them.
 
-```mermaid {scale: 0.8}
+```mermaid 
 graph TD
     A((5)) --> B((9))
     A --> C((8))
@@ -371,7 +374,7 @@ graph TD
 
 `20` now has no children, so the downheap process stops. The heap property is restored.
 
-```mermaid {scale: 0.8}
+```mermaid 
 graph TD
     A((5)) --> B((9))
     A --> C((8))
@@ -388,8 +391,8 @@ graph TD
 ## Heap Performance Analysis
 
 * The array-based list representation uses $O(n)$ space.
-* **Upheap (`insert`):** The number of swaps is at most the height of the heap, `h`. Since `h` is $O(log n)$, `insert` takes **$\bm{O(log n)}$** time.
-* **Downheap (`removeMin`):** The number of swaps is at most the height `h`. `removeMin` takes **$\bm{O(log n)}$** time.
+* **Upheap (`insert`):** The number of swaps is at most the height of the heap, `h`. Since `h` is $O(\log n)$, `insert` takes **$\bm{O(\log n)}$** time.
+* **Downheap (`removeMin`):** The number of swaps is at most the height `h`. `removeMin` takes **$\bm{O(\log n)}$** time.
 * **Other operations:** `size()`, `isEmpty()`, `min()` take $\bm{O(1)}$ time.
 
 ---
@@ -401,9 +404,9 @@ graph TD
     1.  **Phase 1 (Heap Construction):** Insert all elements from `S` into an initially empty heap `P`.
     2.  **Phase 2 (Extraction):** Repeatedly call `P.removeMin()` and place the returned elements back into `S` in sorted order.
 * **Performance:**
-    * Phase 1 ($n$ inserts): $O(n log n)$ time.
-    * Phase 2 ($n$ removeMins): $O(n log n)$ time.
-    * Total Heap Sort time: **$\bm{O(n log n)}$**.
+    * Phase 1 ($n$ inserts): $O(n \log n)$ time.
+    * Phase 2 ($n$ removeMins): $O(n \log n)$ time.
+    * Total Heap Sort time: **$\bm{O(n \log n)}$**.
 
 
 ---
@@ -515,7 +518,7 @@ graph TD
 
 * **Observation:** In the bottom-up approach, elements tend to perform fewer swaps during downheap compared to the upheap process in repeated insertions. Many elements near the bottom levels don't move far, or at all.
 * **Theorem:** Building a heap of `n` keys using the bottom-up construction method takes **$O(n)$** time.
-* **Implication for Heap Sort:** If we use bottom-up construction ($O(n)$) followed by `n` `removeMin` operations ($O(n log n)$), the overall Heap Sort time complexity remains **$O(n log n)$**, but the constant factors involved in the construction phase are improved.
+* **Implication for Heap Sort:** If we use bottom-up construction ($O(n)$) followed by `n` `removeMin` operations ($O(n \log n)$), the overall Heap Sort time complexity remains **$O(n \log n)$**, but the constant factors involved in the construction phase are improved.
 
 ---
 
@@ -523,7 +526,7 @@ graph TD
 
 * **Problem:** Combine two heaps, `H₁` and `H₂`, into a single valid heap `H`.
 * **Simple Approach:** Create a new heap `H`. Insert all elements from `H₁` into `H`, then insert all elements from `H₂` into `H`.
-* **Complexity:** If `n₁` and `n₂` are the sizes, this takes $O(n₁ log(n₁+n₂) + n₂ log(n₁+n₂))$ time, roughly $O(n log n)$ where `n = n₁ + n₂`.
+* **Complexity:** If `n₁` and `n₂` are the sizes, this takes $O(n₁ \log(n₁+n₂) + n₂ \log(n₁+n₂))$ time, roughly $O(n \log n)$ where `n = n₁ + n₂`.
 <div class="grid grid-cols-2 gap-8 items-center">
 <div>
 
@@ -571,7 +574,7 @@ transition: slide-up
 
 *   **Implementation:** An array-based list is highly efficient due to the complete tree structure, allowing for $O(1)$ navigation between parent/child nodes.
 
-*   **Height:** The height of a heap with `n` elements is always **$\bm{O(log n)}$**.
+*   **Height:** The height of a heap with `n` elements is always **$\bm{O(\log n)}$**.
 
 ::right::
 <Transform scale="0.82">
@@ -580,10 +583,10 @@ transition: slide-up
 
 | Operation | Performance | Method |
 | :--- | :---: | :--- |
-| `insert` | $O(log n)$ | Upheap |
-| `removeMin` | $O(log n)$ | Downheap |
+| `insert` | $O(\log n)$ | Upheap |
+| `removeMin` | $O(\log n)$ | Downheap |
 | `min`, `size`, `isEmpty` | $O(1)$ | Direct access |
-| **Heap Sort** | **$\bm{O(n log n)}$** | Build heap + n removals |
+| **Heap Sort** | **$\bm{O(n \log n)}$** | Build heap + n removals |
 | **Bottom-up Build** | **$\bm{O(n)}$** | Optimized construction |
 
 **Key Takeaway:** The heap is the ideal data structure for implementing an efficient **Priority Queue**, providing logarithmic time for insertions and removals.
