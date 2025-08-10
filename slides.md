@@ -28,14 +28,17 @@ addons:
 
 favicon: favicon_2.png
 
-presenter: Dr.Ruslee Sutthaweekul
+presenter: Dr. Ruslee Sutthaweekul
 semester: 1/2025
 subject: 010153523 Algorithms and Data Structures 
 ---
 
 # Welcome to Algorithms and Data Structures
-## {{ $slidev.configs.subject }} <br>
-## Semester 1/2025
+## {{ $slidev.configs.subject }}
+### Semester {{ $slidev.configs.semester }}
+<br>
+
+### Presented by {{ $slidev.configs.presenter }}
 
 <div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
   Press Space for next page <carbon:arrow-right />
