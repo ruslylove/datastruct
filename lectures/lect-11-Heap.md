@@ -552,7 +552,7 @@ graph TD
 </div>
 <div>
 
-**Alternative Approach:** Efficient Merging Strategy ($O(n)$):**
+**Alternative Approach:** Efficient Merging Strategy ($O(n)$):
 1.  Concatenate the array representations of `H₁` and `H₂`.
 2.  Apply the **bottom-up heap construction** algorithm to the new combined array.
 
