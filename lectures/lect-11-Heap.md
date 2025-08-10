@@ -42,8 +42,8 @@ hideInToc: false
 * **Phase 1:** Insert all elements from `S` into `P`.
 * **Phase 2:** Repeatedly call `removeMin()` on `P` and place results back into `S` in order.
 * **Efficiency depends on P's implementation:**
-    * Unsorted sequence -> O(n²) (Selection Sort)
-    * Sorted sequence -> O(n²) (Insertion Sort)
+    * Unsorted sequence -> $O(n²)$ (Selection Sort)
+    * Sorted sequence -> $O(n²)$ (Insertion Sort)
 * **Question:** Can we achieve better sorting performance using a more efficient priority queue implementation?
 
 ---
@@ -82,11 +82,11 @@ graph TD
 ## Heap Height
 
 * A heap `T` storing `n` entries has a height `h`.
-* **Theorem:** The height `h` of a heap with `n` entries is **O(log n)**.
+* **Theorem:** The height `h` of a heap with `n` entries is **$\bm{O(log n)}$**.
 * **Proof Idea:**
     * A complete binary tree of height `h` has at least `1 + 2 + 4 + ... + 2^(h-1) + 1 = 2^h` nodes at levels 0 to h-1.
     * So, `n >= 2^h`. Taking `log₂` of both sides gives `log₂ n >= h`.
-    * Thus, `h <= log₂ n`, meaning `h` is O(log n).
+    * Thus, `h <= log₂ n`, meaning `h` is $O(log n)$.
 
 <div style="position:fixed;right:120px;bottom:50px;">
 <!-- <div>
@@ -155,9 +155,9 @@ layout: two-cols
 
 <br>
 
-<div class="place-self-center">
+<div class="place-self-center" style="position:relative;left:80px;">
 
-```mermaid {scale: 0.9}
+```mermaid {scale: 0.8}
 graph TD
     A("4 (0)") --> B("5 (1)")
     A --> C("8 (2)")
@@ -387,10 +387,10 @@ graph TD
 
 ## Heap Performance Analysis
 
-* The array-based list representation uses O(n) space.
-* **Upheap (`insert`):** The number of swaps is at most the height of the heap, `h`. Since `h` is O(log n), `insert` takes **O(log n)** time.
-* **Downheap (`removeMin`):** The number of swaps is at most the height `h`. `removeMin` takes **O(log n)** time.
-* **Other operations:** `size()`, `isEmpty()`, `min()` take **O(1)** time.
+* The array-based list representation uses $O(n)$ space.
+* **Upheap (`insert`):** The number of swaps is at most the height of the heap, `h`. Since `h` is $O(log n)$, `insert` takes **$\bm{O(log n)}$** time.
+* **Downheap (`removeMin`):** The number of swaps is at most the height `h`. `removeMin` takes **$\bm{O(log n)}$** time.
+* **Other operations:** `size()`, `isEmpty()`, `min()` take $\bm{O(1)}$ time.
 
 ---
 
@@ -401,9 +401,9 @@ graph TD
     1.  **Phase 1 (Heap Construction):** Insert all elements from `S` into an initially empty heap `P`.
     2.  **Phase 2 (Extraction):** Repeatedly call `P.removeMin()` and place the returned elements back into `S` in sorted order.
 * **Performance:**
-    * Phase 1 (n inserts): O(n log n) time.
-    * Phase 2 (n removeMins): O(n log n) time.
-    * Total Heap Sort time: **O(n log n)**.
+    * Phase 1 ($n$ inserts): $O(n log n)$ time.
+    * Phase 2 ($n$ removeMins): $O(n log n)$ time.
+    * Total Heap Sort time: **$\bm{O(n log n)}$**.
 
 
 ---
@@ -571,7 +571,7 @@ transition: slide-up
 
 *   **Implementation:** An array-based list is highly efficient due to the complete tree structure, allowing for $O(1)$ navigation between parent/child nodes.
 
-*   **Height:** The height of a heap with `n` elements is always **$O(log n)$**.
+*   **Height:** The height of a heap with `n` elements is always **$\bm{O(log n)}$**.
 
 ::right::
 <Transform scale="0.82">
@@ -580,11 +580,11 @@ transition: slide-up
 
 | Operation | Performance | Method |
 | :--- | :---: | :--- |
-| `insert` | O(log n) | Upheap |
-| `removeMin` | O(log n) | Downheap |
-| `min`, `size`, `isEmpty` | O(1) | Direct access |
-| **Heap Sort** | **O(n log n)** | Build heap + n removals |
-| **Bottom-up Build** | **O(n)** | Optimized construction |
+| `insert` | $O(log n)$ | Upheap |
+| `removeMin` | $O(log n)$ | Downheap |
+| `min`, `size`, `isEmpty` | $O(1)$ | Direct access |
+| **Heap Sort** | **$\bm{O(n log n)}$** | Build heap + n removals |
+| **Bottom-up Build** | **$\bm{O(n)}$** | Optimized construction |
 
 **Key Takeaway:** The heap is the ideal data structure for implementing an efficient **Priority Queue**, providing logarithmic time for insertions and removals.
 </Transform>
