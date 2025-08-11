@@ -341,9 +341,9 @@ TestScoreboard ..> GameEntry : uses
 ## Array Operations: Access and Modification
 
 * **Accessing:** `element = arrayName[index];`
-    * Time complexity: O(1) - very fast.
+    * Time complexity: $O(1)$ - very fast.
 * **Modifying:** `arrayName[index] = newValue;`
-    * Time complexity: O(1).
+    * Time complexity: $O(1)$.
 
 ```java
 int[] numbers = {10, 20, 30, 40, 50};
@@ -457,7 +457,7 @@ While a single `add` can be slow (`O(n)`), these expensive resize operations don
 
 *   If we **double the capacity** each time we resize, the cost of that `O(n)` copy is spread out over many "cheap" `O(1)` additions that came before it.
 *   This is called **amortized analysis**.
-*   The average time to perform an `add` operation over a long sequence of additions is **amortized O(1)**.
+*   The average time to perform an `add` operation over a long sequence of additions is **amortized $O(1)$**.
 
 This makes dynamic arrays very efficient in practice, which is why they are so widely used.
 
@@ -533,45 +533,26 @@ layout: two-cols
 
 ## Common `ArrayList` Methods
 
-<transform scale="0.8">
-
-* **`add(E element)`:** Appends the element to the end of the list.
-    * Amortized O(1) time.
-* **`add(int index, E element)`:** Inserts the element at the specified index, shifting subsequent elements.
-    * O(n) time in the worst case.
-* **`get(int index)`:** Returns the element at the specified index.
-    * O(1) time.
-* **`set(int index, E element)`:** Replaces the element at the specified index with the new element. Returns the old element.
-    * O(1) time.
-* **`remove(int index)`:** Removes the element at the specified index, shifting subsequent elements. Returns the removed element.
-    * O(n) time in the worst case.
-</transform>
+* **`add(E element)`:** Appends the element to the end of the list. Complexities: $O(1)$
+* **`add(int index, E element)`:** Inserts the element at the specified index, shifting subsequent elements. Complexities: $O(n)$
+* **`get(int index)`:** Returns the element at the specified index. Complexities: $O(1)$
+* **`set(int index, E element)`:** Replaces the element at the specified index with the new element. Returns the old element. Complexities: $O(1)$
 
 ::right::
 
-<transform scale="0.85">
+* **`remove(int index)`:** Removes the element at the specified index, shifting subsequent elements. Returns the removed element. Complexities: $O(n)$
+* **`remove(Object o)`:** Removes the first occurrence of the specified element. Returns `true` if an element was removed. Complexities: $O(n)$
+* **`size()`:** Returns the number of elements in the list. Complexities: $O(1)$
+* **`isEmpty()`:** Returns `true` if the list contains no elements. Complexities: $O(1)$
+* **`clear()`:** Removes all elements from the list. Complexities: $O(1)$
+* **`contains(Object o)`:** Returns `true` if the list contains the specified element. Complexities: $O(n)$
 
-
-
-* **`remove(Object o)`:** Removes the first occurrence of the specified element. Returns `true` if an element was removed.
-    * O(n) time.
-* **`size()`:** Returns the number of elements in the list.
-    * O(1) time.
-* **`isEmpty()`:** Returns `true` if the list contains no elements.
-    * O(1) time.
-* **`clear()`:** Removes all elements from the list.
-* **`contains(Object o)`:** Returns `true` if the list contains the specified element.
-    * O(n) time.
-
-</transform>
 
 ---
 
 ## `ArrayList` Example Usage
 
-<Transform scale="0.8">
-
-```java {*}{lines:'true'}
+```java {*}{maxHeight:'420px',lines:'true'}
 import java.util.ArrayList;
 import java.util.List;
 
@@ -604,8 +585,6 @@ public class StudentList {
 }
 
 ```
-
-</Transform>
 
 ---
 
@@ -656,32 +635,36 @@ There are several ways to iterate over the elements:
     ```
 
 ---
+layout: two-cols
+---
 
 ##   `Basic Arrays` vs. `ArrayList`
 
-<transform scale="0.6">
-
-| **Feature**             | Basic Array                                  | **`ArrayList`**                                       |
+| Feature            | `Array`                                  | `ArrayList`                                       |
 | :------------------ | :------------------------------------------- | :------------------------------------------------ |
-| **Size** | Fixed at creation                            | Dynamic, resizable                                |
-| **Type** | Primitives or Objects                        | Objects only (uses wrapper classes for primitives) |
-| **Flexibility** | Low (manual resizing, shifting)              | High (built-in methods for add, remove, etc.)    |
-| **Performance (get/set)** | O(1)                                         | O(1)                                              |
-| **Performance (add/remove at end)** | N/A (fixed size) / O(1) if space exists | Amortized O(1)                                    |
-| **Performance (add/remove at front and in middle)** | O(n) (manual shift)                        | O(n) (automatic shift)                            |
-| **Memory** | Can be precise if size known                 | Might have some unused capacity (for growth)      |
-| **Utility Methods** | Minimal (only `.length`)                     | Rich set of methods from `List` interface         |
-| **Usage** | When size is fixed and known, performance-critical for primitives | General-purpose dynamic lists of objects          |
+| **Size** | Fixed                            | Dynamic                                |
+| **Type** | Primitives/Objects                        | Objects only |
+| **Flexibility** | Low              | High    |
+| **Performance (get/set)** | $O(1)$                                         | $O(1)$                                              |
+| **Performance (add/remove at end)** | $O(1)$ if space exists | Amortized $O(1)$                                    |
+
+:: right ::
+
+| Feature             | `Array`                                  | `ArrayList`                                      |
+| :------------------ | :------------------------------------------- | :------------------------------------------------ |
+| **Performance (add/remove at front and in middle)** | $O(n)$                         | $O(n)$                             |
+| **Memory** | size                 |  capacity |
+| **Utility Methods** | `.length`                     | `List` interface         |
+| **Usage** | when size is known| General-purpose dynamic lists of objects          |
 
 `ArrayList` is generally preferred when the number of elements is not known beforehand or can change frequently.
-</transform>
 
 ---
 
 ## Summary
 
-*   **Arrays** are fundamental for storing sequences of data with fast **O(1)** access, but they have a **fixed size**.
-*   Inserting or deleting from a standard array is inefficient (**O(n)**) because it requires manually shifting elements.
+*   **Arrays** are fundamental for storing sequences of data with fast $O(1)$ access, but they have a **fixed size**.
+*   Inserting or deleting from a standard array is inefficient ($O(n)$) because it requires manually shifting elements.
 *   **Dynamic Arrays** (like Java's `ArrayList`) solve the fixed-size problem by automatically resizing a hidden internal array.
-*   While resizing can be slow (**O(n)**), **amortized analysis** shows that adding an element to the end is, on average, very fast (**amortized O(1)**).
+*   While resizing can be slow ($O(n)$), **amortized analysis** shows that adding an element to the end is, on average, very fast (**amortized $O(1)$**).
 *   `ArrayList` provides a flexible and powerful way to manage dynamic lists of objects, making it one of the most commonly used data structures in Java.

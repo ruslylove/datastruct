@@ -7,10 +7,15 @@ background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
 title: Welcome to Algorithm and Data Structures
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
+  <img src="https://ece.eng.kmutnb.ac.th/en/wp-content/uploads/2023/10/cropped-cropped-ECET-Shirt.png" style="height:120px;margin:auto">
+  <br>
 
-  Learn more at [Sli.dev](https://sli.dev)
+  ## 010153523 Algorithms and Data Structures  
+  Presentation slides by Dr. Ruslee Sutthaweekul<br>
+  Department of Electrical and Computer Engineering (ECE),<br>
+  Faculty of Engineering,<br> King Mongkut's University of Technology North Bangkok
+
+  Learn more at [ruslylove/datastruct](https://github.com/ruslylove/datastruct)
 # apply unocss classes to the current slide
 class: text-center
 # https://sli.dev/features/drawing
