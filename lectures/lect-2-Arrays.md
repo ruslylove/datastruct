@@ -677,8 +677,6 @@ There are several ways to iterate over the elements:
 </transform>
 
 ---
-transition: slide-up
----
 
 ## Summary
 

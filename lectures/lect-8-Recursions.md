@@ -484,9 +484,6 @@ private static int factorialTailRec(int n, int accumulator) {
 * **Optimization:** Some compilers/languages can optimize tail recursion into simple iteration (a loop), eliminating the function call overhead and preventing stack overflow for deep recursions. Java's standard compiler typically *does not* perform this optimization.
 
 ---
-layout: default
-transition: slide-up
----
 
 ## Summary
 

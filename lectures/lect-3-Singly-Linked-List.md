@@ -1130,8 +1130,6 @@ block-beta
 </transform>
 
 ---
-transition: slide-up
----
 
 ## Summary
 

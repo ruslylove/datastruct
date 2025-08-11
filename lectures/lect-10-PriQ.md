@@ -388,7 +388,6 @@ Elements are removed from `P` and placed back into `S` in sorted order.
 
 ---
 layout: two-cols
-transition: slide-up
 ---
 
 ## Summary: Priority Queues & PQ-Sort Sorting

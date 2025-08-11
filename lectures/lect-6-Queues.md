@@ -581,8 +581,6 @@ graph LR
 ```
 
 ---
-transition: slide-up
----
 
 ## Summary: Queues
 

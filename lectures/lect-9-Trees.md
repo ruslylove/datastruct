@@ -732,8 +732,6 @@ graph TD
 ```
 
 ---
-transition: slide-up
----
 
 ## Summary
 
