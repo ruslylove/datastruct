@@ -54,7 +54,7 @@ There are two main ways to analyze an algorithm's performance.
 | **Experimental Analysis** | **Theoretical Analysis** |
 | :--- | :--- |
 | Implement the algorithm and measure its performance on a computer. | Use a high-level description of the algorithm to mathematically determine its performance. |
-| Measures actual running time in seconds. | Characterizes running time as a function of the input size, `n`. |
+| Measures actual running time in seconds. | Characterizes running time as a function of the input size, $n$. |
 | Depends on specific hardware and software. | Independent of any specific computer. |
 
 </Transform>
@@ -114,12 +114,12 @@ $$
 *   These are the fundamental computations an algorithm performs, identifiable in pseudocode.
 *   We assume each primitive operation takes a constant amount of time in the RAM model.
 *   **Examples:**
-    *   Evaluating an expression (e.g., `x + y`)
-    *   Assigning a value to a variable (e.g., `x ← 5`)
-    *   Indexing into an array (e.g., `A[i]`)
+    *   Evaluating an expression (e.g., $x + y$)
+    *   Assigning a value to a variable (e.g., $x ← 5$)
+    *   Indexing into an array (e.g., $A[i]$)
     *   Calling or returning from a method
 
-The goal of theoretical analysis is to count the number of primitive operations an algorithm will execute as a function of its input size, `n`.
+The goal of theoretical analysis is to count the number of primitive operations an algorithm will execute as a function of its input size, $n$.
 
 ---
 
@@ -131,7 +131,7 @@ Let's count the primitive operations for an algorithm that finds the maximum ele
 
 *   By examining the pseudocode, we can count the maximum number of operations for each step.
 *   The total number of operations is the sum of these counts. For `arrayMax`, <br> this comes out to be $c''+(n - 1)c'$ in the worst case.
-*   The key takeaway is that the running time is expressed as a function of the input size `n`, <br> like `f(n) = 2+(n - 1)`.
+*   The key takeaway is that the running time is expressed as a function of the input size $n$, <br> like $f(n) = 2+(n - 1)$.
 
 ---
 layout: two-cols
@@ -139,11 +139,11 @@ layout: two-cols
 
 ## From Counting to Growth Rate
 
-The exact number of operations (e.g., `8n - 2`) is not as important as the **growth rate** of the function.
+The exact number of operations (e.g., $8n - 2$) is not as important as the **growth rate** of the function.
 
-*   As the input size `n` gets very large, the highest-order term (like `8n`) dominates the function's value.
-*   Constant factors (`8`) and lower-order terms (`-2`) become insignificant.
-*   Therefore, we can say the growth rate of `8n - 2` is **linear**.
+*   As the input size $n$ gets very large, the highest-order term (like $8n$) dominates the function's value.
+*   Constant factors ($8$) and lower-order terms ($-2$) become insignificant.
+*   Therefore, we can say the growth rate of $8n - 2$ is **linear**.
 
 This focus on the growth rate is called **asymptotic analysis**.
 
@@ -159,14 +159,14 @@ This focus on the growth rate is called **asymptotic analysis**.
 
 We use special notation to describe asymptotic growth rates.
 
-*   **`O(g(n))` (Big-Oh):** An **upper bound**. `f(n)` grows **no faster than** `g(n)`.
-    *   `f(n) ≤ c * g(n)` for some constant `c > 0` and for all `n ≥ n₀`.
+*   **$O(g(n))$ (Big-Oh):** An **upper bound**. $f(n)$ grows **no faster than** $g(n)$.
+    *   $f(n) ≤ c * g(n)$ for some constant $c > 0$ and for all $n ≥ n₀$.
 
-*   **`Ω(g(n))` (Big-Omega):** A **lower bound**. `f(n)` grows **at least as fast as** `g(n)`.
-    *   `f(n) ≥ c * g(n)` for some constant `c > 0` and for all `n ≥ n₀`.
+*   **$Ω(g(n))$ (Big-Omega):** A **lower bound**. $f(n)$ grows **at least as fast as** $g(n)$.
+    *   $f(n) ≥ c * g(n)$ for some constant $c > 0$ and for all $n ≥ n₀$.
 
-*   **`Θ(g(n))` (Big-Theta):** A **tight bound**. `f(n)` grows **at the same rate as** `g(n)`.
-    *   `f(n)` is both `O(g(n))` and `Ω(g(n))`.
+*   **$Θ(g(n))$ (Big-Theta):** A **tight bound**. $f(n)$ grows **at the same rate as** $g(n)$.
+    *   $f(n)$ is both $O(g(n))$ and $Ω(g(n))$.
 
 ---
 layout: two-cols
@@ -177,19 +177,19 @@ layout: two-cols
 Big-Oh is the most common notation. It gives us an upper bound on the worst-case running time.
 
 **Rules of Thumb:**
-1.  If `f(n)` is a polynomial of degree `d`, then `f(n)` is `O(nᵈ)`.
+1.  If $f(n)$ is a polynomial of degree $d$, then $f(n)$ is $O(nᵈ)$.
     *   Drop lower-order terms.
     *   Drop constant factors.
-2.  Use the smallest appropriate class. Say `2n` is `O(n)`, not `O(n²)`.
-3.  Use the simplest expression. Say `3n + 5` is `O(n)`, not `O(3n)`.
+2.  Use the smallest appropriate class. Say $2n$ is $O(n)$, not $O(n²)$.
+3.  Use the simplest expression. Say $3n + 5$ is $O(n)$, not $O(3n)$.
 
 :: right ::
 
 **Examples:**
-*   `8n - 2` is `O(n)`.
-*   `10⁵n² + 10⁸n` is `O(n²)`.
-*   `3n³ + 20n² + 5` is `O(n³)`
-*   `3 log n + 5` is `O(log n)`.
+*   $8n - 2$ is $O(n)$.
+*   $10⁵n² + 10⁸n$ is $O(n²)$.
+*   $3n³ + 20n² + 5$ is $O(n³)$
+*   $3 \log n + 5$ is $O(\log n)$.
 
 <img src="https://media.licdn.com/dms/image/v2/D4E12AQEvsKZNftrL5w/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1734702748422?e=2147483647&v=beta&t=Mp0AfdcOaVE6TQlsFmj-CIw9i9C0hXvAWk61IYqeH9w" style="height:250px;padding-top:10px"/>
 
@@ -197,11 +197,11 @@ Big-Oh is the most common notation. It gives us an upper bound on the worst-case
 
 ## Case Study 1: Prefix Averages
 
-**Problem:** Given an array `X`, compute an array `A` where `A[i]` is the average of `X[0]` through `X[i]`.
+**Problem:** Given an array $X$, compute an array $A$ where $A[i]$ is the average of $X[0]$ through $X[i]$.
 
-### A Naive `O(n²)` Solution
+### A Naive $O(n²)$ Solution
 
-A straightforward approach uses nested loops. The outer loop iterates through each element `i`, and the inner loop sums up all elements from `0` to `i`.
+A straightforward approach uses nested loops. The outer loop iterates through each element $i$, and the inner loop sums up all elements from $0$ to $i$.
 
 ```txt
 Algorithm prefixAverage1(X):
@@ -214,11 +214,11 @@ Algorithm prefixAverage1(X):
   return A
 ```
 
-The inner loop's operations form the sum `1 + 2 + ... + n`, which is `n(n+1)/2`. This is `O(n²)`.
+The inner loop's operations form the sum $1 + 2 + ... + n$, which is $n(n+1)/2$. This is $O(n²)$.
 
 ---
 
-## An Efficient `O(n)` Solution
+## An Efficient $O(n)$ Solution
 
 We can make this much faster by keeping a running sum.
 
@@ -232,14 +232,14 @@ Algorithm prefixAverage2(X):
   return A
 ```
 
-This version has only one loop and performs a constant number of operations per iteration. Its running time is **`O(n)`**, a significant improvement over `O(n²)`. Analysis helped us find a better algorithm!
+This version has only one loop and performs a constant number of operations per iteration. Its running time is **$O(n)$**, a significant improvement over $O(n²)$. Analysis helped us find a better algorithm!
 
 ---
 
 ## Case Study 2: Searching
 
-### Linear Search: `O(n)`
-Sequentially checks each element in a list until a match is found. In the worst case, it must check all `n` elements.
+### Linear Search: $O(n)$
+Sequentially checks each element in a list until a match is found. In the worst case, it must check all $n$ elements.
 
 **Example:** Find `7` in `[4, 9, 2, 7, 5]`.
 1. Check `4`... No.
@@ -249,7 +249,7 @@ Sequentially checks each element in a list until a match is found. In the worst 
 
 ---
 
-## Binary Search: `O(log n)`
+## Binary Search: $O(\log n)$
 Efficiently finds an element in a **sorted** list by repeatedly dividing the search interval in half.
 
 **Example:** Find `7` in the sorted list `[2, 4, 5, 7, 9]`.
@@ -275,8 +275,8 @@ The choice of algorithm has a dramatic impact on performance as data size increa
 
 *   **Algorithm analysis** helps us predict performance and scalability.
 *   **Asymptotic analysis** focuses on growth rates for large input sizes, ignoring constant factors and lower-order terms.
-*   **Big-Oh (`O`) notation** gives an **upper bound** (worst-case) on the growth rate and is a key tool for classifying algorithms.
-*   Choosing an algorithm with a lower growth rate (e.g., `O(n)` vs. `O(n²)`) can lead to massive performance gains.
+*   **Big-Oh ($O$) notation** gives an **upper bound** (worst-case) on the growth rate and is a key tool for classifying algorithms.
+*   Choosing an algorithm with a lower growth rate (e.g., $O(n)$ vs. $O(n²)$) can lead to massive performance gains.
 
 ---
 
@@ -284,7 +284,7 @@ The choice of algorithm has a dramatic impact on performance as data size increa
 
 Concepts frequently used in algorithm analysis:
 
-*   **Summations:** Especially `1 + 2 + ... + n = n(n+1)/2`.
-*   **Powers:** Rules like `a^(b+c) = a^b * a^c`, `(a^b)^c = a^(bc)`.
-*   **Logarithms:** Rules like `log(xy) = log x + log y`, `log(x^a) = a log x`, and the change of base formula.
+*   **Summations:** Especially $1 + 2 + ... + n = n(n+1)/2$.
+*   **Powers:** Rules like $a^(b+c) = a^b * a^c$, $(a^b)^c = a^(bc)$.
+*   **Logarithms:** Rules like $\log(xy) = \log x + \log y$, $\log(x^a) = a \log x$, and the change of base formula.
 *   **Proof Techniques:** Induction and contradiction.

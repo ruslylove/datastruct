@@ -298,7 +298,7 @@ public GameEntry remove(int i) throws IndexOutOfBoundsException {
 
 </div>
 
-<div style="position:fixed;right:0;top:0;padding-top:30px">
+<div style="position:fixed;right:30px;top:0;padding-top:30px">
 
 
 ```plantuml {scale: 0.8}
@@ -324,13 +324,7 @@ class Scoreboard {
   + toString(): String
 }
 
-class TestScoreboard {
-  + main(args: String[]): void
-}
-
 Scoreboard "1" *-- "0..*" GameEntry : contains
-TestScoreboard ..> Scoreboard : uses
-TestScoreboard ..> GameEntry : uses
 
 @enduml
 ```
@@ -367,7 +361,7 @@ System.out.println("First number now: " + numbers[0]);
 * **Fixed Size:** Once an array is created, its size (length/capacity) cannot be changed.
     * If you need more space, you have to create a new, larger array and copy elements over.
     * If you allocate too much space, it's wasted.
-* **Manual Management for Insertions/Deletions:** Inserting or deleting an element in the middle requires manually shifting other elements, which can be inefficient (O(n)).
+* **Manual Management for Insertions/Deletions:** Inserting or deleting an element in the middle requires manually shifting other elements, which can be inefficient ($O(n)$).
 
 These limitations lead to the need for more flexible data structures.
 
@@ -411,10 +405,10 @@ layout: two-cols
 
 ## Analyzing the `add` Operation
 
-*   **Best Case:** If the array is not full, adding an element takes **O(1)** time.
+*   **Best Case:** If the array is not full, adding an element takes **$O(1)$** time.
 *   **Worst Case:** If the array *is* full, the `add` operation triggers a resize. This involves copying `n` elements, so the operation takes **O(n)** time.
 
-This worst-case `O(n)` time seems inefficient. Does this mean dynamic arrays are slow?
+This worst-case $O(n)$ time seems inefficient. Does this mean dynamic arrays are slow?
 
 Not necessarily. We need to look at the **amortized** cost.
 
@@ -453,9 +447,9 @@ layout: two-cols
 
 ## Amortized Analysis of Growth
 
-While a single `add` can be slow (`O(n)`), these expensive resize operations don't happen with every insertion.
+While a single `add` can be slow ($O(n)$), these expensive resize operations don't happen with every insertion.
 
-*   If we **double the capacity** each time we resize, the cost of that `O(n)` copy is spread out over many "cheap" `O(1)` additions that came before it.
+*   If we **double the capacity** each time we resize, the cost of that $O(n)$ copy is spread out over many "cheap" $O(1)$ additions that came before it.
 *   This is called **amortized analysis**.
 *   The average time to perform an `add` operation over a long sequence of additions is **amortized $O(1)$**.
 
