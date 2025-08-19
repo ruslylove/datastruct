@@ -158,7 +158,7 @@ public class SinglyLinkedList<E> {
 
 <div style="position:fixed;right:20px;top:200px">
 
-```plantuml {scale:'1'}
+```plantuml {scale:'0.85'}
 
 @startuml
 
@@ -172,7 +172,7 @@ class Node<E> {
   + setNext(n: Node<E>): void
 }
 
-Node "1" --|> "0..1" Node
+Node "1" --|> "0..1" Node : next
 @enduml
 
 ```
@@ -249,9 +249,8 @@ class Node<E> {
   + setNext(n: Node<E>): void
 }
 
-SinglyLinkedList "1" o-- "1" Node : "head"
-SinglyLinkedList "1" o-- "1" Node : "tail"
-Node "1" --|> "0..1" Node
+SinglyLinkedList "1" o-- "2" Node : head and tail
+Node "1" --|> "0..1" Node : next
 @enduml
 
 ```
@@ -334,40 +333,19 @@ layout: two-cols
 
 <br>
 
-```java
-    Node<E> new_node = new Node<>(element, null);
+```java {*}{lines:true}
+    Node<E> new_node = new Node<>(element, head);
+    head = new_node;
+    size++;
         
 ```
 
 <br>
 
-```mermaid {scale:0.7}
-block-beta
-    
-    columns 3
-    newnode(("new_node"))
-    space
-    block:node
-        element
-        next
-    end
-    space
-    T(("'t'"))
-    null(("∅"))
-    
-
-    newnode --> node
-    element --> T
-    next --> null
-
-
-    style node fill:#77f,stroke-width:4px,stroke:#333
-
-```
 
 :: right ::
 
-
+<!--
 ```mermaid
 
 block-beta
@@ -489,11 +467,39 @@ block-beta
     style border fill:#fff,stroke:#333
 
 ```
-
-
-<!--
 <img src="./img/linkedlist_1.png" />
 -->
+
+<div style="padding-left:50px">
+
+
+```mermaid {scale:0.7}
+
+graph TD
+    subgraph "Initial list"
+        direction LR
+        head1(("head")) e1@--> A("Node 'A'") --> B("Node 'B'") --> C("...")
+    end
+
+    subgraph "Step 1: Create New Node"
+        direction LR
+        new_node("new_node ('E')")
+        style new_node fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    end
+
+        direction LR
+        head1 -- "Step 3: Update head" --> new_node
+        new_node -- "Step 2: Link new node to current head" --> A
+
+    e1@{ animate: true, animation: slow }
+
+    %%linkStyle 0 stroke-width:2px,stroke:blue,fill:none;
+    linkStyle 0,3 stroke-width:2px,stroke:green,fill:none;
+    linkStyle 4 stroke-width:2px,stroke:red,fill:none;
+
+```
+
+</div>
 
 ---
 layout: two-cols
@@ -507,31 +513,49 @@ layout: two-cols
 
 <br>
 
-
-```mermaid {scale:0.7}
-block-beta
-
-    columns 3
-    newnode(("new_node"))
-    space
-    block:node
-        element
-        next
-    end
-    space
-    T(("'c'"))
-    null(("∅"))
-
-    newnode --> node
-    element --> T
-    next --> null
-
-    style node fill:#77f,stroke-width:4px,stroke:#333
-
+```java {*}{lines:true}
+    Node<E> new_node = new Node<>(element, null);
+    tail.setNext(new_node);
+    tail = new_node;
+    size++;
+        
 ```
 
 :: right ::
 
+<div style="padding-left:30px">
+
+
+```mermaid {scale:0.7}
+
+graph TD
+    subgraph "Initial list"
+        direction LR
+        C("...") --> A("Node 'A'") --> B("Node 'B'") e2@--> null1("∅") 
+        head1(("tail")) e1@--> B
+    end
+
+    subgraph "Step 1: Create New Node"
+        new_node("new_node ('E')") --> null("∅")
+        style new_node fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    end
+
+        direction LR
+        head1 -- "Step 3: Update tail" --> new_node
+        B -- "Step 2: Link old tail to new node" --> new_node
+
+    e1@{ animate: true, animation: slow }
+    e2@{ animate: true, animation: slow }
+
+    %%linkStyle 2,3 stroke-width:2px,stroke:blue,fill:none;
+    linkStyle 3,5 stroke-width:2px,stroke:green,fill:none;
+    linkStyle 2,6 stroke-width:2px,stroke:red,fill:none;
+
+```
+
+</div>
+
+<!--
 
 ```mermaid {scale:0.64}
 
@@ -653,7 +677,7 @@ block-beta
     style border fill:#fff,stroke:#333
 
 ```
-<!--
+
 
 <img src="./img/linkedlist_3.png" />
 
@@ -708,63 +732,46 @@ layout: two-cols
 
 <br>
 
-```mermaid {scale:0.55}
+```java {*}{lines:true}
+    head = head.getNext();
+    size--;
+```
 
-block-beta
 
-    columns 5
+:: right ::
 
-    head
+<div style="padding-left:50px">
 
-    block:node1
-        element
-        next
+
+```mermaid {scale:0.7}
+
+graph TD
+    subgraph initial list
+        direction TB
+        head1(("head")) e1@--Step 1: Target the first node--> A("Node 'A'") --> B("Node 'B'") --> C("...")
+
+        head1 -- "Step 2: Update head to the next node" --> B
     end
 
-    space
-    space
-    tail(("tail"))
-    space
-    A(("'a'"))
-    
-    block:node2
-        element2("element")
-        next2("next")
-    end
-
-    space
-    space
-    space
-    space
-    B(("'b'"))
-
-    block:node3
-        element3("element")
-        next3("next")
-    end
-    
-    null
-
-    space
-    space
-    space
-    
-    C(("'c'"))
-
-    next --> node2
-    next2 --> node3
-    next3 --> null(("∅"))
-    head(("head")) --> element
-    element --> A
-    element2 --> B
-    element3 --> C
-    tail  --> node3
+            gc("Gabage Collector 🗑️") e2@== "Step 3: Cleanup by a garbage collector" ====> A
 
 
+    e1@{ animate: true, animation: slow }
+    %%e2@{ animate: true, animation: slow }
+
+    %%linkStyle 0 stroke-width:2px,stroke:blue,fill:none;
+    style A fill:#ffcccb,stroke:#f00,stroke-width:2px,stroke-dasharray: 5 5
+    linkStyle 0,3 stroke-width:2px,stroke:green,fill:none;
+    linkStyle 4 stroke-width:2px,stroke:red,fill:none;
+    linkStyle 1 stroke:red,stroke-dasharray: 5 5;
 
 ```
 
-:: right ::
+</div>
+
+
+
+<!--
 ```mermaid {scale:0.56}
 
 block-beta
@@ -952,16 +959,15 @@ block-beta
 
 
 ```
-<!--
 
 <img src="./img/linkedlist_2.png" />
 
 -->
 ---
-layout: two-cols
----
+
 
 ## Java Implementation: `removeFirst`
+
 
 ```java
 public class SinglyLinkedList<E> {
@@ -985,9 +991,9 @@ public class SinglyLinkedList<E> {
 
 :: right ::
 
-<div style="padding-left:100px">
+<div style="position:fixed;right:30px;top:10px">
 
-```plantuml
+```plantuml {scale:1}
 
 @startuml
 
@@ -1005,16 +1011,6 @@ class SinglyLinkedList<E> {
   + E removeFirst()
 }
 
-class Node<E> {
-  - E element
-  - Node<E> next
-  + Node(E e, Node<E> n)
-  + E getElement()
-  + Node<E> getNext()
-  + void setNext(Node<E> n)
-}
-
-SinglyLinkedList o-- Node : contains
 @enduml
 
 ```
