@@ -310,10 +310,17 @@ graph TD
         direction LR
         s0["S[0]"] --- s1["S[1]"] --- s2["S[2]"] --- s_etc["..."] --- st["S[t]"] --- sn_etc["..."] --- sn["S[N-1]"]
     end
-    subgraph "Top Index Pointer"
-      t_ptr["t"]
+
+    subgraph "t"
+      t_ptr((" "))
     end
-    t_ptr --> st
+    
+    t_ptr e1@--> st
+
+
+    e1@{ animate: true, animation: slow }
+
+
 ```
 
 </div>
@@ -346,12 +353,15 @@ Algorithm push(o):
 graph TD
     subgraph Array [Array S Full]
         direction LR
-        s0["S[0]"] --- s1["S[1]"] --- s2["S[2]"] --- s_etc["..."] --- st["S[t = N-1]"]
+        s0["S[0]"] --- s1["S[1]"] --- s2["S[2]"] --- s_etc["..."] --- st["S[N-1]"]
     end
-    subgraph "Top Index Pointer"
-      t_ptr["t"]
+    subgraph "t = N-1"
+      t_ptr(( ))
     end
-    t_ptr --> st
+    t_ptr e1@--> st
+
+    e1@{ animate: true, animation: slow }
+
 ```
 
 </div>
