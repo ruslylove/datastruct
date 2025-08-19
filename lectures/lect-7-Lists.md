@@ -90,29 +90,25 @@ layout: two-cols-header
 </Transform>
 
 
-```mermaid {scale:0.55}
+```mermaid 
 graph TD
-    subgraph one [1.initial array]
+
+    subgraph two [Shifted elements →→→]
         direction LR
-        A["el<sub>0</sub>"] --- B["el<sub>1</sub>"] --- C["..."] --- D["el<sub>i</sub>"] --- E["..."] --- F["el<sub>n-1</sub>"] --- G["(empty)"]
-        style D fill:#ffc,stroke:#333,stroke-width:2px
-        style G fill:#eee,stroke-dasharray: 5 5
+        
+        A2["e<sub>0</sub>"] --- B2["e<sub>1</sub>"] --- C2["..."] --- D2["(vacated)"] e1@--> E2["e<sub>i</sub>"] e2@--> F2["..."] e3@-- Step ❶: Shifting --> G2["e<sub>n-1</sub>"]
+        
     end
 
-    subgraph two [2.shifted elements →→→]
-        direction LR
-        A2["el<sub>0</sub>"] --- B2["el<sub>1</sub>"] --- C2["..."] --- D2["(vacated)"] --- E2["el<sub>i</sub>"] --- F2["..."] --- G2["el<sub>n-1</sub>"]
-        style D2 fill:#9f9,stroke:#333,stroke-width:2px
-    end
+    e e4@== Step ❷: Place 'e' at index 'i' ==> two
 
-    subgraph three [3.insert new element 'e']
-        direction LR
-        A3["el<sub>0</sub>"] --- B3["el<sub>1</sub>"] --- C3["..."] --- D3["e"] --- E3["el<sub>i</sub>"] --- F3["..."] --- G3["el<sub>n-1</sub>"]
-        style D3 fill:#9f9,stroke:#333,stroke-width:2px
-    end
+    e1@{ animate: true, animation: fast }
+    e2@{ animate: true, animation: fast }
+    e3@{ animate: true, animation: fast }
+    e4@{ animate: true, animation: slow }
 
-    one --> two
-    two --> three
+    style D2 fill:#9f9,stroke:#333,stroke-width:2px
+    style e fill:#9f9,stroke:#333,stroke-width:2px
     
     %%"1. Initial Array" -- "Shift elements from index n-1 down to i" --> "2. Shift elements to the right"
     %%"2. Shift elements to the right" -- "Place new element 'e' at index i" --> "3. Insert new element 'e'"
@@ -128,28 +124,45 @@ graph TD
 * **Worst Case:** Removing from the beginning (`i = 0`) requires shifting `n-1` elements.
 * **Time Complexity:** $O(n)$ in the worst case.
 
-```mermaid {scale:0.55}
+```mermaid 
 
 graph TD
-    subgraph one["1.Initial Array (Size n)"]
-        direction LR
-        A["el<sub>0</sub>"] --- B["..."] --- C["el<sub>i-1</sub>"] --- D["el<sub>i</sub>"] --- E["el<sub>i+1</sub>"] --- F["..."] --- G["el<sub>n-1</sub>"]
+    subgraph one["Shift elements to the left"]
+        direction RL
+        A["e<sub>0</sub>"]
+        B["..."]
+        C["e<sub>i-1</sub>"]
+        D["e<sub>i</sub>"] 
+        D
+        E["e<sub>i+1</sub>"]
+        F["..."]
+        G["e<sub>n-1</sub>"]
         style D fill:#ffc,stroke:#c00,stroke-width:2px,stroke-dasharray: 5 5
     end
 
-    subgraph two["2.Shift elements to the left"]
-        direction LR
-        A2["el<sub>0</sub>"] --- B2["..."] --- C2["el<sub>i-1</sub>"] --- D2["el<sub>i+1</sub>"] --- E2["el<sub>i+2</sub>"] --- F2["..."] --- G2["el<sub>n-1</sub>"] --- H2["(empty)"]
-        style D2 fill:#9f9,stroke:#333,stroke-width:2px
-        style H2 fill:#eee,stroke-dasharray: 5 5
+    subgraph two["Final elements"]
+        direction RL
+        A2["e<sub>0</sub>"]
+        B2["..."]
+        C2["e<sub>i-1</sub>"]
+        E2[" e<sub>i+1</sub>"]
+        F2["..."]
+        G2["e<sub>n-1</sub>"]
+        Empty["vacant"]
+        style Empty fill:#fff,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
     end
 
-    subgraph three["3.Final Array (Size n-1)"]
-        direction LR
-        A3["el<sub>0</sub>"] --- B3["..."] --- C3["el<sub>i-1</sub>"] --- D3["el<sub>i+1</sub>"] --- E3["el<sub>i+2</sub>"] --- F3["..."] --- G3["el<sub>n-1</sub>"]
-    end
+    one e4@== Fill the gap ==> two
+    
+    G e1@--> F e2@--> E e3@-- Shifting --> D --- C --- B --- A
 
-    one --> two --> three
+    Empty --- G2 --- F2 --- E2 --- C2 --- B2 --- A2
+
+
+    e1@{ animate: true, animation: fast }
+    e2@{ animate: true, animation: fast }
+    e3@{ animate: true, animation: fast }
+
 
 ```
 ---

@@ -495,7 +495,9 @@ graph TD
 
     %%linkStyle 0 stroke-width:2px,stroke:blue,fill:none;
     linkStyle 0,3 stroke-width:2px,stroke:green,fill:none;
-    linkStyle 4 stroke-width:2px,stroke:red,fill:none;
+    linkStyle 4 stroke-width:2px,stroke:blue,fill:none;
+    style head1 fill:#fee,stroke:#333
+
 
 ```
 
@@ -529,6 +531,7 @@ layout: two-cols
 ```mermaid {scale:0.7}
 
 graph TD
+    
     subgraph "Initial list"
         direction LR
         C("...") --> A("Node 'A'") --> B("Node 'B'") e2@--> null1("∅") 
@@ -539,17 +542,18 @@ graph TD
         new_node("new_node ('E')") --> null("∅")
         style new_node fill:#90EE90,stroke:#2E8B57,stroke-width:2px
     end
-
-        direction LR
-        head1 -- "Step 3: Update tail" --> new_node
-        B -- "Step 2: Link old tail to new node" --> new_node
+    
+    head1 -- "Step 3: Update tail" --> new_node
+    B -- "Step 2: Link old tail to new node" --> new_node
 
     e1@{ animate: true, animation: slow }
     e2@{ animate: true, animation: slow }
 
     %%linkStyle 2,3 stroke-width:2px,stroke:blue,fill:none;
     linkStyle 3,5 stroke-width:2px,stroke:green,fill:none;
-    linkStyle 2,6 stroke-width:2px,stroke:red,fill:none;
+    linkStyle 2,6 stroke-width:2px,stroke:blue,fill:none;
+    style head1 fill:#fee,stroke:#333
+
 
 ```
 
@@ -1021,10 +1025,9 @@ class SinglyLinkedList<E> {
 routeAlias: remove_tail
 ---
 
-
 ## Removing from the Tail
 
-* Removing the last element efficiently in a *singly* linked list is problematic ⚠️.
+* Removing the last element efficiently in a *singly* linked list is problematic.
 * To update the `tail` reference correctly, you need access to the node *before* the current tail.
 * There's no direct way to get the previous node without traversing the list from the `head`.
 * This traversal takes time proportional to the list's length, making tail removal inefficient (not constant time).<br><br>
@@ -1089,8 +1092,6 @@ block-beta
 
 <!-- <img src="./img/linkedlist_4.png" />
 -->
-
-<v-drag-arrow pos="481,275,1,41"/>
 
 ---
 
