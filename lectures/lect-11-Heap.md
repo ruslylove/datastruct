@@ -219,14 +219,14 @@ graph TD
 
 ```mermaid
 graph TD
-    A((4)) --> B((5))
-    A --> C((8))
-    B --> D((2))
-    B --> E((15))
-    C --> F((10))
-    C --> G((20))
-    D --> H((9))
+    A((4)) --> B((5)) & C((8))
+    B --> D((2)) & E((15))
+    C --> F((10)) & G((20))
+    D e1@<--> H((9))
+   
+
     style D fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    e1@{ animate : true }
 ```
 
 </div>
@@ -247,12 +247,13 @@ graph TD
 graph TD
     A((4)) --> B((2))
     A --> C((8))
-    B --> D((5))
+    B e1@<--> D((5))
     B --> E((15))
     C --> F((10))
     C --> G((20))
     D --> H((9))
     style B fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    e1@{ animate : true }
 ```
 
 </div>
@@ -264,13 +265,15 @@ graph TD
 
 ```mermaid 
 graph TD
-    A((2)) --> B((4))
+    A((2)) e1@<--> B((4))
     A --> C((8))
     B --> D((5))
     B --> E((15))
     C --> F((10))
     C --> G((20))
     D --> H((9))
+
+    e1@{ animate : true }
     style A fill:#90EE90,stroke:#2E8B57,stroke-width:2px
 ```
 
@@ -313,9 +316,10 @@ graph TD
     B --> E((15))
     C --> F((10))
     C --> G((20))
-    G -. replace .-> A
+    G e1@-. replace .-> A
     style G fill:#f99,stroke:#c00,stroke-width:2px
     style A fill:white,stroke:#000,stroke-width:2px
+    e1@{ animate : true }
 ```
 ```mermaid {scale: 0.8}
 graph TD
@@ -335,12 +339,13 @@ Compare `20` with its children (`5`, `8`). The smaller child is `5`. Since `20 >
 
 ```mermaid 
 graph TD
-    A((5)) --> B((20))
+    A((5)) e1@<--> B((20))
     A --> C((8))
     B --> D((9))
     B --> E((15))
     C --> F((10))
     style B fill:#f99,stroke:#c00,stroke-width:2px
+    e1@{ animate : true }
 ```
 
 </div>
@@ -359,12 +364,13 @@ Compare `20` with its new children (`9`, `15`). The smaller child is `9`. Since 
 
 ```mermaid 
 graph TD
-    A((5)) --> B((9))
+    A((5)) --> B((20))
     A --> C((8))
-    B --> D((20))
+    B e1@<--> D((9))
     B --> E((15))
     C --> F((10))
     style D fill:#f99,stroke:#c00,stroke-width:2px
+    e1@{ animate : true } 
 ```
 
 </div>
@@ -454,13 +460,14 @@ Downheap at index 3 (12) and 2 (4) cause no changes. At index 1, `15` is larger 
 graph TD
     A((16)) --> B((6))
     A --> C((4))
-    B --> D((12))
-    B --> E((15))
-    C --> F((7))
-    C --> G((23))
-    D --> H((20))
+    B <-- no change --> D((12))
+    B e1@<--> E((15))
+    C <-- no change --> F((7))
+    C <-- no change --> G((23))
+    D <-- no change --> H((20))
     style B fill:#f99,stroke:#c00,stroke-width:2px
     style E fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    e1@{ animate : true }
 ```
 
 </div>
@@ -480,7 +487,7 @@ Downheap the root `16`. Its smaller child is `4`. Swap them. The `16` moves to i
 ```mermaid {scale: 0.8}
 graph TD
     A((4)) --> B((6))
-    A --> C((16))
+    A e1@<--> C((16))
     B --> D((12))
     B --> E((15))
     C --> F((7))
@@ -488,6 +495,7 @@ graph TD
     D --> H((20))
     style A fill:#f99,stroke:#c00,stroke-width:2px
     style C fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    e1@{ animate : true }
 ```
 
 </div>
@@ -503,11 +511,12 @@ graph TD
     A --> C((7))
     B --> D((12))
     B --> E((15))
-    C --> F((16))
+    C e1@<--> F((16))
     C --> G((23))
     D --> H((20))
     style C fill:#f99,stroke:#c00,stroke-width:2px
     style F fill:#90EE90,stroke:#2E8B57,stroke-width:2px
+    e1@{ animate : true }
 ```
 
 </div>
@@ -545,8 +554,6 @@ graph TD
         H_B --> H_D((15)) & H_E((12))
     end
 
-    H1 -- "Merge" --> H
-    H2 -- "Merge" --> H
 ```
 
 </div>
