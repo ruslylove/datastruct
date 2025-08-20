@@ -170,13 +170,15 @@ Algorithm enqueue(o):
 graph TD
     subgraph "Array Q"
         direction LR
-        A["..."] --- B["Q[f]"] --- C["..."] --- D["(empty)"] --- E["..."]
+        A["..."] --- B["Q[f]"] --- C["..."] --- D["Q[f+sz-1]<br>*(new element)*"] --- E["...<br>*(empty)*"]
     end
     f("f") --> B
     r("r") --> D
     r e1@-. "new r" .-> E
 
     e1@{ animate : true}
+    classDef element fill:#def
+    class B,C,D element
 
 ```
 
@@ -211,7 +213,7 @@ Algorithm dequeue():
 graph TD
     subgraph "Array Q"
         direction LR
-        A["..."] --- B["Q[f] (removed)"] --- C["Q[f] (new)"] --- D["..."] --- E["Q[r]"] --- F["..."]
+        A["..."] --- B["Q[f] (removed)"] --- C["Q[f] (new front)"] --- D["..."] --- E["Q[r]<br>*(empty)*"] --- F["..."]
     end
 
     f("f") --> B
@@ -219,7 +221,9 @@ graph TD
     r("r") --> E
 
     e1@{ animate : true}
-    style B stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+    %% style B stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+    classDef element fill:#def
+    class C,D element
 
 ```
 </div>
@@ -239,8 +243,8 @@ graph LR
     end
 
 
-    r("r") -- old r (before enqueue) --> F
-    r e2@-. "new r<br>*r = (f + sz) % N*" .-> A
+    r1("old r") -- old r (before enqueue) --> F
+    r("r") e2@-. "new r<br>*r = (f + sz) % N*" .-> A
     f("f") --> C
 
     e2@{ animate : true}
@@ -255,8 +259,8 @@ graph LR
         A["Q[0]<br>*(first element)*"]:::element --- B["Q[1]"]:::element --- C["Q[2]"]:::element --- D["..."]:::element --- E["Q[N-2]<br>*(empty)*"]:::emp --- F["Q[N-1]<br>*(just removed)*"]:::emp
     end
 
-    f("f") -- old f (before dequeue)--> F
-    f e2@-. "new f <br>*f = (f + 1) % N*" .-> A
+    f1("old f") -- old f (before dequeue)--> F
+    f("f") e2@-. "new f <br>*f = (f + 1) % N*" .-> A
     r("r") --> E
 
 

@@ -278,8 +278,7 @@ sequenceDiagram
 
 
 ---
-layout: two-cols
----
+
 
 ## Array-Based Stack Implementation
 
@@ -287,9 +286,19 @@ layout: two-cols
 * Elements are added sequentially (e.g., from index 0 upwards).
 * A variable (`t`) tracks the index of the topmost element.
 
+<div class="grid grid-cols-3 gap-4 items-start">
+<div class="col-span-2">
+
 ```text
 Algorithm size():
   return t + 1
+
+Algorithm push(o):
+  if t = S.length - 1 then
+    throw IllegalStateException("Stack is full")
+  else
+    t = t + 1
+    S[t] = o
 
 Algorithm pop():
   if isEmpty() then
@@ -299,16 +308,14 @@ Algorithm pop():
     t = t - 1
     return elementToReturn
 ```
+</div>
+<div style="position:fixed;right:100px;top:30px">
 
-:: right ::
-
-<div style="position:fixed;right:100px">
-
-```mermaid {scale:0.6}
+```mermaid {scale:0.55}
 graph TD
     subgraph Array ["Array 'S'"]
         direction LR
-        s0["S[0]"] --- s1["S[1]"] --- s2["S[2]"] --- s_etc["..."] --- st["S[t]"] --- sn_etc["..."] --- sn["S[N-1]"]
+        s0["S[0]<br>*(bottom)*"] --- s1["S[1]"] --- s2["S[2]"] --- s_etc["..."] --- st["S[t]<br>*(top)*"] --- sn_etc["...<br>*(empty)*"] --- sn["S[N-1]<br>*(empty)*"]
     end
 
     subgraph "t"
@@ -319,10 +326,14 @@ graph TD
 
 
     e1@{ animate: true, animation: slow }
+    classDef element fill:#def
+
+    class s0,s1,s2,s_etc,st element
 
 
 ```
 
+</div>
 </div>
 
 ---
@@ -361,6 +372,8 @@ graph TD
     t_ptr e1@--> st
 
     e1@{ animate: true, animation: slow }
+    classDef element fill:#def
+    class s0,s1,s2,s_etc,st element
 
 ```
 

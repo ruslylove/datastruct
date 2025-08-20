@@ -478,7 +478,7 @@ block-beta
 graph TD
     subgraph "Initial list"
         direction LR
-        head1(("head")) e1@--> A("Node 'A'") --> B("Node 'B'") --> C("...")
+        head1(("head")) --> A("Node 'A'") --> B("Node 'B'") --> C("...")
     end
 
     subgraph "Step 1: Create New Node"
@@ -488,10 +488,11 @@ graph TD
     end
 
         direction LR
-        head1 -- "Step 3: Update head" --> new_node
-        new_node -- "Step 2: Link new node to current head" --> A
+        head1 e1@-- "Step 3: Update head" --> new_node
+        new_node e2@-- "Step 2: Link new node to current head" --> A
 
     e1@{ animate: true, animation: slow }
+    e2@{ animate: true, animation: slow }
 
     %%linkStyle 0 stroke-width:2px,stroke:blue,fill:none;
     linkStyle 0,3 stroke-width:2px,stroke:green,fill:none;
@@ -534,8 +535,8 @@ graph TD
     
     subgraph "Initial list"
         direction LR
-        C("...") --> A("Node 'A'") --> B("Node 'B'") e2@--> null1("∅") 
-        head1(("tail")) e1@--> B
+        C("...") --> A("Node 'A'") --> B("Node 'B'") --> null1("∅") 
+        head1(("tail")) --> B
     end
 
     subgraph "Step 1: Create New Node"
@@ -543,8 +544,8 @@ graph TD
         style new_node fill:#90EE90,stroke:#2E8B57,stroke-width:2px
     end
     
-    head1 -- "Step 3: Update tail" --> new_node
-    B -- "Step 2: Link old tail to new node" --> new_node
+    head1 e1@-- "Step 3: Update tail" --> new_node
+    B e2@-- "Step 2: Link old tail to new node" --> new_node
 
     e1@{ animate: true, animation: slow }
     e2@{ animate: true, animation: slow }
@@ -752,9 +753,9 @@ layout: two-cols
 graph TD
     subgraph initial list
         direction TB
-        head1(("head")) e1@--Step 1: Target the first node--> A("Node 'A'") --> B("Node 'B'") --> C("...")
+        head1(("head")) --Step 1: Target the first node--> A("Node 'A'") --> B("Node 'B'") --> C("...")
 
-        head1 -- "Step 2: Update head to the next node" --> B
+        head1 e1@-- "Step 2: Update head to the next node" --> B
     end
 
             gc("Gabage Collector 🗑️") e2@== "Step 3: Cleanup by a garbage collector" ====> A
