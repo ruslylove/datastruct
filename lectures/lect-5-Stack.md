@@ -416,22 +416,22 @@ public class ArrayStack<E> implements Stack<E> {
 *(Note: Added more methods from the interface for completeness)*
 
 ---
+layout: two-cols-header
+---
 
-## Array-Based Stack: Performance & Limits
-
-<Transform :scale="0.85">
-
+## Array-Based Stack: Performance & Limitations
+:: left ::
 * **Performance:**
     * Let $n$ be the number of elements in the stack.
     * Space complexity: $O(n)$ - space used is proportional to the number of elements.
     * Time complexity: $O(1)$ - each operation (push, pop, top, size, isEmpty) takes constant time on average.
 * **Limitations:**
-    * **Fixed Capacity:** The most significant limitation is that the maximum capacity of the stack is fixed at the time of its creation. This means you must pre-determine the maximum number of elements the stack will ever hold.
-    * **Potential for `IllegalStateException`:** If a `push` operation is attempted when the array is already full, it will result in an `IllegalStateException` (or similar error), preventing further insertions. This can be problematic if the exact maximum size is unknown or fluctuates.
-    * **Wasted Space:** If the allocated array capacity is much larger than the actual number of elements stored, memory is wasted.
-    * **Resizing Overhead (if implemented):** While it's possible to implement a resizing mechanism (like doubling the array size when full), this adds complexity and can lead to occasional $O(n)$ time complexity for `push` operations during resizing, although the amortized time remains $O(1)$. Without resizing, the fixed capacity is a hard limit.
+    * **Fixed Capacity:** The maximum capacity of the stack is fixed at the time of its creation. This means you must pre-determine the maximum number of elements the stack will ever hold.
+:: right ::
+* **Potential for `IllegalStateException`:** If a `push` operation is attempted when the array is already full, it will result in an `IllegalStateException` (or similar error), preventing further insertions.
+* **Wasted Space:** If the allocated array capacity is much larger than the actual number of elements stored, memory is wasted.
+* **Resizing Overhead (if implemented):** Implementing a resizing mechanism can lead to occasional $O(n)$ time complexity for `push` operations during resizing, although the amortized time remains $O(1)$ just like `ArrayList`.
 
-</Transform>
 
 
 ---
@@ -463,7 +463,7 @@ For our `LinkedStack`, the "top" of the stack will be the "front" (or head) of t
 
 ---
 
-## LinkedStack Implementation (Java) - Adapter Pattern
+## LinkedStack Implementation - Adapter Pattern
 
 This implementation uses the Adapter pattern, leveraging the `SinglyLinkedList` class to provide stack functionality.
 
@@ -514,20 +514,25 @@ public class LinkedStack<E> implements Stack<E> {
 
 
 ---
-layout: two-cols-header
----
+
 
 ## Application: Matching Parentheses & HTML Tag
-
-<Transform :scale="0.88">
+<br>
 
 * Problem: Check if delimiters like `()`, `{}`, `[]` are correctly paired and nested in a string.
+
+<br>
+<div class="grid grid-cols-7 gap-2 items-start">
+<div class="col-span-3">
+
 * **Examples (Parentheses):**
     * Correct: `()(( )){([( )])}`
     * Correct: `((( )(( )){([( )])}`
     * Incorrect: `)(( )){([( )])}` (Closing parenthesis before opening)
     * Incorrect: `({[ ])}` (Mismatched types)
     * Incorrect: `(` (Unmatched opening)
+</div>
+<div class="col-span-4">
 
 * **Examples (HTML Tags):**                                                                                                                                                                       
     * Correct: `<body><p>Hello <b>World</b></p></body>`                                                                                                                                           
@@ -535,8 +540,8 @@ layout: two-cols-header
     * Incorrect: `<div><span></div>` (Mismatched nesting)                                                                                                                                         
     * Incorrect: `<p>Text</p></b>` (Unopened closing tag)                                                                                                                                         
     * Incorrect: `<a><b></c></a>` (Mismatched tags)    
-
-</Transform>
+</div>
+</div>
 
 ---
 

@@ -81,10 +81,10 @@ src: ./lectures/end.md
 src: ./lectures/lect-1-Algorithms-Analysis.md
 ---
 ---
-src: ./lectures/end.md
----
----
 src: ./lectures/lect-2-Arrays.md
+---
+---
+src: ./lectures/end.md
 ---
 ---
 src: ./lectures/lect-3-Singly-Linked-List.md

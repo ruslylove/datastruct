@@ -609,7 +609,11 @@ There are several ways to iterate over the elements:
     }
     ```
 
+
 ---
+
+## Iterating Through an `ArrayList` (Cont.)
+
 
 3.  **Using an `Iterator`:** Provides more control, including safe removal during iteration.
 
@@ -627,7 +631,9 @@ There are several ways to iterate over the elements:
     }
     // System.out.println("Fruits after iterator removal: " + fruits);
     ```
-
+---
+src: ./lect-7-Lists.md#6-10
+---
 ---
 layout: two-cols
 ---

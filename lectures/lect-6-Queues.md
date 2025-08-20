@@ -105,21 +105,6 @@ layout: two-cols-header
     * `sz`: Current number of elements stored in the queue.
 * The position immediately after the rear element (where the next enqueue would occur) is calculated as `r = (f + sz) % N`. The modulo operator (`%`) handles the wrap-around.
 
-```mermaid
-graph TD
-    subgraph "Normal Configuration (f < r)"
-        direction LR
-        A["Array: [ , , E, E, E, , ,... ]<br>Indices: 0, 1, 2, 3, 4, 5, 6,..."]
-        P1["f=2"] --> A
-        P2["r=5"] --> A
-    end
-    subgraph "Wrapped-Around Configuration (r < f)"
-        direction LR
-        B["Array: [E, E, , ,..., , E, E]<br>Indices: 0, 1, 2, ..., N-2, N-1"]
-        P3["r=2"] --> B
-        P4["f=N-2"] --> B
-    end
-```
 
 ---
 layout: two-cols
@@ -187,9 +172,12 @@ graph TD
         direction LR
         A["..."] --- B["Q[f]"] --- C["..."] --- D["(empty)"] --- E["..."]
     end
-    f["f"] --> B
-    r["r"] --> D
-    r -. "new r" .-> E
+    f("f") --> B
+    r("r") --> D
+    r e1@-. "new r" .-> E
+
+    e1@{ animate : true}
+
 ```
 
 </div>
@@ -197,7 +185,6 @@ graph TD
 ---
 layout: two-cols
 ---
-
 
 ## Array-Based Queue: Dequeue Operation
 
@@ -220,17 +207,68 @@ Algorithm dequeue():
 :: right ::
 
 <div style="position:fixed;right:100px">
-```mermaid {scale:0.7}
+```mermaid 
 graph TD
     subgraph "Array Q"
         direction LR
         A["..."] --- B["Q[f] (removed)"] --- C["Q[f] (new)"] --- D["..."] --- E["Q[r]"] --- F["..."]
     end
-    f["f"] --> B
-    f -. "new f" .-> C
-    r["r"] --> E
+
+    f("f") --> B
+    f e1@-. "new f" .-> C
+    r("r") --> E
+
+    e1@{ animate : true}
+    style B stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+
 ```
 </div>
+
+---
+
+## Array-Based Queue: Wrap-around
+
+* The circular array implementation relies on the modulo operator (`%`) to **wrap around** the array indices. 
+* This allows the queue to reuse empty slots at the beginning of the array after elements have been dequeued from the front.  
+
+```mermaid {scale:0.55}
+graph LR
+    subgraph "**Enqueue Wrap-around**"
+        direction LR
+        A["Q[0]<br>*(empty)*"]:::emp --- B["Q[1]<br>*(empty)*"]:::emp --- C["Q[2]<br>*(first element)*"]:::element  --- D["..."]:::element  --- E["Q[N-2]"]:::element --- F["Q[N-1]<br>*(just added)*"]:::element
+    end
+
+
+    r("r") -- old r (before enqueue) --> F
+    r e2@-. "new r<br>*r = (f + sz) % N*" .-> A
+    f("f") --> C
+
+    e2@{ animate : true}
+    classDef element fill:#def
+    classDef emp fill:white
+
+```
+```mermaid {scale:0.55}
+graph LR
+    subgraph "**Dequeue Wrap-around**"
+        direction LR
+        A["Q[0]<br>*(first element)*"]:::element --- B["Q[1]"]:::element --- C["Q[2]"]:::element --- D["..."]:::element --- E["Q[N-2]<br>*(empty)*"]:::emp --- F["Q[N-1]<br>*(just removed)*"]:::emp
+    end
+
+    f("f") -- old f (before dequeue)--> F
+    f e2@-. "new f <br>*f = (f + 1) % N*" .-> A
+    r("r") --> E
+
+
+    e2@{ animate : true}
+    classDef element fill:#def
+    classDef emp fill:white
+
+
+```
+
+
+
 
 ---
 
@@ -331,7 +369,7 @@ public E dequeue() {
 
 ---
 
-## Array-Based Queue: Performance & Limits
+## Array-Based Queue: Performance & Limitations
 
 *   **Performance:**
     *   Space complexity: $O(n)$, where $n$ is the fixed capacity of the array.
@@ -340,7 +378,7 @@ public E dequeue() {
 *   **Limitations:**
     *   **Fixed Capacity:** The most significant limitation is that the queue has a fixed maximum capacity. If the queue becomes full, `enqueue` operations will fail (e.g., throw an `IllegalStateException`). This requires pre-determining the maximum size, which can be inefficient if usage patterns vary widely.
     *   **Potential for Wasted Space:** If the allocated array size is much larger than the average number of elements stored, memory is wasted.
-    *   **No Dynamic Resizing (typically):** While it's theoretically possible to implement resizing for a circular array, it adds significant complexity and overhead (copying elements to a new, larger array), which often negates the simplicity and efficiency benefits of an array-based approach.
+    *   **Dynamic Resizing (if implemented):** While it's theoretically possible to implement resizing for a circular array, it adds significant complexity and overhead (copying elements to a new, larger array), which often negates the simplicity and efficiency benefits of an array-based approach.
 
 ---
 layout: two-cols-header

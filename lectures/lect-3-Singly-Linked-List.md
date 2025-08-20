@@ -768,6 +768,8 @@ graph TD
     linkStyle 0,3 stroke-width:2px,stroke:green,fill:none;
     linkStyle 4 stroke-width:2px,stroke:red,fill:none;
     linkStyle 1 stroke:red,stroke-dasharray: 5 5;
+    style head1 fill:#fee,stroke:#333
+
 
 ```
 
@@ -1023,16 +1025,35 @@ class SinglyLinkedList<E> {
 
 ---
 routeAlias: remove_tail
+layout: two-cols-header
 ---
 
 ## Removing from the Tail
 
-* Removing the last element efficiently in a *singly* linked list is problematic.
+
+Removing the last element efficiently in a *singly* linked list is problematic.
+
+:: left ::
+
 * To update the `tail` reference correctly, you need access to the node *before* the current tail.
 * There's no direct way to get the previous node without traversing the list from the `head`.
-* This traversal takes time proportional to the list's length, making tail removal inefficient (not constant time).<br><br>
+* This traversal takes time proportional to the list's length, making tail removal inefficient ($O(n)$).<br><br><br><br>
 
-```mermaid
+:: right ::
+
+```java {*}{lines:true} 
+    Node<E> cur = head;
+    // Traverse to the second-to-last node
+    while(cur.getNext() != tail) {
+        cur = cur.getNext();
+    }
+    tail = cur;
+    tail.setNext(null);
+```
+
+<br>
+
+```mermaid {scale:0.65}
 
 block-beta
 
@@ -1070,7 +1091,7 @@ block-beta
     null
 
     space
-    space
+    cur(("cur"))
     space
     
     C(("'c'"))
@@ -1083,13 +1104,14 @@ block-beta
     element2 --> B
     element3 --> C
     tail  --> node3
+    cur -- "traverse from head <br>to this node" --> node2
 
     style node3 stroke-dasharray: 5 5,stroke-width:4,stroke:#f77,fill:#fee
+    style cur fill:#fee,stroke:#333
 
 
 
 ```
-
 <!-- <img src="./img/linkedlist_4.png" />
 -->
 
@@ -1097,34 +1119,31 @@ block-beta
 
 ## `Basic Arrays` vs. `ArrayList` vs. `Singly Linked List`
 
-<transform scale="0.9">
 
 | **Feature** | Basic Array | `ArrayList` | Singly Linked List |
 | :--- | :--- | :--- | :--- |
 | **Size** | Fixed at creation | Dynamic, resizable | Dynamic, node-based |
 | **Type** | Primitives or Objects | Objects only | Objects only |
 | **Flexibility** | Low (manual resizing, shifting) | High (built-in methods) | High (pointer manipulation) |
-| **Performance (get/set by index)**| $O(1)$ | $O(1)$ | $O(n)$ (requires traversal) |
-| **Performance (add at front)** | $O(n)$ (manual shift) | $O(n)$ (automatic shift) | $O(1)$ |
-| **Performance (remove at front)** | $O(n)$ (manual shift) | $O(n)$ (automatic shift) | $O(1)$ |
+| **Performance:**||||
+| - **get/set by index**| $O(1)$ | $O(1)$ | $O(n)$ ( traversal) |
+| - **add at front** | $O(n)$ (manual shift) <br>or N/A (fixed size) | $O(n)$ (auto shift) | $O(1)$ |
+| - **remove at front** | $O(n)$ (manual shift) | $O(n)$ (auto shift) | $O(1)$ |
 
-</transform>
 
 ---
 
-<transform scale="0.82">
 
 | **Feature** | Basic Array | `ArrayList` | Singly Linked List |
 | :--- | :--- | :--- | :--- |
-| **Performance (add at end)** | N/A (fixed size) | Amortized $O(1)$ | $O(1)$ (with tail pointer) |
-| **Performance (remove at end)**| N/A (fixed size) | $O(1)$ | $O(n)$ (needs traversal for previous node) |
-| **Performance (add/remove in middle)**| $O(n)$ (shift) | $O(n)$ (shift) | $O(n)$ (traversal) |
+| - **add at end** | $O(1)$ or N/A (fixed) | Amortized $O(1)$ | $O(1)$ (with tail pointer) |
+| - **remove at end**| $O(1)$ | $O(1)$ | $O(n)$ (traversal) |
+| - **add/remove in middle**| $O(n)$ (manual shift) | $O(n)$ (auto shift) | $O(n)$ (traversal) |
 | **Memory** | Low overhead | Moderate overhead (unused capacity)| High overhead (pointer per node) |
-| **Usage**| Fixed-size collections, performance-critical access | General-purpose dynamic lists | Frequent insertions/deletions at the start; implementing queues/stacks |
+| **Usage**| Fixed-size collections, performance to access | General-purpose dynamic lists | Frequent insertions/deletions at the start; implementing `queues`/`stacks` |
 
-`ArrayList` is generally preferred when you need a dynamic array with fast **index-based access**.<br> 
-`LinkedList` excels when you have frequent **additions** and **removals** at the beginning of the list.
-</transform>
+* `ArrayList` is generally preferred when you need a dynamic array with fast **index-based access**.
+* `LinkedList` excels when you have frequent **additions** and **removals** at the beginning of the list.
 
 ---
 
@@ -1132,10 +1151,10 @@ block-beta
 
 *   **Structure:** A singly linked list is a sequence of **nodes**, where each node holds an element and a reference (pointer) to the next node.
 *   **Key Pointers:** The list is managed by `head` and `tail` references.
-*   **Strengths 👍:**
+*   **Strengths:**
     *   Excellent performance for adding and removing at the **front (head)**: `addFirst` and `removeFirst` are **$O(1)$** operations.
     *   Adding to the **end (tail)** is also **$O(1)$** if a `tail` pointer is maintained.
-*   **Weaknesses 👎:**
+*   **Weaknesses:**
     *   Accessing an element by index is slow: **$O(n)$**, as it requires traversing from the head.
     *   Removing from the tail is inefficient: **$O(n)$**, because you must find the second-to-last node.
     *   Higher memory overhead than arrays due to the storage of `next` pointers.

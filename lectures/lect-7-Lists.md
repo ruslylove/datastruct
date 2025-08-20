@@ -91,7 +91,7 @@ layout: two-cols-header
 
 
 ```mermaid 
-graph TD
+graph BT
 
     subgraph two [Shifted elements →→→]
         direction LR
