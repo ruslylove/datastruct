@@ -67,12 +67,12 @@ layout: two-cols-header
 
 ```mermaid 
 graph TD
-    A((4)) --> B((5))
-    A --> C((8))
-    B --> D((9))
-    B --> E((15))
-    C --> F((10))
-    C --> G((20))
+    A((4)) --- B((5))
+    A --- C((8))
+    B --- D((9))
+    B --- E((15))
+    C --- F((10))
+    C --- G((20))
 ```
 
 
@@ -127,14 +127,14 @@ graph TD
         P(( )) & Q(( ))
     end
 
-    A --> B & C 
-    B --> D & E 
-    C --> F & G
-    D --> H & I
-    E --> J & K
-    F --> L & M
-    G --> N & O
-    H --> P & Q
+    A --- B & C 
+    B --- D & E 
+    C --- F & G
+    D --- H & I
+    E --- J & K
+    F --- L & M
+    G --- N & O
+    H --- P & Q
 ```
 
 
@@ -166,12 +166,12 @@ layout: two-cols
 
 ```mermaid 
 graph TD
-    A("4 (0)") --> B("5 (1)")
-    A --> C("8 (2)")
-    B --> D("9 (3)")
-    B --> E("15 (4)")
-    C --> F("10 (5)")
-    C --> G("20 (6)")
+    A("4 (0)") --- B("5 (1)")
+    A --- C("8 (2)")
+    B --- D("9 (3)")
+    B --- E("15 (4)")
+    C --- F("10 (5)")
+    C --- G("20 (6)")
 ```
 
 
@@ -200,13 +200,13 @@ Insert the new key `2` into the next available position to maintain the complete
 
 ```mermaid
 graph TD
-    A((4)) --> B((5))
-    A --> C((8))
-    B --> D((9))
-    B --> E((15))
-    C --> F((10))
-    C --> G((20))
-    D --> H((2))
+    A((4)) --- B((5))
+    A --- C((8))
+    B --- D((9))
+    B --- E((15))
+    C --- F((10))
+    C --- G((20))
+    D --- H((2))
     style H fill:#90EE90,stroke:#2E8B57,stroke-width:2px
 ```
 
@@ -219,9 +219,9 @@ graph TD
 
 ```mermaid
 graph TD
-    A((4)) --> B((5)) & C((8))
-    B --> D((2)) & E((15))
-    C --> F((10)) & G((20))
+    A((4)) --- B((5)) & C((8))
+    B --- D((2)) & E((15))
+    C --- F((10)) & G((20))
     D e1@<--> H((9))
    
 
@@ -245,13 +245,13 @@ graph TD
 
 ```mermaid 
 graph TD
-    A((4)) --> B((2))
-    A --> C((8))
+    A((4)) --- B((2))
+    A --- C((8))
     B e1@<--> D((5))
-    B --> E((15))
-    C --> F((10))
-    C --> G((20))
-    D --> H((9))
+    B --- E((15))
+    C --- F((10))
+    C --- G((20))
+    D --- H((9))
     style B fill:#90EE90,stroke:#2E8B57,stroke-width:2px
     e1@{ animate : true }
 ```
@@ -266,12 +266,12 @@ graph TD
 ```mermaid 
 graph TD
     A((2)) e1@<--> B((4))
-    A --> C((8))
-    B --> D((5))
-    B --> E((15))
-    C --> F((10))
-    C --> G((20))
-    D --> H((9))
+    A --- C((8))
+    B --- D((5))
+    B --- E((15))
+    C --- F((10))
+    C --- G((20))
+    D --- H((9))
 
     e1@{ animate : true }
     style A fill:#90EE90,stroke:#2E8B57,stroke-width:2px
@@ -310,12 +310,12 @@ Remove the root `4`. Move the last element `20` to the root position. The heap-o
 ```mermaid {scale: 0.8}
 graph TD
     
-    A((4)) --> B((5))
-    A --> C((8))
-    B --> D((9))
-    B --> E((15))
-    C --> F((10))
-    C --> G((20))
+    A((4)) --- B((5))
+    A --- C((8))
+    B --- D((9))
+    B --- E((15))
+    C --- F((10))
+    C --- G((20))
     G e1@-. replace .-> A
     style G fill:#f99,stroke:#c00,stroke-width:2px
     style A fill:white,stroke:#000,stroke-width:2px
@@ -323,11 +323,11 @@ graph TD
 ```
 ```mermaid {scale: 0.8}
 graph TD
-    A((20)) --> B((5))
-    A --> C((8))
-    B --> D((9))
-    B --> E((15))
-    C --> F((10))
+    A((20)) --- B((5))
+    A --- C((8))
+    B --- D((9))
+    B --- E((15))
+    C --- F((10))
     style A fill:#f99,stroke:#c00,stroke-width:2px
 ```
 </div>
@@ -340,10 +340,10 @@ Compare `20` with its children (`5`, `8`). The smaller child is `5`. Since `20 >
 ```mermaid 
 graph TD
     A((5)) e1@<--> B((20))
-    A --> C((8))
-    B --> D((9))
-    B --> E((15))
-    C --> F((10))
+    A --- C((8))
+    B --- D((9))
+    B --- E((15))
+    C --- F((10))
     style B fill:#f99,stroke:#c00,stroke-width:2px
     e1@{ animate : true }
 ```
@@ -364,11 +364,11 @@ Compare `20` with its new children (`9`, `15`). The smaller child is `9`. Since 
 
 ```mermaid 
 graph TD
-    A((5)) --> B((20))
-    A --> C((8))
+    A((5)) --- B((20))
+    A --- C((8))
     B e1@<--> D((9))
-    B --> E((15))
-    C --> F((10))
+    B --- E((15))
+    C --- F((10))
     style D fill:#f99,stroke:#c00,stroke-width:2px
     e1@{ animate : true } 
 ```
@@ -382,11 +382,11 @@ graph TD
 
 ```mermaid 
 graph TD
-    A((5)) --> B((9))
-    A --> C((8))
-    B --> D((20))
-    B --> E((15))
-    C --> F((10))
+    A((5)) --- B((9))
+    A --- C((8))
+    B --- D((20))
+    B --- E((15))
+    C --- F((10))
 ```
 
 </div>
@@ -439,13 +439,13 @@ Start with the array as a tree. The **last internal node** is at index `floor(n/
 
 ```mermaid {scale: 0.8}
 graph TD
-    A((16)) --> B((15))
-    A --> C((4))
-    B --> D((12))
-    B --> E((6))
-    C --> F((7))
-    C --> G((23))
-    D --> H((20))
+    A((16)) --- B((15))
+    A --- C((4))
+    B --- D((12))
+    B --- E((6))
+    C --- F((7))
+    C --- G((23))
+    D --- H((20))
     style D fill:#f99,stroke:#c00,stroke-width:2px
 ```
 
@@ -458,13 +458,13 @@ Downheap at index 3 (12) and 2 (4) cause no changes. At index 1, `15` is larger 
 
 ```mermaid {scale: 0.8}
 graph TD
-    A((16)) --> B((6))
-    A --> C((4))
-    B <-- no change --> D((12))
+    A((16)) --- B((6))
+    A --- C((4))
+    B -- no change --- D((12))
     B e1@<--> E((15))
-    C <-- no change --> F((7))
-    C <-- no change --> G((23))
-    D <-- no change --> H((20))
+    C -- no change --- F((7))
+    C -- no change --- G((23))
+    D -- no change --- H((20))
     style B fill:#f99,stroke:#c00,stroke-width:2px
     style E fill:#90EE90,stroke:#2E8B57,stroke-width:2px
     e1@{ animate : true }
@@ -486,13 +486,13 @@ Downheap the root `16`. Its smaller child is `4`. Swap them. The `16` moves to i
 
 ```mermaid {scale: 0.8}
 graph TD
-    A((4)) --> B((6))
+    A((4)) --- B((6))
     A e1@<--> C((16))
-    B --> D((12))
-    B --> E((15))
-    C --> F((7))
-    C --> G((23))
-    D --> H((20))
+    B --- D((12))
+    B --- E((15))
+    C --- F((7))
+    C --- G((23))
+    D --- H((20))
     style A fill:#f99,stroke:#c00,stroke-width:2px
     style C fill:#90EE90,stroke:#2E8B57,stroke-width:2px
     e1@{ animate : true }
@@ -507,13 +507,13 @@ Continue the downheap for `16`. Its smaller child is `7`. Swap them. The heap pr
 
 ```mermaid {scale: 0.8}
 graph TD
-    A((4)) --> B((6))
-    A --> C((7))
-    B --> D((12))
-    B --> E((15))
+    A((4)) --- B((6))
+    A --- C((7))
+    B --- D((12))
+    B --- E((15))
     C e1@<--> F((16))
-    C --> G((23))
-    D --> H((20))
+    C --- G((23))
+    D --- H((20))
     style C fill:#f99,stroke:#c00,stroke-width:2px
     style F fill:#90EE90,stroke:#2E8B57,stroke-width:2px
     e1@{ animate : true }
@@ -525,8 +525,16 @@ graph TD
 
 ## Bottom-Up Heap Construction: Analysis
 
-* **Observation:** In the bottom-up approach, elements tend to perform fewer swaps during downheap compared to the upheap process in repeated insertions. Many elements near the bottom levels don't move far, or at all.
+* **Observation:** In the bottom-up approach, elements tend to perform fewer swaps during downheap compared to the upheap process in repeated insertions.
+    * **About 50%** of the nodes are leaves. They have no children, so the work to heapify them is **0**.
+    * **About 25%** of the nodes are one level above the leaves. At most, it may sift the node down by **1** level.
+    * **About 12.5%** of the nodes are two levels above. They can sift down by at most **2** levels.
 * **Theorem:** Building a heap of `n` keys using the bottom-up construction method takes **$O(n)$** time.
+
+$$\text{Total Work} \approx \sum_{h=0}^{\lfloor \log n \rfloor} \frac{n}{2^{h+1}} \cdot O(h) = O\left(\frac{n}{2} \sum_{h=0}^{\lfloor \log n \rfloor} \frac{h}{2^h}\right) = O(n)$$
+
+The summation: $\sum_{h=0}^{\infty} \frac{h}{2^h}$. This is a known convergent series whose sum is **2**.
+
 * **Implication for Heap Sort:** If we use bottom-up construction ($O(n)$) followed by `n` `removeMin` operations ($O(n \log n)$), the overall Heap Sort time complexity remains **$O(n \log n)$**, but the constant factors involved in the construction phase are improved.
 
 ---
@@ -536,23 +544,28 @@ graph TD
 * **Problem:** Combine two heaps, `H₁` and `H₂`, into a single valid heap `H`.
 * **Simple Approach:** Create a new heap `H`. Insert all elements from `H₁` into `H`, then insert all elements from `H₂` into `H`.
 * **Complexity:** If `n₁` and `n₂` are the sizes, this takes $O(n₁ \log(n₁+n₂) + n₂ \log(n₁+n₂))$ time, roughly $O(n \log n)$ where `n = n₁ + n₂`.
-<div class="grid grid-cols-2 gap-8 items-center">
+
+
+<div class="grid grid-cols-2 gap-2 items-center">
 <div>
 
 ```mermaid
-graph TD
-    subgraph "Heap 1 (H₁)"
-        H1_A((10)) --> H1_B((15)) & H1_C((20))
+graph LR
+    subgraph H1["Heap 1 (H₁)"]
+        H1_A((10)) --- H1_B((15)) & H1_C((20))
     end
 
-    subgraph "Heap 2 (H₂)"
-        H2_A((8)) --> H2_B((12))
+    subgraph H2["Heap 2 (H₂)"]
+        H2_A((8)) --- H2_B((12))
     end
 
-    subgraph "Final Merged Heap (H)"
-        H_A((8)) --> H_B((10)) & H_C((20))
-        H_B --> H_D((15)) & H_E((12))
+    subgraph H3["Final Merged Heap (H)"]
+        H_A((8)) --- H_B((10)) & H_C((20))
+        H_B --- H_D((15)) & H_E((12))
     end
+
+    H1 ---> H3 
+    H2 --> H3
 
 ```
 
