@@ -138,10 +138,10 @@ src: ./lectures/lect-12-Maps.md
 src: ./lectures/lect-13-Hash-Tables.md
 ---
 ---
-src: ./lectures/end.md
----
----
 src: ./lectures/lect-14-Binary-Search-Trees.md
+---
+---
+src: ./lectures/end.md
 ---
 ---
 src: ./lectures/lect-15-Mergesort-Quicksort.md

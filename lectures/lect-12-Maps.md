@@ -24,16 +24,26 @@ hideInToc: false
 
 
 ---
+layout: two-cols-header
+---
 
 ## Maps: Introduction
 
-* A **map** (also known as a dictionary or associative array) models a searchable collection of **key-value** entries.
+:: left ::
+
+* A **map** (also known as a **dictionary** or associative array) models a searchable collection of **key-value** entries.
 * Each key within a map must be unique.
 * **Core Operations:** Searching for, inserting, and deleting items based on their keys.
 * **Applications:**
     * Address books (name -> phone number/address).
     * Student databases (student ID -> student record).
     * Dictionaries (word -> definition).
+    <br><br><br><br>
+
+
+:: right ::
+
+<img src="/map.png" style="width: 400px;padding-left:50px"/>
 
 ---
 
@@ -51,8 +61,12 @@ Defines the fundamental operations for a map structure:
 * **`values()`:** Returns an iterable collection (may contain duplicates) of all values.
 
 ---
+layout: two-cols
+---
 
 ## Map Operation Example
+
+<Transform scale="0.85">
 
 | Operation     | Output | Map Contents             |
 | :------------ | :----- | :----------------------- |
@@ -63,6 +77,15 @@ Defines the fundamental operations for a map structure:
 | `put(8, D)`   | null   | `{(5, A), (7, B), (2, C), (8, D)}` |
 | `put(2, E)`   | C      | `{(5, A), (7, B), (2, E), (8, D)}` |
 | `get(7)`      | B      | `{(5, A), (7, B), (2, E), (8, D)}` |
+
+</Transform>
+
+:: right ::
+
+<Transform scale="0.88">
+
+| Operation     | Output | Map Contents             |
+| :------------ | :----- | :----------------------- |
 | `get(4)`      | null   | `{(5, A), (7, B), (2, E), (8, D)}` |
 | `get(2)`      | E      | `{(5, A), (7, B), (2, E), (8, D)}` |
 | `size()`      | 4      | `{(5, A), (7, B), (2, E), (8, D)}` |
@@ -70,6 +93,9 @@ Defines the fundamental operations for a map structure:
 | `remove(2)`   | E      | `{(7, B), (8, D)}`         |
 | `get(2)`      | null   | `{(7, B), (8, D)}`         |
 | `isEmpty()`   | false  | `{(7, B), (8, D)}`         |
+
+</Transform>
+
 
 ---
 
@@ -84,7 +110,7 @@ Defines the fundamental operations for a map structure:
 
 To find the value associated with key `k`:
 
-```text
+```java
 Algorithm get(k):
   // Iterate through all positions (nodes) in the underlying list S
   B = S.positions()
@@ -105,7 +131,7 @@ Algorithm get(k):
 
 To insert or update an entry `(k, v)`:
 
-```text
+```java
 Algorithm put(k, v):
   // Iterate through all positions in the list S
   B = S.positions()
@@ -132,7 +158,7 @@ Algorithm put(k, v):
 
 To remove the entry associated with key `k`:
 
-```text
+```java
 Algorithm remove(k):
   // Iterate through all positions in the list S
   B = S.positions()
@@ -161,8 +187,7 @@ Algorithm remove(k):
 * **`get(k)`, `put(k, v)`, `remove(k)`:**
     * These operations involve searching through the list.
     * In the worst case, the entire list of `n` entries needs to be scanned.
-    * Therefore, these operations take **O(n)** time.
-* **`size()`, `isEmpty()`:** These typically take **O(1)** time.
-* **`entrySet()`, `keySet()`, `values()`:** These involve iterating through the list, taking **O(n)** time to produce the iterable collection.
-
-* **Conclusion:** While simple, the list-based implementation is inefficient for large maps due to the linear time complexity of the core operations. More advanced structures (like hash tables or search trees) are needed for better performance.
+    * Therefore, these operations take **$O(n)$** time.
+* **`size()`, `isEmpty()`:** These typically take **$O(1)$** time.
+* **`entrySet()`, `keySet()`, `values()`:** These involve iterating through the list, taking **$O(n)$** time to produce the iterable collection.
+* **Conclusion:** While simple, the list-based implementation is inefficient for large maps due to the linear time complexity of the core operations. More advanced structures (like `hash tables` or `search trees`) are needed for better performance.

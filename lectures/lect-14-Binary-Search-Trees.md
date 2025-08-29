@@ -44,10 +44,37 @@ hideInToc: false
     3. If `k` is smaller, search the left half.
     4. If `k` is larger, search the right half.
 * Each step halves the number of potential candidates.
-* Time complexity: **O(log n)**.
+* Time complexity: **$O(log n)$**.
 
-(Diagram illustrating binary search steps on a sorted array: narrowing down the low (l), middle (m), and high (h) indices)
+```mermaid
+graph TD
+    subgraph "Sorted Array A"
+        direction LR
+        A0["A[0]: 2"]
+        A1["A[1]: 5"]
+        A2["A[2]: 8"]
+        A3["A[3]: 12"]
+        A4["A[4]: 16"]:::right
+        A5["A[5]: 23"]:::right
+        A6["A[6]: 38"]:::right
+        A7["A[7]: 56"]:::right
+    end
 
+    subgraph "Search for k=23"
+        L1["low=0"] ==> A0
+        H1["high=7"] ==> A7
+        M1["mid=3"] ==> A3
+        %% C1["Compare k=23 with A[mid]=12.<br/>Since 23 > 12, the new search range is [mid+1...high]."]
+    end
+    
+    %% M1 -- "k > A[mid]" %% --- C1
+
+    classDef right fill:orange
+
+```
+
+---
+layout: two-cols
 ---
 
 ## Binary Search Trees (BST)
@@ -59,16 +86,46 @@ hideInToc: false
 * External nodes (leaves) typically don't store entries (they act as placeholders).
 * An **inorder traversal** of a BST visits the keys in non-decreasing order.
 
-(Diagram of a Binary Search Tree showing keys satisfying the property)
+:: right ::
 
+```mermaid 
+graph TD
+    direction LR
+    R(17)
+
+        L(8)
+        L_L(4)
+        L_R(11)
+
+        R_R(25)
+        R_L(20)
+        R_R_R(( ))
+
+
+
+    R --- L; R --- R_R;
+    L --- L_L; L --- L_R;
+    R_R --- R_L;
+    R_R -.- R_R_R
+    L_L -.- leaf1(( )) & leaf2(( ))
+    L_R -.- leaf3(( )) & leaf4(( ))
+    R_L -.- leaf5(( )) & leaf6(( ))
+
+
+    classDef invisible fill-opacity:0, stroke-opacity:0,color:#0000;
+    
+```
+
+---
+layout: two-cols
 ---
 
 ## Searching in a BST
 
 * **Goal:** Find an entry with key `k`.
-* **Algorithm `TreeSearch(k, p)`:** (Starts with `p` = root)
+* **Algorithm `TreeSearch(k, p)`:** (`p` = root)
 
-```text
+```java
 Algorithm TreeSearch(k, p):
   if p is an external node then
     return p // Key k not found, reached a leaf placeholder
@@ -76,37 +133,110 @@ Algorithm TreeSearch(k, p):
   if k == key(p) then
     return p // Found key k at position p
 
-  else if k < key(p) then
-    // Recurse on the left child
+  else if k < key(p) then // Recurse on the left child
     return TreeSearch(k, leftChild(p))
 
-  else // k > key(p)
-    // Recurse on the right child
+  else // k > key(p) // Recurse on the right child
     return TreeSearch(k, rightChild(p))
 
 ```
 
 * The search path follows a single path down from the root.
-* Time complexity: O(h), where `h` is the height of the tree.
+* Time complexity: $O(h)$, where `h` is the height of the tree.
 
-(Diagram tracing the search path for key 7 in a sample BST)
+:: right ::
 
+```mermaid {scale:0.75}
+graph TD
+    subgraph A["Search Path for k=7"]
+        R(17):::path
+        L(8):::path
+        LL(4):::path
+        LR(11)
+        RR(25)
+        RRL(20)
+        LLL(emp)
+        
+        R -- "7 < 17, go left" --- L
+        L -- "7 < 8, go left" --- LL
+        LL -.- LLL(( ))
+        LL -- "7 > 4, go right<br/>(path ends, k not found)" --- LEAF(( ))
+        
+        
+        
+        R --- RR
+        L --- LR
+        LR -.- leaf3(( )) & leaf4(( ))
+
+        RR --- RRL
+        RR -.- RRR(( ))
+        RRL -.- leaf1(( )) & leaf2(( ))
+        
+        linkStyle 0 stroke:red,stroke-width:2px
+        linkStyle 1 stroke:red,stroke-width:2px
+        linkStyle 3 stroke:red,stroke-width:2px,stroke-dasharray: 5 5
+        classDef path fill:#f9f,stroke:#333,stroke-width:2px
+        classDef invisible fill-opacity:0, stroke-opacity:0,color:#0000;
+        style A fill-opacity:0, stroke-opacity:0;
+
+
+
+    end
+```
+
+---
+layout: two-cols
 ---
 
 ## Insertion into a BST
 
 * **Goal:** Insert a new entry `(k, v)` while maintaining the BST property.
 * **Algorithm:**
-    1. Search for key `k` using `TreeSearch`. Let `w` be the leaf node reached (where the search ended because `k` wasn't found).
+    1. Search for key `k` using `TreeSearch`. Let `w` be the leaf node reached.
     2. If `w` is an external node (placeholder):
         * Replace `w` with a new internal node storing `(k, v)`.
         * Add two new external nodes as children of this new node.
-    3. If `w` is an internal node (meaning `k` was already found):
-        * Update the value at `w` to `v` (or handle as an error, depending on map rules).
-* Time complexity: O(h).
+    3. If `w` is an internal node:
+        * Update the value at `w` to `v`.
+* Time complexity: $O(h)$.
 
-(Diagram showing the insertion of key 5: search reaches a leaf, which is then expanded into an internal node 5 with two leaf children)
+:: right ::
 
+```mermaid {scale:0.7}
+graph TD
+    subgraph A["Insertion of k=5"]
+        R(17):::path
+        L(8):::path
+        LL(4):::path
+        LR(11)
+        RR(25)
+        RRL(20)
+        
+        LLR(5):::inserted
+        
+        R -- "5 < 17" --- L
+        L -- "5 < 8" --- LL
+        LL -.- LLL(( ))
+        LL -- "5 > 4, insert here" --- LLR
+        
+        R --- RR; L --- LR; RR --- RRL;
+        LR -.- leaf3(( )) & leaf4(( ))
+        RR -.- RRR(( ))
+        RRL -.- leaf1(( )) & leaf2(( ))
+        LLR -. new child .- leaf5(( )) & leaf6(( ))
+
+        linkStyle 0 stroke:red,stroke-width:2px; linkStyle 1 stroke:red,stroke-width:2px; linkStyle 3 stroke:red,stroke-width:2px;
+        
+        classDef path fill:#f9f,stroke:#333,stroke-width:2px
+        classDef inserted fill:lightgreen,stroke:green,stroke-width:2px
+        classDef invisible fill-opacity:0, stroke-opacity:0,color:#0000;
+        style A fill-opacity:0, stroke-opacity:0;
+
+    end
+```
+
+---
+layout: two-cols
 ---
 
 ## Deletion from a BST (Case 1: Leaf Child)
@@ -116,10 +246,43 @@ Algorithm TreeSearch(k, p):
 * **Case 1:** If node `v` has at least one child `w` that is an external node (leaf):
     1. Remove `v` and its leaf child `w` from the tree.
     2. Promote the *other* child of `v` (which could be internal or external) to take `v`'s place in the tree (connect it to `v`'s parent).
-* Time complexity: O(h).
+* Time complexity: $O(h)$.
 
-(Diagram showing removal of node 4: node 4 has a leaf child, so node 4 and the leaf are removed, and node 5 (4's other child) is promoted)
+:: right ::
 
+```mermaid
+graph TD
+
+
+    subgraph "After: Node 5 is promoted"
+        R2(17)
+        L2(8)
+        LR2(11)
+        LL2(5):::promoted
+        
+        R2 --- L2; R2 --- RR2(25)
+        L2 -- "Parent bypasses 4" --- LL2; L2 --- LR2
+    end
+
+    subgraph "Before: Remove k=4"
+        R1(17)
+        L1(8)
+        LL1(4):::deleted
+        LR1(11)
+        LLR1(5):::promoted
+        
+        R1 --- L1; R1 --- RR1(25)
+        L1 --- LL1; L1 --- LR1
+        LL1 -. "leaf child" .- LLEAF(( ))
+        LL1 -- "internal child" --- LLR1
+    end
+
+    classDef deleted fill:tomato,stroke:red,stroke-width:2px
+    classDef promoted fill:lightgreen,stroke:green,stroke-width:2px
+```
+
+---
+layout: two-cols
 ---
 
 ## Deletion from a BST (Case 2: Two Internal Children)
@@ -128,20 +291,70 @@ Algorithm TreeSearch(k, p):
     1. Find the node `w` that immediately *follows* `v` in an inorder traversal. Node `w` will be the leftmost node in `v`'s right subtree and is guaranteed to have at most one internal child.
     2. Copy the entry `(key(w), value(w))` from node `w` into node `v`.
     3. Remove node `w` using the logic from Case 1 (since `w` has at least one leaf child).
-* Time complexity: O(h).
+* Time complexity: $O(h)$.
 
-(Diagram showing removal of node 3: node 3 has two internal children. Node 5 is the inorder successor. Entry from 5 is copied to 3's position. Node 5 is then removed using Case 1 logic.)
+:: right ::
+
+```mermaid
+graph TD
+    
+
+    subgraph "After: 11's value replaces 8"
+        R2(17)
+        L2(11):::successor
+        LL2(4)
+        LLR2(5)
+        RR2(25)
+        RRL2(20)
+        
+        R2 --- L2; R2 --- RR2
+        L2 --- LL2
+        LL2 --- LLR2
+        RR2 --- RRL2
+    end
+
+    subgraph "Before: Remove k=8"
+        R1(17)
+        L1(8):::deleted
+        LL1(4)
+        LR1(11):::successor
+        LLR1(5)
+        RR1(25)
+        RRL1(20)
+        
+        R1 --- L1; R1 --- RR1
+        L1 --- LL1; L1 --- LR1
+        LL1 --- LLR1
+        RR1 --- RRL1
+        
+        LR1 -- "Find inorder successor" --> L1
+    end
+
+    classDef deleted fill:tomato,stroke:red,stroke-width:2px
+    classDef successor fill:lightgreen,stroke:green,stroke-width:2px
+```
 
 ---
 
 ## Performance of Binary Search Trees
 
 * A BST with `n` entries has height `h`.
-* **Space:** O(n).
-* **`get`, `put`, `remove`:** O(h) time complexity.
+* **Space:** $O(n)$.
+* **`get`, `put`, `remove`:** $O(h)$ time complexity.
 * **Crucial Point:** The height `h` depends on the shape of the tree!
-    * **Best Case (Balanced Tree):** `h` is O(log n). Operations are efficient.
-    * **Worst Case (Skewed Tree):** `h` can be O(n) (like a linked list). Operations degrade to O(n).
+    * **Best Case (Balanced Tree):** `h` is $O(\log n)$. Operations are efficient.
+    * **Worst Case (Skewed Tree):** `h` can be $O(n)$ (like a linked list). Operations degrade to $O(n)$.
 * **Conclusion:** Standard BSTs work well on average if keys are inserted randomly, but performance can be poor for certain insertion sequences. **Balanced** search trees (like AVL trees, Red-Black trees) are needed to guarantee O(log n) worst-case performance.
 
-(Diagrams comparing a balanced BST (h=log n) and a skewed BST (h=n))
+---
+
+## Map Implementation Comparison
+
+| Implementation | `get`/`put`/`remove` (Avg) | `get`/`put`/`remove` (Worst) | Ordered Operations? | When to Use? |
+| :--- | :---: | :---: | :---: | :--- |
+| **Unsorted List** | $O(n)$ | $O(n)$ | No | Simple, for very small datasets. |
+| **Hash Table** | **$O(1)$** | $O(n)$ | No | **Fastest access.** When order doesn't matter. |
+| **Binary Search Tree** | $O(\log n)$ | $O(n)$ | **Yes** | When order is needed, and data is expected to be random. |
+
+*   **Hash Tables** offer the best average-case performance but provide no key ordering.
+*   **Binary Search Tree** provide a great compromise: very good performance ($O(\log n)$) and ordered key traversal.
