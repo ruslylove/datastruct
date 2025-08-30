@@ -43,7 +43,7 @@ layout: two-cols-header
 
 :: right ::
 
-<img src="/map.png" style="width: 400px;padding-left:50px"/>
+<img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*_c6P5T8H2MawFXoaDAxnHw.jpeg" style="width: 500px"/>
 
 ---
 
