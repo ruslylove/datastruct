@@ -103,6 +103,38 @@ layout: two-cols
 
 * A straightforward approach using an underlying list (e.g., `ArrayList` or `LinkedList`) to store the `(key, value)` entries.
 * We can use the `PositionalList` ADT concept for this.
+* **To perform an operation:**
+    * We must iterate through the list from the beginning.
+    * For each entry, we check if its key matches the target key.
+* This makes the implementation simple, but as we'll see, it's not very efficient ($O(n)$).
+
+
+```mermaid
+graph LR
+    subgraph "List of Entries"
+        direction LR
+        Head(("head")) --> Node1["Entry(5, A)"]
+        Node1 --> Node_etc[...] --> Node2["Entry(7, B)"]
+        Node2 --> Node3["Entry(2, E)"]
+        Node3 --> Null("null")
+    end
+
+    subgraph "Example: get(7)"
+        direction LR
+        Search("Search") e1@-- "Scan for key == 7 from head" --> Node1
+        Node1 e2@-- "key != 7" --> Node_etc e4@-- "key != 7"--> Node2
+        Node2 e3@-- "key == 7, return 'B'" --> Found((Found))
+    end
+
+    linkStyle 5,6,7,8 stroke:red,stroke-width:2px
+    style Found fill:lightgreen
+    e1@{animate: true}
+    e2@{animate: true}
+    e3@{animate: true}
+    e4@{animate: true}
+
+
+```
 
 ---
 

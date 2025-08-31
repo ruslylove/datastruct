@@ -100,7 +100,7 @@ graph TD
 
     subgraph "Bucket Array A (size N)"
         B0["A[0]"]
-        B1["A[1]"]
+        B1["A[1]"]:::bad
         B2["A[2]"]
         B_etc["..."]
         BN["A[N-1]"]
@@ -112,10 +112,88 @@ graph TD
     K4 -- "*h('Sandra Dee')* = 2" --> B2
 
     linkStyle 1 stroke:red
-        e1@{ animate: true }
+    e1@{ animate: true }
+    classDef bad fill:lightcoral,stroke:red
 
 
 ```
+
+---
+layout: two-cols-header
+---
+
+## Good vs. Bad Hash Functions
+
+The effectiveness of a hash table is critically dependent on the quality of its hash function.
+
+:: left ::
+
+* **Bad Hash Function (Poor Distribution)**
+
+A poor hash function fails to distribute keys uniformly, causing many keys to map to the same few buckets. This leads to frequent collisions.
+
+```mermaid
+graph TD
+    subgraph "Keys"
+        K1["'apple'"]
+        K2["'banana'"]
+        K3["'cherry'"]
+        K4["'date'"]
+        K5["'fig'"]
+    end
+
+    subgraph "Bucket Array (High Collisions)"
+        direction LR
+        B0["A[0]"]
+        B1["A[1]"]:::bad
+        B2["A[2]"]
+        B3["A[3]"]
+        B4["A[4]"]
+    end
+
+    K1 -- "h('apple')=1" --> B1
+    K2 -- "h('banana')=1" --> B1
+    K3 -- "h('cherry')=0" --> B0
+    K4 -- "h('date')=1" --> B1
+    K5 -- "h('fig')=1" --> B1
+
+    classDef bad fill:lightcoral,stroke:red
+```
+**Result:** Performance degrades towards $O(n)$ as the collided bucket behaves like a list.
+
+:: right ::
+
+* **Good Hash Function (Uniform Distribution)**
+A good hash function distributes keys evenly across the array, minimizing collisions. Each bucket has roughly the same number of entries.
+
+```mermaid
+graph TD
+    subgraph "Keys"
+        K1["'apple'"]
+        K2["'banana'"]
+        K3["'cherry'"]
+        K4["'date'"]
+        K5["'fig'"]
+    end
+
+    subgraph "Bucket Array (Uniform Distribution)"
+        direction LR
+        B0["A[0]"]:::good
+        B1["A[1]"]:::good
+        B2["A[2]"]:::good
+        B3["A[3]"]:::good
+        B4["A[4]"]:::good
+    end
+
+    K1 -- "h('apple')=3" --> B3
+    K2 -- "h('banana')=1" --> B1
+    K3 -- "h('cherry')=4" --> B4
+    K4 -- "h('date')=0" --> B0
+    K5 -- "h('fig')=2" --> B2
+
+    classDef good fill:lightgreen,stroke:green
+```
+**Result:** Operations approach the ideal $O(1)$ average time complexity.
 
 ---
 
@@ -131,12 +209,54 @@ A hash function typically involves two parts:
 
 * The final hash function is the composition: `h(k) = h₂(h₁(k))`.
 
+
+
+---
+layout: two-cols-header
 ---
 
 ## Hash Code Maps
 
-* **Requirement:** For any two keys `k₁` and `k₂`, if `k₁ == k₂`, then `h₁(k₁) == h₁(k₂)`.
-* **Desirable Property:** If `k₁ != k₂`, then `h₁(k₁)` should ideally be different from `h₁(k₂)`. (A good hash code minimizes collisions at this stage).
+
+
+The first step in hashing is to convert an arbitrary key object into an integer. This integer is called the **hash code**.
+
+**The `hashCode()` Contract**
+
+:: left ::
+1.  **Requirement (Consistency with `equals`)**:
+    *   If two keys `k₁` and `k₂` are considered equal (i.e., `k₁.equals(k₂)` is true), then their hash codes **must** be the same (`k₁.hashCode() == k₂.hashCode()`).
+    *   Breaking this rule will cause hash-based data structures to fail, as they may not find an object that is present.
+    <br>
+:: right ::
+2.  **Desirable Property (Uniformity)**:
+    *   If two keys are *not* equal, their hash codes should be different as often as possible.
+    *   This property ensures that distinct keys are spread out, minimizing collisions even before the compression step.
+    <br><br><br><br><br>
+
+---
+
+## Example: `Student` Class
+
+Consider a `Student` class with an `id` (integer) and `name` (string).
+
+**A Bad (but valid) `hashCode()`:**
+```java
+// All students get the same hash code. Massive collisions!
+public int hashCode() { return 1; }
+```
+
+**A Better, but still weak, `hashCode()`:**
+```java
+// Collisions for students with names of the same length.
+public int hashCode() { return name.length(); }
+```
+
+**A Good `hashCode()`:**
+```java
+// Leverages the value of a unique field.
+public int hashCode() { return id; }
+```
 
 ---
 
@@ -158,6 +278,46 @@ A hash function typically involves two parts:
     `s₀ * 31ⁿ⁻¹ + s₁ * 31ⁿ⁻² + ... + sₙ₋₁`
 * Many other built-in Java classes (like `Integer`, `Float`, `Date`) provide well-designed `hashCode()` implementations.
 * **Important:** If you override the `equals(Object other)` method in your custom class, you **must** also override `hashCode()` consistently. If `a.equals(b)` is true, then `a.hashCode()` must equal `b.hashCode()`.
+
+```java {*}{maxHeight:'230px'}
+// Example: Polynomial Hashing for a String
+public class StringHashCodeExample {
+
+    public static int polynomialHashCode(String s, int a) {
+        int h = 0;
+        for (int i = 0; i < s.length(); i++) {
+            h = a * h + s.charAt(i);
+        }
+        return h;
+    }
+
+    public static void main(String[] args) {
+        String s1 = "hello";
+        String s2 = "world";
+        String s3 = "olleh"; // Same characters, different order
+
+        int a = 31; // Common choice for 'a' in Java's String.hashCode()
+
+        int hashCode1 = polynomialHashCode(s1, a);
+        int hashCode2 = polynomialHashCode(s2, a);
+        int hashCode3 = polynomialHashCode(s3, a);
+
+        System.out.println("String: \"" + s1 + "\", Hash Code (a=" + a + "): " + hashCode1);
+        System.out.println("String: \"" + s2 + "\", Hash Code (a=" + a + "): " + hashCode2);
+        System.out.println("String: \"" + s3 + "\", Hash Code (a=" + a + "): " + hashCode3);
+
+        // Demonstrate Java's built-in hashCode() for comparison
+        System.out.println("\nJava's built-in hashCode():");
+        System.out.println("String: \"" + s1 + "\", Java Hash Code: " + s1.hashCode());
+        System.out.println("String: \"" + s2 + "\", Java Hash Code: " + s2.hashCode());
+        System.out.println("String: \"" + s3 + "\", Java Hash Code: " + s3.hashCode());
+
+        // Example of how collisions can occur with different strings
+        String s4 = "Aa"; // ASCII A=65, a=97
+        String s5 = "BB"; // ASCII B=66
+        // For a=31:
+        // h("Aa") = 31 * 'A' + 'a' = 31 * 65 + 97 = 2015 + 97 = 2112
+```
 
 ---
 
