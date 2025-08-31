@@ -37,20 +37,57 @@ hideInToc: false
 
 ---
 
+
 ## Hash Tables: The Goal
 
 * Aim for **$O(1)$** average time complexity for `get`, `put`, and `remove` operations.
 * **Idea:** Use keys directly as indices into an array (like a simplified map where keys are 0 to N-1).
 * **Challenge:** Real-world keys are often not small integers. We need a way to map arbitrary keys to array indices.
 
+
+```mermaid
+graph TD
+
+    subgraph "Keys"
+    key1
+    key2
+    key3
+    end
+
+    key1 --> hash("Hash function<br>*h(k)*")
+    key2 --> hash
+    key3 --> hash
+    
+    subgraph "Hash Table"
+    A0["A[0]: value"]
+    A1["A[1]"]
+    A2["A[2]"]
+    A3["A[3]"]
+    A4["A[4]: value"]
+    A5["A[5]"]
+    A6["A[6]: value"]
+    A7["A[7]"]
+    A8["A[8]"]
+    A9["A[9]"]
+    end
+
+    hash -- *h(key1)* --> A0
+    hash -- *h(key2)* --> A4
+    hash -- *h(key3)* --> A6
+
+```
+<!--
+<img src="https://miro.medium.com/v2/resize:fit:1370/format:webp/1*V6QmD6GOTJazZto9PZMMzw.jpeg" />
+-->
+
 ---
 
 ## Hash Functions
 
-* A **hash function `h`** maps keys `k` from a given set `K` to integer indices in the range `[0, N-1]`, where `N` is the size of the underlying array (the "bucket array").
+* A **hash function h** maps keys `k` from a given set `K` to integer indices in the range `[0, N-1]`, where `N` is the size of the underlying array (the "bucket array").
 * The array `A` indexed by the hash function is called a **hash table**.
 * **Goal:** Map keys to indices quickly and distribute them evenly to minimize **collisions**.
-* **Collision:** Occurs when two different keys `k₁` and `k₂` map to the same index: `h(k₁) = h(k₂)`.
+* **Collision:** Occurs when two different keys $k₁$ and $k₂$ map to the same index: $h(k₁) = h(k₂)$.
 
 ```mermaid {scale:0.88}
 graph TD
@@ -69,10 +106,10 @@ graph TD
         BN["A[N-1]"]
     end
 
-    K1 -- "h('John Smith') = 1" --> B1
-    K2 e1@-- "h('Lisa Smith') = 1 (Collision!)" --> B1
-    K3 -- "h('Sam Doe') = N-1" --> BN
-    K4 -- "h('Sandra Dee') = 2" --> B2
+    K1 -- "*h('John Smith')* = 1" --> B1
+    K2 e1@-- "*h('Lisa Smith')* = 1 (Collision!)" --> B1
+    K3 -- "*h('Sam Doe')* = N-1" --> BN
+    K4 -- "*h('Sandra Dee')* = 2" --> B2
 
     linkStyle 1 stroke:red
         e1@{ animate: true }

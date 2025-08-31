@@ -35,9 +35,9 @@ layout: two-cols-header
 * Each key within a map must be unique.
 * **Core Operations:** Searching for, inserting, and deleting items based on their keys.
 * **Applications:**
-    * Address books (name -> phone number/address).
-    * Student databases (student ID -> student record).
-    * Dictionaries (word -> definition).
+    * Address books (name → phone number/address).
+    * Student databases (student ID → student record).
+    * Dictionaries (word → definition).
     <br><br><br><br>
 
 
@@ -190,4 +190,4 @@ Algorithm remove(k):
     * Therefore, these operations take **$O(n)$** time.
 * **`size()`, `isEmpty()`:** These typically take **$O(1)$** time.
 * **`entrySet()`, `keySet()`, `values()`:** These involve iterating through the list, taking **$O(n)$** time to produce the iterable collection.
-* **Conclusion:** While simple, the list-based implementation is inefficient for large maps due to the linear time complexity of the core operations. More advanced structures (like `hash tables` or `search trees`) are needed for better performance.
+* **Conclusion:** While simple, the list-based implementation is inefficient for large maps due to the linear time complexity of the core operations. More advanced structures (like **hash tables** or **search trees**) are needed for better performance.
