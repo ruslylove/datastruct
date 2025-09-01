@@ -297,41 +297,52 @@ layout: two-cols
 
 ```mermaid
 graph TD
-    
 
-    subgraph "After: 11's value replaces 8"
-        R2(17)
-        L2(11):::successor
-        LL2(4)
-        LLR2(5)
-        RR2(25)
-        RRL2(20)
-        
-        R2 --- L2; R2 --- RR2
-        L2 --- LL2
-        LL2 --- LLR2
-        RR2 --- RRL2
+    subgraph RT[" "]
+        RR1(25)
+        RRL1(20)
+        C
     end
 
-    subgraph "Before: Remove k=8"
+    subgraph G["**Remove k=8**"]
         R1(17)
         L1(8):::deleted
         LL1(4)
-        LR1(11):::successor
         LLR1(5)
+        
         RR1(25)
         RRL1(20)
         
+        %% Right subtree of 8, to find successor
+        LR1(11)
+        LR1_L(10)
+        LR1_R(15)
+        LR1_L_L(9):::successor
+        LR1_L_R(( ))
+        
         R1 --- L1; R1 --- RR1
         L1 --- LL1; L1 --- LR1
+        
         LL1 --- LLR1
         RR1 --- RRL1
         
-        LR1 -- "Find inorder successor" --> L1
+        LR1 --- LR1_L; LR1 --- LR1_R
+        LR1_L --- LR1_L_L
+        LR1_L -.- LR1_L_R
+        
+        LR1_L_L e1@-- "Inorder successor of 8" --> L1
+        LR1_R -.- A(( )) & B(( ))
+        RR1 -.- C(( ))
+
     end
+
+    e1@{animate: true}
 
     classDef deleted fill:tomato,stroke:red,stroke-width:2px
     classDef successor fill:lightgreen,stroke:green,stroke-width:2px
+    classDef invisible fill-opacity:0, stroke-opacity:0;
+    class RT,G invisible
+
 ```
 
 ---

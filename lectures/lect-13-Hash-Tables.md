@@ -215,7 +215,7 @@ A hash function typically involves two parts:
 
 ```mermaid
 graph LR
-    subgraph "Hash Codes (from h₁)"
+    subgraph "Hash Codes (from h₁(k))"
         HC1["201598"]
         HC2["-54321"]
         HC3["987654321"]
