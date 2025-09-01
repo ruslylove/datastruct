@@ -196,19 +196,57 @@ graph TD
 **Result:** Operations approach the ideal $O(1)$ average time complexity.
 
 ---
+layout: two-cols
+---
 
 ## Hash Function Components
 
 A hash function typically involves two parts:
 
-1.  **Hash Code Map:** `h₁: K -> Z`
-    * Maps keys `k` to arbitrary integers (can be positive, negative, or zero).
+1.  **Hash Code Map:** `h₁: k → y`
+    * Maps keys `k` to arbitrary integers `y` (can be positive, negative, or zero).
 
-2.  **Compression Map:** `h₂: Z -> [0, N-1]`
+2.  **Compression Map:** `h₂: y → [0, N-1]`
     * Maps the integer hash codes to the valid index range `[0, N-1]` for the bucket array of size `N`.
 
-* The final hash function is the composition: `h(k) = h₂(h₁(k))`.
+* The final hash function is the composition: $h(k) = h₂(h₁(k))$.
 
+:: right ::
+
+```mermaid
+graph LR
+    subgraph "Hash Codes (from h₁)"
+        HC1["201598"]
+        HC2["-54321"]
+        HC3["987654321"]
+    end
+
+    subgraph "Bucket Array Indices [0, N-1] (N=13)"
+        direction LR
+        B0["A[0]"]
+        B1["..."]
+        B4["A[4]"]:::good
+        B5["..."]
+        B7["A[7]"]:::bad
+        B8["..."]
+        B12["A[12]"]
+    end
+
+    comp["Compression Map<br>h₂(y) = |y| mod 13"]
+
+    HC1 --> comp
+    HC2 --> comp
+    HC3 --> comp
+
+    comp -- "|987654321| mod 13 = 4" --> B4
+    comp -- "|201598| mod 13 = 7" --> B7
+    comp e1@-- "|-54321| mod 13 = 7<br>(Collision!)" --> B7
+
+    linkStyle 2 stroke:red
+    e1@{ animate: true }
+    classDef bad fill:lightcoral,stroke:red
+    classDef good fill:lightgreen,stroke:green
+```
 
 
 ---
@@ -272,7 +310,7 @@ public int hashCode() { return id; }
 
 ---
 
-## Polynomial Hashing in Java
+## Polynomial Hashing
 
 * Java's `String.hashCode()` uses a polynomial hash code like:
     `s₀ * 31ⁿ⁻¹ + s₁ * 31ⁿ⁻² + ... + sₙ₋₁`
@@ -546,18 +584,18 @@ layout: two-cols
 ## Performance of Hash Tables
 
 * **Worst Case:** $O(n)$ time if all keys collide into the same bucket (or cluster badly in open addressing).
-* **Expected/Average Case (with good hash function & load factor α):**
-    * **Separate Chaining:** O(1 + α). If α is constant (e.g., < 0.9), this is **$O(1)$**.
-    * **Open Addressing:** Depends heavily on the load factor and probing strategy. Roughly $O(1 / (1 - α))$. Performance degrades significantly as α approaches 1. Requires `α < 1`.
+* **Expected/Average Case (with good hash function & load factor $α$):**
+    * **Separate Chaining:** $O(1 + α)$. If α is constant (e.g., < 0.9), this is **$O(1)$**.
+    * **Open Addressing:** Depends heavily on the load factor and probing strategy. Roughly $O(1 / (1 - α))$. Performance degrades significantly as α approaches 1. Requires $α < 1$.
 * **Space:** $O(n + N)$ - proportional to the number of entries plus the size of the bucket array.
 
-* **Rehashing:** If the load factor `α` gets too high, performance degrades. We can resize the table (usually doubling `N` to the next prime) and re-insert all entries using the new hash function (based on the new `N`). This is an $O(n + N)$ operation but keeps the average performance good.
+* **Rehashing:** If the load factor $α$ gets too high, performance degrades. We can resize the table (usually doubling `N` to the next prime) and re-insert all entries using the new hash function (based on the new `N`). This is an $O(n + N)$ operation but keeps the average performance good.
 
 ---
 layout: two-cols
 ---
 
-## Summary: Hast Tables
+## Summary: Hash Tables
 
 *   **Hash Tables** are incredibly powerful, providing **$O(1)$ average-case** performance for `get`, `put`, and `remove`.
     *   This is achieved by mapping keys to array indices via a **hash function**.
