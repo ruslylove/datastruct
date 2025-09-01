@@ -39,10 +39,12 @@ hideInToc: false
 
 * A sorting algorithm based on the divide-and-conquer paradigm.
 * **Key Characteristics:**
-    * Achieves O(n log n) running time (like Heap Sort).
+    * Achieves $O(n\log n)$ running time (like Heap Sort).
     * Does not require an auxiliary priority queue (unlike Heap Sort).
     * Accesses data sequentially, making it suitable for sorting large datasets that might reside on disk.
 
+---
+layout: two-cols
 ---
 
 ## Merge Sort: Algorithm Steps
@@ -51,7 +53,54 @@ hideInToc: false
 2.  **Recur:** Recursively sort `S₁` and `S₂`.
 3.  **Conquer:** Merge the two sorted sequences `S₁` and `S₂` back into a single sorted sequence `S`.
 
-(Diagram illustrating the recursive splitting and merging phases of Merge Sort)
+:: right ::
+
+```mermaid
+graph TD
+    %% --- Top Level ---
+    A0("S = [8, 3, 1, 7, 0, 10, 2]")
+
+    %% --- Divide Phase (Downward Arrows) ---
+    subgraph "Divide Phase (Splitting)"
+        direction TB
+        A0 -- "Divide" --> A1_R("[0, 10, 2]")
+        A0 -- "Divide" --> A1_L("[8, 3, 1, 7]")
+        
+        A1_L -- "Divide" --> A2_L1("[8, 3]")
+        A1_L -- "Divide" --> A2_R1("[1, 7]")
+        A1_R -- "Divide" --> A2_L2("[0, 10]")
+        A1_R -- "Divide" --> A2_R2("[2]")
+
+        A2_L1 -- "Divide" --> A3_L1("[8]")
+        A2_L1 -- "Divide" --> A3_R1("[3]")
+        A2_R1 -- "Divide" --> A3_L2("[1]")
+        A2_R1 -- "Divide" --> A3_R2("[7]")
+        A2_L2 -- "Divide" --> A3_L3("[0]")
+        A2_L2 -- "Divide" --> A3_R3("[10]")
+    end
+
+    %% --- Conquer Phase (Upward Arrows) ---
+    subgraph "Conquer Phase (Merging)"
+        direction TB
+        M2_L1("[3, 8]"); M2_R1("[1, 7]"); M2_L2("[0, 10]")
+        M1_L("[1, 3, 7, 8]"); M1_R("[0, 2, 10]")
+        M0("[0, 1, 2, 3, 7, 8, 10]")
+        A3_R1 -- "Merge" --> M2_L1; A3_L1 -- "Merge" --> M2_L1
+        A3_R2 -- "Merge" --> M2_R1; A3_L2 -- "Merge" --> M2_R1
+        A3_R3 -- "Merge" --> M2_L2; A3_L3 -- "Merge" --> M2_L2
+        M2_R1 -- "Merge" --> M1_L; M2_L1 -- "Merge" --> M1_L
+        A2_R2 -- "Merge" --> M1_R; M2_L2 -- "Merge" --> M1_R
+        M1_R -- "Merge" --> M0; M1_L -- "Merge" --> M0
+    end
+
+    linkStyle 0,1,2,3,4,5,6,7,8,9,10,11 stroke:indianred,stroke-width:2px,stroke-dasharray: 5 5; linkStyle 12,13,14,15,16,17,18,19,20,21,22,23 stroke:forestgreen,stroke-width:2px
+    classDef initial fill:#lightblue, stroke:#333; 
+    classDef divide fill:#ffcccb,stroke:#333; 
+    classDef merge fill:#90ee90,stroke:#333; 
+    class A0 initial; 
+    class A1_L,A1_R,A2_L1,A2_R1,A2_L2,A2_R2,A3_L1,A3_R1,A3_L2,A3_R2,A3_L3,A3_R3 divide; 
+    class M0,M1_L,M1_R,M2_L1,M2_R1,M2_L2 merge
+```
 
 ---
 
