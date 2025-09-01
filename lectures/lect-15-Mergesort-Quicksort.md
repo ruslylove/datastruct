@@ -55,10 +55,10 @@ layout: two-cols
 
 :: right ::
 
-```mermaid
+```mermaid {scale: 0.52}
 graph TD
     %% --- Top Level ---
-    A0("S = [8, 3, 1, 7, 0, 10, 2]")
+    A0("S = [0, 10, 2, 8, 3, 1, 7]")
 
     %% --- Divide Phase (Downward Arrows) ---
     subgraph "Divide Phase (Splitting)"
@@ -104,52 +104,169 @@ graph TD
 
 ---
 
+
 ## Merging Two Sorted Sequences
+
+<div class="grid grid-cols-10 gap-2 items-start">
+
+<div class="col-span-7">
 
 * The core "conquer" step involves merging two already sorted sequences, `A` and `B`, into a single sorted sequence `S`.
 * **Algorithm:**
     1. Use pointers (or indices) `i` for `A` and `j` for `B`, both starting at the beginning.
     2. While both `A` and `B` have elements remaining:
         * Compare `A[i]` and `B[j]`.
-        * Copy the smaller element to the next position in the output sequence `S`.
+        * Copy the smaller element to the next position in the sequence `S`.
         * Advance the pointer (`i` or `j`) corresponding to the sequence from which the element was copied.
     3. Once one sequence is exhausted, copy all remaining elements from the other sequence into `S`.
-* This merge process takes **O(n₁ + n₂)** time, where `n₁` and `n₂` are the lengths of `A` and `B`.
+* This merge process takes **$O(n₁ + n₂)$** time, where `n₁` and `n₂` are the lengths of `A` and `B`.
 
-(Diagram showing two sorted lists A and B being merged into list S step-by-step)
+</div>
 
+
+<div>
+```mermaid {scale: 0.4}
+graph TD
+    subgraph IS["Initial State"]
+        style A1 fill:#e6f2ff,stroke:#333
+        style B1 fill:#e6f2ff,stroke:#333
+        style S1 fill:#fff0e6,stroke:#333
+        A1["A: [<b>3</b>, 8, 12]<br/>i=0"]
+        B1["B: [<b>5</b>, 7]<br/>j=0"]
+        S1["S: [ ]"]
+    end
+
+    IS -- "Compare A[i] and B[j]<br/>3 < 5, so move A[i] to S" --> ST2
+
+    subgraph ST2["Step 2"]
+        style A2 fill:#e6f2ff,stroke:#333
+        style B2 fill:#e6f2ff,stroke:#333
+        style S2 fill:#fff0e6,stroke:#333
+        S2["S: [3]"]
+        A2["A: [3, <b>8</b>, 12]<br/>i=1"]
+        B2["B: [<b>5</b>, 7]<br/>j=0"]
+    end
+
+    ST2 -- "Compare A[i] and B[j]<br/>5 < 8, so move B[j] to S" --> ST3
+
+    subgraph ST3["Step 3"]
+        style A3 fill:#e6f2ff,stroke:#333
+        style B3 fill:#e6f2ff,stroke:#333
+        style S3 fill:#fff0e6,stroke:#333
+        S3["S: [3, 5]"]
+        A3["A: [3, <b>8</b>, 12]<br/>i=1"]
+        B3["B: [5, <b>7</b>]<br/>j=1"]
+    end
+
+    ST3 -- "Compare A[i] and B[j]<br/>7 < 8, so move B[j] to S" --> ST4
+
+    subgraph ST4["Step 4"]
+        style A4 fill:#e6f2ff,stroke:#333
+        style B4 fill:#e6f2ff,stroke:#333
+        style S4 fill:#fff0e6,stroke:#333
+        S4["S: [3, 5, 7]"]
+        A4["A: [3, <b>8</b>, 12]<br/>i=1"]
+        B4["B: [5, 7]<br/>j=2 (exhausted)"]
+    end
+
+    ST4 -- "List B is exhausted.<br/>Copy all remaining elements from A." --> ST5
+
+    subgraph ST5["Step 5: Final Result"]
+        style S5 fill:#d4edda,stroke:#155724
+        S5["S: [3, 5, 7, 8, 12]"]
+    end
+
+```
+
+</div>
+
+</div>
+
+---
+hide: true
 ---
 
 ## Merge Sort: Tree Representation
+
+<div class="grid grid-cols-2 gap-2 items-start">
+<div>
 
 * The execution of merge sort can be visualized as a binary tree.
 * Each node represents a recursive call and the sequence it processes.
 * The leaves represent the base cases (sequences of size 0 or 1).
 * The merging step corresponds to combining results from child nodes.
 
-(Diagram of the merge sort execution tree for an example sequence)
+</div>
+<div>
+```mermaid {scale: 0.4}
+graph TD 
+    subgraph "Execution Flow"
+        A0("S = [8, 3, 10, 1, 7, 2]"):::initial
+        
+        A0 -- "Divide" --> A1_L("[8, 3, 10]"):::divide
+        A0 -- "Divide" --> A1_R("[1, 7, 2]"):::divide
+
+        A1_L -- "Divide" --> A2_L("[8, 3]"):::divide
+        A1_L -- "Divide" --> A2_R("[10]"):::leaf
+
+        A1_R -- "Divide" --> A3_L("[1, 7]"):::divide
+        A1_R -- "Divide" --> A3_R("[2]"):::leaf
+
+        A2_L -- "Divide" --> A4_L("[8]"):::leaf
+        A2_L -- "Divide" --> A4_R("[3]"):::leaf
+
+        A3_L -- "Divide" --> A5_L("[1]"):::leaf
+        A3_L -- "Divide" --> A5_R("[7]"):::leaf
+
+        A4_L -- "Merge" --> M1("[3, 8]"):::merge
+        A4_R -- "Merge" --> M1
+
+        A5_L -- "Merge" --> M2("[1, 7]"):::merge
+        A5_R -- "Merge" --> M2
+
+        M1 -- "Merge" --> M3("[3, 8, 10]"):::merge
+        A2_R -- "Merge" --> M3
+
+        M2 -- "Merge" --> M4("[1, 2, 7]"):::merge
+        A3_R -- "Merge" --> M4
+
+        M3 -- "Merge" --> M_Final("[1, 2, 3, 7, 8, 10]"):::final
+        M4 -- "Merge" --> M_Final
+    end
+
+
+    classDef initial fill:#cde4ff,stroke:#333,stroke-width:2px
+    classDef divide fill:#fff0e6,stroke:#333,stroke-width:1px
+    classDef leaf fill:#e6f2ff,stroke:#333,stroke-width:1px
+    classDef merge fill:#d4edda,stroke:#155724,stroke-width:2px
+    classDef final fill:#d4edda,stroke:#155724,stroke-width:3px
+
+```
+</div>
+</div>
+
 
 ---
 
 ## Merge Sort: Performance Analysis
 
-* Let `T(n)` be the running time for sorting `n` elements.
+* Let $T(n)$ be the running time for sorting $n$ elements.
 * **Recurrence Relation:**
-    * `T(n) = 2 * T(n/2) + cn` (if n > 1)
-    * `T(n) = b` (if n <= 1)
-    * Where `cn` represents the time for dividing and merging (linear time).
+    * $T(n) = 2 * T(n/2) + cn$ (if $n$ > 1)
+    * $T(n) = b$ (if n <= 1)
+    * Where $cn$ represents the time for dividing and merging (linear time).
 * **Solving the Recurrence:** By analyzing the execution tree:
-    * The height of the tree is O(log n).
-    * The total work done at each level `i` is O(n).
-    * Total time = Sum of work at all levels = O(n log n).
-* **Conclusion:** Merge sort has a time complexity of **O(n log n)**.
+    * The height of the tree is $O(\log n)$.
+    * The total work done at each level $i$ is $O(n)$.
+    * Total time = Sum of work at all levels = $O(n\log n)$.
+* **Conclusion:** Merge sort has a time complexity of **$O(n \log n)$**.
 
 ---
 
 ## Quick Sort: Overview
 
 * Another sorting algorithm based on the divide-and-conquer strategy.
-* Often faster in practice than Merge Sort, though its worst-case performance is O(n²).
+* Often faster in practice than Merge Sort, though its worst-case performance is $O(n²)$.
 * **Key Characteristics:**
     * Sorts "in-place" (modifies the input array directly, minimal extra space).
     * Uses randomization to improve the likelihood of good performance.
