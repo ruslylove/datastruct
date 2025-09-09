@@ -147,6 +147,9 @@ src: ./lectures/end.md
 src: ./lectures/lect-15-Mergesort-Quicksort.md
 ---
 ---
+src: ./lectures/end.md
+---
+---
 src: ./lectures/lect-16-Graph.md
 ---
 ---

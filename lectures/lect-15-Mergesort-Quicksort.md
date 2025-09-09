@@ -25,23 +25,20 @@ hideInToc: false
 
 ---
 
-## Divide-and-Conquer Strategy
-
-* A general algorithm design approach:
-    1.  **Divide:** Split the input data `S` into two (or more) disjoint subsets, `S₁` and `S₂`.
-    2.  **Recur:** Solve the subproblems associated with `S₁` and `S₂` recursively.
-    3.  **Conquer:** Combine the solutions for `S₁` and `S₂` to form the final solution for `S`.
-* **Base Case:** The recursion stops when subproblems reach a trivial size (e.g., 0 or 1 element).
-
----
-
 ## Merge Sort: Overview
 
 * A sorting algorithm based on the divide-and-conquer paradigm.
 * **Key Characteristics:**
     * Achieves $O(n\log n)$ running time (like Heap Sort).
     * Does not require an auxiliary priority queue (unlike Heap Sort).
-    * Accesses data sequentially, making it suitable for sorting large datasets that might reside on disk.
+    * Accesses data sequentially, making it suitable for sorting large datasets that might reside on disk.  
+* **Divide-and-Conquer Strategy**
+    * A general algorithm design approach:
+        1.  **Divide:** Split the input data `S` into two (or more) disjoint subsets, `S₁` and `S₂`.
+        2.  **Recur:** Solve the subproblems associated with `S₁` and `S₂` recursively.
+        3.  **Conquer:** Combine the solutions for `S₁` and `S₂` to form the final solution for `S`.
+    * **Base Case:** The recursion stops when subproblems reach a trivial size (e.g., 0 or 1 element).
+
 
 ---
 layout: two-cols
@@ -272,8 +269,10 @@ graph TD
     * Uses randomization to improve the likelihood of good performance.
 
 ---
+layout: two-cols
+---
 
-## Quick Sort: High-Level Steps
+## Quick Sort: Algorithm Steps
 
 1.  **Divide:**
     * Choose a random element `x` from the input sequence `S`, called the **pivot**.
@@ -284,7 +283,26 @@ graph TD
 2.  **Recur:** Recursively sort sequences `L` and `G`.
 3.  **Conquer:** Combine the sorted `L`, `E`, and `G` sequences back together. (This step is trivial as they are already in the correct relative order).
 
-(Diagram illustrating the partitioning step with pivot x)
+:: right ::
+
+```mermaid
+graph TD
+    A["<b>Input Sequence S</b><br/>[7, 2, 9, 2, 5, 3, 8, 5]"] -- "Step 1: Choose pivot <b>x = 5</b>" --> B
+    
+    subgraph B [Step 2: Partition S]
+        direction TB
+        L["<b>L (elements < 5)</b><br/>[2, 2, 3]"] 
+        E["<b>E (elements = 5)</b><br/>[5, 5]"]
+        G["<b>G (elements > 5)</b><br/>[7, 9, 8]"]
+    end
+
+    B -. "Step 3: Recur on L & G, then combine" .-> C("<b>Final Result after recursion</b><br/>[2, 2, 3, 5, 5, 7, 8, 9]")
+
+    classDef initial fill:#cde4ff,stroke:#333;
+    classDef partition fill:#fff0e6,stroke:#333;
+    classDef final fill:#d4edda,stroke:#155724;
+    class A initial; class L,E,G partition; class C final;
+```
 
 ---
 
@@ -292,7 +310,24 @@ graph TD
 
 * The core step is partitioning the sequence `S` based on the chosen pivot `x`.
 * **Goal:** Rearrange `S` so all elements `< x` come first, followed by elements `= x`, followed by elements `> x`.
-* This can be done in **O(n)** time by scanning the sequence.
+* This can be done in **$O(n)$** time by scanning the sequence.
+
+```mermaid
+graph TD
+    A["<b>Input Sequence S</b><br/>[7, 2, 9, 2, 5, 3, 8, 5]"] -- "Step 1: Choose pivot <b>x = 5</b>" --> B
+    
+    subgraph B [Step 2: Partition S]
+        direction TB
+        L["<b>L (elements < 5)</b><br/>[2, 2, 3]"] 
+        E["<b>E (elements = 5)</b><br/>[5, 5]"]
+        G["<b>G (elements > 5)</b><br/>[7, 9, 8]"]
+    end
+
+    classDef initial fill:#cde4ff,stroke:#333;
+    classDef partition fill:#fff0e6,stroke:#333;
+    classDef final fill:#d4edda,stroke:#155724;
+    class A initial; class L,E,G partition; class C final;
+```
 
 ---
 
@@ -302,7 +337,42 @@ graph TD
 * Each node represents a recursive call on a subsequence.
 * The choice of pivot determines how the sequence is split at each node.
 
-(Diagram of a quick sort execution tree, showing subsequences L, E, G)
+```mermaid {scale: 0.7}
+graph TD
+    A("<b>quickSort([7, 2, 9, 5, 3, 8, 4])</b><br/>pivot = 5"):::recursiveCall
+
+    subgraph "Partition of A"
+        direction LR
+        L1("L = [2, 3, 4]"):::partition
+        E1("E = [5]"):::base
+        G1("G = [7, 9, 8]"):::partition
+    end
+
+    A -- "Recur on L" --> L1_call("<b>quickSort([2, 3, 4])</b><br/>pivot = 3"):::recursiveCall
+    A -- "Combine with E" --> E1
+    A -- "Recur on G" --> G1_call("<b>quickSort([7, 9, 8])</b><br/>pivot = 8"):::recursiveCall
+
+    subgraph "Partition of L1"
+        direction LR
+        L2("L = [2]"):::base
+        E2("E = [3]"):::base
+        G2("G = [4]"):::base
+    end
+
+    subgraph "Partition of G1"
+        direction LR
+        L3("L = [7]"):::base
+        E3("E = [8]"):::base
+        G3("G = [9]"):::base
+    end
+
+    L1_call --> L2 & E2 & G2
+    G1_call --> L3 & E3 & G3
+
+    classDef recursiveCall fill:#cde4ff,stroke:#333,stroke-width:2px;
+    classDef partition fill:#fff0e6,stroke:#333,stroke-width:1px;
+    classDef base fill:#d4edda,stroke:#155724,stroke-width:2px;
+```
 
 ---
 
@@ -310,21 +380,55 @@ graph TD
 
 * Occurs when the chosen pivot consistently results in highly unbalanced partitions (e.g., always picking the smallest or largest element).
 * One subproblem might have size `n-1` and the other size 0.
-* **Recurrence Relation:** `T(n) = T(n-1) + T(0) + cn` ≈ `T(n-1) + cn`.
-* This leads to a total time complexity of **O(n²)**.
+* **Recurrence Relation:** $T(n) = T(n-1) + T(0) + cn ≈ T(n-1) + cn$.
+* This leads to a total time complexity of **$O(n²)$**.
+<br><br>
+```mermaid
+graph LR
 
-(Diagram showing a skewed quick sort execution tree representing the worst case)
+    A("<b>quickSort([1, 2, 3, 4, 5, 6])</b><br/>pivot = 6"):::recursiveCall
+    
+    subgraph PA ["Partition of A"]
+        direction TB
+        L1("L = [1, 2, 3, 4, 5]"):::large_partition
+        E1("E = [6]"):::base
+        G1("G = []"):::empty_partition
+    end
+
+    A -- "Recur on L (size n-1)" --> B("<b>quickSort([1, 2, 3, 4, 5])</b><br/>pivot = 5"):::recursiveCall
+    A -.- PA
+    subgraph PB ["Partition of B"]
+        direction TB
+        L2("L = [1, 2, 3, 4]"):::large_partition
+        E2("E = [5]"):::base
+        G2("G = []"):::empty_partition
+    end
+
+    B -- "Recur on L (size n-2)" --> C("...")
+    B -.- PB
+    
+
+    classDef recursiveCall fill:#f8d7da,stroke:#721c24,stroke-width:2px;
+    classDef large_partition fill:#fff3cd,stroke:#856404;
+    classDef base fill:#d4edda,stroke:#155724;
+    classDef empty_partition fill:#e2e3e5,stroke:#383d41;
+```
 
 ---
 
 ## Quick Sort: Expected Performance
 
 * **Randomization:** Choosing the pivot randomly makes the worst-case scenario very unlikely.
-* **Expected Running Time:** With randomized pivots, the expected time complexity of Quick Sort is **O(n log n)**.
+* **Expected Running Time:** With randomized pivots, the expected time complexity of Quick Sort is **$O(n \log n)$**.
 * **Intuition:** On average, a random pivot will split the sequence into reasonably balanced subsequences (e.g., roughly 1/4 and 3/4), leading to logarithmic depth in the execution tree.
-* The total expected work across all levels remains O(n log n).
+* The total expected work across all levels remains $O(n \log n)$.
 
 ---
+
+
+<div class="grid grid-cols-10 gap-2 items-start">
+
+<div class="col-span-8">
 
 ## In-Place Quick Sort
 
@@ -337,5 +441,60 @@ graph TD
     * Repeat until `j` and `k` cross.
     * This partitions the array into elements `<= x` and elements `>= x`. (A further step can separate the `= x` elements if needed).
 * **Recursive Calls:** Recurse on the subarrays corresponding to `L` and `G`.
+</div>
 
-(Diagram illustrating the in-place partitioning scan and swap process)
+<div>
+
+```mermaid {scale: 0.57}
+graph TD
+    A["<b>Initial State: pivot = 5</b><br/>S = [<b>7</b>, 2, 9, 3, 8, 5, <b>4</b>] j=0, k=6"]:::initial
+    
+    A -- "Scan j finds 7 (>=5)<br/>Scan k finds 4 (<=5)<br/>j < k, so swap S[j] and S[k]" --> B
+
+    B["<b>After 1st Swap</b><br/>S = [4, <b>2</b>, 9, 3, 8, <b>5</b>, 7]<br/>j=1, k=5"]:::step
+    
+    B -- "Scan j finds 9 (>=5)<br/>Scan k finds 5 (<=5)<br/>j < k, so swap S[j] and S[k]" --> C
+
+    C["<b>After 2nd Swap</b><br/>S = [4, 2, 5, <b>3</b>, <b>8</b>, 9, 7]<br/>j=3, k=4"]:::step
+
+    C -- "Scan j finds 8 (>=5)<br/>Scan k finds 3 (<=5)<br/>j > k, pointers have crossed. Stop." --> D
+
+    D["<b>Final Partitioned State</b><br/>S = [4, 2, 5, 3 | 8, 9, 7]<br/>Partition is between index 3 and 4"]:::final
+
+    classDef initial fill:#cde4ff,stroke:#333;
+    classDef step fill:#fff0e6,stroke:#333;
+    classDef final fill:#d4edda,stroke:#155724;
+```
+</div>
+
+</div>
+
+---
+layout: two-cols-header
+---
+
+## Summary: Merge Sort vs. Quick Sort
+
+:: left ::
+
+### Merge Sort
+
+*   **Time Complexity:** **$O(n \log n)$** in all cases (worst, average, best).
+*   **Space Complexity:** **$O(n)$** for the auxiliary array needed for merging.
+*   **In-place:** No, the standard algorithm is not in-place.
+*   **Stability:** Stable (maintains relative order of equal elements).
+*   **Key Idea:** Always divides the array in half, does the main work in the "conquer" (merge) step.
+*   **Use Case:** Excellent for external sorting (data on disk) and when worst-case guarantees are essential.
+
+:: right ::
+
+### Quick Sort
+
+*   **Time Complexity:**
+    *   **$O(n \log n)$** on average and in the best case.
+    *   **$O(n^2)$** in the worst case (rare with random pivot).
+*   **Space Complexity:** **$O(\log n)$** for the recursion stack in the in-place version.
+*   **In-place:** Yes, common implementations.
+*   **Stability:** Not stable.
+*   **Key Idea:** Divides the array based on a pivot, does the main work in the "divide" (partition) step.
+*   **Use Case:** Generally faster in practice for in-memory arrays due to better cache performance and lower constant factors.
