@@ -23,6 +23,8 @@ hideInToc: false
 <toc mode="onlySiblings" minDepth="2" columns="2"/>
 
 ---
+layout: two-cols
+---
 
 ## What is a Graph?
 
@@ -32,7 +34,21 @@ hideInToc: false
 * Both vertices and edges can store data elements.
 * **Example:** Modeling flight routes - vertices are airports (storing airport codes), edges are flight paths (storing mileage).
 
-(Diagram showing airports connected by flight routes with distances)
+:: right ::
+
+```mermaid
+graph TD
+    BKK("Suvarnabhumi (BKK)")
+    HND("Haneda (HND)")
+    LHR("Heathrow (LHR)")
+    JFK("JFK (New York)")
+
+    BKK ---| 9,550 km | LHR
+    LHR ---| 5,540 km | JFK
+    JFK ---| 10,860 km | HND
+    HND ---| 4,600 km | BKK
+    BKK ---| 13,945 km | JFK
+```
 
 ---
 
@@ -43,6 +59,32 @@ hideInToc: false
 * **Directed Graph (Digraph):** A graph where all edges are directed.
 * **Undirected Graph:** A graph where all edges are undirected.
 
+<div class="grid grid-cols-2 gap-8 items-start">
+<div>
+
+**Undirected Graph**
+* Edges like `(U1, U2)` are unordered, representing a two-way relationship.
+
+```mermaid
+graph LR
+    U1 --- U2
+    U2 --- U3
+```
+</div>
+<div>
+
+**Directed Graph (Digraph)**
+* Edges like `(D1, D2)` are ordered, representing a one-way relationship from D1 to D2.
+
+```mermaid
+graph LR
+    D1 --> D2
+    D2 --> D3
+```
+</div>
+</div>
+---
+layout: two-cols
 ---
 
 ## Graph Terminology
@@ -54,18 +96,35 @@ hideInToc: false
 * **Out-degree (Directed):** The number of edges originating *from* vertex `v`, denoted `out_degree(v)`.
 * **In-degree (Directed):** The number of edges terminating *at* vertex `v`, denoted `in_degree(v)`.
 * **Parallel Edges:** Two or more edges connecting the same pair of vertices.
+
+:: right ::
+
 * **Self-Loop:** An edge connecting a vertex to itself.
 * **Simple Graph:** A graph with no parallel edges or self-loops.
 
-(Diagram illustrating endpoints, adjacent vertices, degrees, parallel edges, and a self-loop)
+<br>
+
+```mermaid
+graph TD
+    A("A (deg=3)")
+    B("B (deg=3)")
+    C("C (deg=2)")
+    D("D (deg=2)")
+
+    A -- e1 --- B
+    A -- "e2 (parallel)" --- B
+    A -- e3 --- C
+    B -- e4 --- C
+    D -- "e5 (self-loop)" --- D
+```
 
 ---
 
 ## Graph Properties
 
-Let `n` be the number of vertices (`|V|`) and `m` be the number of edges (`|E|`).
+Let $n$ be the number of vertices ($|V|$) and $m$ be the number of edges ($|E|$).
 
-* **Property 1 (Sum of Degrees):** `Σ deg(v) = 2m` (for undirected graphs). Each edge contributes to the degree of two vertices.
+* **Property 1 (Sum of Degrees):** $Σ \text{deg}(v) = 2m$ (for undirected graphs). Each edge contributes to the degree of two vertices.
 * **Property 2 (Sum of In/Out-Degrees):** `Σ out_degree(v) = Σ in_degree(v) = m` (for directed graphs). Each edge has one origin and one destination.
 * **Property 3 (Edge Bounds - Undirected Simple Graph):** In a simple undirected graph with `n >= 1` vertices, `0 <= m <= n(n-1)/2`. The maximum number of edges occurs when every vertex is connected to every other vertex.
 * **Property 4 (Edge Bounds - Directed Simple Graph):** In a simple directed graph with `n >= 1` vertices, `0 <= m <= n(n-1)`. Each pair `(u, v)` can have two directed edges (`(u,v)` and `(v,u)`).
@@ -81,7 +140,38 @@ Let `n` be the number of vertices (`|V|`) and `m` be the number of edges (`|E|`)
 * **Cycle:** A path where the start and end vertices are the same (`v₀ = vₖ`) and the path is simple otherwise.
 * **Directed Path/Cycle:** Follows the direction of edges.
 
-(Diagrams illustrating a path, a simple path, and a cycle in a graph)
+<div class="grid grid-cols-3 gap-4 items-start">
+<div>
+
+**Path**
+<p class="text-sm">A sequence of vertices and edges. Vertices can be repeated (e.g., <b>v1</b>).</p>
+```mermaid
+graph LR
+        v0 --"e1"--> v1
+        v1 --"e2"--> v2
+        v2 --"e3"--> v1
+        v1 --"e4"--> v3
+```
+</div>
+<div>
+
+**Simple Path**
+<p class="text-sm">A path where all vertices are distinct.</p>
+```mermaid
+graph LR
+        u0 --> u1 --> u2 --> u3
+```
+</div>
+<div>
+
+**Cycle**
+<p class="text-sm">A simple path that starts and ends at the same vertex.</p>
+```mermaid
+graph LR
+        w0 --> w1 --> w2 --> w0
+```
+</div>
+</div>
 
 ---
 
@@ -93,7 +183,39 @@ Let `n` be the number of vertices (`|V|`) and `m` be the number of edges (`|E|`)
 * **Subgraph:** A graph `H` whose vertices and edges are subsets of another graph `G`.
 * **Spanning Subgraph:** A subgraph `H` of `G` that includes *all* vertices of `G`.
 
-(Diagrams showing connected components and a strongly connected directed graph)
+---
+
+## Connectivity: Examples
+
+
+<div class="grid grid-cols-2 gap-8 items-start">
+<div>
+
+**Connected Components**
+<p class="text-sm">An unconnected graph with two maximal connected subgraphs (components).</p>
+
+```mermaid {scale:0.85}
+graph TD
+    subgraph "Component 1"
+        A --- B; B --- C
+    end
+    subgraph "Component 2"
+        D --- E
+    end
+```
+</div>
+<div>
+
+**Strongly Connected Graph**
+<p class="text-sm">For any two vertices `u` and `v`, there is a path from `u` to `v` and from `v` to `u`.</p>
+
+```mermaid
+graph TD
+    F --> G --> H --> F
+    G --> F
+```
+</div>
+</div>
 
 ---
 
@@ -105,10 +227,14 @@ Let `n` be the number of vertices (`|V|`) and `m` be the number of edges (`|E|`)
 * Each `Edge` object stores its element and references to its endpoint vertices.
 
 ---
+layout: two-cols-header
+---
 
 ## The Graph ADT
 
 Defines core operations for manipulating graph structures:
+:: left ::
+<Transform scale="0.9">
 
 * **Accessor Methods:**
     * `numVertices()`, `numEdges()`: Return counts.
@@ -118,6 +244,12 @@ Defines core operations for manipulating graph structures:
     * `getEdge(u, v)`: Return the edge connecting `u` and `v` (null if none).
     * `endVertices(e)`: Return an array/pair containing the endpoints of edge `e`.
     * `opposite(v, e)`: Given vertex `v` and incident edge `e`, return the *other* endpoint of `e`.
+</Transform>
+
+:: right ::
+
+<Transform scale="0.9">
+
 * **Vertex-Specific Accessors:**
     * `outDegree(v)`, `inDegree(v)`: Return degrees (relevant for directed/undirected).
     * `outgoingEdges(v)`, `incomingEdges(v)`: Return iterables of edges incident to `v`.
@@ -127,24 +259,55 @@ Defines core operations for manipulating graph structures:
     * `removeVertex(v)`: Remove vertex `v` and all its incident edges.
     * `removeEdge(e)`: Remove edge `e`.
 
+</Transform>
+
+---
+layout: two-cols-header
 ---
 
 ## Graph Implementation: Edge List Structure
-
+:: left ::
 * **Concept:** Maintain separate collections (e.g., lists) for vertices and edges.
 * **Vertex Object:** Stores its element and potentially its position within the vertex list.
 * **Edge Object:** Stores its element, references to its two endpoint `Vertex` objects, and potentially its position within the edge list.
+```mermaid
+graph TD
+    subgraph "Vertex List (V)"
+        direction LR
+        vA("Vertex(A)")
+        vB("Vertex(B)")
+        vC("Vertex(C)")
+    end
+
+    subgraph "Edge List (E)"
+        direction LR
+        e1("Edge(e1)")
+        e2("Edge(e2)")
+    end
+
+    e1 -- "ref to endpoint" --> vA
+    e1 -- "ref to endpoint" --> vB
+    e2 -- "ref to endpoint" --> vB
+    e2 -- "ref to endpoint" --> vC
+```
+
+
+:: right ::
 * **Performance:**
-    * Finding vertices/edges incident to a vertex requires iterating through the *entire* edge list (O(m) time).
-    * `getEdge(u, v)` also takes O(m) time.
-    * Vertex/edge insertion/removal is generally fast (O(1) if using lists that support fast end operations).
-    * Space: O(n + m).
+    * Finding vertices/edges incident to a vertex requires iterating through the *entire* edge list ($O(m)$ time).
+    * `getEdge(u, v)` also takes $O(m)$ time.
+    * Vertex/edge insertion/removal is generally fast ($O(1)$) if using lists that support fast end operations).
+    * Space: $O(n + m)$.
 
-(Diagram showing separate lists for vertices and edges, with objects referencing each other)
 
+---
+layout: two-cols
 ---
 
 ## Graph Implementation: Adjacency List Structure
+
+<Transform scale="0.8">
+
 
 * **Concept:** Augments the edge list by storing, *with each vertex*, a list of its adjacent vertices (or incident edges).
 * **Vertex Object:** Stores element, position, and a reference to its adjacency list.
@@ -154,8 +317,28 @@ Defines core operations for manipulating graph structures:
     * `getEdge(u, v)` takes O(min(deg(u), deg(v))) time.
     * Vertex/edge insertion/removal is generally O(1) amortized time.
     * Space: O(n + m). (Standard representation for sparse graphs).
+</Transform>
 
-(Diagram showing vertex objects pointing to lists of incident edges/adjacent vertices)
+:: right ::
+
+```mermaid
+graph TD
+    subgraph "Vertex List"
+        vA("Vertex A")
+        vB("Vertex B")
+        vC("Vertex C")
+    end
+
+    subgraph "Adjacency Lists"
+        A_adj("Adj(A)") --> B_in_A("Node(B)") --> C_in_A("Node(C)")
+        B_adj("Adj(B)") --> A_in_B("Node(A)") --> C_in_B("Node(C)")
+        C_adj("Adj(C)") --> A_in_C("Node(A)") --> B_in_C("Node(B)")
+    end
+
+    vA -- "points to" --> A_adj
+    vB -- "points to" --> B_adj
+    vC -- "points to" --> C_adj
+```
 
 ---
 
@@ -173,11 +356,41 @@ Defines core operations for manipulating graph structures:
     * Vertex/edge insertion/removal is O(1) (matrix update).
     * Space: **O(n²)**. Efficient only for *dense* graphs where `m` is close to `n²`.
 
-(Diagram showing an adjacency matrix representation of a graph)
+---
+
+## Example: Adjacency Matrix Structure
+
+<div class="grid grid-cols-2 gap-4 items-center mt-4">
+<div>
+
+**Graph Example**
+```mermaid
+graph TD
+    A --- B
+    A --- C
+    B --- C
+    C --- D
+
+```
+</div>
+<div>
+
+**Corresponding Adjacency Matrix**
+<p class="text-sm">`M[i][j] = 1` if an edge exists, `0` otherwise.</p>
+<table class="w-full text-center text-sm">
+  <tr class="font-bold"><td></td><td>A</td><td>B</td><td>C</td><td>D</td></tr>
+  <tr><td class="font-bold">A</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+  <tr><td class="font-bold">B</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+  <tr><td class="font-bold">C</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+  <tr><td class="font-bold">D</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+</table>
+</div>
+</div>
 
 ---
 
 ## Performance Trade-offs
+<Transform scale="0.75">
 
 | Operation           | Edge List | Adjacency List | Adjacency Matrix |
 | :------------------ | :-------- | :------------- | :--------------- |
@@ -193,6 +406,8 @@ Defines core operations for manipulating graph structures:
 | `removeEdge(e)`     | O(1)      | O(1)           | O(1)             |
 
 *\* Adjacency Matrix insertion/removal of vertices is O(n²) because the matrix often needs resizing/rebuilding.*
+
+</Transform>
 
 ---
 
