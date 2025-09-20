@@ -364,8 +364,12 @@ graph TD
 <div>
 
 **Graph Example**
-```mermaid
+```mermaid {scale: 1.3}
 graph TD
+    A((A))
+    B((B))
+    C((C))
+    D((D)) 
     A --- B
     A --- C
     B --- C
@@ -376,13 +380,16 @@ graph TD
 <div>
 
 **Corresponding Adjacency Matrix**
-<p class="text-sm">`M[i][j] = 1` if an edge exists, `0` otherwise.</p>
-<table class="w-full text-center text-sm">
-  <tr class="font-bold"><td></td><td>A</td><td>B</td><td>C</td><td>D</td></tr>
+
+`M[i][j] = 1` if an edge exists, `0` otherwise.
+<table class="w-full text-center text-sm"><thead>
+  <tr class="font-bold"><td></td><td>A</td><td>B</td><td>C</td><td>D</td></tr></thead>
+  <tbody> 
   <tr><td class="font-bold">A</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
   <tr><td class="font-bold">B</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
   <tr><td class="font-bold">C</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
   <tr><td class="font-bold">D</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+  </tbody>
 </table>
 </div>
 </div>
@@ -437,7 +444,33 @@ Algorithm DFS(G, u):
 
 * **Output:** Labels edges as "discovery" (forming a spanning tree) or "back" edges.
 
-(Diagram illustrating DFS traversal steps and the resulting discovery/back edges)
+---
+
+## Example: Depth-First Search (DFS)
+
+<div class="grid grid-cols-2 gap-4 items-center">
+<div>
+
+**Original Graph**
+```mermaid
+graph TD
+    A --- B; A --- D
+    B --- C; A --- C
+    D --- E
+```
+</div>
+<div>
+
+**DFS Result (starting from A)**
+<p class="text-sm">Discovery edges form a spanning tree. A back edge indicates a cycle.</p>
+```mermaid
+graph TD
+    A --"Discovery"--> B --"Discovery"--> C
+    C -.->|"Back"| A
+    A --"Discovery"--> D --"Discovery"--> E
+```
+</div>
+</div>
 
 ---
 
@@ -458,6 +491,8 @@ Algorithm DFS(G, u):
 * Computing spanning forests/trees.
 
 ---
+layout: two-cols
+---
 
 ## Path Finding using DFS
 
@@ -466,6 +501,8 @@ Algorithm DFS(G, u):
 * When moving from `v` to `w`, push `w` onto `S`.
 * If `w == z`, the path is found (contents of `S`).
 * If backtracking from `v`, pop `v` from `S`.
+
+:: right ::
 
 ```text
 Algorithm pathDFS(G, v, z, S): // S is the stack
@@ -489,12 +526,15 @@ Algorithm pathDFS(G, v, z, S): // S is the stack
 ```
 
 ---
-
+layout: two-cols
+---
 ## Cycle Finding using DFS
 
 * Adapt DFS to detect cycles.
 * A back edge `(v, w)` indicates a cycle involving the path in the DFS tree from `w` to `v` plus the back edge `(v, w)`.
 * Modify the path-finding DFS: When a back edge `(v, w)` is encountered, the cycle consists of the elements currently on the stack from `w` up to `v`, plus `w` again.
+
+:: right ::
 
 ```text
 Algorithm cycleDFS(G, v, S): // S is the stack
@@ -519,12 +559,21 @@ Algorithm cycleDFS(G, v, S): // S is the stack
 ```
 
 ---
+layout: two-cols
+---
 
 ## Graph Traversal: Breadth-First Search (BFS)
 
 * **Concept:** Explores the graph layer by layer, visiting all neighbors at the current "distance" before moving to the next layer.
 * Uses a **queue** to manage vertices to be visited.
+* **Output:** Partitions edges into "discovery" and "cross" edges. Also computes distances (shortest path length) from the start vertex `s`.
+
+
+
+:: right ::
 * **Algorithm `BFS(G, s)`:** (Start at vertex `s`)
+
+
 
 ```text
 Algorithm BFS(G, s):
@@ -549,9 +598,37 @@ Algorithm BFS(G, s):
 
 ```
 
-* **Output:** Partitions edges into "discovery" and "cross" edges. Also computes distances (shortest path length) from the start vertex `s`.
+---
 
-(Diagram illustrating BFS traversal steps, layers, and discovery/cross edges)
+## Example: Breadth-First Search (BFS)
+
+<div class="grid grid-cols-2 gap-4 items-center">
+<div>
+
+**Original Graph**
+```mermaid
+graph TD
+    A --- B; A --- D
+    B --- C; C --- A
+    D --- E
+```
+</div>
+<div>
+
+**BFS Result (starting from A)**
+<p class="text-sm">Discovery edges form a spanning tree. Cross edges connect vertices at the same or adjacent levels.</p>
+```mermaid {scale: 0.7}
+graph TD
+    subgraph "Level 0"; A; end
+    subgraph "Level 1"; B; C; D; end
+    subgraph "Level 2"; E; end
+
+    A --"Discovery"--> B; A --"Discovery"--> C; A --"Discovery"--> D
+    D --"Discovery"--> E
+    B -. "Cross" .-> C
+```
+</div>
+</div>
 
 ---
 
@@ -585,8 +662,43 @@ Algorithm BFS(G, s):
 | Shortest Paths  | No (finds *a* path)                 | Yes (finds shortest path in edge count) |
 | Memory (Worst)  | O(n) (recursion depth)              | O(n) (queue size, can be large)         |
 
-(Diagrams comparing typical DFS and BFS spanning trees on the same graph)
+---
 
+## Spanning Trees: DFS vs. BFS
+
+<div class="grid grid-cols-3 gap-4 items-start text-center mt-4">
+<div>
+
+**Original Graph**
+```mermaid
+graph TD
+    A --- B; A --- C; A --- D
+    B --- C
+    D --- E
+```
+</div>
+<div>
+
+**DFS Spanning Tree**
+<p class="text-sm">Explores as deep as possible first, resulting in a "tall" tree.</p>
+```mermaid
+graph TD
+    A --> B --> C
+    A --> D --> E
+```
+</div>
+<div>
+
+**BFS Spanning Tree**
+<p class="text-sm">Explores layer by layer, resulting in a "wide" tree.</p>
+```mermaid
+graph TD
+    A --> B
+    A --> C
+    A --> D --> E
+```
+</div>
+</div>
 ---
 
 ## Digraphs (Directed Graphs)
