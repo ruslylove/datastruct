@@ -20,7 +20,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="3"/>
 
 ---
 layout: two-cols
@@ -67,8 +67,8 @@ graph TD
 
 ```mermaid
 graph LR
-    U1 --- U2
-    U2 --- U3
+    U1( U1) --- U2( U2 )
+    U2 --- U3( U3 )
 ```
 </div>
 <div>
@@ -78,8 +78,8 @@ graph LR
 
 ```mermaid
 graph LR
-    D1 --> D2
-    D2 --> D3
+    D1(D1) --> D2(D2)
+    D2 --> D3(D3)
 ```
 </div>
 </div>
@@ -147,10 +147,10 @@ Let $n$ be the number of vertices ($|V|$) and $m$ be the number of edges ($|E|$)
 <p class="text-sm">A sequence of vertices and edges. Vertices can be repeated (e.g., <b>v1</b>).</p>
 ```mermaid
 graph LR
-        v0 --"e1"--> v1
-        v1 --"e2"--> v2
+        v0(V0) --"e1"--> v1(v1)
+        v1 --"e2"--> v2(v2)
         v2 --"e3"--> v1
-        v1 --"e4"--> v3
+        v1 --"e4"--> v3(v3)
 ```
 </div>
 <div>
@@ -159,7 +159,7 @@ graph LR
 <p class="text-sm">A path where all vertices are distinct.</p>
 ```mermaid
 graph LR
-        u0 --> u1 --> u2 --> u3
+        u0(u0) --> u1(u1) --> u2(u2) --> u3(u3)
 ```
 </div>
 <div>
@@ -168,7 +168,7 @@ graph LR
 <p class="text-sm">A simple path that starts and ends at the same vertex.</p>
 ```mermaid
 graph LR
-        w0 --> w1 --> w2 --> w0
+        w0(w0) --> w1(w1) --> w2(w2) --> w0
 ```
 </div>
 </div>
@@ -197,10 +197,10 @@ graph LR
 ```mermaid {scale:0.85}
 graph TD
     subgraph "Component 1"
-        A --- B; B --- C
+        A(A) --- B(B); B --- C(C)
     end
     subgraph "Component 2"
-        D --- E
+        D(D) --- E(E)
     end
 ```
 </div>
@@ -211,7 +211,7 @@ graph TD
 
 ```mermaid
 graph TD
-    F --> G --> H --> F
+    F(F) --> G(G) --> H(H) --> F
     G --> F
 ```
 </div>
@@ -364,12 +364,12 @@ graph TD
 <div>
 
 **Graph Example**
-```mermaid {scale: 1.3}
+```mermaid 
 graph TD
-    A((A))
-    B((B))
-    C((C))
-    D((D)) 
+    A(A)
+    B(B)
+    C(C)
+    D(D) 
     A --- B
     A --- C
     B --- C
@@ -397,22 +397,22 @@ graph TD
 ---
 
 ## Performance Trade-offs
-<Transform scale="0.75">
+<Transform scale="0.7">
 
-| Operation           | Edge List | Adjacency List | Adjacency Matrix |
+| **Operation**           | Edge List | Adjacency List | Adjacency Matrix |
 | :------------------ | :-------- | :------------- | :--------------- |
-| Space               | O(n+m)    | O(n+m)         | O(n²)            |
-| `numVertices`, `numEdges` | O(1) | O(1) | O(1) |
-| `vertices`, `edges` | O(n), O(m)| O(n), O(m) | O(n), O(n²) |
-| `getEdge`           | O(m)      | O(min(deg u, deg v)) | O(1) |
-| `incidentEdges(v)`  | O(m)      | O(deg v)       | O(n)             |
-| `areAdjacent(u,v)`  | O(m)      | O(min(deg u, deg v)) | O(1) |
-| `insertVertex`      | O(1)      | O(1)           | O(n²) * |
-| `insertEdge`        | O(1)      | O(1)           | O(1)             |
-| `removeVertex(v)`   | O(m)      | O(deg v)       | O(n²) * |
-| `removeEdge(e)`     | O(1)      | O(1)           | O(1)             |
+| Space               | $O(n+m)$    | $O(n+m)$         | $O(n²)$            |
+| `numVertices`, `numEdges` | $O(1)$ | $O(1)$ | $O(1)$ |
+| `vertices`, `edges` | $O(n), O(m)$| $O(n), O(m)$ | $O(n), O(n²)$ |
+| `getEdge`           | $O(m)$      | $O(\text{min}(\text{deg}\space u, \text{deg}\space v))$ | $O(1)$ |
+| `incidentEdges(v)`  | $O(m)$      | $O(\text{deg}\space v)$       | $O(n)$             |
+| `areAdjacent(u,v)`  | $O(m)$      | $O(\text{min}(\text{deg}\space u, \text{deg}\space v))$ | $O(1)$ |
+| `insertVertex`      | $O(1)$      | $O(1)$           | $O(n²)^*$ |
+| `insertEdge`        | $O(1)$      | $O(1)$           | $O(1)$             |
+| `removeVertex(v)`   | $O(m)$      | $O(\text{deg}\space v)$       | $O(n²)^*$ |
+| `removeEdge(e)`     | $O(1)$      | $O(1)$           | $O(1)$             |
 
-*\* Adjacency Matrix insertion/removal of vertices is O(n²) because the matrix often needs resizing/rebuilding.*
+* Adjacency Matrix insertion/removal of vertices is $O(n²)$ because the matrix often needs resizing/rebuilding.
 
 </Transform>
 
@@ -476,10 +476,17 @@ graph TD
 
 ## DFS Properties
 
-* `DFS(G, v)` visits all vertices and edges in the connected component of `v`.
-* The discovery edges form a **spanning forest** (a spanning tree if the graph is connected).
-* Let `Tᵥ` be the DFS tree starting at `v`. An edge `(u, w)` is a back edge if `w` is an ancestor of `u` in `Tᵥ`.
-* **Time Complexity:** O(n + m) assuming the graph is represented using an Adjacency List structure (each vertex/edge visited constant number of times).
+DFS from a vertex `v` explores as deeply as possible before backtracking. This leads to several characteristic properties.
+
+*   **Completeness:** `DFS(G, v)` visits all vertices and edges in the connected component of `v`.
+
+*   **Spanning Forest:** The *discovery edges* form a spanning forest (or a spanning tree if the graph is connected). The DFS tree is typically deep and narrow.
+
+*   **Cycle Detection:** A non-discovery edge `(u, w)` is a **back edge** if `w` is an ancestor of `u` in the DFS tree. The presence of a back edge indicates a cycle.
+
+*   **Time Complexity:** $O(n + m)$ when using an adjacency list representation.
+
+
 
 ---
 
@@ -613,10 +620,12 @@ graph TD
     D --- E
 ```
 </div>
-<div>
+  <div>
 
 **BFS Result (starting from A)**
+
 <p class="text-sm">Discovery edges form a spanning tree. Cross edges connect vertices at the same or adjacent levels.</p>
+
 ```mermaid {scale: 0.7}
 graph TD
     subgraph "Level 0"; A; end
@@ -627,19 +636,25 @@ graph TD
     D --"Discovery"--> E
     B -. "Cross" .-> C
 ```
-</div>
-</div>
 
+  </div>
+  </div>
+
+---
+layout: default
 ---
 
 ## BFS Properties
 
-* `BFS(G, s)` visits all vertices and edges in the connected component of `s`.
-* The discovery edges form a **spanning tree** `T<0xE2><0x82><s>` for the connected component of `s`.
-* For any edge `(u, v)`, the level (distance from `s`) of `u` and `v` differ by at most 1.
-* For every vertex `v` at level `i > 0`, the discovery edge `(u, v)` connects `v` to a vertex `u` at level `i-1`.
-* Cross edges connect vertices either at the same level or at adjacent levels.
-* **Time Complexity:** O(n + m) assuming the graph is represented using an Adjacency List structure.
+BFS from a source `s` has several key properties related to path lengths and the structure of the resulting spanning tree.
+
+*   **Completeness:** `BFS(G, s)` visits all vertices and edges in the connected component of `s`.
+*   **Spanning Tree:** The discovery edges form a spanning tree ($T_s$) for the connected component of `s`.
+*   **Shortest Paths:** BFS discovers paths with the minimum number of edges from `s` to all other reachable vertices. The `level` of a vertex corresponds to the length of this shortest path.
+*   **Level Property:** For any edge `(u, v)`, the levels of `u` and `v` differ by at most 1.
+    *   `level(v) <= level(u) + 1`
+*   **Cross Edges:** A non-discovery edge `(u, v)` (a cross edge) connects vertices `u` and `v` where either `level(v) = level(u)` or `level(v) = level(u) + 1`.
+*   **Time Complexity:** $O(n + m)$ with an adjacency list.
 
 ---
 
@@ -655,12 +670,12 @@ graph TD
 ## DFS vs. BFS Comparison
 
 | Feature         | DFS                                 | BFS                                     |
-| :-------------- | :---------------------------------- | :-------------------------------------- |
+| :------------------ | :---------------------------------- | :-------------------------------------- |
 | Data Structure  | Stack (implicit via recursion)      | Queue                                   |
 | Exploration     | Goes deep first                     | Explores layer by layer                 |
 | Spanning Tree   | Typically deep and narrow           | Typically shallow and wide              |
 | Shortest Paths  | No (finds *a* path)                 | Yes (finds shortest path in edge count) |
-| Memory (Worst)  | O(n) (recursion depth)              | O(n) (queue size, can be large)         |
+| Memory (Worst)  | $O(n)$ (recursion depth)              | $O(n)$ (queue size, can be large)         |
 
 ---
 
@@ -706,6 +721,16 @@ graph TD
 * All concepts (paths, cycles, traversals) apply, but edge directions must be respected.
 * **Reachability:** Can vertex `w` be reached from vertex `v`? Solved by DFS or BFS starting from `v`.
 * **Strong Connectivity:** Can `u` reach `v` AND `v` reach `u` for all pairs? Requires more complex algorithms (e.g., running DFS twice or using Kosaraju's/Tarjan's algorithm).
+<br><br>
+```mermaid
+graph LR
+    A --> B
+    B --> C
+    C --> A
+    B --> D
+    D --> E
+    E --> B
+```
 
 ---
 
@@ -713,20 +738,25 @@ graph TD
 
 * **Concept:** Computes reachability for *all* pairs of vertices.
 * **Output:** A graph `G*` where an edge `(u, v)` exists in `G*` if and only if there is a directed path from `u` to `v` in the original graph `G`.
-* **Algorithms:**
-    1.  Run DFS/BFS starting from *each* vertex `v`. Time: O(n(n+m)).
-    2.  **Floyd-Warshall Algorithm:** Dynamic programming approach. Computes reachability iteratively. Time: O(n³). More suitable for dense graphs.
+* **Algorithms:** 
+    1.  Run DFS/BFS starting from *each* vertex `v`. Time: $O(n(n+m))$.
+    2.  **Floyd-Warshall Algorithm:** Dynamic programming approach. Computes reachability iteratively. Time: $O(n³)$. More suitable for dense graphs.
 
+---
+layout: two-cols
 ---
 
 ## Floyd-Warshall Algorithm
 
-* **Idea:** Number vertices 1 to `n`. Compute graph `Gₖ` where edges represent paths using only intermediate vertices from {1, ..., k}.
+
+* **Idea:** Number vertices 1 to `n`. Compute graph `Gₖ` where edges represent paths using only intermediate vertices from 1, ..., k.
 * **Iteration:** `G₀ = G`. Compute `Gₖ` from `Gₖ₋₁`. An edge `(i, j)` exists in `Gₖ` if:
     * It exists in `Gₖ₋₁` OR
     * Both edges `(i, k)` and `(k, j)` exist in `Gₖ₋₁`.
 * Final result is `Gₙ`.
 * Uses boolean adjacency matrices.
+
+:: right ::
 
 ```text
 Algorithm FloydWarshall(G):
@@ -743,4 +773,193 @@ Algorithm FloydWarshall(G):
 
 ```
 
-* Time complexity: O(n³).
+* Time complexity: $O(n³)$.
+
+---
+layout: two-cols
+---
+
+### Floyd-Warshall: Initial State (G₀)
+
+Here is the initial directed graph `G`. The vertices are numbered 1 to 4.
+
+The transitive closure will be built by iteratively considering each vertex as an intermediate point in a path.
+
+:: right ::
+
+**G₀ = G**
+```mermaid
+graph TD
+    subgraph V["V = {1, 2, 3, 4}"]
+        1((1))
+        2((2))
+        3((3))
+        4((4))
+    end
+    2 --> 1
+    1 --> 3
+    3 --> 2
+    1 --> 4
+    4 --> 3
+    
+    style V fill-opacity:0,stroke:#0,stroke-width:0
+```
+
+---
+layout: two-cols
+---
+
+### Floyd-Warshall: Iteration k=1 (G₁)
+
+**Intermediate Vertex: 1**
+
+We check for paths of the form `i -> 1 -> j`.
+* Path `2 -> 1 -> 3` exists. Add edge `(2, 3)`.
+* Path `2 -> 1 -> 4` exists. Add edge `(2, 4)`.
+
+The new edges are shown in red.
+
+:: right ::
+
+**G₁**
+```mermaid
+graph TD
+    subgraph V["V = {1, 2, 3, 4}"]
+        1((1))
+        2((2))
+        3((3))
+        4((4))
+    end
+    2 --> 1
+    1 --> 3
+    3 --> 2
+    1 --> 4
+    4 --> 3
+    2 -- "new" --> 3
+    2 -- "new" --> 4
+
+    linkStyle 5 stroke:red,stroke-width:2px
+    linkStyle 6 stroke:red,stroke-width:2px
+    style V fill-opacity:0,stroke:#0,stroke-width:0
+
+```
+
+---
+layout: two-cols
+---
+
+### Floyd-Warshall: Iteration k=2 (G₂)
+
+**Intermediate Vertex: 2**
+
+We check for paths of the form `i -> 2 -> j` using edges from `G₁`.
+* Path `3 -> 2 -> 1` exists. Add edge `(3, 1)`.
+* Path `3 -> 2 -> 3` exists. Add edge `(3, 3)` (a cycle).
+* Path `3 -> 2 -> 4` exists. Add edge `(3, 4)`.
+
+:: right ::
+
+**G₂**
+```mermaid {scale: 0.9}
+graph TD
+    subgraph V["V = {1, 2, 3, 4}"]
+        1((1))
+        2((2))
+        3((3))
+        4((4))
+    end
+    2 --> 1
+    1 --> 3
+    3 --> 2
+    1 --> 4
+    4 --> 3
+    2 --> 3
+    2 --> 4
+    3 -- "new" --> 1
+    3 -- "new" --> 3
+    3 -- "new" --> 4
+
+    linkStyle 7 stroke:red,stroke-width:2px
+    linkStyle 8 stroke:red,stroke-width:2px
+    linkStyle 9 stroke:red,stroke-width:2px
+    style V fill-opacity:0,stroke:#0,stroke-width:0
+
+```
+
+---
+layout: two-cols
+---
+
+### Floyd-Warshall: Iteration k=3 (G₃)
+
+**Intermediate Vertex: 3**
+
+We check for paths of the form `i -> 3 -> j` using edges from `G₂`.
+* `1 -> 3 -> 1` adds `(1, 1)`.
+* `1 -> 3 -> 2` adds `(1, 2)`.
+* `2 -> 3 -> 2` adds `(2, 2)`.
+* `4 -> 3 -> 1` adds `(4, 1)`.
+* `4 -> 3 -> 2` adds `(4, 2)`.
+* `4 -> 3 -> 4` adds `(4, 4)`.
+Many existing paths are reconfirmed, like `1 -> 3 -> 4`.
+
+:: right ::
+
+**G₃**
+```mermaid
+graph TD
+    1((1)); 2((2)); 3((3)); 4((4));
+    2-->1; 1-->3; 3-->2; 1-->4; 4-->3; 2-->3; 2-->4; 3-->1; 3-->3; 3-->4;
+    1 -- "new" --> 1
+    1 -- "new" --> 2
+    2 -- "new" --> 2
+    4 -- "new" --> 1
+    4 -- "new" --> 2
+    4 -- "new" --> 4
+
+    linkStyle 10 stroke:red,stroke-width:2px
+    linkStyle 11 stroke:red,stroke-width:2px
+    linkStyle 12 stroke:red,stroke-width:2px
+    linkStyle 13 stroke:red,stroke-width:2px
+    linkStyle 14 stroke:red,stroke-width:2px
+    linkStyle 15 stroke:red,stroke-width:2px
+```
+
+---
+layout: two-cols
+---
+
+### Floyd-Warshall: Iteration k=4 (G₄)
+
+**Intermediate Vertex: 4**
+
+We check for paths of the form `i -> 4 -> j` using edges from `G₃`. No new edges are added in this iteration, as all possible paths are already accounted for. `G₄` is the final transitive closure of the graph.
+
+:: right ::
+
+**G₄ - Final Transitive Closure**
+```mermaid
+graph TD
+    1((1)); 2((2)); 3((3)); 4((4));
+    1-->1; 1-->2; 1-->3; 1-->4;
+    2-->1; 2-->2; 2-->3; 2-->4;
+    3-->1; 3-->2; 3-->3; 3-->4;
+    4-->1; 4-->2; 4-->3; 4-->4;
+```
+
+
+---
+layout: default
+---
+
+## Summary
+
+*   **Graphs** are fundamental structures modeling relationships, composed of **vertices** and **edges**.
+*   Edges can be **directed** or **undirected**, leading to different graph types.
+*   We use specific **terminology** (degree, path, cycle) to describe graph characteristics.
+*   The **Graph ADT** defines a common interface for graph operations.
+*   Graphs can be implemented using **edge lists**, **adjacency lists**, or **adjacency matrices**, each with different performance trade-offs.
+*   **DFS** and **BFS** are two fundamental traversal algorithms with distinct properties and applications.
+    *   DFS is recursive, stack-based, and good for path-finding and cycle detection via back edges.
+    *   BFS is iterative, queue-based, and finds shortest paths in unweighted graphs.
+*   **Transitive Closure** computes all-pairs reachability, with the **Floyd-Warshall algorithm** being a classic solution.

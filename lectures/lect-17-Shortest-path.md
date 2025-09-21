@@ -1,14 +1,13 @@
-
 ---
 # Frontmatter for Slidev configuration
-title: "Dijkstra's Algorithm"
+title: "Shortest Paths"
 transition: slide-left
 theme: seriph
 layout: cover
 background: https://cover.sli.dev
 ---
 
-# Dijkstra's Algorithm
+# Shortest Paths
 ## {{ $slidev.configs.subject }}
 ### Semester {{ $slidev.configs.semester }}
 <br>
