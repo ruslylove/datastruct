@@ -341,31 +341,29 @@ graph TD
 ```
 
 ---
+layout: two-cols-header
+---
 
 ## Graph Implementation: Adjacency Matrix Structure
 
 * **Concept:** Use a 2D array (matrix) `A` where `A[i][j]` stores information about the edge between vertex `vᵢ` and vertex `vⱼ`.
+
+:: left ::
+
 * Vertices are mapped to indices 0 to n-1.
 * `A[i][j]` can store:
     * A boolean (edge exists or not).
     * An integer (e.g., edge weight).
     * A reference to the `Edge` object.
 * **Performance:**
-    * `getEdge(u, v)` takes O(1) time (direct matrix lookup).
+    * `getEdge(u, v)` takes O(1) time.
     * Finding incident edges/adjacent vertices for `v` requires scanning a row/column (O(n) time).
-    * Vertex/edge insertion/removal is O(1) (matrix update).
+    * Vertex/edge insertion/removal is O(1).
     * Space: **O(n²)**. Efficient only for *dense* graphs where `m` is close to `n²`.
 
----
-
-## Example: Adjacency Matrix Structure
-
-<div class="grid grid-cols-2 gap-4 items-center mt-4">
-<div>
-
-**Graph Example**
-```mermaid 
-graph TD
+:: right ::
+```mermaid {scale: 0.8}
+graph LR
     A(A)
     B(B)
     C(C)
@@ -376,12 +374,12 @@ graph TD
     C --- D
 
 ```
-</div>
-<div>
-
 **Corresponding Adjacency Matrix**
 
 `M[i][j] = 1` if an edge exists, `0` otherwise.
+
+<Transform scale="0.8">
+
 <table class="w-full text-center text-sm"><thead>
   <tr class="font-bold"><td></td><td>A</td><td>B</td><td>C</td><td>D</td></tr></thead>
   <tbody> 
@@ -391,8 +389,8 @@ graph TD
   <tr><td class="font-bold">D</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
   </tbody>
 </table>
-</div>
-</div>
+
+</Transform>
 
 ---
 
