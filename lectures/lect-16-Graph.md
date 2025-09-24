@@ -268,8 +268,8 @@ layout: two-cols-header
 ## Graph Implementation: Edge List Structure
 :: left ::
 * **Concept:** Maintain separate collections (e.g., lists) for vertices and edges.
-* **Vertex Object:** Stores its element and potentially its position within the vertex list.
-* **Edge Object:** Stores its element, references to its two endpoint `Vertex` objects, and potentially its position within the edge list.
+    * **Vertex Object:** Stores its element and potentially its position within the vertex list.
+    * **Edge Object:** Stores its element, references to its two endpoint `Vertex` objects, and potentially its position within the edge list.
 ```mermaid
 graph TD
     subgraph "Vertex List (V)"
@@ -310,13 +310,13 @@ layout: two-cols
 
 
 * **Concept:** Augments the edge list by storing, *with each vertex*, a list of its adjacent vertices (or incident edges).
-* **Vertex Object:** Stores element, position, and a reference to its adjacency list.
-* **Edge Object:** Stores element, endpoints, positions in relevant adjacency lists, position in the main edge list.
+    * **Vertex Object:** Stores element, position, and a reference to its adjacency list.
+    * **Edge Object:** Stores element, endpoints, positions in relevant adjacency lists, position in the main edge list.
 * **Performance:**
     * Finding incident edges/adjacent vertices for `v` is efficient: O(degree(v)) time.
     * `getEdge(u, v)` takes O(min(deg(u), deg(v))) time.
-    * Vertex/edge insertion/removal is generally O(1) amortized time.
-    * Space: O(n + m). (Standard representation for sparse graphs).
+    * Vertex/edge insertion/removal is generally $O(1)$ amortized time.
+    * Space: $O(n + m)$. (Standard representation for sparse graphs).
 </Transform>
 
 :: right ::
@@ -330,14 +330,15 @@ graph TD
     end
 
     subgraph "Adjacency Lists"
-        A_adj("Adj(A)") --> B_in_A("Node(B)") --> C_in_A("Node(C)")
-        B_adj("Adj(B)") --> A_in_B("Node(A)") --> C_in_B("Node(C)")
-        C_adj("Adj(C)") --> A_in_C("Node(A)") --> B_in_C("Node(B)")
+        B_in_A("Node(B)") --> C_in_A("Node(C)")
+        A_in_B("Node(A)") --> C_in_B("Node(C)")
+        A_in_C("Node(A)") --> B_in_C("Node(B)")
     end
 
-    vA -- "points to" --> A_adj
-    vB -- "points to" --> B_adj
-    vC -- "points to" --> C_adj
+    vA -- "points to Adj(A)" --> B_in_A
+    vB -- "points to Adj(B)" --> A_in_B
+    vC -- "points to Adj(C)" --> A_in_C
+    
 ```
 
 ---
@@ -356,10 +357,10 @@ layout: two-cols-header
     * An integer (e.g., edge weight).
     * A reference to the `Edge` object.
 * **Performance:**
-    * `getEdge(u, v)` takes O(1) time.
-    * Finding incident edges/adjacent vertices for `v` requires scanning a row/column (O(n) time).
+    * `getEdge(u, v)` takes $O(1)$ time.
+    * Finding incident edges/adjacent vertices for `v` requires scanning a row/column ($O(n)$ time).
     * Vertex/edge insertion/removal is O(1).
-    * Space: **O(n²)**. Efficient only for *dense* graphs where `m` is close to `n²`.
+    * Space: **$O(n²)$**. Efficient only for *dense* graphs where `m` is close to `n²`.
 
 :: right ::
 ```mermaid {scale: 0.8}
@@ -395,7 +396,7 @@ graph LR
 ---
 
 ## Performance Trade-offs
-<Transform scale="0.7">
+<Transform scale="0.8">
 
 | **Operation**           | Edge List | Adjacency List | Adjacency Matrix |
 | :------------------ | :-------- | :------------- | :--------------- |
@@ -405,12 +406,10 @@ graph LR
 | `getEdge`           | $O(m)$      | $O(\text{min}(\text{deg}\space u, \text{deg}\space v))$ | $O(1)$ |
 | `incidentEdges(v)`  | $O(m)$      | $O(\text{deg}\space v)$       | $O(n)$             |
 | `areAdjacent(u,v)`  | $O(m)$      | $O(\text{min}(\text{deg}\space u, \text{deg}\space v))$ | $O(1)$ |
-| `insertVertex`      | $O(1)$      | $O(1)$           | $O(n²)^*$ |
+| `insertVertex`      | $O(1)$      | $O(1)$           | $O(n²)$ |
 | `insertEdge`        | $O(1)$      | $O(1)$           | $O(1)$             |
-| `removeVertex(v)`   | $O(m)$      | $O(\text{deg}\space v)$       | $O(n²)^*$ |
+| `removeVertex(v)`   | $O(m)$      | $O(\text{deg}\space v)$       | $O(n²)$ |
 | `removeEdge(e)`     | $O(1)$      | $O(1)$           | $O(1)$             |
-
-* Adjacency Matrix insertion/removal of vertices is $O(n²)$ because the matrix often needs resizing/rebuilding.
 
 </Transform>
 
