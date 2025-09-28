@@ -159,5 +159,14 @@ src: ./lectures/end.md
 src: ./lectures/lect-17-Shortest-path.md
 ---
 ---
+src: ./lectures/end.md
+---
+---
+src: ./lectures/asmnt-1-Bangkok-Transit.md
+---
+---
+src: ./lectures/course_summary.md
+---
+---
 src: ./lectures/class-diagram.md
 ---

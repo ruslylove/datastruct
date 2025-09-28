@@ -6,7 +6,7 @@ layout: cover
 background: https://cover.sli.dev
 ---
 
-# How to Write a UML Class Diagram 📝
+# Appendix B: How to Write a UML Class Diagram 📝
 A quick guide to visually representing your object-oriented designs.
 ## {{ $slidev.configs.subject }}
 ### Semester {{ $slidev.configs.semester }}

@@ -32,9 +32,30 @@ hideInToc: false
 * **Goal:** Find the path with the minimum total weight (cost, distance) between vertices in a weighted graph.
 * **Input:** A weighted graph `G` (edge weights are non-negative) and a starting vertex `s`.
 * **Output:** The length (total weight) of the shortest path from `s` to every other reachable vertex `v`. Optionally, the path itself.
-* **Weight of a Path:** The sum of the weights of the edges composing the path.
+* **Weight of a Path:** The sum of the weights of the edges composing the path.<br><br>
 
-(Diagram of a weighted graph with a source vertex 's' highlighted)
+```mermaid
+graph LR
+        s((s))
+        a(a)
+        b(b)
+        c(c)
+        d(d)
+        t(t)
+
+        s -- 4 --> a
+        s -- 2 --> b
+        b -- 1 --> a
+        b -- 8 --> c
+        a -- 5 --> c
+        c -- 2 --> d
+        b -- 10 --> d
+        d -- 3 --> t
+        c -- 6 --> t
+
+        style s fill:#ffff99,stroke:#333,stroke-width:4px
+    
+```
 
 ---
 
@@ -56,15 +77,41 @@ hideInToc: false
         * `D[z] = D[u] + weight(u, z)` (Update the distance estimate for `z`)
         * Record that the path to `z` now comes via `u`.
 
-(Diagram illustrating edge relaxation: updating D[z] if the path through u is shorter)
+
+```mermaid {scale: 0.7}
+graph LR
+        direction LR
+        
+        subgraph "Cloud C"
+            u(u)
+            style u fill:#ffff99,stroke:#333,stroke-width:2px
+        end
+
+        z(z)
+        
+        u -- "weight(u, z)" --> z
+
+        subgraph "Path from s"
+            direction TB
+            s((s))
+            s -- "D[u]" --> u
+            s -. "Old path<br>D[z]" .-> z
+        end
+
+        z ~~~ E
+
+        E["right of z<br><b>Condition:</b> D[u] + weight(u, z) < D[z] ?<br/><b>If true:</b> Update D[z] = D[u] + weight(u, z)"]
+
+        style E fill:#fff,stroke:#fff,stroke-width:0px,color:#000;
+      
+    
+```
 
 ---
-layout: default
+layout: two-cols
 ---
 
 ## Dijkstra's Algorithm: Steps
-
-<transform scale="0.7">
 
 1.  **Initialization:**
     * Create a map `D` to store distance estimates.
@@ -72,7 +119,7 @@ layout: default
     * `D[v] = ∞` for all other vertices `v ≠ s`.
     * Create a Priority Queue `PQ` storing entries `(D[v], v)` for all vertices `v`. Initially, `(0, s)` and `(∞, v)` for others.
     * The "cloud" `C` is implicitly represented by vertices already removed from `PQ`.
-
+:: right ::
 2.  **Iteration:** While `PQ` is not empty:
     * Remove the entry `(d, u)` with the minimum key `d` from `PQ` (using `removeMin`). Vertex `u` is the closest vertex outside the cloud. `D[u] = d` is now the final shortest path distance to `u`.
     * (Add `u` to the conceptual cloud `C`).
@@ -80,9 +127,8 @@ layout: default
         * Check if `v` is still effectively in the `PQ` (i.e., its final distance hasn't been determined).
         * `if D[u] + weight(u, v) < D[v] then`
             * Update `D[v] = D[u] + weight(u, v)`.
-            * Update the priority of `v` in the `PQ` to the new `D[v]`. (This might involve removing and re-inserting or using a more advanced PQ update operation).
+            * Update the priority of `v` in the `PQ` to the new `D[v]`.
 
-</transform>
 ---
 
 ## Dijkstra's Algorithm: Pseudocode
@@ -118,29 +164,256 @@ Algorithm DijkstraShortestPaths(G, s):
 
 ## Example Trace of Dijkstra's Algorithm
 
-(Series of diagrams showing a weighted graph and the step-by-step updates to the distance map `D` and the priority queue `PQ` as vertices are added to the cloud `C`.
+### Dijkstra's Trace: Step 0 (Initialization)
+<br>
+<div class="grid grid-cols-2 gap-4">
+<div>
 
-1.  Initial state: D={s:0, a:inf, b:inf,...}, PQ={(0,s), (inf,a), ...}, C={}
-2.  Remove (0,s). Cloud C={s}. Relax edges from s. Update D and PQ for neighbors of s.
-3.  Remove next minimum from PQ (e.g., (d_a, a)). Cloud C={s, a}. Relax edges from a. Update D and PQ for neighbors of a (if path improves).
-4.  Continue until PQ is empty.
-)
+```mermaid
+graph LR
+    s((s)); a(a); b(b); c(c); d(d); t(t)
+    s -- 4 --> a; s -- 2 --> b; b -- 1 --> a; b -- 8 --> c; a -- 5 --> c
+    c -- 2 --> d; b -- 10 --> d; d -- 3 --> t; c -- 6 --> t
+```
+
+</div>
+<div>
+
+| Vertex | D (Distance) | PQ (Priority, Vertex) |
+| :----: | :----------: | :-------------------: |
+| **s**  | **0**        | **(0, s)**            |
+| a      | ∞            | (∞, a)                |
+| b      | ∞            | (∞, b)                |
+| c      | ∞            | (∞, c)                |
+| d      | ∞            | (∞, d)                |
+| t      | ∞            | (∞, t)                |
+
+</div>
+</div>
+
+---
+
+### Dijkstra's Trace: Step 1 (Process `s`)
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**Action:** Remove `(0, s)` from PQ. Add `s` to cloud. Relax edges `(s,a)` and `(s,b)`.
+
+```mermaid
+graph LR
+    s((s)); a(a); b(b); c(c); d(d); t(t)
+    s -- 4 --> a; s -- 2 --> b; b -- 1 --> a; b -- 8 --> c; a -- 5 --> c
+    c -- 2 --> d; b -- 10 --> d; d -- 3 --> t; c -- 6 --> t
+    style s fill:#ffff99,stroke:#333,stroke-width:2px
+```
+
+</div>
+<div>
+
+| Vertex | D (Distance) | PQ (Priority, Vertex) |
+| :----: | :----------: | :-------------------: |
+| s      | 0            |                       |
+| a      | <span class="text-red-500">4</span> | (4, a)                |
+| **b**  | <span class="text-red-500">**2**</span> | **(2, b)**            |
+| c      | ∞            | (∞, c)                |
+| d      | ∞            | (∞, d)                |
+| t      | ∞            | (∞, t)                |
+
+</div>
+</div>
+
+---
+
+### Dijkstra's Trace: Step 2 (Process `b`)
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**Action:** Remove `(2, b)` from PQ. Add `b` to cloud. Relax edges `(b,a)`, `(b,c)`, `(b,d)`.
+
+```mermaid
+graph LR
+    s((s)); a(a); b(b); c(c); d(d); t(t)
+    s -- 4 --> a; s -- 2 --> b; b -- 1 --> a; b -- 8 --> c; a -- 5 --> c
+    c -- 2 --> d; b -- 10 --> d; d -- 3 --> t; c -- 6 --> t
+    style s fill:#ffff99,stroke:#333,stroke-width:2px
+    style b fill:#ffff99,stroke:#333,stroke-width:2px
+```
+
+</div>
+<div>
+
+| Vertex | D (Distance) | PQ (Priority, Vertex) |
+| :----: | :----------: | :-------------------: |
+| s      | 0            |                       |
+| **a**  | <span class="text-red-500">**3**</span> | **(3, a)**            |
+| b      | 2            |                       |
+| c      | <span class="text-red-500">10</span>| (10, c)               |
+| d      | <span class="text-red-500">12</span>| (12, d)               |
+| t      | ∞            | (∞, t)                |
+
+</div>
+</div>
+
+---
+
+### Dijkstra's Trace: Step 3 (Process `a`)
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**Action:** Remove `(3, a)` from PQ. Add `a` to cloud. Relax edge `(a,c)`.
+
+```mermaid
+graph LR
+    s((s)); a(a); b(b); c(c); d(d); t(t)
+    s -- 4 --> a; s -- 2 --> b; b -- 1 --> a; b -- 8 --> c; a -- 5 --> c
+    c -- 2 --> d; b -- 10 --> d; d -- 3 --> t; c -- 6 --> t
+    style s fill:#ffff99,stroke:#333,stroke-width:2px
+    style b fill:#ffff99,stroke:#333,stroke-width:2px
+    style a fill:#ffff99,stroke:#333,stroke-width:2px
+```
+
+</div>
+<div>
+
+| Vertex | D (Distance) | PQ (Priority, Vertex) |
+| :----: | :----------: | :-------------------: |
+| s      | 0            |                       |
+| a      | 3            |                       |
+| b      | 2            |                       |
+| **c**  | <span class="text-red-500">**8**</span> | **(8, c)**            |
+| d      | 12           | (12, d)               |
+| t      | ∞            | (∞, t)                |
+
+</div>
+</div>
+
+---
+
+### Dijkstra's Trace: Step 4 (Process `c`)
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**Action:** Remove `(8, c)` from PQ. Add `c` to cloud. Relax edges `(c,d)` and `(c,t)`.
+
+```mermaid
+graph LR
+    s((s)); a(a); b(b); c(c); d(d); t(t)
+    s -- 4 --> a; s -- 2 --> b; b -- 1 --> a; b -- 8 --> c; a -- 5 --> c
+    c -- 2 --> d; b -- 10 --> d; d -- 3 --> t; c -- 6 --> t
+    style s fill:#ffff99,stroke:#333,stroke-width:2px
+    style b fill:#ffff99,stroke:#333,stroke-width:2px
+    style a fill:#ffff99,stroke:#333,stroke-width:2px
+    style c fill:#ffff99,stroke:#333,stroke-width:2px
+```
+
+</div>
+<div>
+
+| Vertex | D (Distance) | PQ (Priority, Vertex) |
+| :----: | :----------: | :-------------------: |
+| s      | 0            |                       |
+| a      | 3            |                       |
+| b      | 2            |                       |
+| c      | 8            |                       |
+| **d**  | <span class="text-red-500">**10**</span>| **(10, d)**           |
+| t      | <span class="text-red-500">14</span>| (14, t)               |
+
+</div>
+</div>
+
+---
+
+### Dijkstra's Trace: Step 5 (Process `d`)
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**Action:** Remove `(10, d)` from PQ. Add `d` to cloud. Relax edge `(d,t)`.
+
+```mermaid
+graph LR
+    s((s)); a(a); b(b); c(c); d(d); t(t)
+    s -- 4 --> a; s -- 2 --> b; b -- 1 --> a; b -- 8 --> c; a -- 5 --> c
+    c -- 2 --> d; b -- 10 --> d; d -- 3 --> t; c -- 6 --> t
+    style s fill:#ffff99,stroke:#333,stroke-width:2px
+    style b fill:#ffff99,stroke:#333,stroke-width:2px
+    style a fill:#ffff99,stroke:#333,stroke-width:2px
+    style c fill:#ffff99,stroke:#333,stroke-width:2px
+    style d fill:#ffff99,stroke:#333,stroke-width:2px
+```
+
+</div>
+<div>
+
+| Vertex | D (Distance) | PQ (Priority, Vertex) |
+| :----: | :----------: | :-------------------: |
+| s      | 0            |                       |
+| a      | 3            |                       |
+| b      | 2            |                       |
+| c      | 8            |                       |
+| d      | 10           |                       |
+| **t**  | <span class="text-red-500">**13**</span>| **(13, t)**           |
+
+</div>
+</div>
+
+---
+
+### Dijkstra's Trace: Final State
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+**Action:** Remove `(13, t)` from PQ. PQ is now empty. Algorithm terminates.
+
+```mermaid
+graph LR
+    s((s)); a(a); b(b); c(c); d(d); t(t)
+    s -- 4 --> a; s -- 2 --> b; b -- 1 --> a; b -- 8 --> c; a -- 5 --> c
+    c -- 2 --> d; b -- 10 --> d; d -- 3 --> t; c -- 6 --> t
+    style s fill:#ffff99,stroke:#333,stroke-width:2px
+    style b fill:#ffff99,stroke:#333,stroke-width:2px
+    style a fill:#ffff99,stroke:#333,stroke-width:2px
+    style c fill:#ffff99,stroke:#333,stroke-width:2px
+    style d fill:#ffff99,stroke:#333,stroke-width:2px
+    style t fill:#ffff99,stroke:#333,stroke-width:2px
+```
+
+</div>
+<div>
+
+| Vertex | D (Final Distance) |
+| :----: | :----------------: |
+| s      | 0                  |
+| a      | 3                  |
+| b      | 2                  |
+| c      | 8                  |
+| d      | 10                 |
+| t      | 13                 |
+
+</div>
+</div> 
+
 
 ---
 
 ## Performance Analysis
 
 * Let `n` be the number of vertices and `m` be the number of edges.
-* **Initialization:** O(n) to initialize D, O(n) or O(n log n) to build the initial PQ (depending on PQ implementation).
+* **Initialization:** $O(n)$ to initialize D, $O(n)$ or $O(n \log n)$ to build the initial PQ (depending on PQ implementation).
 * **Main Loop:** Executes `n` times (once for each vertex).
     * `removeMin`: Depends on PQ implementation.
     * **Edge Relaxation:** The `for` loop iterates over all outgoing edges from the vertex `u` removed. Over the entire algorithm, each edge `e = (u, v)` is considered exactly once when `u` is removed from the PQ.
     * **Priority Update:** Depends on PQ implementation.
 * **Total Time Complexity (using a Heap-based Priority Queue):**
-    * `n` `removeMin` operations: O(n log n)
-    * `m` edge relaxations potentially causing `m` priority updates (e.g., `changeKey`): O(m log n)
-    * **Overall: O((n + m) log n)**. If the graph is connected, `m >= n-1`, so this simplifies to **O(m log n)**.
-* **Using an Unsorted List for PQ:** `removeMin` takes O(n), updates are O(1). Total time: O(n² + m) = **O(n²)**.
+    * `n` `removeMin` operations: $O(n \log n)$
+    * `m` edge relaxations potentially causing `m` priority updates (e.g., `changeKey`): $O(m \log n)$
+    * **Overall: $O((n + m) \log n)$**. If the graph is connected, `m >= n-1`, so this simplifies to **$O(m \log n)$**.
+* **Using an Unsorted List for PQ:** `removeMin` takes $O(n)$, updates are $O(1)$. Total time: $O(n² + m)$ = **$O(n²)$**.
 
 ---
 
@@ -165,3 +438,16 @@ Algorithm ReconstructPath(s, t, predecessorMap):
 ```
 
 * Storing and retrieving predecessors adds minimal overhead to the main algorithm.
+
+---
+
+## Summary
+
+*   **Shortest Path Problem:** Finding the minimum weight path between two vertices in a weighted graph.
+*   **Dijkstra's Algorithm:** Solves the single-source shortest path problem for graphs with non-negative edge weights.
+    *   **Greedy Approach:** Iteratively expands a "cloud" of vertices with known shortest paths.
+    *   **Edge Relaxation:** Key step to update distance estimates to neighboring vertices.
+    *   **Priority Queue:** Essential for efficiently selecting the next closest vertex outside the cloud.
+*   **Time Complexity:** $O(m \log n)$ with a heap-based priority queue.
+*   **Path Reconstruction:** Requires storing predecessor information during the algorithm's execution.
+
