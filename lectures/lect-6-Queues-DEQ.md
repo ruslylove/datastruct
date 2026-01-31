@@ -1,6 +1,6 @@
 ---
 # Frontmatter for Slidev configuration
-title: 'Double-Ended Queues (Deque)'
+title: "Double-Ended Queues (Deque)"
 transition: slide-left
 theme: seriph
 layout: cover
@@ -90,8 +90,7 @@ layout: two-cols
 
 
 ---
-layout: two-cols-header
----
+
 
 ## Deque Implementation: Doubly Linked List
 
@@ -100,28 +99,16 @@ layout: two-cols-header
 *   A **doubly linked list** is the most natural and efficient data structure for implementing a Deque.
 *   Each node has references to both the `previous` and `next` nodes.
 *   We use `header` and `trailer` sentinel nodes to simplify the logic for adding to or removing from an empty/full list.
-
-:: left ::
-
-```mermaid {scale:0.6}
-graph TD
-    subgraph "Doubly Linked List Deque"
-        direction LR
-        Header["Header"] <--> A["Node A"]
-        A <--> B["Node B"]
-        B <--> C["Node C"]
-        C <--> Trailer["Trailer"]
-
-        Front(("front")) --> A
-        Rear(("rear")) --> C
-    end
-```
-:: right ::
-
 *   `addFirst` is an insert after the `header`.
 *   `addLast` is an insert before the `trailer`.
 *   `removeFirst` is a remove from after the `header`.
 *   `removeLast` is a remove from before the `trailer`.
+
+
+<img src="/deque_dll.svg" class="h-40 mx-auto" />
+
+
+
 
 ---
 

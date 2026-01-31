@@ -1,11 +1,10 @@
 ---
 # Cover Page / Title Slide (Level 1)
-title: 'Stacks'
+title: "Stacks"
 transition: slide-left
 theme: seriph
 layout: cover
 background: https://cover.sli.dev
-
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 
@@ -142,41 +141,35 @@ public interface Stack<E> {
 ```
 
 ---
-layout: two-cols
----
 
 ## Stack Operation Example
-<Transform :scale="0.9">
 
-| Method Call | Return Value | Stack Contents |
-| :---------- | :----------- | :------------- |
-| push(5)     |              | (5)            |
-| push(3)     |              | (5, 3)         |
-| size()      | 2            | (5, 3)         |
-| pop()       | 3            | (5)            |
-| isEmpty()   | false        | (5)            |
-| pop()       | 5            | ()             |
-| isEmpty()   | true         | ()             |
-| pop()       | throws Exception | ()             |
+$$
+\def\arraystretch{1.2}
+\scriptsize
+\begin{array}{l|l|l}
+\textbf{Method Call} & \textbf{Return Value} & \textbf{Stack Contents} \\
+\hline
+\text{push(5)} & & (5) \\
+\text{push(3)} & & (5, 3) \\
+\text{size()} & 2 & (5, 3) \\
+\text{pop()} & 3 & (5) \\
+\text{isEmpty()} & \text{false} & (5) \\
+\text{pop()} & 5 & () \\
+\text{isEmpty()} & \text{true} & () \\
+\text{pop()} & \textit{error} & () \\
+\text{push(7)} & & (7) \\
+\text{push(9)} & & (7, 9) \\
+\text{top()} & 9 & (7, 9) \\
+\text{push(4)} & & (7, 9, 4) \\
+\text{size()} & 3 & (7, 9, 4) \\
+\text{pop()} & 4 & (7, 9) \\
+\text{push(6)} & & (7, 9, 6) \\
+\text{push(8)} & & (7, 9, 6, 8) \\
+\text{pop()} & 8 & (7, 9, 6)
+\end{array}
+$$
 
-</Transform>
-:: right ::
-
-<Transform :scale="0.9">
-
-| Method Call | Return Value | Stack Contents |
-| :---------- | :----------- | :------------- |
-| push(7)     |              | (7)            |
-| push(9)     |              | (7, 9)         |
-| top()       | 9            | (7, 9)         |
-| push(4)     |              | (7, 9, 4)      |
-| size()      | 3            | (7, 9, 4)      |
-| pop()       | 4            | (7, 9)         |
-| push(6)     |              | (7, 9, 6)      |
-| push(8)     |              | (7, 9, 6, 8)   |
-| pop()       | 8            | (7, 9, 6)      |
-
-</Transform>
 ---
 
 ## Handling Errors with Exceptions

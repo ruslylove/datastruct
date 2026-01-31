@@ -1,0 +1,23 @@
+\documentclass[tikz, border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}
+    \node[
+        rectangle split,
+        rectangle split parts=2,
+        rectangle split horizontal,
+        draw,
+        thick,
+        fill=white,
+        minimum height=1.5cm,
+        minimum width=4cm,
+        rectangle split part fill={white, gray!10},
+        font=\Large\sffamily
+    ] (node) { element \nodepart{two} next };
+    
+    % Arrow indicating reference
+    \draw[-{Stealth[length=3mm]}, thick, blue] (node.two east) -- ++(1,0);
+\end{tikzpicture}
+\end{document}

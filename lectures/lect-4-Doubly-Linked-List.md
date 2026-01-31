@@ -1,11 +1,10 @@
 ---
 # Cover Page Slide (Implicitly created by Slidev from metadata)
-title: 'Doubly Linked Lists'
+title: "Doubly Linked Lists"
 transition: slide-left
 theme: seriph
 layout: cover
 background: https://cover.sli.dev
-
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 
@@ -29,48 +28,15 @@ hideInToc: false
 
 ## Doubly Linked Lists: Overview
 
-
-
 * Unlike singly linked lists, doubly linked lists allow traversal in both forward and backward directions.
-
 * **Nodes Contain:**
     * The data element.
     * A `prev` link to the previous node.
     * A `next` link to the next node.
 * **Sentinels:** Special `header` and `trailer` nodes are often used at the beginning and end. These don't store user data but simplify insertion and deletion logic, especially at the ends.
 
+<img src="/doubly_linked_list.svg" class="h-50 mx-auto" />
 
-<br>    
-
-<div style="margin:auto;padding-left:80px">
-
-```mermaid {scale:0.8}
-graph LR
-    
-        H[Header]
-        T[Trailer]
-        A[Node A]
-        B[Node B]
-        DOTS[...]
-
-        H -- next --> A
-        A -- prev --> H
-
-        A -- next --> B
-        B -- prev --> A
-
-        B -- next --> DOTS
-        DOTS -- prev --> B
-
-        DOTS -- next --> T
-        T -- prev --> DOTS
- 
-
-    style H stroke:#8A2BE2,stroke-width:2px,fill:transparent
-    style T stroke:#8A2BE2,stroke-width:2px,fill:transparent
-```
-
-</div>
 
 ---
 
@@ -84,30 +50,7 @@ To insert a new node `q` between an existing node `p` and its successor `s`:
 4.  Set `p`'s `next` link to point to `q`.
 
 
-<div style="margin:auto; padding-top: 1em;padding-left:200px">
-```mermaid
-graph LR
-    P[Node p]
-    Q[Node q]
-    S[Node s]
-
-    %% Original links (to be replaced)
-    P -.-> S
-    S -.-> P
-
-    %% New links being created, numbered by step
-    P -- "4" --> Q
-    Q -- "1" --> P
-    Q -- "2" --> S
-    S -- "3" --> Q
-
-    %% Styling
-    style Q fill:#90EE90,stroke:#2E8B57,stroke-width:2px
-    linkStyle 0,1 stroke-dasharray: 5 5, stroke:grey, stroke-width:1px
-    linkStyle 2,4 stroke:#CD5C5C,stroke-width:2px
-    linkStyle 3,5 stroke:#87CEEB,stroke-width:2px
-```
-</div>
+<img src="/doubly_insert.svg" class="h-70 mx-auto p-4" />
 
 
 ---
@@ -120,29 +63,8 @@ To remove an existing node `p`:
 2.  Set the `prev` link of `p`'s successor to point to `p`'s predecessor.
 3.  Node `p` is now bypassed and can be garbage collected.
 
-<div style="margin:auto; padding-top: 1em;padding-left:200px">
-```mermaid
-graph LR
-    A[Node A]
-    B(Node B)
-    C[Node C]
+<img src="/doubly_delete.svg" class="h-70 mx-auto" />
 
-    %% Original links that are removed
-    A -- next --> B
-    B -- prev --> A
-    B -- next --> C
-    C -- prev --> B
-
-    %% New links that are created
-    A -- "1.(A.next) = C" --> C
-    C -- "2.(C.prev) = A" --> A
-
-    %% Styling
-    style B fill:#FFCCCB,stroke:#CD5C5C,stroke-width:2px,stroke-dasharray: 5 5
-    linkStyle 0,1,2,3 stroke-dasharray: 5 5, stroke:grey, stroke-width:1px
-    linkStyle 4,5 stroke:#2E8B57,stroke-width:2px
-```
-</div>
 
 ---
 layout: two-cols-header
@@ -355,39 +277,4 @@ public class DoublyLinkedList<E> {
 *   **Sentinels** (header and trailer) are used to simplify code and eliminate special cases for insertions/deletions at the ends.
 *   All insertions and deletions at either end, or next to a known node, are $O(1)$.
 
-<br>
-<br>
-<br>
-
-
-```mermaid
-
-graph LR
-        
-        %% Define Nodes
-
-        Header(Header)
-        Trailer(Trailer)
-        NodeA["element: A"]
-        NodeB["element: B"]
-        NodeC["element: C"]
-
-        %% Forward Links (next pointers)
-        Header -- next --> NodeA
-        NodeA  -- next --> NodeB
-        NodeB  -- next --> NodeC
-        NodeC  -- next --> Trailer
-        
-
-
-        %% Backward Links (prev pointers)
-        Trailer -- prev --> NodeC
-        NodeC   -- prev --> NodeB
-        NodeB   -- prev --> NodeA
-        NodeA   -- prev --> Header
-
-
-    %% Style the sentinel nodes to distinguish them
-    style Header fill:#E6E6FA,stroke:#8A2BE2,stroke-width:2px
-    style Trailer fill:#E6E6FA,stroke:#8A2BE2,stroke-width:2px
-```
+<img src="/doubly_linked_list.svg" class="h-60 mx-auto" />

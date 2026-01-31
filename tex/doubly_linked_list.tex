@@ -1,0 +1,83 @@
+\documentclass[tikz, border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart, positioning, arrows.meta, calc}
+
+\begin{document}
+
+\begin{tikzpicture}[
+    dblnode/.style={
+        rectangle split,
+        rectangle split parts=3,
+        rectangle split horizontal,
+        draw,
+        thick,
+        fill=white,
+        minimum height=1cm,
+        rectangle split part fill={white, white, white},
+        font=\sffamily
+    },
+    sentinel/.style={
+        draw,
+        rectangle,
+        thick,
+        fill=purple!10,
+        minimum size=1cm,
+        font=\sffamily\bfseries,
+        draw=purple!80!black
+    },
+    ptr/.style={
+        >={Stealth[length=2mm]},
+        ->,
+        thick,
+        blue
+    },
+    revptr/.style={
+        >={Stealth[length=2mm]},
+        ->,
+        thick,
+        red!80!black
+    }
+]
+    % Nodes
+    \node[sentinel] (header) {Header};
+    \node[dblnode, right=2cm of header] (nodeA) { \nodepart{one} \phantom{p} \nodepart{two} \textbf{Node A} \nodepart{three} \phantom{n}};
+    \node[dblnode, right=2cm of nodeA] (nodeB) { \nodepart{one} \phantom{p} \nodepart{two} \textbf{Node B} \nodepart{three} \phantom{n}};
+    
+    \node[right=2cm of nodeB] (dots) {\textbf{...}};
+    \node[sentinel, right=2cm of dots] (trailer) {Trailer};
+
+    % Dots in pointer fields
+    \fill[black] (nodeA.one) circle (1.5pt);
+    \fill[black] (nodeA.three) circle (1.5pt);
+    \fill[black] (nodeB.one) circle (1.5pt);
+    \fill[black] (nodeB.three) circle (1.5pt);
+
+    % Forward Pointers (Next)
+    % Header -> NodeA
+    \draw[ptr] (header.east) to[bend left=15] node[midway, above, font=\tiny, text=blue] {next} (nodeA.west);
+    
+    % NodeA Next -> NodeB (From bubble 3)
+    \draw[ptr] (nodeA.three) to[bend left=15] node[midway, above, font=\tiny, text=blue] {next} (nodeB.west);
+    
+    % NodeB Next -> Dots (From bubble 3)
+    \draw[ptr] (nodeB.three) to[bend left=15] node[midway, above, font=\tiny, text=blue] {next} (dots.west);
+    
+    % Dots Next -> Trailer
+    \draw[ptr] (dots.east) to[bend left=15] node[midway, above, font=\tiny, text=blue] {next} (trailer.west);
+
+
+    % Backward Pointers (Prev)
+    % Trailer Prev -> Dots
+    \draw[revptr] (trailer.west) to[bend left=15] node[midway, below, font=\tiny, text=red!80!black] {prev} (dots.east);
+    
+    % Dots Prev -> NodeB
+    \draw[revptr] (dots.west) to[bend left=15] node[midway, below, font=\tiny, text=red!80!black] {prev} (nodeB.east);
+
+    % NodeB Prev -> NodeA (From bubble 1)
+    \draw[revptr] (nodeB.one) to[bend left=15] node[midway, below, font=\tiny, text=red!80!black] {prev} (nodeA.east);
+
+    % NodeA Prev -> Header (From bubble 1)
+    \draw[revptr] (nodeA.one) to[bend left=15] node[midway, below, font=\tiny, text=red!80!black] {prev} (header.east);
+
+\end{tikzpicture}
+\end{document}

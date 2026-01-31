@@ -1,10 +1,9 @@
 ---
-title: 'Singly Linked Lists'
+title: "Singly Linked Lists"
 transition: fade
 theme: seriph
 layout: cover
 background: https://cover.sli.dev
-
 # Based on Presentation for use with the textbook Data Structures and Algorithms in Java, 6th edition, by M. T. Goodrich, R. Tamassia, and M. H. Goldwasser, Wiley, 2014
 ---
 
@@ -32,9 +31,9 @@ src: ./lect-7-Lists.md#6-7,9-10
 
 ---
 dragPos:
-  square: 660,125,162,67
-  node2: 884,139,74,40
-  node1: 666,122,167,70
+    square: 660,125,162,67
+    node2: 884,139,74,40
+    node1: 666,122,167,70
 ---
 
 ## Singly Linked Lists: Introduction
@@ -48,77 +47,15 @@ A singly linked list is a data structure built from a sequence of nodes.
 * The last node's `next` reference points to `null`.
 
 
-```mermaid
-
-block-beta
-
-    columns 5
-
-    head
-
-    block:node1
-        element
-        next
-    end
-
-    space
-    space
-    tail(("tail"))
-    space
-    A(("'a'"))
-    
-    block:node2
-        element2("element")
-        next2("next")
-    end
-
-    space
-    space
-    space
-    space
-    B(("'b'"))
-
-    block:node3
-        element3("element")
-        next3("next")
-    end
-    
-    null
-
-    space
-    space
-    space
-    
-    C(("'c'"))
-
-    next --> node2
-    next2 --> node3
-    next3 --> null(("∅"))
-    head(("head")) --> node1
-    element --> A
-    element2 --> B
-    element3 --> C
-    tail --> node3
-
-    
-    style head fill:#fee,stroke:#333
-    style tail fill:#fee,stroke:#333
-
-
-```
+<img src="/singly_linked_list.svg" class="h-60 mx-auto" />
 <!--
 <img src="./img/slinkedlist.png" style="height:200px"/>
 -->
 
 
-<img v-drag="'node1'" src="/node.png">
-
-<v-drag-arrow pos="801,157,85,0"/>
-<v-drag-arrow pos="594,161,68,-1"/>
-
 ---
 dragPos:
-  node1: -32,0,0,0
+    node1: -32,0,0,0
 ---
 
 ## Implementing Nodes: A Nested Class
@@ -478,7 +415,7 @@ block-beta
 graph TD
     subgraph "Initial list"
         direction LR
-        head1(("head")) --> A("Node 'A'") --> B("Node 'B'") --> C("...")
+        head1(("head")) -.-> A("Node 'A'") --> B("Node 'B'") --> C("...")
     end
 
     subgraph "Step 1: Create New Node"
@@ -1049,70 +986,12 @@ Removing the last element efficiently in a *singly* linked list is problematic.
         cur = cur.getNext();
     }
     tail = cur;
-    tail.setNext(null);
 ```
-
+    
 <br>
 
-```mermaid {scale:0.65}
+<img src="/remove_last_traversal.svg" class="h-60 mx-auto"/>
 
-block-beta
-
-    columns 5
-
-    head
-
-    block:node1
-        element
-        next
-    end
-
-    space
-    space
-    tail(("tail"))
-    space
-    A(("'a'"))
-    
-    block:node2
-        element2("element")
-        next2("next")
-    end
-
-    space
-    space
-    space
-    space
-    B(("'b'"))
-
-    block:node3
-        element3("element")
-        next3("next")
-    end
-    
-    null
-
-    space
-    cur(("cur"))
-    space
-    
-    C(("'c'"))
-
-    next --> node2
-    next2 --> node3
-    next3 --> null(("∅"))
-    head(("head")) --> element
-    element --> A
-    element2 --> B
-    element3 --> C
-    tail  --> node3
-    cur -- "traverse from head <br>to this node" --> node2
-
-    style node3 stroke-dasharray: 5 5,stroke-width:4,stroke:#f77,fill:#fee
-    style cur fill:#fee,stroke:#333
-
-
-
-```
 <!-- <img src="./img/linkedlist_4.png" />
 -->
 
@@ -1121,27 +1000,28 @@ block-beta
 ## `Basic Arrays` vs. `ArrayList` vs. `Singly Linked List`
 
 
-| **Feature** | Basic Array | `ArrayList` | Singly Linked List |
-| :--- | :--- | :--- | :--- |
-| **Size** | Fixed at creation | Dynamic, resizable | Dynamic, node-based |
-| **Type** | Primitives or Objects | Objects only | Objects only |
-| **Flexibility** | Low (manual resizing, shifting) | High (built-in methods) | High (pointer manipulation) |
-| **Performance:**||||
-| - **get/set by index**| $O(1)$ | $O(1)$ | $O(n)$ ( traversal) |
-| - **add at front** | $O(n)$ (manual shift) <br>or N/A (fixed size) | $O(n)$ (auto shift) | $O(1)$ |
-| - **remove at front** | $O(n)$ (manual shift) | $O(n)$ (auto shift) | $O(1)$ |
-
-
----
-
-
-| **Feature** | Basic Array | `ArrayList` | Singly Linked List |
-| :--- | :--- | :--- | :--- |
-| - **add at end** | $O(1)$ or N/A (fixed) | Amortized $O(1)$ | $O(1)$ (with tail pointer) |
-| - **remove at end**| $O(1)$ | $O(1)$ | $O(n)$ (traversal) |
-| - **add/remove in middle**| $O(n)$ (manual shift) | $O(n)$ (auto shift) | $O(n)$ (traversal) |
-| **Memory** | Low overhead | Moderate overhead (unused capacity)| High overhead (pointer per node) |
-| **Usage**| Fixed-size collections, performance to access | General-purpose dynamic lists | Frequent insertions/deletions at the start; implementing `queues`/`stacks` |
+$$
+\def\arraystretch{1.1}
+\small
+\begin{array}{l|l|l|l}
+\textbf{Feature} & \textbf{Basic Array} & \textbf{ArrayList} & \textbf{Singly Linked List} \\
+\hline
+\text{Size} & \text{Fixed} & \text{Dynamic} & \text{Dynamic} \\
+\text{Type} & \text{Prim / Obj} & \text{Objects} & \text{Objects} \\
+\text{Flexibility} & \text{Low} & \text{High} & \text{High} \\
+\hline
+\textbf{Performance} & & & \\
+\text{- get/set index} & O(1) & O(1) & O(n) \\
+\text{- add front} & O(n) \text{ or N/A} & O(n) & O(1) \\
+\text{- remove front} & O(n) & O(n) & O(1) \\
+\text{- add end} & O(1) \text{ or N/A} & \text{Amortized } O(1) & O(1) \\
+\text{- remove end} & O(1) & O(1) & O(n) \\
+\text{- middle ops} & O(n) & O(n) & O(n) \\
+\hline
+\text{Memory} & \text{Low} & \text{Moderate} & \text{High} \\
+\text{Usage} & \text{Access speed} & \text{General} & \text{Start ops}
+\end{array}
+$$
 
 * `ArrayList` is generally preferred when you need a dynamic array with fast **index-based access**.
 * `LinkedList` excels when you have frequent **additions** and **removals** at the beginning of the list.

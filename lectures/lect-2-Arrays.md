@@ -1,5 +1,5 @@
 ---
-title: 'Arrays and Array List'
+title: "Arrays and Array List"
 transition: slide-left
 theme: seriph
 layout: cover
@@ -35,11 +35,11 @@ An array provides a way to store a sequence of items, where all items are of the
     * In Java, you can get an array's length using `.length` (e.g., `myArray.length`). 
     * We access the element at index `k` using square brackets: `a[k]`.
 
-<Transform scale="0.7">
 
-<img src="/array_new.png" style="height:200px;padding-top:20px"  />
 
-</Transform>
+<img src="/array_basic.svg" class="p-4 h-60 mx-auto"  />
+
+
 
 ---
 
@@ -133,7 +133,7 @@ public class GameEntry {
 
 :: right ::
 
-<img src="/leaderboard.png" style="padding-top:50px">
+<img src="/leaderboard.svg" style="padding-top:50px">
 
 <!--
 <Transform scale="0.75">
@@ -210,7 +210,7 @@ To insert a new entry `e` at a specific index `i` in our sorted `board` array, w
 
 :: right ::
 
-<img src="/insert_array.png" style="width:350px;margin:auto">
+<img src="/insert_sorted_array.svg" style="width:550px;margin:auto">
 <!--
 <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/Insert-Operation-in-Sorted-Array.png" style="height:300px;padding-top:30px">
 -->
@@ -258,7 +258,7 @@ To remove an entry `e` currently at index `i`:
 
 :: right ::
 
-<img src="/remove_element_array.png">
+<img src="/remove_element_array.svg" class="w-full pt-4">
 
 
 <!--
@@ -366,7 +366,8 @@ System.out.println("First number now: " + numbers[0]);
 These limitations lead to the need for more flexible data structures.
 
 ---
-
+layout: two-cols
+---
 
 ## Dynamic Arrays: Overcoming Fixed Size
 
@@ -377,9 +378,9 @@ A **dynamic array** (or resizable array) is a data structure that manages a fixe
 
 How does it work? By creating a new, larger array and copying the contents when the current one is full.
 
-<img
-  src="/dynamic_array.png"
-  style="padding-top:5px;height:250px;margin:auto"/>
+:: right ::
+
+<img src="/dynamic_array_growth.svg" class="pt-5 w-full mx-auto"/>
 
 
 ---
@@ -457,28 +458,9 @@ This makes dynamic arrays very efficient in practice, which is why they are so w
 
 :: right ::
 
-<div style="padding-top:100px;padding-left:20px">
 
-```mermaid {theme: 'neutral'}
+<img src="/amortized_analysis.svg" class="pt-10 w-full mx-auto"/>
 
-xychart-beta
-    title "Time Complexity of Dynamic Array 'add' Operation"
-    x-axis "Number of Elements (n)" 1 --> 20
-    y-axis "Computational Cost" 0 --> 50
-    
-    %% Most operations are fast (cost of 1)
-    %% Occasional spikes represent slow resizes (cost proportional to n)
-    
-    bar  [1, 1, 1, 4, 1, 1, 1,   1,  8,  1,  1,  1,  1,  1,  1,  1,  1, 16, 1, 1]
-    line [1, 2, 3, 7, 8, 9, 10, 11, 19, 20, 21, 22, 23, 24, 25, 26, 27, 43, 44, 45]
-
-    %% Annotations to explain the spikes
-    %% annotation "Resize (n=4)" (4, 4.5)
-    %% annotation "Resize (n=8)" (8, 8.5)
-    %% annotation "Resize (n=16)" (16, 9.5)
-
-```
-</div>
 
 ---
 
@@ -635,27 +617,26 @@ There are several ways to iterate over the elements:
 src: ./lect-7-Lists.md#6-10
 ---
 ---
-layout: two-cols
----
 
 ##   `Basic Arrays` vs. `ArrayList`
 
-| Feature            | `Array`                                  | `ArrayList`                                       |
-| :------------------ | :------------------------------------------- | :------------------------------------------------ |
-| **Size** | Fixed                            | Dynamic                                |
-| **Type** | Primitives/Objects                        | Objects only |
-| **Flexibility** | Low              | High    |
-| **Performance (get/set)** | $O(1)$                                         | $O(1)$                                              |
-| **Performance (add/remove at end)** | $O(1)$ if space exists | Amortized $O(1)$                                    |
-
-:: right ::
-
-| Feature             | `Array`                                  | `ArrayList`                                      |
-| :------------------ | :------------------------------------------- | :------------------------------------------------ |
-| **Performance (add/remove at front and in middle)** | $O(n)$                         | $O(n)$                             |
-| **Memory** | size                 |  capacity |
-| **Utility Methods** | `.length`                     | `List` interface         |
-| **Usage** | when size is known| General-purpose dynamic lists of objects          |
+$$
+\def\arraystretch{1.2}
+\small
+\begin{array}{l|l|l}
+\textbf{Feature} & \textbf{Array} & \textbf{ArrayList} \\
+\hline
+\text{Size} & \text{Fixed} & \text{Dynamic} \\
+\text{Type} & \text{Primitives/Objects} & \text{Objects only} \\
+\text{Flexibility} & \text{Low} & \text{High} \\
+\text{Perf (get/set)} & O(1) & O(1) \\
+\text{Perf (add/remove end)} & O(1) \text{ if space} & \text{Amortized } O(1) \\
+\text{Perf (others)} & O(n) & O(n) \\
+\text{Memory} & \text{size} & \text{capacity} \\
+\text{Utility Methods} & \texttt{.length} & \texttt{List} \text{ interface} \\
+\text{Usage} & \text{Known size} & \text{General purpose}
+\end{array}
+$$
 
 `ArrayList` is generally preferred when the number of elements is not known beforehand or can change frequently.
 
