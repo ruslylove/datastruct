@@ -1,0 +1,105 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L9: BSTs \& Sorting}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 9: Binary Search Trees \& Sorting}{Pre-class brief}{Goodrich Ch.~11--12}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item State the BST ordering property and use it to search, insert, and delete.
+  \item Explain why BST operations are $O(h)$ and the difference between balanced and skewed trees.
+  \item Describe the merge-sort and quick-sort algorithms and their costs.
+  \item Compare sorting algorithms by stability, in-place, and worst case.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Binary Search Tree (BST)}
+
+For every node $v$: keys in the left subtree are $<$ key($v$); keys in the right subtree are $>$ key($v$).
+
+\begin{lstlisting}
+TNode<Integer> search(TNode<Integer> v, int x) {
+    if (v == null || v.element == x) return v;
+    return x < v.element ? search(v.left, x) : search(v.right, x);
+}
+TNode<Integer> insert(TNode<Integer> v, int x) {
+    if (v == null) return new TNode<>(x);
+    if (x < v.element)      v.left  = insert(v.left,  x);
+    else if (x > v.element) v.right = insert(v.right, x);
+    return v;
+}
+\end{lstlisting}
+
+\textbf{Cost:} all operations are $O(h)$, where $h$ is the height. Balanced: $h\approx \log n$ ($O(\log n)$). Skewed (insertions in sorted order): $h = n - 1$ ($O(n)$).
+
+\textbf{Deletion} has three cases: leaf $\to$ remove; one child $\to$ splice; two children $\to$ replace with the inorder successor.
+
+\section*{2. Merge Sort}
+
+Divide-and-conquer:
+\begin{enumerate}[leftmargin=*]
+  \item Split the array in half.
+  \item Recursively sort each half.
+  \item Merge the two sorted halves.
+\end{enumerate}
+
+\textbf{Cost:} $T(n) = 2T(n/2) + O(n) \Rightarrow O(n\log n)$ in the \emph{worst} case. \textbf{Stable. Not in-place} ($O(n)$ extra memory).
+
+\section*{3. Quick Sort}
+
+Pick a pivot, partition (everything $<$ pivot to the left, everything $\geq$ pivot to the right), recurse on each part.
+
+\begin{lstlisting}
+void quicksort(int[] a, int lo, int hi) {
+    if (lo >= hi) return;
+    int p = partition(a, lo, hi);
+    quicksort(a, lo, p - 1);
+    quicksort(a, p + 1, hi);
+}
+\end{lstlisting}
+
+\textbf{Cost:} expected $O(n\log n)$; worst case $O(n^2)$ (already-sorted input with bad pivot). \textbf{Not stable, in-place} ($O(\log n)$ stack).
+
+\section*{4. Algorithm comparison}
+
+\begin{center}
+\begin{tabular}{llll}
+\textbf{Algorithm} & \textbf{Best/Avg/Worst} & \textbf{Stable} & \textbf{In-place} \\
+\hline
+Insertion sort & $O(n)/O(n^2)/O(n^2)$       & yes & yes \\
+Merge sort     & $O(n\log n)$ all three     & yes & no \\
+Quick sort     & $O(n\log n)/O(n\log n)/O(n^2)$ & no  & yes \\
+Heap sort      & $O(n\log n)$ all three     & no  & yes \\
+\end{tabular}
+\end{center}
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 9.1 --- BST insertions.} Insert in order: \verb|50, 30, 70, 20, 40, 60, 80, 10, 35|. Draw the BST. Then list its inorder traversal --- what do you notice?
+
+\textbf{Exercise 9.2 --- Skewed.} Insert in order: \verb|10, 20, 30, 40, 50|. Draw the BST. What is its height? Why is this a worst case?
+
+\textbf{Exercise 9.3 --- Delete.} Starting from the tree in 9.1, delete (in this order) \verb|10, 30, 50|. Draw the tree after each deletion (use inorder successor for two-child cases).
+
+\textbf{Exercise 9.4 --- Merge sort by hand.} Sort \verb|[5, 2, 8, 1, 9, 3, 7, 4]| using merge sort. Show the recursive splits and each merge step.
+
+\textbf{Exercise 9.5 --- Quick sort by hand.} Sort the same array using quick sort with the \emph{last element as pivot}. Show partitions at each level of recursion.
+
+\textbf{Exercise 9.6 --- Choose.} For each scenario, pick a sort and justify:
+\begin{enumerate}[label=(\alph*)]
+  \item You must sort \emph{in place} on a memory-constrained device.
+  \item Inputs are large and arrive nearly sorted.
+  \item The sort must preserve the relative order of equal-key records.
+\end{enumerate}
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item Why is BST height the right cost measure rather than node count?
+  \item Discuss the worst case of quick sort and the standard mitigations (randomized pivot, median-of-three).
+  \item Walk through Exercise 9.6 --- the answers depend on more than Big-O.
+\end{itemize}
+\end{disbox}
+
+\end{document}

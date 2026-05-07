@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L7: Priority Queues \& Heaps}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 7: Priority Queues \& Heaps}{Pre-class brief}{Goodrich Ch.~9}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item State the priority-queue ADT and its main operations.
+  \item Define the heap-order property and the structural property of a heap.
+  \item Implement a binary heap with an array using \emph{up-heap} and \emph{down-heap}.
+  \item Outline the heap-sort algorithm and its $O(n\log n)$ running time.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Priority Queue (PQ) ADT}
+
+\begin{itemize}[leftmargin=*]
+  \item \texttt{insert(k, v)} --- insert an entry with key (priority) $k$.
+  \item \texttt{min()} --- return the entry with smallest key.
+  \item \texttt{removeMin()} --- remove and return that entry.
+\end{itemize}
+
+\section*{2. Binary Heap}
+
+A \textbf{heap} is a complete binary tree where every parent's key is $\leq$ its children's keys (\emph{min-heap}).
+
+\textbf{Array representation.} Store the tree level by level in an array:
+\begin{itemize}[leftmargin=*]
+  \item Root at index 0 (or 1 --- pick a convention).
+  \item Children of index $i$: $2i+1$ and $2i+2$. Parent: $(i-1)/2$.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[
+  node/.style={circle, draw, minimum size=0.7cm, font=\small\sffamily}
+]
+  \node[node] (a) {4};
+  \node[node, below left=0.8cm and 1.2cm of a] (b) {7};
+  \node[node, below right=0.8cm and 1.2cm of a] (c) {6};
+  \node[node, below left=0.7cm and 0.3cm of b] (d) {9};
+  \node[node, below right=0.7cm and 0.3cm of b] (e) {8};
+  \draw (a)--(b); \draw (a)--(c); \draw (b)--(d); \draw (b)--(e);
+\end{tikzpicture}\\[2pt]
+{\small array: $[4, 7, 6, 9, 8]$\quad indices: $[0, 1, 2, 3, 4]$}
+\end{center}
+
+\section*{3. Insert (up-heap)}
+
+Append at the end, then \emph{swap with parent} while smaller. Cost: $O(\log n)$.
+
+\begin{lstlisting}
+public void insert(int k) {
+    h[size++] = k;
+    int i = size - 1;
+    while (i > 0 && h[(i-1)/2] > h[i]) {
+        swap(i, (i-1)/2);
+        i = (i-1)/2;
+    }
+}
+\end{lstlisting}
+
+\section*{4. Remove-min (down-heap)}
+
+Replace root with last element, shrink, then swap with the smaller child while needed. Cost: $O(\log n)$.
+
+\begin{lstlisting}
+public int removeMin() {
+    int min = h[0];
+    h[0] = h[--size];
+    int i = 0;
+    while (2*i + 1 < size) {
+        int c = 2*i + 1;
+        if (c+1 < size && h[c+1] < h[c]) c++;
+        if (h[i] <= h[c]) break;
+        swap(i, c); i = c;
+    }
+    return min;
+}
+\end{lstlisting}
+
+\section*{5. Heap Sort (preview)}
+
+Insert all $n$ elements ($O(n\log n)$), then call \texttt{removeMin} $n$ times ($O(n\log n)$). Total: $O(n\log n)$. The sequence of removed elements is sorted.
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 7.1 --- Trace insertions.} Start with an empty min-heap. Insert in order: \verb|7, 4, 9, 1, 8, 5|. Draw the heap and the array after each insertion.
+
+\textbf{Exercise 7.2 --- Trace removals.} From the heap \texttt{[2, 5, 4, 8, 7, 9, 6]} (a valid min-heap), perform \texttt{removeMin} three times and show the heap after each step.
+
+\textbf{Exercise 7.3 --- Heap or not?} For each array, decide whether it is a min-heap. If not, mark the violating parent--child pair.
+\begin{enumerate}[label=(\alph*)]
+  \item $[1, 3, 2, 5, 4, 9, 8]$
+  \item $[2, 4, 6, 8, 5, 9]$
+  \item $[1, 6, 5, 7, 8, 9, 10]$
+\end{enumerate}
+
+\textbf{Exercise 7.4 --- Implement.} Code the \verb|insert| method for a max-heap (parent's key $\geq$ children's keys).
+
+\textbf{Exercise 7.5 --- Why a heap, not a sorted array?} An entrepreneur says: ``I'll just keep priorities in a sorted array; \texttt{min} is then $O(1)$!'' Compare insert costs and explain when each design wins.
+
+\textbf{Exercise 7.6 --- $k$-th smallest.} Given an array of $n$ numbers, describe an algorithm using a heap that finds the $k$-th smallest in $O(n\log k)$. (Hint: a max-heap of size $k$.)
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item Why is the heap stored in an array rather than as a linked tree? Memory and cache reasons.
+  \item Discuss Exercise 7.6 --- this is a classic streaming problem (top-$k$).
+  \item What does \texttt{PriorityQueue<E>} in Java actually use? When is it the right choice?
+\end{itemize}
+\end{disbox}
+
+\end{document}

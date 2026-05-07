@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L8: Maps \& Hash Tables}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 8: Maps \& Hash Tables}{Pre-class brief}{Goodrich Ch.~10}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item State the Map ADT (key-value with unique keys) and its operations.
+  \item Compute hash codes and compress them into table indices.
+  \item Compare \emph{separate chaining} and \emph{open addressing} (linear probing).
+  \item Reason about average-case $O(1)$ vs.\ worst-case $O(n)$ operations and the role of load factor.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Map ADT}
+
+\begin{lstlisting}
+V get(K key);            // null if absent
+V put(K key, V value);   // returns old value (or null)
+V remove(K key);
+boolean containsKey(K key);
+int size();
+\end{lstlisting}
+
+\section*{2. Hashing in two steps}
+
+To map a key to an index $0\ldots N-1$ in a bucket array:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Hash code:} \texttt{key.hashCode()} returns an \texttt{int} (in Java).
+  \item \textbf{Compression:} squeeze that into $0\ldots N-1$ --- typical: \verb|((a*h + b) % p) % N| (MAD), or simply \verb|h % N| (with $N$ prime).
+\end{enumerate}
+
+A \textbf{collision} happens when two distinct keys map to the same index. We must handle it.
+
+\section*{3. Collision Resolution}
+
+\textbf{Separate chaining:} each bucket holds a small list of entries.
+\begin{center}
+\begin{tikzpicture}[
+  bucket/.style={rectangle, draw, minimum width=0.6cm, minimum height=0.5cm},
+  entry/.style={rectangle, draw, fill=gray!10, minimum width=1.2cm, minimum height=0.5cm, font=\small\ttfamily}
+]
+  \node[bucket] (b0) {0};
+  \node[bucket, below=0pt of b0] (b1) {1};
+  \node[bucket, below=0pt of b1] (b2) {2};
+  \node[bucket, below=0pt of b2] (b3) {3};
+  \node[entry, right=0.4cm of b1] (e1) {Apple};
+  \node[entry, right=0.2cm of e1] (e2) {Avocado};
+  \node[entry, right=0.4cm of b3] (e3) {Banana};
+  \draw[->] (b1.east) -- (e1.west);
+  \draw[->] (e1.east) -- (e2.west);
+  \draw[->] (b3.east) -- (e3.west);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Open addressing (linear probing):} on collision, try cell $i+1, i+2, \ldots$ (mod $N$). All entries live in the table itself.
+
+\textbf{Load factor} $\lambda = n/N$. As $\lambda$ grows, performance degrades. Rehash (double $N$) when $\lambda$ exceeds a threshold (Java's \texttt{HashMap}: $0.75$).
+
+\section*{4. Performance summary}
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Operation} & \textbf{Average} & \textbf{Worst case} \\
+\hline
+\texttt{get}, \texttt{put}, \texttt{remove} & $O(1)$ & $O(n)$ \\
+\end{tabular}
+\end{center}
+
+The worst case occurs when all keys hash to the same bucket --- a real risk if your hash function is bad or an adversary picks your keys.
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 8.1 --- Insert with chaining.} Table size $N = 7$. Hash function $h(k) = k \bmod 7$. Insert keys: \verb|10, 22, 31, 4, 15, 28, 17, 88|. Draw the bucket array with chains.
+
+\textbf{Exercise 8.2 --- Linear probing.} Same keys, same $h$, table size 11. Show the table after all insertions. Mark which inserts caused collisions.
+
+\textbf{Exercise 8.3 --- A bad hash.} Suppose \verb|hashCode()| of a \texttt{Point(x,y)} is implemented as \verb|x - y|. Give two distinct points that collide. Why is this a problem?
+
+\textbf{Exercise 8.4 --- Removal in open addressing.} You inserted A, B, C with linear probing where they collide and probe in that order. Now you remove B by setting its slot to null. Why does \texttt{get(C)} now \emph{fail}? Suggest a fix.
+
+\textbf{Exercise 8.5 --- Implement.} Write a tiny chained hash map class \verb|MyMap<K,V>| supporting \verb|put|, \verb|get|, \verb|remove|, \verb|size|. Use \verb|java.util.LinkedList| for chains. No need to rehash.
+
+\textbf{Exercise 8.6 --- Predict.} For a hash table with $n=1{,}000{,}000$ entries and $N=2{,}000{,}000$ buckets using chaining, roughly how long is the expected chain at any bucket? What if $N=2$?
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item Why does chaining tolerate higher load factors than open addressing?
+  \item Discuss Exercise 8.4 --- the canonical fix is the ``tombstone'' marker. What's the trade-off?
+  \item Java's \texttt{HashMap} switches to a tree for long chains since Java 8 --- why $O(\log n)$ is a defense, not a default.
+\end{itemize}
+\end{disbox}
+
+\end{document}

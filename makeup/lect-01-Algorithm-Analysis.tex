@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L1: Algorithm Analysis}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 1: Algorithm Analysis \& Big-O}{Pre-class brief}{Goodrich Ch.~4}
+
+\begin{objbox}
+By the end of this lecture you should be able to:
+\begin{itemize}[leftmargin=*]
+  \item Count primitive operations in a code fragment.
+  \item Express the running time of an algorithm using Big-O notation.
+  \item Compare growth rates: $O(1) < O(\log n) < O(n) < O(n\log n) < O(n^2) < O(2^n)$.
+  \item Identify the dominant term and ignore lower-order ones / constants.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Why Analyze Algorithms?}
+
+We compare algorithms by how their running time \emph{grows} as input size $n$ grows --- not by stopwatch measurements (those depend on hardware, language, compiler). \textbf{Asymptotic analysis} ignores constant factors and lower-order terms because for large $n$ they don't matter.
+
+\section*{2. Big-O Notation (the only one you must master)}
+
+\begin{notebox}
+$f(n)$ is $O(g(n))$ if there exist constants $c>0$ and $n_0\geq 1$ such that
+\[
+f(n) \leq c\cdot g(n) \quad \text{for all } n \geq n_0.
+\]
+\textbf{Interpretation:} $g(n)$ is an \emph{upper bound} on the growth of $f(n)$.
+\end{notebox}
+
+\textbf{Common growth classes (slow $\to$ fast).}
+\[
+O(1)\ \prec\ O(\log n)\ \prec\ O(\sqrt{n})\ \prec\ O(n)\ \prec\ O(n\log n)\ \prec\ O(n^2)\ \prec\ O(n^3)\ \prec\ O(2^n)\ \prec\ O(n!)
+\]
+
+\textbf{Rules of thumb.}
+\begin{itemize}[leftmargin=*]
+  \item Drop constants: $5n+200 = O(n)$.
+  \item Drop lower-order terms: $n^2+n\log n = O(n^2)$.
+  \item Loops multiply: a loop of $n$ inside a loop of $n$ is $O(n^2)$.
+  \item Halving each step gives $\log n$ (e.g.\ binary search).
+\end{itemize}
+
+\section*{3. A Worked Example}
+
+\begin{lstlisting}
+int sum = 0;
+for (int i = 0; i < n; i++) {        // n iterations
+    for (int j = 0; j < n; j++) {    // n iterations each
+        sum += A[i] * A[j];          // O(1) work
+    }
+}
+\end{lstlisting}
+Total: $n \cdot n \cdot O(1) = O(n^2)$.
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 1.1 --- Count operations.} Give a Big-O for each:
+\begin{enumerate}[label=(\alph*)]
+  \item \verb|for (int i = 0; i < n; i++) sum += i;|
+  \item \verb|for (int i = 0; i < n; i++) for (int j = i; j < n; j++) op();|
+  \item \verb|while (n > 1) { n = n / 2; }|
+  \item Two separate (not nested) loops, one $n$ times, one $n^2$ times.
+  \item A nested loop where the inner loop runs $\log n$ times.
+\end{enumerate}
+
+\textbf{Exercise 1.2 --- Order them.} Sort the following from slowest to fastest growth:
+\[
+n^2,\quad 1000,\quad n\log n,\quad 2^n,\quad \log n,\quad n,\quad n^3
+\]
+
+\textbf{Exercise 1.3 --- True or False (justify).}
+\begin{enumerate}[label=(\alph*)]
+  \item $3n^2 + 5n + 100$ is $O(n^2)$.
+  \item $n\log n$ is $O(n)$.
+  \item $2^{n+1}$ is $O(2^n)$.
+  \item $\log(n^{10})$ is $O(\log n)$.
+\end{enumerate}
+
+\textbf{Exercise 1.4 --- Practical.} You have two algorithms for the same problem. Algorithm A runs in $100n$ steps, Algorithm B runs in $n^2$ steps. For which values of $n$ is A faster?
+
+\textbf{Exercise 1.5 --- Code reading.} Without running it, what is the Big-O of the snippet below? Briefly justify.
+\begin{lstlisting}
+int s = 0;
+for (int i = 1; i < n; i *= 2) {
+    for (int j = 0; j < i; j++) {
+        s++;
+    }
+}
+\end{lstlisting}
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item Why do we ignore constants? When can constants actually matter in practice?
+  \item Compare 1.5: many students answer $O(n\log n)$. Is that correct? Why?
+  \item In what situation would an $O(n^2)$ algorithm be \emph{preferable} to an $O(n\log n)$ one?
+\end{itemize}
+\end{disbox}
+
+\end{document}

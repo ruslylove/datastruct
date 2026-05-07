@@ -1,0 +1,110 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L5: Recursion}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 5: Recursion}{Pre-class brief}{Goodrich Ch.~5}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item Identify the \emph{base case} and \emph{recursive case} in a recursive method.
+  \item Trace a recursion using a stack-frame diagram.
+  \item Write recursive solutions for: factorial, sum, reverse, binary search, Fibonacci.
+  \item Recognize when recursion is wasteful (e.g.\ naive Fibonacci) and how memoization fixes it.
+\end{itemize}
+\end{objbox}
+
+\section*{1. The Recipe}
+
+A correct recursive method always has:
+\begin{enumerate}[leftmargin=*]
+  \item A \textbf{base case} that returns a result with no further recursion.
+  \item A \textbf{recursive case} that calls itself on a \emph{strictly smaller} input.
+\end{enumerate}
+If either is missing, you get an infinite recursion (\texttt{StackOverflowError}).
+
+\begin{lstlisting}
+public static int fact(int n) {
+    if (n <= 1) return 1;          // base case
+    return n * fact(n - 1);        // recursive case (n shrinks)
+}
+\end{lstlisting}
+
+\section*{2. Mental Model: the call stack}
+
+Each call gets its own \emph{stack frame} with its own parameters and locals. Frames are pushed on call and popped on return. Recursion depth $=$ stack height.
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={draw, minimum width=2.6cm, minimum height=0.6cm, font=\small\ttfamily}]
+  \node (f3) {fact(3)};
+  \node[below=0pt of f3] (f2) {fact(2)};
+  \node[below=0pt of f2] (f1) {fact(1) $\to$ 1};
+  \node[right=2cm of f3, draw=none] {top of stack};
+\end{tikzpicture}
+\end{center}
+
+\section*{3. Linear vs.\ Binary Recursion}
+
+\textbf{Linear} (one recursive call): array sum, factorial, linear search.\\
+\textbf{Binary} (two recursive calls): merge sort, Fibonacci, divide-and-conquer.
+
+\textbf{Binary search} is linear recursion (one of two halves):
+\begin{lstlisting}
+int bsearch(int[] a, int lo, int hi, int x) {
+    if (lo > hi) return -1;                          // base
+    int mid = (lo + hi) / 2;
+    if (a[mid] == x) return mid;
+    if (x < a[mid]) return bsearch(a, lo, mid-1, x); // left half
+    return bsearch(a, mid+1, hi, x);                 // right half
+}
+\end{lstlisting}
+Cost: $T(n) = T(n/2) + O(1) \Rightarrow T(n) = O(\log n)$.
+
+\section*{4. The Cost of Naive Fibonacci}
+
+\begin{lstlisting}
+int fib(int n) { return n < 2 ? n : fib(n-1) + fib(n-2); }
+\end{lstlisting}
+Recurrence: $T(n) = T(n-1)+T(n-2)+O(1)$, so $T(n) = O(\varphi^n) \approx O(1.618^n)$. This is exponential. \textbf{Memoization} stores already-computed values in an array and gives $O(n)$.
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 5.1 --- Implement (linear recursion).}
+\begin{enumerate}[label=(\alph*)]
+  \item \verb|int sum(int[] a, int i)| --- sum of \verb|a[i..a.length-1]|, recursive.
+  \item \verb|String reverse(String s)| --- recursive, no loops.
+  \item \verb|boolean isPalindrome(String s, int lo, int hi)| --- recursive.
+\end{enumerate}
+
+\textbf{Exercise 5.2 --- Trace.} Draw the call tree for \texttt{fact(4)} and \texttt{fib(5)}. How many recursive calls did each make?
+
+\textbf{Exercise 5.3 --- Recurrence to Big-O.} Solve each recurrence (loose Big-O is fine):
+\[
+\text{(a)}\ T(n)=T(n-1)+1\quad\text{(b)}\ T(n)=2T(n/2)+n\quad\text{(c)}\ T(n)=T(n/2)+1
+\]
+
+\textbf{Exercise 5.4 --- Memoize Fibonacci.} Write a memoized version using an array \verb|long[] memo|. State its time and space complexity.
+
+\textbf{Exercise 5.5 --- Recursion vs.\ iteration.} Convert the iterative \texttt{factorial} below to recursion, and convert the recursive \texttt{sum} above to iteration.
+\begin{lstlisting}
+long factIter(int n) { long r = 1; for (int i = 2; i <= n; i++) r *= i; return r; }
+\end{lstlisting}
+
+\textbf{Exercise 5.6 --- Pitfall.} What is wrong with this code, and how do you fix it without changing the signature?
+\begin{lstlisting}
+int countDown(int n) {
+    System.out.println(n);
+    return countDown(n - 1);
+}
+\end{lstlisting}
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item Why does naive \texttt{fib} blow up but \texttt{fact} doesn't, even though both are recursive?
+  \item Show how every recursion can be made iterative using an explicit stack --- when is that worth doing?
+  \item In Exercise 5.3(b), what classic algorithm has this exact recurrence?
+\end{itemize}
+\end{disbox}
+
+\end{document}

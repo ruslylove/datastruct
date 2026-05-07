@@ -1,0 +1,106 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L10: Graphs}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 10: Graphs --- BFS, DFS \& Shortest Path}{Pre-class brief}{Goodrich Ch.~14}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item Define a graph $G=(V,E)$ and distinguish directed/undirected, weighted/unweighted.
+  \item Represent a graph with an adjacency list and an adjacency matrix.
+  \item Apply BFS (queue) and DFS (stack/recursion) to traverse a graph.
+  \item Trace Dijkstra's algorithm on a small weighted graph.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Graphs}
+
+A graph $G = (V, E)$ has $n = |V|$ vertices and $m = |E|$ edges. Edges may be \emph{directed} (one-way) or \emph{undirected} (two-way), and may carry \emph{weights}.
+
+\textbf{Adjacency list} (best for sparse graphs): for each vertex $v$, store a list of its neighbors. Memory $O(n+m)$.
+
+\textbf{Adjacency matrix} (best for dense graphs): an $n\times n$ matrix $A$ with $A[u][v]=1$ if edge $(u,v)\in E$. Memory $O(n^2)$.
+
+\section*{2. BFS --- shortest paths in unweighted graphs}
+
+Use a queue and a \texttt{visited} set. Visit vertices in order of distance from the source.
+
+\begin{lstlisting}
+void bfs(List<List<Integer>> adj, int s) {
+    boolean[] seen = new boolean[adj.size()];
+    Queue<Integer> q = new ArrayDeque<>();
+    seen[s] = true; q.add(s);
+    while (!q.isEmpty()) {
+        int u = q.remove();
+        visit(u);
+        for (int v : adj.get(u)) {
+            if (!seen[v]) { seen[v] = true; q.add(v); }
+        }
+    }
+}
+\end{lstlisting}
+
+\textbf{Cost:} $O(n + m)$.
+
+\section*{3. DFS --- explore deeply}
+
+Use the call stack (recursion). Used for connectivity, cycle detection, topological sort.
+
+\begin{lstlisting}
+void dfs(List<List<Integer>> adj, int u, boolean[] seen) {
+    seen[u] = true;
+    visit(u);
+    for (int v : adj.get(u)) if (!seen[v]) dfs(adj, v, seen);
+}
+\end{lstlisting}
+
+\textbf{Cost:} $O(n + m)$.
+
+\section*{4. Dijkstra (single-source shortest path, non-negative weights)}
+
+Maintain $\texttt{dist}[v]$, initially $\infty$ except $\texttt{dist}[s]=0$. Use a min-priority queue keyed by tentative distance.
+
+\begin{enumerate}[leftmargin=*]
+  \item Pull the closest unfinalized vertex $u$.
+  \item For every neighbor $v$, \emph{relax}: if $\texttt{dist}[u] + w(u,v) < \texttt{dist}[v]$, update $\texttt{dist}[v]$.
+  \item Repeat until all vertices finalized.
+\end{enumerate}
+
+\textbf{Cost:} $O((n+m)\log n)$ with a heap-based PQ.
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 10.1 --- Two representations.} For the undirected graph with edges
+\verb|{(A,B), (A,C), (B,D), (C,D), (D,E)}|, draw the adjacency list and write the $5\times 5$ adjacency matrix. Order vertices A--E.
+
+\textbf{Exercise 10.2 --- BFS trace.} Run BFS from \texttt{A} on the graph above. List the visit order and the BFS-tree distances $\text{dist}(A, \cdot)$.
+
+\textbf{Exercise 10.3 --- DFS trace.} Run DFS from \texttt{A}. Visit neighbors in alphabetical order. List the visit order.
+
+\textbf{Exercise 10.4 --- Dijkstra by hand.} On the weighted directed graph
+\[
+A\xrightarrow{1}B,\quad A\xrightarrow{4}C,\quad B\xrightarrow{2}C,\quad B\xrightarrow{5}D,\quad C\xrightarrow{1}D,\quad D\xrightarrow{3}E
+\]
+run Dijkstra from \texttt{A}. Show the \texttt{dist} table after each pull from the PQ.
+
+\textbf{Exercise 10.5 --- Why no negative edges?} Construct a tiny graph (3 vertices) with one negative edge where Dijkstra produces a wrong shortest path.
+
+\textbf{Exercise 10.6 --- Application.} Given a 2D grid with walls, formulate the problem ``shortest number of moves from $S$ to $G$'' as a graph problem. Which traversal would you use, and why?
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item When does adjacency list beat adjacency matrix in practice? When does the matrix win?
+  \item Why does BFS find shortest paths in unweighted graphs but not in weighted ones?
+  \item Discuss Exercise 10.5 --- this is exactly why algorithms like Bellman--Ford exist.
+  \item Wrap-up: how does this whole course --- arrays, lists, queues, heaps, hash maps --- power Dijkstra?
+\end{itemize}
+\end{disbox}
+
+\vspace{1em}
+\noindent
+{\color{primary}\rule{\linewidth}{0.4pt}}\\
+\textbf{End of make-up course.} Practice problems: re-implement each data structure from scratch and time it on $n = 10^3, 10^5, 10^7$.
+
+\end{document}

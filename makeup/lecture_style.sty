@@ -1,0 +1,106 @@
+% Shared style for the make-up Data Structures course
+\ProvidesPackage{lecture_style}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, calc, shapes.multipart}
+
+\tcbuselibrary{breakable, skins}
+
+% Colors
+\definecolor{primary}{HTML}{1F4E79}
+\definecolor{accent}{HTML}{C0392B}
+\definecolor{boxgray}{HTML}{F4F6F8}
+\definecolor{codebg}{HTML}{F8F8F2}
+\definecolor{codekw}{HTML}{1F4E79}
+\definecolor{codecm}{HTML}{6A9955}
+\definecolor{codestr}{HTML}{C0392B}
+
+% Hyperref
+\hypersetup{
+  colorlinks=true,
+  linkcolor=primary,
+  urlcolor=primary,
+  citecolor=primary
+}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries\color{primary}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{primary}}{\thesubsection}{0.5em}{}
+
+% Header / footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{primary}\courseshort}
+\fancyhead[R]{\small\color{primary}\lecturetitle}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Code listings (Java)
+\lstdefinestyle{java}{
+  language=Java,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{codekw}\bfseries,
+  commentstyle=\color{codecm}\itshape,
+  stringstyle=\color{codestr},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  framerule=0pt,
+  rulecolor=\color{boxgray},
+  xleftmargin=10pt,
+  xrightmargin=4pt,
+  tabsize=2
+}
+\lstset{style=java}
+
+% Themed boxes
+\newtcolorbox{objbox}{
+  colback=primary!8, colframe=primary,
+  arc=2pt, boxrule=0.6pt,
+  title=Learning Objectives,
+  fonttitle=\bfseries\color{white},
+  coltitle=white, breakable
+}
+\newtcolorbox{notebox}{
+  colback=boxgray, colframe=primary!60,
+  arc=2pt, boxrule=0.4pt, breakable
+}
+\newtcolorbox{exbox}[1]{
+  colback=accent!5, colframe=accent,
+  arc=2pt, boxrule=0.6pt,
+  title=#1, fonttitle=\bfseries\color{white},
+  coltitle=white, breakable
+}
+\newtcolorbox{disbox}{
+  colback=primary!5, colframe=primary!70,
+  arc=2pt, boxrule=0.5pt,
+  title=In-Class Discussion Prompts,
+  fonttitle=\bfseries\color{white},
+  coltitle=white, breakable
+}
+
+% Title block
+\newcommand{\lectureheader}[3]{%
+  \begin{center}
+    {\color{primary}\rule{\linewidth}{1pt}}\\[2pt]
+    {\Large\bfseries Make-up Course \textbf{·} Data Structures}\\[2pt]
+    {\large\color{primary}\textbf{#1}}\\[2pt]
+    {\small #2 \quad\textbar\quad Reverse Classroom Format \quad\textbar\quad #3}\\[-2pt]
+    {\color{primary}\rule{\linewidth}{0.4pt}}
+  \end{center}
+  \vspace{0.4em}
+}

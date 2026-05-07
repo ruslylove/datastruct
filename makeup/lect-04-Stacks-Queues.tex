@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L4: Stacks \& Queues}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 4: Stacks, Queues \& Deques}{Pre-class brief}{Goodrich Ch.~6}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item State the LIFO (stack) and FIFO (queue) principles and their core operations.
+  \item Implement a stack with an array and with a linked list, both in $O(1)$.
+  \item Implement a queue using a \emph{circular} array.
+  \item Apply stacks/queues to real problems (matching, evaluation, BFS-like simulation).
+\end{itemize}
+\end{objbox}
+
+\section*{1. Stack --- LIFO}
+
+Operations: \texttt{push(e)}, \texttt{pop()}, \texttt{top()}, \texttt{size()}, \texttt{isEmpty()}.
+
+\begin{lstlisting}
+public class ArrayStack<E> {
+    private E[] data;
+    private int t = -1;                 // top index
+    public ArrayStack(int cap) { data = (E[]) new Object[cap]; }
+    public void push(E e) { data[++t] = e; }
+    public E pop()        { E e = data[t]; data[t--] = null; return e; }
+    public E top()        { return data[t]; }
+    public boolean isEmpty() { return t < 0; }
+}
+\end{lstlisting}
+
+A linked-list-based stack uses \texttt{addFirst}/\texttt{removeFirst} of an SLL, so all operations are $O(1)$ and the size is unbounded.
+
+\section*{2. Queue --- FIFO}
+
+Operations: \texttt{enqueue(e)}, \texttt{dequeue()}, \texttt{first()}, \texttt{size()}, \texttt{isEmpty()}.
+
+\textbf{Circular array} avoids shifting on dequeue. Maintain \texttt{f} (index of front) and \texttt{sz} (current size); the back index is $(f+\text{sz}) \bmod N$.
+
+\begin{lstlisting}
+public void enqueue(E e) {
+    if (sz == data.length) throw new IllegalStateException("full");
+    int avail = (f + sz) % data.length;
+    data[avail] = e;
+    sz++;
+}
+public E dequeue() {
+    E e = data[f];
+    data[f] = null;
+    f = (f + 1) % data.length;
+    sz--;
+    return e;
+}
+\end{lstlisting}
+
+\section*{3. Deque (Double-Ended Queue)}
+
+Allows insert/remove at \emph{both} ends in $O(1)$. A doubly linked list with sentinels is the canonical implementation.
+
+\section*{4. Quick Reference}
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Structure} & \textbf{All ops} & \textbf{Notes} \\
+\hline
+Array stack         & $O(1)$ & fixed capacity \\
+Linked stack        & $O(1)$ & dynamic \\
+Circular array queue& $O(1)$ & fixed capacity \\
+DLL deque           & $O(1)$ & dynamic, both ends \\
+\end{tabular}
+\end{center}
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 4.1 --- Bracket matching.} Write a method
+\begin{lstlisting}
+boolean isBalanced(String s);
+\end{lstlisting}
+that returns \texttt{true} iff the brackets in \texttt{s} are balanced. Allowed pairs: \verb|()|, \verb|[]|, \verb|{}|. Use a stack. Examples: \verb|"({[]})"| $\to$ true, \verb|"([)]"| $\to$ false.
+
+\textbf{Exercise 4.2 --- Reverse with a stack.} Use a stack to reverse the contents of an array in place. State the time and space complexity.
+
+\textbf{Exercise 4.3 --- Postfix evaluation.} Evaluate \verb|"5 1 2 + 4 * + 3 -"| step by step using a stack. Show the stack contents after every token.
+
+\textbf{Exercise 4.4 --- Trace circular queue.} Capacity 5, all initially empty. Show \texttt{f}, \texttt{sz}, and array contents after:
+\verb|enq(A); enq(B); enq(C); deq(); deq(); enq(D); enq(E); enq(F);|.
+
+\textbf{Exercise 4.5 --- Implement.} Implement a queue using \emph{two stacks}. \texttt{enqueue} should push to stack 1; \texttt{dequeue} should pop from stack 2 (refilling from stack 1 when empty). Show that the amortized cost of \texttt{dequeue} is $O(1)$.
+
+\textbf{Exercise 4.6 --- When does a deque help?} Give an example task where a deque is strictly better than both a stack and a queue.
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item Why is the back index $(f+\text{sz}) \bmod N$? What goes wrong if you maintain a back pointer instead and just check \texttt{f == back}?
+  \item Discuss Exercise 4.5 --- where exactly does the amortized argument break down if both stacks aren't used carefully?
+  \item Real-world: how does the JVM call stack relate to recursion (preview of Lecture 5)?
+\end{itemize}
+\end{disbox}
+
+\end{document}

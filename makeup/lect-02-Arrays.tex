@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L2: Arrays \& Dynamic Arrays}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 2: Arrays \& Dynamic Arrays}{Pre-class brief}{Goodrich Ch.~3, 7.1--7.2}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item Use Java arrays: declaration, indexing, length, two-dimensional arrays.
+  \item Implement \texttt{insert}, \texttt{remove}, and \texttt{search} on a fixed-size array.
+  \item Explain why a dynamic array (\texttt{ArrayList}) doubles capacity.
+  \item Perform an \emph{amortized} analysis of \texttt{add}.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Arrays --- the Basics}
+
+A Java array is a contiguous, fixed-size block of cells of one type.
+\begin{lstlisting}
+int[] a = new int[5];          // all zero
+int[] b = {7, 12, 1, -5, 9};   // literal
+int x = b[2];                  // O(1) random access
+int n = b.length;              // length is a field
+\end{lstlisting}
+
+\textbf{Cost of operations on a fixed array of size $n$.}
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Operation} & \textbf{Time} & \textbf{Why} \\
+\hline
+read/write \texttt{a[k]}  & $O(1)$ & address arithmetic \\
+search (unsorted)         & $O(n)$ & may scan everything \\
+insert at position $k$    & $O(n)$ & shift right \\
+remove at position $k$    & $O(n)$ & shift left \\
+\end{tabular}
+\end{center}
+
+\section*{2. Dynamic Arrays (Java's \texttt{ArrayList})}
+
+A dynamic array stores elements in a backing array and \emph{grows} when full. The standard strategy is \textbf{doubling} the capacity.
+
+\begin{lstlisting}
+public void add(E e) {
+    if (size == capacity) resize(2 * capacity);
+    data[size++] = e;
+}
+private void resize(int newCap) {
+    E[] tmp = (E[]) new Object[newCap];
+    for (int i = 0; i < size; i++) tmp[i] = data[i];
+    data = tmp;
+}
+\end{lstlisting}
+
+\textbf{Amortized analysis.} A single \texttt{add} can cost $O(n)$ when a resize happens, but \emph{across $n$ adds} the total work is $O(n)$, so the average cost per add is $O(1)$ amortized.
+
+\section*{3. Quick Reference}
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Op} & \textbf{Worst case} & \textbf{Amortized} \\
+\hline
+\texttt{add(e)} at end          & $O(n)$ (on resize) & $O(1)$ \\
+\texttt{add(i, e)} at index $i$ & $O(n)$ & $O(n)$ \\
+\texttt{get(i)}, \texttt{set(i)}& $O(1)$ & $O(1)$ \\
+\texttt{remove(i)}              & $O(n)$ & $O(n)$ \\
+\end{tabular}
+\end{center}
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 2.1 --- Trace.} Start with an empty \texttt{ArrayList} of capacity 1 using doubling. Show the capacity after each of: \texttt{add(a), add(b), add(c), add(d), add(e), add(f), add(g)}. How many element copies happened in total?
+
+\textbf{Exercise 2.2 --- Implement.} Write a Java method
+\begin{lstlisting}
+public static int[] removeAt(int[] a, int size, int k)
+\end{lstlisting}
+that removes the element at index $k$ from the first \texttt{size} elements of \texttt{a} (shifting subsequent elements left) and returns the new logical size. Do not allocate a new array.
+
+\textbf{Exercise 2.3 --- Implement.} Write \verb|insertSorted(int[] a, int size, int x)| that inserts \texttt{x} into a \emph{sorted} prefix of length \texttt{size}, keeping it sorted. Assume capacity is sufficient.
+
+\textbf{Exercise 2.4 --- 2D arrays.} Write a method that returns the \emph{transpose} of an $m\times n$ matrix, given as \texttt{int[][] M}. What is its time complexity?
+
+\textbf{Exercise 2.5 --- Why doubling?} Suppose the dynamic array grew by a fixed amount (say \texttt{capacity + 10}) instead of doubling. Show that the amortized cost of \texttt{add} becomes $O(n)$ instead of $O(1)$.
+
+\textbf{Exercise 2.6 --- Bug hunt.} The following ``shrink'' rule \emph{causes thrashing}. Find a sequence of operations that makes it bad.
+\begin{lstlisting}
+// after remove:
+if (size < capacity / 2) resize(capacity / 2);
+\end{lstlisting}
+Suggest a fix.
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item How does Big-O hide the difference between ``always $O(n)$'' and ``occasionally $O(n)$, usually $O(1)$''?
+  \item When should you choose a fixed array over an \texttt{ArrayList}?
+  \item Walk through Exercise 2.6: why is shrinking at $1/2$ bad and shrinking at $1/4$ better?
+\end{itemize}
+\end{disbox}
+
+\end{document}

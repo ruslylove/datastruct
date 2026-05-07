@@ -1,0 +1,134 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{Course Timetable}
+\usepackage{lecture_style}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{colortbl}
+
+\definecolor{rowalt}{HTML}{F4F6F8}
+\definecolor{examrow}{HTML}{FDECEA}
+\definecolor{pmrow}{HTML}{FFF8E1}
+\definecolor{headblue}{HTML}{1F4E79}
+
+\begin{document}
+\lectureheader{Course Timetable}{Make-up Semester · May 2026}{Reverse-Classroom Format}
+
+\begin{objbox}
+\textbf{How to use this timetable.} For each lecture, complete the \emph{pre-class exercises} from the corresponding lecture note \emph{before} the meeting. Each session is then a guided discussion of your work, common pitfalls, and deeper questions.
+\end{objbox}
+
+\section*{Schedule}
+
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{8pt}
+
+\noindent
+\begin{tabular}{@{}>{\centering\arraybackslash}p{0.9cm}
+                  >{\centering\arraybackslash}p{2.4cm}
+                  >{\centering\arraybackslash}p{2.4cm}
+                  >{\raggedright\arraybackslash}p{6.6cm}
+                  >{\centering\arraybackslash}p{2.0cm}@{}}
+\toprule
+\rowcolor{headblue}
+{\color{white}\textbf{\#}} &
+{\color{white}\textbf{Date}} &
+{\color{white}\textbf{Time}} &
+{\color{white}\textbf{Topic}} &
+{\color{white}\textbf{Pre-class}}\\
+\midrule
+
+\textbf{1} & Mon, May 11 & \cellcolor{pmrow}1:00 -- 3:00 pm & Algorithm Analysis \& Big-O & L1 ex. \\
+\textbf{2} & Tue, May 12 & 9:00 -- 11:00 am & Arrays \& Dynamic Arrays & L2 ex. \\
+\rowcolor{rowalt}
+\textbf{3} & Thu, May 14 & 9:00 -- 11:00 am & Singly \& Doubly Linked Lists & L3 ex. \\
+\textbf{4} & Fri, May 15 & 9:00 -- 11:00 am & Stacks, Queues \& Deques & L4 ex. \\
+\rowcolor{rowalt}
+\textbf{5} & Mon, May 18 & 9:00 -- 11:00 am & Recursion & L5 ex. \\
+\textbf{6} & Tue, May 19 & 9:00 -- 11:00 am & Trees \& Binary Trees & L6 ex. \\
+\rowcolor{rowalt}
+\textbf{7} & Thu, May 21 & 9:00 -- 11:00 am & Priority Queues \& Heaps & L7 ex. \\
+\textbf{8} & Fri, May 22 & \cellcolor{pmrow}1:00 -- 3:00 pm & Maps \& Hash Tables & L8 ex. \\
+\rowcolor{rowalt}
+\textbf{9} & Mon, May 25 & 9:00 -- 11:00 am & Binary Search Trees \& Sorting & L9 ex. \\
+\textbf{10} & Tue, May 26 & 9:00 -- 11:00 am & Graphs: BFS, DFS \& Dijkstra & L10 ex. \\
+\midrule
+\rowcolor{examrow}
+\textbf{F} & \textbf{Wed, May 27} & \textbf{9:00 am -- 12:00 pm} & \textbf{Final Examination (3 hours)} & all topics \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.3em}
+\noindent\small
+\textit{Sessions in highlighted yellow are afternoon (1--3 pm); all others are 9--11 am. The exam in red is a 3-hour comprehensive test.}
+
+\section*{Calendar View}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|>{\centering\arraybackslash}p{1.7cm}|*{6}{>{\centering\arraybackslash}p{1.55cm}|}}
+\hline
+\rowcolor{headblue}
+{\color{white}\textbf{Week}} &
+{\color{white}\textbf{Mon}} &
+{\color{white}\textbf{Tue}} &
+{\color{white}\textbf{Wed}} &
+{\color{white}\textbf{Thu}} &
+{\color{white}\textbf{Fri}} &
+{\color{white}\textbf{Sat/Sun}}\\
+\hline
+\textbf{Wk 1}\newline\small May 11--17
+& \cellcolor{pmrow}\textbf{11}\newline\small L1\newline\tiny 1--3 pm
+& \textbf{12}\newline\small L2\newline\tiny 9--11 am
+& 13
+& \textbf{14}\newline\small L3\newline\tiny 9--11 am
+& \textbf{15}\newline\small L4\newline\tiny 9--11 am
+& 16/17 \\
+\hline
+\textbf{Wk 2}\newline\small May 18--24
+& \textbf{18}\newline\small L5\newline\tiny 9--11 am
+& \textbf{19}\newline\small L6\newline\tiny 9--11 am
+& 20
+& \textbf{21}\newline\small L7\newline\tiny 9--11 am
+& \cellcolor{pmrow}\textbf{22}\newline\small L8\newline\tiny 1--3 pm
+& 23/24 \\
+\hline
+\textbf{Wk 3}\newline\small May 25--31
+& \textbf{25}\newline\small L9\newline\tiny 9--11 am
+& \textbf{26}\newline\small L10\newline\tiny 9--11 am
+& \cellcolor{examrow}\textbf{27}\newline\small\textbf{EXAM}\newline\tiny 9 am--12 pm
+& --
+& --
+& -- \\
+\hline
+\end{tabular}
+\end{center}
+
+\section*{Workload Estimate}
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+\textbf{Activity} & \textbf{Hours} \\
+\midrule
+10 lectures (2 h each)                 & 20 h \\
+Pre-class exercises ($\sim$2 h per lecture) & 20 h \\
+Final-exam preparation                 & 8--12 h \\
+Final exam                             & 3 h \\
+\midrule
+\textbf{Total} & \textbf{$\sim$51--55 h} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Ground Rules (Reverse Classroom)}
+
+\begin{itemize}[leftmargin=*]
+  \item Bring \textbf{written attempts} of the pre-class exercises to every session, even if incomplete --- ``stuck'' is useful information.
+  \item Sessions focus on \textbf{your work first}, mini-lectures only where confusion is shared.
+  \item Late or missing pre-class work means the session becomes lecture-only, which we both want to avoid.
+  \item The final exam is comprehensive and weighted toward the kinds of problems found in the pre-class exercises.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L6: Trees \& Binary Trees}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 6: Trees \& Binary Trees}{Pre-class brief}{Goodrich Ch.~8}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item Define tree terminology: root, child, parent, leaf, depth, height, ancestor.
+  \item Implement a linked binary-tree node with \texttt{left}, \texttt{right}, \texttt{parent}.
+  \item Perform preorder, inorder, postorder, and level-order traversals.
+  \item Compute the height of a tree recursively.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Vocabulary}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Root}: the topmost node (no parent).
+  \item \textbf{Leaf}: a node with no children.
+  \item \textbf{Depth} of a node: number of edges from the root to that node.
+  \item \textbf{Height} of a tree: the maximum depth of any node (a single-node tree has height 0).
+  \item \textbf{Subtree} rooted at $v$: $v$ and all its descendants.
+\end{itemize}
+
+\section*{2. Binary Tree --- linked node}
+
+\begin{lstlisting}
+class TNode<E> {
+    E element;
+    TNode<E> left, right, parent;
+    TNode(E e) { element = e; }
+}
+\end{lstlisting}
+
+A binary tree is \textbf{full} if every node has 0 or 2 children, \textbf{complete} if all levels are full except possibly the last, which is filled left-to-right, and \textbf{perfect} if it is full and all leaves have the same depth.
+
+\section*{3. The Four Traversals}
+
+\begin{center}
+\begin{tikzpicture}[
+  every node/.style={circle, draw, minimum size=0.7cm, font=\small\sffamily}
+]
+  \node (a) {A};
+  \node[below left=0.8cm and 1.3cm of a] (b) {B};
+  \node[below right=0.8cm and 1.3cm of a] (c) {C};
+  \node[below left=0.8cm and 0.4cm of b] (d) {D};
+  \node[below right=0.8cm and 0.4cm of b] (e) {E};
+  \node[below right=0.8cm and 0.4cm of c] (f) {F};
+  \draw (a) -- (b); \draw (a) -- (c);
+  \draw (b) -- (d); \draw (b) -- (e); \draw (c) -- (f);
+\end{tikzpicture}
+\end{center}
+
+For the tree above:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Preorder} (root, left, right): A, B, D, E, C, F
+  \item \textbf{Inorder} (left, root, right): D, B, E, A, C, F
+  \item \textbf{Postorder} (left, right, root): D, E, B, F, C, A
+  \item \textbf{Level-order} (BFS, uses a queue): A, B, C, D, E, F
+\end{itemize}
+
+\begin{lstlisting}
+void preorder(TNode<E> v) {
+    if (v == null) return;
+    visit(v);
+    preorder(v.left);
+    preorder(v.right);
+}
+\end{lstlisting}
+
+\section*{4. Useful recursive computations}
+
+\begin{lstlisting}
+int height(TNode<E> v) {
+    if (v == null) return -1;
+    return 1 + Math.max(height(v.left), height(v.right));
+}
+int size(TNode<E> v) {
+    if (v == null) return 0;
+    return 1 + size(v.left) + size(v.right);
+}
+\end{lstlisting}
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 6.1 --- Build by hand.} Draw the binary tree obtained by inserting (in order) the keys
+\verb|50, 30, 70, 20, 40, 60, 80| as a binary tree where smaller goes left and larger goes right (a BST). Then list its pre-, in-, post-, and level-order traversals.
+
+\textbf{Exercise 6.2 --- Implement.} Write recursive Java methods (with the signature you need):
+\begin{enumerate}[label=(\alph*)]
+  \item \verb|countLeaves(v)| --- number of leaf nodes in the subtree rooted at \texttt{v}.
+  \item \verb|sumElements(v)| --- sum of all integer elements (assume \verb|TNode<Integer>|).
+  \item \verb|depth(v)| --- the depth of node \texttt{v} (use the parent pointer; iterative is fine).
+\end{enumerate}
+
+\textbf{Exercise 6.3 --- Reconstruct.} Given preorder $=$ A,B,D,E,C,F and inorder $=$ D,B,E,A,C,F, reconstruct the tree. (You'll discuss the algorithm in class.)
+
+\textbf{Exercise 6.4 --- Level order.} Implement \verb|levelOrder(root)| using a \verb|Queue<TNode<E>>|. Print the elements in level order.
+
+\textbf{Exercise 6.5 --- True or False (justify).}
+\begin{enumerate}[label=(\alph*)]
+  \item In a perfect binary tree of height $h$, the number of leaves is $2^h$.
+  \item In a binary tree with $n$ nodes, height can be as small as $\lfloor\log_2 n\rfloor$ and as large as $n-1$.
+  \item Inorder traversal of a BST visits keys in sorted order.
+\end{enumerate}
+
+\textbf{Exercise 6.6 --- Mirror.} Write a method that mirrors a binary tree (swap left/right of every node) in $O(n)$ time.
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item Why is preorder ``natural'' for printing structure but inorder ``natural'' for sorted output?
+  \item What's the connection between traversal order and the data structures used (stack vs.\ queue)?
+  \item What goes wrong with \texttt{height} if the tree is very deep? (Preview: stack vs.\ heap memory.)
+\end{itemize}
+\end{disbox}
+
+\end{document}

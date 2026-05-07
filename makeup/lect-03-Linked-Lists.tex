@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+\newcommand{\courseshort}{Data Structures (Make-up) · 010153103}
+\newcommand{\lecturetitle}{L3: Linked Lists}
+\usepackage{lecture_style}
+
+\begin{document}
+\lectureheader{Lecture 3: Singly \& Doubly Linked Lists}{Pre-class brief}{Goodrich Ch.~3, 7.3--7.4}
+
+\begin{objbox}
+\begin{itemize}[leftmargin=*]
+  \item Build a node class and link nodes via references.
+  \item Implement \texttt{addFirst}, \texttt{addLast}, \texttt{removeFirst}, \texttt{removeLast} on singly and doubly linked lists.
+  \item Use sentinel nodes (header/trailer) and explain why they simplify code.
+  \item Choose between array-based and linked structures based on operation costs.
+\end{itemize}
+\end{objbox}
+
+\section*{1. Singly Linked List (SLL)}
+
+\begin{center}
+\begin{tikzpicture}[
+  node/.style={rectangle split, rectangle split parts=2, rectangle split horizontal,
+               draw, thick, minimum height=0.7cm, rectangle split part fill={white, gray!10}},
+  ptr/.style={->, thick, blue, >=Stealth}
+]
+  \node[node] (a) {\textbf{a} \nodepart{two} \phantom{xx}};
+  \node[node, right=1.4cm of a] (b) {\textbf{b} \nodepart{two} \phantom{xx}};
+  \node[node, right=1.4cm of b] (c) {\textbf{c} \nodepart{two} \phantom{xx}};
+  \node[right=1.0cm of c] (null) {$\phi$};
+  \node[above=0.7cm of a, draw, circle, fill=red!10] (h) {head};
+  \draw[ptr] (h) -- (a.north);
+  \draw[ptr] (a.two) -- (b.west);
+  \draw[ptr] (b.two) -- (c.west);
+  \draw[ptr] (c.two) -- (null.west);
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+class Node<E> {
+    E element;
+    Node<E> next;
+    Node(E e, Node<E> n) { element = e; next = n; }
+}
+\end{lstlisting}
+
+\textbf{Costs.} \texttt{addFirst}, \texttt{removeFirst} are $O(1)$. \texttt{addLast} is $O(1)$ \emph{only} if a tail pointer is kept; otherwise $O(n)$. \textbf{\texttt{removeLast} is always $O(n)$} on an SLL because there is no back pointer.
+
+\section*{2. Doubly Linked List (DLL)}
+
+Each node has both \texttt{prev} and \texttt{next}. With \emph{header} and \emph{trailer} sentinel nodes, every real node has non-null neighbors --- no special cases for the ends.
+
+\begin{lstlisting}
+class DNode<E> {
+    E element;
+    DNode<E> prev, next;
+}
+public void addBetween(E e, DNode<E> a, DNode<E> b) {
+    DNode<E> x = new DNode<>(); x.element = e;
+    x.prev = a; x.next = b;
+    a.next = x; b.prev = x;
+}
+\end{lstlisting}
+
+\textbf{Costs (DLL).} \texttt{addFirst}, \texttt{addLast}, \texttt{removeFirst}, \texttt{removeLast} are all $O(1)$.
+
+\section*{3. Array vs.\ Linked --- when to use which?}
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Operation} & \textbf{ArrayList} & \textbf{DLL} \\
+\hline
+random access \texttt{get(i)}    & $O(1)$ & $O(n)$ \\
+add/remove at end (tail)         & $O(1)^*$ & $O(1)$ \\
+add/remove at front (head)       & $O(n)$ & $O(1)$ \\
+add/remove at known node         & $O(n)$ & $O(1)$ \\
+memory per element               & low & higher (2 pointers) \\
+\end{tabular}\\[2pt]
+\small $^*$amortized
+\end{center}
+
+\begin{exbox}{Pre-Class Exercises (do BEFORE the lecture)}
+\textbf{Exercise 3.1 --- Implement.} Complete the SLL methods (do not use a tail pointer):
+\begin{lstlisting}
+public void addFirst(E e);
+public E    removeFirst();
+public int  size();         // O(n) is fine
+\end{lstlisting}
+
+\textbf{Exercise 3.2 --- Why is removeLast slow on SLL?} In one sentence, explain why \texttt{removeLast} is $O(n)$ on a singly linked list \emph{even with a tail pointer}.
+
+\textbf{Exercise 3.3 --- Reverse.} Write a method \verb|reverse()| that reverses an SLL in place in $O(n)$ time and $O(1)$ extra memory. Hint: walk the list with three pointers \texttt{prev}, \texttt{cur}, \texttt{next}.
+
+\textbf{Exercise 3.4 --- DLL with sentinels.} Sketch a DLL with a header and trailer holding the elements [\,a, b, c\,]. Then show, on your sketch, the pointer changes for: (i) \texttt{addFirst(z)}, (ii) \texttt{remove(b)}.
+
+\textbf{Exercise 3.5 --- Choose the right structure.}
+\begin{enumerate}[label=(\alph*)]
+  \item Browser back/forward navigation history.
+  \item A list of pixels accessed by index for an image filter.
+  \item A music playlist where users insert/remove songs anywhere.
+  \item Storing the last 1000 log lines (newest pushes oldest out).
+\end{enumerate}
+For each, choose array, ArrayList, SLL, or DLL, and justify briefly.
+
+\textbf{Exercise 3.6 --- Trace.} Starting from an empty DLL, draw the structure after:
+\verb|addLast(1); addLast(2); addFirst(0); remove(1); addLast(3);|.
+\end{exbox}
+
+\begin{disbox}
+\begin{itemize}[leftmargin=*]
+  \item How does adding sentinel nodes eliminate edge cases? Show the bug if they are removed.
+  \item When does the cache-friendliness of arrays beat the asymptotic advantage of linked lists?
+  \item Discuss Exercise 3.3 --- in interviews this is the canonical linked-list question.
+\end{itemize}
+\end{disbox}
+
+\end{document}
