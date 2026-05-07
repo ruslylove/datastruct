@@ -16,11 +16,5 @@
   "devDependencies": {
     "playwright-chromium": "^1.53.2",
     "slidev-addon-graph": "^0.1.1"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "playwright-chromium"
-    ]
   }
 }
