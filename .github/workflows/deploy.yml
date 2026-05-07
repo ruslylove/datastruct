@@ -39,6 +39,9 @@ jobs:
       - name: Build
         run: nr build --base /${{github.event.repository.name}}/
 
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Export PDF
         run: nr export --output dist/slides.pdf
 
