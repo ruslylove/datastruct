@@ -33,6 +33,8 @@ addons:
 
 favicon: favicon_2.png
 
+download: 'https://ruslylove.github.io/datastruct/slides.pdf'
+
 presenter: Dr. Ruslee Sutthaweekul
 semester: 3/2025
 subject: 010153523 Algorithms and Data Structures
