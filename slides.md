@@ -34,8 +34,8 @@ addons:
 favicon: favicon_2.png
 
 presenter: Dr. Ruslee Sutthaweekul
-semester: 1/2025
-subject: 010153523 Algorithms and Data Structures 
+semester: 3/2025
+subject: 010153523 Algorithms and Data Structures
 ---
 
 # Welcome to Algorithms and Data Structures
