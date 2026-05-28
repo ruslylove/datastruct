@@ -883,6 +883,7 @@ Here’s how the choice of underlying data structure (Array vs. Doubly Linked Li
 
 ---
 layout: default
+hideInToc: true
 ---
 
 ## Implementation Complexity Comparison (Cont.)

@@ -20,7 +20,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="3"/>
+<toc mode="onlySiblings" minDepth="2" columns="2"/>
 
 ---
 layout: two-cols
@@ -184,6 +184,8 @@ graph LR
 * **Spanning Subgraph:** A subgraph `H` of `G` that includes *all* vertices of `G`.
 
 ---
+hideInToc: true
+---
 
 ## Connectivity: Examples
 
@@ -217,6 +219,8 @@ graph TD
 </div>
 </div>
 
+---
+hideInToc: true
 ---
 
 ## Vertices and Edges as Objects
@@ -263,6 +267,7 @@ Defines core operations for manipulating graph structures:
 
 ---
 layout: two-cols-header
+hideInToc: true
 ---
 
 ## Graph Implementation: Edge List Structure
@@ -343,6 +348,7 @@ graph TD
 
 ---
 layout: two-cols-header
+hideInToc: true
 ---
 
 ## Graph Implementation: Adjacency Matrix Structure
@@ -394,6 +400,8 @@ graph LR
 </Transform>
 
 ---
+hideInToc: true
+---
 
 ## Performance Trade-offs
 <Transform scale="0.8">
@@ -442,6 +450,8 @@ Algorithm DFS(G, u):
 * **Output:** Labels edges as "discovery" (forming a spanning tree) or "back" edges.
 
 ---
+hideInToc: true
+---
 
 ## Example: Depth-First Search (DFS)
 
@@ -470,6 +480,8 @@ graph TD
 </div>
 
 ---
+hideInToc: true
+---
 
 ## DFS Properties
 
@@ -486,6 +498,8 @@ DFS from a vertex `v` explores as deeply as possible before backtracking. This l
 
 
 ---
+hideInToc: true
+---
 
 ## DFS Applications
 
@@ -496,6 +510,7 @@ DFS from a vertex `v` explores as deeply as possible before backtracking. This l
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 ## Path Finding using DFS
@@ -531,6 +546,7 @@ Algorithm pathDFS(G, v, z, S): // S is the stack
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 ## Cycle Finding using DFS
 
@@ -603,6 +619,8 @@ Algorithm BFS(G, s):
 ```
 
 ---
+hideInToc: true
+---
 
 ## Example: Breadth-First Search (BFS)
 
@@ -639,6 +657,7 @@ graph TD
 
 ---
 layout: default
+hideInToc: true
 ---
 
 ## BFS Properties
@@ -653,6 +672,8 @@ BFS from a source `s` has several key properties related to path lengths and the
 *   **Cross Edges:** A non-discovery edge `(u, v)` (a cross edge) connects vertices `u` and `v` where either `level(v) = level(u)` or `level(v) = level(u) + 1`.
 *   **Time Complexity:** $O(n + m)$ with an adjacency list.
 
+---
+hideInToc: true
 ---
 
 ## BFS Applications
@@ -674,6 +695,8 @@ BFS from a source `s` has several key properties related to path lengths and the
 | Shortest Paths  | No (finds *a* path)                 | Yes (finds shortest path in edge count) |
 | Memory (Worst)  | $O(n)$ (recursion depth)              | $O(n)$ (queue size, can be large)         |
 
+---
+hideInToc: true
 ---
 
 ## Spanning Trees: DFS vs. BFS
@@ -730,6 +753,8 @@ graph LR
 ```
 
 ---
+hideInToc: true
+---
 
 ## Transitive Closure
 
@@ -741,6 +766,7 @@ graph LR
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 ## Floyd-Warshall Algorithm

@@ -7,7 +7,7 @@ background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
 title: Welcome to Algorithm and Data Structures
 info: |
-  <img src="https://ece.eng.kmutnb.ac.th/en/wp-content/uploads/2023/10/cropped-cropped-ECET-Shirt.png" style="height:120px;margin:auto">
+  <img src="/ece-logo.png" style="height:120px;margin:auto">
   <br>
 
   ## 010153523 Algorithms and Data Structures  
@@ -36,7 +36,7 @@ favicon: favicon_2.png
 download: 'https://ruslylove.github.io/datastruct/slides.pdf'
 
 presenter: Dr. Ruslee Sutthaweekul
-semester: 3/2025
+semester: 1/2026
 subject: 010153523 Algorithms and Data Structures
 ---
 
@@ -74,94 +74,61 @@ The last comment block of each slide will be treated as slide notes. It will be 
 src: ./lectures/syllabus.md
 ---
 ---
-src: ./lectures/lect-0-Intro-to-Java.md
+src: ./lectures/lect-01-Intro-to-Java.md
 ---
 ---
-src: ./lectures/end.md
+src: ./lectures/lect-02-Algorithms-Analysis.md
 ---
 ---
-src: ./lectures/lect-1-Algorithms-Analysis.md
+src: ./lectures/lect-03-Arrays.md
 ---
 ---
-src: ./lectures/lect-2-Arrays.md
+src: ./lectures/lect-04-Singly-Linked-List.md
 ---
 ---
-src: ./lectures/end.md
+src: ./lectures/lect-05-Doubly-Linked-List.md
 ---
 ---
-src: ./lectures/lect-3-Singly-Linked-List.md
+src: ./lectures/lect-06-Stack.md
 ---
 ---
-src: ./lectures/end.md
+src: ./lectures/lect-07-Queues.md
 ---
 ---
-src: ./lectures/lect-5-Stack.md
+src: ./lectures/lect-08-Queues-DEQ.md
 ---
 ---
-src: ./lectures/lect-6-Queues.md
+src: ./lectures/lect-09-Lists.md
 ---
 ---
-src: ./lectures/end.md
+src: ./lectures/lect-10-Recursions.md
 ---
 ---
-src: ./lectures/lect-4-Doubly-Linked-List.md
+src: ./lectures/lect-11-Trees.md
 ---
 ---
-src: ./lectures/lect-6-Queues-DEQ.md
+src: ./lectures/lect-12-Priority-Queues.md
 ---
 ---
-src: ./lectures/lect-7-Lists.md
+src: ./lectures/lect-13-Heap.md
 ---
 ---
-src: ./lectures/end.md
+src: ./lectures/lect-14-Maps.md
 ---
 ---
-src: ./lectures/lect-8-Recursions.md
+src: ./lectures/lect-15-Hash-Tables.md
 ---
 ---
-src: ./lectures/lect-9-Trees.md
+src: ./lectures/lect-16-Binary-Search-Trees.md
 ---
 ---
-src: ./lectures/end.md
+src: ./lectures/lect-17-Mergesort-Quicksort.md
 ---
 ---
-src: ./lectures/lect-10-PriQ.md
+src: ./lectures/lect-18-Graph.md
 ---
 ---
-src: ./lectures/lect-11-Heap.md
----
----
-src: ./lectures/end.md
----
----
-src: ./lectures/lect-12-Maps.md
----
----
-src: ./lectures/lect-13-Hash-Tables.md
----
----
-src: ./lectures/lect-14-Binary-Search-Trees.md
----
----
-src: ./lectures/end.md
----
----
-src: ./lectures/lect-15-Mergesort-Quicksort.md
----
----
-src: ./lectures/end.md
----
----
-src: ./lectures/lect-16-Graph.md
----
----
-src: ./lectures/end.md
----
----
-src: ./lectures/lect-17-Shortest-path.md
----
----
-src: ./lectures/end.md
+src: ./lectures/lect-19-Shortest-path.md
 ---
 ---
 src: ./lectures/asmnt-1-Bangkok-Transit.md

@@ -407,6 +407,8 @@ private static void drawLine(int tickLength) {
 ```
 
 ---
+hideInToc: true
+---
 
 ## Algorithm for Solving Puzzles via Multiple Recursion
 

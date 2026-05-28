@@ -20,7 +20,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="1"/>
 
 
 ---
@@ -188,6 +188,8 @@ graph TD
     3.  Repeat the upheap process until the heap-order property is restored.
 
 ---
+hideInToc: true
+---
 
 ## Heap Insertion Example Trace
 
@@ -231,6 +233,8 @@ graph TD
 
 </div>
 </div>
+---
+hideInToc: true
 ---
 
 ## Heap Insertion Example Trace (cont.)
@@ -298,6 +302,8 @@ graph TD
     5.  Return the saved minimum entry.
 
 ---
+hideInToc: true
+---
 
 ## Heap Removal Example Trace
 
@@ -351,6 +357,8 @@ graph TD
 </div>
 </div>
 
+---
+hideInToc: true
 ---
 
 ## Heap Removal Example Trace (cont.)
@@ -427,6 +435,8 @@ graph TD
     3.  For each node `p` in this iteration, perform a **downheap** operation starting from `p` to fix the heap property within the subtree rooted at `p`.
 
 ---
+hideInToc: true
+---
 
 ## Bottom-Up Heap Construction Example Trace
 
@@ -473,6 +483,8 @@ graph TD
 </div>
 </div>
 
+---
+hideInToc: true
 ---
 
 ## Bottom-Up Heap Construction Example Trace (cont.)

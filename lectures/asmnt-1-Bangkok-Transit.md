@@ -24,7 +24,7 @@ layout: two-cols
 
 :: right ::
 
-<img src="https://www.thailandselftours.com/images/Maps/bangkok_transport.jpg" style="width: 400px"/>
+<img src="/bangkok-transit-map.jpg" style="width: 400px"/>
 
 ---
 

@@ -39,6 +39,8 @@ hideInToc: false
     * **OOP:** Java is arguably *more* object-oriented; almost everything is an object or belongs to a class.
 
 ---
+hideInToc: true
+---
 
 ## Setting Up Your Java Environment
 
@@ -493,6 +495,8 @@ public class SimpleListExample {
 }
 ```
 
+---
+hideInToc: true
 ---
 
 ## Bridging to Algorithm & Data Structures

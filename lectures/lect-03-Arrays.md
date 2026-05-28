@@ -19,7 +19,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="1"/>
 
 ---
 
@@ -42,6 +42,8 @@ An array provides a way to store a sequence of items, where all items are of the
 
 
 ---
+hideInToc: true
+---
 
 ## Creating Arrays: Method 1 (Literal Assignment)
 
@@ -55,6 +57,8 @@ elementType[] arrayName = {initialValue_0, initialValue_1, ..., initialValue_N-1
 * `arrayName`: A valid Java variable name.
 * The initial values provided must match the `elementType`.
 
+---
+hideInToc: true
 ---
 
 ## Creating Arrays: Method 2 (Using `new`)
@@ -96,6 +100,7 @@ Arrays are versatile:
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 
@@ -144,6 +149,7 @@ public class GameEntry {
 -->
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 ## Java Example: `Scoreboard` Class
@@ -216,6 +222,8 @@ To insert a new entry `e` at a specific index `i` in our sorted `board` array, w
 -->
 
 ---
+hideInToc: true
+---
 
 ## Java Example: `add` Method for Scoreboard
 
@@ -265,6 +273,8 @@ To remove an entry `e` currently at index `i`:
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/20220722211151/DeletedOperationinSortedArray.png" style="height:250px;padding-top:30px">
 -->
 
+---
+hideInToc: true
 ---
 
 ## Java Example: `remove` Method (Conceptual)
@@ -384,6 +394,8 @@ How does it work? By creating a new, larger array and copying the contents when 
 
 
 ---
+hideInToc: true
+---
 
 ## How Dynamic Arrays Grow
 
@@ -401,6 +413,7 @@ This resizing step is the key to the dynamic behavior.
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 
@@ -444,6 +457,7 @@ private void resize() {
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 ## Amortized Analysis of Growth
@@ -476,6 +490,8 @@ This makes dynamic arrays very efficient in practice, which is why they are so w
     * **Allows Duplicates:** You can store the same element multiple times.
 
 ---
+hideInToc: true
+---
 
 ## Creating an `ArrayList`
 
@@ -505,6 +521,7 @@ public class ArrayListExample {
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 ## Common `ArrayList` Methods
@@ -524,6 +541,8 @@ layout: two-cols
 * **`contains(Object o)`:** Returns `true` if the list contains the specified element. Complexities: $O(n)$
 
 
+---
+hideInToc: true
 ---
 
 ## `ArrayList` Example Usage
@@ -563,6 +582,8 @@ public class StudentList {
 ```
 
 ---
+hideInToc: true
+---
 
 ## Iterating Through an `ArrayList`
 
@@ -592,6 +613,8 @@ There are several ways to iterate over the elements:
     ```
 
 
+---
+hideInToc: true
 ---
 
 ## Iterating Through an `ArrayList` (Cont.)

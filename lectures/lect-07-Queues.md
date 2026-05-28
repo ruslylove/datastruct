@@ -372,6 +372,8 @@ public E dequeue() {
 *(Note: Includes the remaining core methods)*
 
 ---
+hideInToc: true
+---
 
 ## Array-Based Queue: Performance & Limitations
 
@@ -448,6 +450,8 @@ public class LinkedQueue<E> implements Queue<E> {
 }
 ```
 
+---
+hideInToc: true
 ---
 
 ## Linked-List Queue: Performance (Adapter Pattern)
@@ -557,6 +561,7 @@ graph TD
 
 ---
 layout: two-cols-header
+hideInToc: true
 ---
 
 ## Application: Queue from Stacks (Adapter Pattern)
@@ -588,6 +593,7 @@ We use two stacks: `inbound` and `outbound`.
 
 ---
 layout: two-cols
+hideInToc: true
 ---
 
 ## Application: Stack from Queues (Adapter Pattern)

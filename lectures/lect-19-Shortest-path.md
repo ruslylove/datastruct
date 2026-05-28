@@ -161,6 +161,8 @@ Algorithm DijkstraShortestPaths(G, s):
 ```
 
 ---
+hideInToc: true
+---
 
 ## Example Trace of Dijkstra's Algorithm
 

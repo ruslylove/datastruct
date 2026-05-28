@@ -1,0 +1,171 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{kmutnbBlue}{HTML}{1F3A8A}
+\definecolor{accent}{HTML}{0F6FC5}
+\definecolor{lightGray}{HTML}{F2F4F7}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent,
+    citecolor=accent
+}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{kmutnbBlue}}
+  {\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+
+\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=2pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=2pt,topsep=2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{010153523 Algorithms and Data Structures}}
+\fancyhead[R]{\small Semester 1/2026}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\newcommand{\fieldlabel}[1]{\textbf{#1:}}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\color{kmutnbBlue} Course Syllabus}\\[2pt]
+  {\large\bfseries 010153523 Algorithms and Data Structures}\\[2pt]
+  {\normalsize Semester 1 / Academic Year 2026}\\[2pt]
+  {\small Department of Electrical and Computer Engineering (ECE)}\\
+  {\small Faculty of Engineering, King Mongkut's University of Technology North Bangkok}\\[4pt]
+  {\small Instructor: Dr.\ Ruslee Sutthaweekul \quad\textbar\quad \href{mailto:ruslee.s@eng.kmutnb.ac.th}{ruslee.s@eng.kmutnb.ac.th}}
+\end{center}
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\section*{Course Information}
+\begin{tabular}{@{}p{4.2cm}p{11cm}@{}}
+  \fieldlabel{Course Number}   & 010153523 \\
+  \fieldlabel{Credits}         & 3 (3--0--6) \\
+  \fieldlabel{Lecture Hours}   & 3 hours per week (including class exercises) \\
+  \fieldlabel{Course Type}     & Required \\
+  \fieldlabel{Prerequisites}   & 010153002 Computer Programming \\
+  \fieldlabel{Textbook}        & Goodrich, M.~T., Tamassia, R., \& Goldwasser, M.~H.
+                                  \textit{Data Structures and Algorithms in Java}, 6th Edition.
+                                  John Wiley \& Sons, 2014. \\
+\end{tabular}
+
+\section*{Course Description}
+This course introduces students to the fundamental data structures and algorithms
+used in computer programming. Topics include linear structures such as
+\emph{lists}, \emph{stacks}, and \emph{queues}, and non-linear structures such as
+\emph{trees} and \emph{graphs}. The course also covers core algorithmic techniques
+for \emph{sorting}, \emph{searching}, and \emph{recursion}, and emphasises the
+selection of appropriate data structures and algorithms for problem solving.
+
+\section*{Course Learning Outcomes (CLOs)}
+Upon successful completion of this course, students will be able to:
+\begin{enumerate}
+  \item Demonstrate a good understanding of linear data structures, including
+        arrays, linked lists, stacks, and queues.
+  \item Implement abstract data types effectively.
+  \item Understand non-linear data structures, including trees and graphs.
+  \item Select and use appropriate data structures to solve specific problems.
+  \item Understand and implement sorting, searching, and hashing algorithms.
+  \item Choose and apply appropriate algorithms to solve specific problems.
+\end{enumerate}
+
+\section*{Course Topics}
+\begin{itemize}
+  \item Arrays
+  \item Stacks, Queues, and Deques
+  \item Lists and Iterators
+  \item Trees and Binary Trees
+  \item Priority Queues and Heaps
+  \item Maps and Hash Tables
+  \item Search Trees
+  \item Sorting and Searching
+  \item Graphs
+\end{itemize}
+
+\section*{Weekly Schedule}
+\renewcommand{\arraystretch}{1.25}
+\rowcolors{2}{lightGray}{white}
+\begin{tabularx}{\linewidth}{>{\centering\arraybackslash}p{1.1cm} X >{\centering\arraybackslash}p{2.4cm}}
+  \toprule
+  \rowcolor{kmutnbBlue!90}
+  \textcolor{white}{\textbf{Week}} &
+  \textcolor{white}{\textbf{Topic}} &
+  \textcolor{white}{\textbf{Reading}} \\
+  \midrule
+  1  & Course Introduction \& Algorithm Analysis           & Ch.\ 1, 4 \\
+  2  & Arrays                                              & Ch.\ 3    \\
+  3  & Singly Linked Lists                                 & Ch.\ 3    \\
+  4  & Doubly Linked Lists \& Stacks                       & Ch.\ 3, 6 \\
+  5  & Queues, Deques \& Lists with Iterators              & Ch.\ 6, 7 \\
+  6  & Recursion                                           & Ch.\ 5    \\
+  \rowcolor{accent!15}
+  \multicolumn{1}{c}{---} & \textbf{Midterm Examination}             & --- \\
+  7  & Trees \& Binary Trees                               & Ch.\ 8    \\
+  8  & Priority Queues \& Heaps                            & Ch.\ 9    \\
+  9  & Maps \& Hash Tables                                 & Ch.\ 10   \\
+  10 & Binary Search Trees                                 & Ch.\ 11   \\
+  11 & Sorting: Mergesort \& Quicksort                     & Ch.\ 12   \\
+  12 & Graphs \& Shortest Paths                            & Ch.\ 14   \\
+  \rowcolor{accent!15}
+  \multicolumn{1}{c}{---} & \textbf{Final Examination}               & --- \\
+  \bottomrule
+\end{tabularx}
+\rowcolors{1}{}{}
+
+\medskip
+\noindent\textit{Assignment:} \textbf{Bangkok Transit (Graph project)} ---
+released after Week 12, due during the final examination period.
+
+\section*{Assessment and Grading}
+\noindent
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{Assessment Tools}
+  \begin{itemize}
+    \item Examinations --- 80\%
+    \item Assignments --- 20\%
+  \end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{Grading Scale}\par\smallskip
+  \begin{tabular}{@{}l@{\hspace{1em}}l@{\hspace{2em}}l@{\hspace{1em}}l@{}}
+    81--100 & A   & 51--60 & C  \\
+    76--80  & B+  & 46--50 & D+ \\
+    71--75  & B   & 40--45 & D  \\
+    61--70  & C+  & 0--39  & F  \\
+  \end{tabular}
+\end{minipage}
+
+\section*{Course Materials}
+\begin{itemize}
+  \item Lecture slides: \href{https://ruslylove.github.io/datastruct/}{ruslylove.github.io/datastruct}
+  \item PDF export of slides: \href{https://ruslylove.github.io/datastruct/slides.pdf}{slides.pdf}
+  \item Source repository: \href{https://github.com/ruslylove/datastruct}{github.com/ruslylove/datastruct}
+\end{itemize}
+
+\vfill
+\noindent\rule{\linewidth}{0.4pt}
+\begin{center}
+  \small\textit{This syllabus is subject to minor adjustments at the instructor's
+  discretion to accommodate the academic calendar and class progress.}
+\end{center}
+
+\end{document}

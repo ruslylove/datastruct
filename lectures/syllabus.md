@@ -70,6 +70,35 @@ Upon successful completion of this course, students will be able to:
 * Graphs
 
 ---
+
+## Weekly Schedule — Semester 1/2026
+
+<Transform scale="0.85">
+
+| Week | Topic | Reading |
+|:----:|-------|:-------:|
+| 1  | Course Introduction & Algorithm Analysis           | Ch. 1, 4 |
+| 2  | Arrays                                             | Ch. 3    |
+| 3  | Singly Linked Lists                                | Ch. 3    |
+| 4  | Doubly Linked Lists & Stacks                       | Ch. 3, 6 |
+| 5  | Queues, Deques & Lists with Iterators              | Ch. 6, 7 |
+| 6  | Recursion                                          | Ch. 5    |
+| —  | **Midterm Examination**                            | —        |
+| 7  | Trees & Binary Trees                               | Ch. 8    |
+| 8  | Priority Queues & Heaps                            | Ch. 9    |
+| 9  | Maps & Hash Tables                                 | Ch. 10   |
+| 10 | Binary Search Trees                                | Ch. 11   |
+| 11 | Sorting: Mergesort & Quicksort                     | Ch. 12   |
+| 12 | Graphs & Shortest Paths                            | Ch. 14   |
+| —  | **Final Examination**                              | —        |
+
+</Transform>
+
+<div class="text-sm op-70 mt-4">
+Assignment: <b>Bangkok Transit (Graph)</b> — released after Week 12, due in finals week.
+</div>
+
+---
 layout: two-cols
 ---
 

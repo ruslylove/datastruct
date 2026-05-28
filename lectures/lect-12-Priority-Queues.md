@@ -20,7 +20,7 @@ hideInToc: false
 
 ## Outline
 
-<toc mode="onlySiblings" minDepth="2" columns="2"/>
+<toc mode="onlySiblings" minDepth="2" columns="1"/>
 
 
 ---
@@ -282,6 +282,7 @@ Elements are added to the end of the unsorted list `P`.
 
 ---
 layout: two-cols-header
+hideInToc: true
 ---
 
 ## PQ-Sort Example using Unsorted PQ (cont.)
@@ -355,6 +356,7 @@ Elements from `S` are inserted into an empty Priority Queue `P`. The conceptual 
 
 ---
 layout: two-cols-header
+hideInToc: true
 ---
 
 ## PQ-Sort Example using Sorted PQ (cont.)
