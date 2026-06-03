@@ -95,7 +95,7 @@ src: ./lectures/lect-06-Stack.md
 src: ./lectures/lect-07-Queues.md
 ---
 ---
-src: ./lectures/lect-08-Queues-DEQ.md
+src: ./lectures/lect-08-DEQ.md
 ---
 ---
 src: ./lectures/lect-09-Lists.md
