@@ -435,6 +435,8 @@ graph TD
 ```
 
 ---
+layout: two-cols
+---
 
 ## Euler Tour Traversal (Binary Trees)
 
@@ -444,9 +446,9 @@ graph TD
     2.  From below (corresponds to inorder visit).
     3.  From the right (corresponds to postorder visit).
 
-<br>
+:: right ::
 
-<img src="/euler_tour.png" style="height:250px"/>
+<img src="/euler_tour.png" class="w-100"/>
 
 ---
 layout: two-cols
