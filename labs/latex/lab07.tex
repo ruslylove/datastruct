@@ -1,0 +1,134 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{7}
+\newcommand{\LabTitle}{Recursion}
+\newcommand{\LabTopic}{Base cases, recursive traces, binary search, Fibonacci}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Identify the base case(s) and recursive case(s) of a recursive method.
+  \item Draw a recursion trace to understand how the call stack unwinds.
+  \item Implement and analyse: factorial, binary search, power, and Fibonacci.
+  \item Recognise the exponential cost of naive Fibonacci and apply memoisation.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Anatomy of a recursive method.}\\
+1.~\textbf{Base case} --- returns without a recursive call.\\
+2.~\textbf{Recursive case} --- calls itself with a \emph{strictly smaller} sub-problem.
+
+\textbf{Factorial.}
+\begin{lstlisting}
+static long factorial(int n) {
+    if (n == 0) return 1;
+    return n * factorial(n - 1);
+}
+\end{lstlisting}
+
+\textbf{Binary search (recursive).}
+\begin{lstlisting}
+static int binSearch(int[] a, int lo, int hi, int target) {
+    if (lo > hi) return -1;
+    int mid = (lo + hi) / 2;
+    if (a[mid] == target) return mid;
+    else if (target < a[mid]) return binSearch(a, lo, mid-1, target);
+    else                      return binSearch(a, mid+1, hi, target);
+}
+\end{lstlisting}
+
+\textbf{Complexity.}\quad Factorial: $O(n)$. Binary search: $O(\log n)$. Naive Fibonacci: $O(2^n)$.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Stack overflow --- how deep can you go?}
+Call \texttt{factorial(n)} for increasing \texttt{n} (try 10\,000, 100\,000).
+At what value does a \texttt{StackOverflowError} occur?
+\end{tryit}
+
+\begin{tryit}{Counting recursive calls}
+Add a static counter \texttt{int calls = 0} to your Fibonacci and increment at each call.
+Compare for \texttt{fib(10)}, \texttt{fib(20)}, \texttt{fib(30)}. How does the count grow?
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Factorial and Power \hfill {\small \itshape (20 min)}}
+Implement:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{long factorial(int n)} --- recursive.
+  \item \texttt{long power(long base, int exp)} --- recursive; \texttt{power(b,0) = 1}.
+\end{itemize}
+Test: \texttt{factorial(10) = 3628800}, \texttt{power(2,10) = 1024}.
+Draw the recursion trace for \texttt{power(3,4)}.
+\end{labexercise}
+
+\begin{labexercise}{Recursive Binary Search \hfill {\small \itshape (20 min)}}
+Implement \texttt{int binSearch(int[] a, int lo, int hi, int target)}.
+Test on a sorted array of 15 elements: search for the middle, first, last, and a missing element.
+Count recursive calls for each search.
+\end{labexercise}
+
+\begin{labexercise}{Fibonacci: Naive vs.\ Memoised \hfill {\small \itshape (40 min)}}
+\begin{enumerate}[leftmargin=*,nosep]
+  \item Implement naive \texttt{long fibNaive(int n)}.
+  \item Implement memoised \texttt{long fibMemo(int n, long[] memo)}: initialise \texttt{memo} to $-1$;
+        store each result before returning.
+  \item Time both for $n = 10, 20, 30, 40$ using \texttt{System.nanoTime()}.
+\end{enumerate}
+\begin{center}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$n$ & \texttt{fibNaive (ns)} & \texttt{fibMemo (ns)} & Speedup \\
+\midrule
+10 & & & \\ 20 & & & \\ 30 & & & \\ 40 & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{labexercise}
+
+\begin{labexercise}{Sum of Digits and Digit Count \hfill {\small \itshape (25 min)}}
+Write two recursive methods (base case: $n < 10$; recursive case uses \texttt{n / 10}):
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{int digitSum(int n)} --- sum of all digits.
+  \item \texttt{int countDigits(int n)} --- number of digits.
+\end{itemize}
+Test: \texttt{digitSum(1234) = 10}, \texttt{countDigits(100) = 3}.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Draw the recursion tree for \texttt{fib(5)}, counting duplicate sub-problems.''
+  \item ``Explain memoisation: how does it change Fibonacci from $O(2^n)$ to $O(n)$?''
+\end{itemize}
+\medskip\textbf{Verify:} Have the AI generate memoised Fibonacci. Run it alongside yours for $n=40$.
+Do they agree? Is the AI's version iterative or recursive?
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Recursion trace for \texttt{power}]
+Draw the full recursion trace (call stack) for \texttt{power(2, 5)}.
+Show each call with its arguments and the return value as the stack unwinds.
+\end{trace}
+
+\begin{trace}[Binary search trace]
+Trace \texttt{binSearch(a, 0, 7, 19)} on $a = [3, 7, 11, 15, 19, 23, 27, 31]$.
+For each call show: \texttt{lo}, \texttt{hi}, \texttt{mid}, and the comparison result.
+How many calls are made?
+\end{trace}
+
+\begin{writecode}[Recursive string reverse]
+Write \texttt{String reverse(String s)} recursively.
+Base case: \texttt{s} is empty or one character.
+Recursive case: last character + \texttt{reverse(s without last character)}.
+\end{writecode}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab7\_ex*.java} and submit on the course site.
+
+\end{document}

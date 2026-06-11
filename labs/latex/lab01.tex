@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{1}
+\newcommand{\LabTitle}{Java Fundamentals}
+\newcommand{\LabTopic}{Classes, objects, OOP basics, \texttt{Scanner} I/O}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Understand the structure of a Java program: class, \texttt{main} method, packages.
+  \item Declare variables of primitive and reference types; use \texttt{System.out.println}.
+  \item Read user input using the \texttt{Scanner} class.
+  \item Define a class with fields, a constructor, and instance methods (encapsulation).
+  \item Apply the four OOP pillars: encapsulation, inheritance, polymorphism, abstraction.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Minimal Java program.}
+\begin{lstlisting}
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}
+\end{lstlisting}
+
+\textbf{Reading input.}
+\begin{lstlisting}
+import java.util.Scanner;
+Scanner sc = new Scanner(System.in);
+int n    = sc.nextInt();
+double d = sc.nextDouble();
+String s = sc.next();       // one token (no spaces)
+sc.close();
+\end{lstlisting}
+
+\textbf{Primitive types.}\quad \texttt{int}, \texttt{long}, \texttt{double}, \texttt{boolean}, \texttt{char}.\\
+\textbf{String.}\quad Immutable reference type; use \texttt{+} for concatenation, \texttt{.length()}, \texttt{.charAt()}.\\
+\textbf{Access modifiers.}\quad \texttt{public} (anywhere), \texttt{private} (class only), \texttt{protected} (class + subclasses).\\
+\textbf{Workflow.}\quad Write \texttt{.java} $\to$ compile with \texttt{javac} $\to$ run with \texttt{java ClassName}.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Integer vs.\ floating-point division}
+Run this program and record the output:
+\begin{lstlisting}
+public class DivTest {
+    public static void main(String[] args) {
+        System.out.println(7 / 2);
+        System.out.println(7 / 2.0);
+        System.out.println((double) 7 / 2);
+    }
+}
+\end{lstlisting}
+\begin{enumerate}[nosep,leftmargin=*]
+  \item What is the difference between the three results?
+  \item What does the cast \texttt{(double)} do?
+  \item What would happen if you used \texttt{int result = 7 / 2.0;}? Try it.
+\end{enumerate}
+\end{tryit}
+
+\begin{tryit}{String reference vs.\ value equality}
+\begin{lstlisting}
+public class StrEq {
+    public static void main(String[] args) {
+        String a = new String("hello");
+        String b = new String("hello");
+        System.out.println(a == b);
+        System.out.println(a.equals(b));
+    }
+}
+\end{lstlisting}
+\begin{enumerate}[nosep,leftmargin=*]
+  \item Why does \texttt{==} print \texttt{false} even though the contents are identical?
+  \item Which method should always be used to compare \texttt{String} contents?
+\end{enumerate}
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Hello + Your Info \hfill {\small \itshape (15 min)}}
+Write a program that prints three lines: (1) \texttt{Welcome to ADS!},
+(2) your full name, (3) your student ID.
+\textbf{Goal:} verify the IDE/JDK toolchain works end-to-end.
+\end{labexercise}
+
+\begin{labexercise}{GPA Calculator \hfill {\small \itshape (30 min)}}
+Read four course grades (as \texttt{double}) from the user and compute and print the
+average GPA formatted to two decimal places using \texttt{String.format("\%.2f", gpa)}.
+Label the output clearly, e.g.\ \texttt{Your GPA: 3.56}.
+\end{labexercise}
+
+\begin{labexercise}{Defining a \texttt{Student} Class \hfill {\small \itshape (40 min)}}
+Create a class \texttt{Student} with:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{private} fields: \texttt{String name}, \texttt{int id}, \texttt{double gpa}.
+  \item A constructor that initialises all three fields via \texttt{this}.
+  \item Public getters for each field.
+  \item An \texttt{@Override} of \texttt{toString()} that returns\\
+        \texttt{Student[id=1001, name=Alice, gpa=3.80]}.
+  \item A method \texttt{getLetterGrade()} returning \texttt{"A"} ($\geq 3.5$), \texttt{"B"} ($\geq 3.0$), \texttt{"C"} ($\geq 2.5$), or \texttt{"F"}.
+\end{itemize}
+In \texttt{main}, create two \texttt{Student} objects, print them, and print each student's letter grade.
+\end{labexercise}
+
+\begin{labexercise}{Inheritance --- \texttt{GradStudent} \hfill {\small \itshape (35 min)}}
+Extend \texttt{Student} with a subclass \texttt{GradStudent} that adds:
+\begin{itemize}[leftmargin=*,nosep]
+  \item A field \texttt{String researchTopic}.
+  \item A constructor calling \texttt{super(...)} for the inherited fields.
+  \item An \texttt{@Override} of \texttt{toString()} that appends \texttt{, topic=<value>} to the parent's result.
+\end{itemize}
+Demonstrate polymorphism: store both a \texttt{Student} and a \texttt{GradStudent} in a
+\texttt{Student} reference and call \texttt{toString()} on each.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Explain the difference between \texttt{==} and \texttt{.equals()} for Java Strings.''
+  \item ``What does \texttt{this} refer to inside a Java constructor?''
+  \item ``Why does Java require \texttt{super(...)} as the first statement in a subclass constructor?''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI to write a class with a private field accessed directly from
+outside the class. Confirm the compiler rejects it. Note what error message appears.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Trace \texttt{toString} output]
+What does the following \texttt{main} print?
+\begin{lstlisting}
+public class Animal {
+    String name;
+    Animal(String n) { name = n; }
+    public String toString() { return "Animal(" + name + ")"; }
+}
+public class Dog extends Animal {
+    Dog(String n) { super(n); }
+    public String toString() { return "Dog(" + name + ")"; }
+}
+// In main:
+Animal a = new Dog("Rex");
+System.out.println(a);
+\end{lstlisting}
+\end{trace}
+
+\begin{bug}[Fix the constructor]
+Find and fix all errors:
+\begin{lstlisting}
+public class Point {
+    private int x, y;
+    public Point(int x, int y) {
+        x = x;   // bug
+        y = y;   // bug
+    }
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+}
+\end{lstlisting}
+\end{bug}
+
+\begin{writecode}[Rectangle class]
+Write a class \texttt{Rectangle} with private fields \texttt{width} and \texttt{height} (\texttt{double}),
+a constructor, an \texttt{area()} method, and a \texttt{perimeter()} method.
+Write a short \texttt{main} that creates one \texttt{Rectangle} and prints both values.
+\end{writecode}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save in-lab source files as \texttt{lab1\_ex1.java}, \ldots\ and submit on the course site.
+Hand in paper work at the start of the next lab.
+
+\end{document}

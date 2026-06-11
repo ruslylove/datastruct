@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{8}
+\newcommand{\LabTitle}{Trees and Tree Traversals}
+\newcommand{\LabTopic}{Binary tree, preorder/inorder/postorder, depth, height}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Implement a binary tree using a linked-node structure with \texttt{left} and \texttt{right} children.
+  \item Implement preorder, inorder, and postorder traversals recursively.
+  \item Compute the depth of a node and the height of a tree recursively.
+  \item Count nodes, count leaves, and evaluate an expression tree.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Node class.}
+\begin{lstlisting}
+class Node<E> {
+    E element;
+    Node<E> left, right, parent;
+    Node(E e, Node<E> p) { element = e; parent = p; }
+}
+\end{lstlisting}
+
+\textbf{Traversals.}
+\begin{lstlisting}
+void preorder(Node<E> v)  { visit(v); preorder(v.left);  preorder(v.right); }
+void inorder(Node<E> v)   { inorder(v.left);  visit(v); inorder(v.right);  }
+void postorder(Node<E> v) { postorder(v.left); postorder(v.right); visit(v); }
+\end{lstlisting}
+
+\textbf{Height and depth.}
+\begin{lstlisting}
+int height(Node<E> v) {
+    if (v == null) return -1;
+    return 1 + Math.max(height(v.left), height(v.right));
+}
+int depth(Node<E> v) { return v.parent == null ? 0 : 1 + depth(v.parent); }
+\end{lstlisting}
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Order of traversals}
+Build the tree: \texttt{A} at root; left child \texttt{B} with children \texttt{D} and \texttt{E};
+right child \texttt{C} with right child \texttt{F}.
+Print the preorder, inorder, and postorder sequences. Verify manually.
+\end{tryit}
+
+\begin{tryit}{Height of a skewed tree}
+Build a right-chain: root$\to$1$\to$2$\to\cdots\to$9. Compute the height.
+What is the height formula for $n$ nodes in a right-skewed tree?
+Compare with a perfect binary tree of $n$ nodes.
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Build and Traverse a Binary Tree \hfill {\small \itshape (45 min)}}
+Implement \texttt{BinaryTree<E>} with:
+\begin{itemize}[leftmargin=*,nosep]
+  \item Methods: \texttt{root()}, \texttt{left(Node)}, \texttt{right(Node)}, \texttt{parent(Node)}.
+  \item \texttt{addRoot(E e)}, \texttt{addLeft(Node p, E e)}, \texttt{addRight(Node p, E e)}.
+  \item \texttt{int size()}, \texttt{boolean isEmpty()}.
+  \item Traversals: \texttt{preorderPrint()}, \texttt{inorderPrint()}, \texttt{postorderPrint()}.
+\end{itemize}
+Construct a 7-node tree and verify all three traversal outputs.
+\end{labexercise}
+
+\begin{labexercise}{Height, Depth, and Leaf Count \hfill {\small \itshape (30 min)}}
+Add:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{int height()} --- height of the whole tree.
+  \item \texttt{int depth(Node<E> v)} --- depth of node \texttt{v}.
+  \item \texttt{int countLeaves()} --- nodes with no children.
+  \item \texttt{int countNodes()} --- total nodes.
+\end{itemize}
+Test on at least two trees (balanced vs.\ skewed).
+\end{labexercise}
+
+\begin{labexercise}{Expression Tree Evaluator \hfill {\small \itshape (25 min)}}
+Represent $(3 + 4) \times (8 - 5)$ as a binary tree (leaves = integers, internal = operators).
+Write recursive \texttt{int evaluate(Node<String> v)}.
+Print the inorder traversal (infix expression) and the evaluated result.
+\end{labexercise}
+
+\begin{labexercise}{Level-Order Traversal \hfill {\small \itshape (20 min)}}
+Implement \texttt{void levelOrder()} using a Queue: enqueue root; while non-empty, dequeue a node,
+visit it, enqueue non-null children. Print the output for your tree from Exercise 1.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``What is the difference between preorder, inorder, and postorder? Give a use case for each.''
+  \item ``Explain why inorder traversal of a BST yields sorted order.''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI for the three traversal sequences of a specific 7-node tree.
+Build that tree in code and compare outputs.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Traversal sequences]
+Write the preorder, inorder, and postorder for the tree:
+\begin{center}
+\begin{tabular}{c}
+\texttt{+} \\ \texttt{/ \textbackslash} \\ \texttt{*\quad 7} \\ \texttt{/ \textbackslash} \\ \texttt{3\quad 4}
+\end{tabular}
+\end{center}
+(Root \texttt{+}; left subtree \texttt{*} with children \texttt{3} and \texttt{4}; right child \texttt{7}.)
+\end{trace}
+
+\begin{writecode}[Mirror a tree]
+Write recursive \texttt{void mirror(Node<E> v)} that swaps left and right children of every node.
+After \texttt{mirror(root)}, inorder should be the reverse of the original.
+\end{writecode}
+
+\begin{drawex}{Tree from traversals}
+Reconstruct the unique binary tree with preorder $A, B, D, E, C, F$ and inorder $D, B, E, A, F, C$.
+Draw the resulting tree and label every edge.
+\end{drawex}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab8\_ex*.java} and submit on the course site.
+
+\end{document}

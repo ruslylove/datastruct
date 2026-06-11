@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{9}
+\newcommand{\LabTitle}{Priority Queues and Heaps}
+\newcommand{\LabTopic}{PQ ADT, comparators, array-based heap, heap sort}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Define the Priority Queue ADT with \texttt{insert} and \texttt{removeMin}.
+  \item Use Java's \texttt{Comparator<E>} interface for flexible priority orderings.
+  \item Implement a binary min-heap backed by an \texttt{ArrayList}, using up-heap and down-heap.
+  \item Apply the heap to implement heap sort in $O(n \log n)$ time.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Priority Queue interface.}
+\begin{lstlisting}
+int size();  boolean isEmpty();
+Entry<K,V> insert(K key, V value);
+Entry<K,V> min();         // peek
+Entry<K,V> removeMin();
+\end{lstlisting}
+
+\textbf{Heap property (min-heap).}\quad key(parent) $\leq$ key(child) for every node.
+
+\textbf{Array-based heap} (1-indexed, index 0 unused).\\
+Parent of $i$: $\lfloor i/2 \rfloor$.\quad Left child: $2i$.\quad Right child: $2i+1$.
+
+\textbf{insert / up-heap.}\quad Add at end; swap with parent while smaller than parent.\\
+\textbf{removeMin / down-heap.}\quad Replace root with last element; swap with smaller child.
+
+\textbf{Complexity.}\quad \texttt{insert}: $O(\log n)$. \texttt{removeMin}: $O(\log n)$. \texttt{min}: $O(1)$.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Heap shape property}
+Insert keys 5, 3, 8, 1, 4, 7, 2 one by one.
+After each insert, print the backing array (index 1 to size).
+Verify it is always a valid min-heap.
+\end{tryit}
+
+\begin{tryit}{Custom comparator for max-heap}
+Use \texttt{(a, b) -> b.compareTo(a)} as the comparator.
+Insert the same keys and call \texttt{removeMin()} repeatedly.
+What order do the keys come out?
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Implement \texttt{HeapPriorityQueue<K,V>} \hfill {\small \itshape (55 min)}}
+Back by an \texttt{ArrayList<Entry<K,V>>} (1-indexed; dummy entry at index 0).
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{upheap(int j)}: swap with parent while heap property violated.
+  \item \texttt{downheap(int j)}: swap with smaller child while violated.
+  \item \texttt{insert(K key, V value)}: add at end, call \texttt{upheap}.
+  \item \texttt{removeMin()}: swap root with last, remove last, call \texttt{downheap(1)}.
+  \item Accept a \texttt{Comparator<K>} (default to natural order if null).
+\end{itemize}
+Test: insert 8 entries, call \texttt{min()}, then \texttt{removeMin()} 3 times.
+\end{labexercise}
+
+\begin{labexercise}{Priority Queue Sort \hfill {\small \itshape (20 min)}}
+Implement \texttt{void pqSort(List<Integer> list)}: insert all into your heap, then
+remove with \texttt{removeMin} and write back.
+Verify sorted order. Compare time complexity with selection sort ($O(n^2)$).
+\end{labexercise}
+
+\begin{labexercise}{In-Place Heap Sort \hfill {\small \itshape (30 min)}}
+Implement \texttt{void heapSort(int[] a)} in-place using a max-heap.
+Phase 1: heapify in $O(n)$ via \texttt{downheap} from $\lfloor n/2 \rfloor$ down to 1.
+Phase 2: repeatedly swap \texttt{a[1]} (max) with last unsorted element; call \texttt{downheap}.
+Test on random, sorted, and reverse-sorted arrays of size 15.
+\end{labexercise}
+
+\begin{labexercise}{$k$ Largest Elements \hfill {\small \itshape (15 min)}}
+Write \texttt{List<Integer> kLargest(int[] a, int k)}: maintain a min-heap of size $k$.
+For each element: if heap size $< k$, insert; else if element $>$ heap min, replace.
+Test with $k=3$ on an array of 10 integers.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Trace the upheap step when inserting key 2 into the heap [1,4,3,7,6,5].''
+  \item ``Why does building a heap bottom-up run in $O(n)$ rather than $O(n \log n)$?''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI for the heap array after inserting keys 5, 3, 8, 1.
+Run your implementation and compare.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Heap insert trace]
+Insert keys 9, 4, 7, 2, 6, 1 into an empty heap.
+After each insert, write the backing array (positions 1 to size).
+Draw the complete binary tree after the final insert.
+\end{trace}
+
+\begin{trace}[removeMin trace]
+From heap $[-, 1, 4, 3, 7, 6, 8]$, trace \texttt{removeMin()}.
+Show the array after the root-last swap, then after each swap in \texttt{downheap}.
+\end{trace}
+
+\begin{writecode}[Merge $k$ sorted lists]
+Given $k$ sorted \texttt{int[]} arrays, write a method to merge them using a min-heap.
+Hint: insert the first element of each array as \texttt{(value, arrayIndex, elementIndex)};
+each time you extract the min, insert the next element from the same array.
+State the time complexity in terms of $n$ (total elements) and $k$.
+\end{writecode}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab9\_ex*.java} and submit on the course site.
+
+\end{document}

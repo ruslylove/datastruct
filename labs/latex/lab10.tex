@@ -1,0 +1,128 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{10}
+\newcommand{\LabTitle}{Maps, Hash Tables, and Binary Search Trees}
+\newcommand{\LabTopic}{Map ADT, hash functions, collision handling, BST ordered map}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Define the Map ADT and implement a simple list-based map for reference.
+  \item Design a hash function and implement separate-chaining collision resolution.
+  \item Implement \texttt{ChainHashMap<K,V>} with $O(1)$ expected \texttt{get}/\texttt{put}/\texttt{remove}.
+  \item Implement a \texttt{BSTMap<K,V>} ordered map with $O(h)$ operations and inorder iteration.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Map interface.}
+\begin{lstlisting}
+V get(K key);           // null if absent
+V put(K key, V value);  // returns old value (or null)
+V remove(K key);
+int size(); boolean isEmpty();
+Iterable<K> keySet(); Iterable<V> values();
+\end{lstlisting}
+
+\textbf{Hash function (polynomial rolling).}
+\begin{lstlisting}
+int hashCode(String s) {
+    int h = 0;
+    for (char c : s.toCharArray()) h = 37 * h + c;
+    return h;
+}
+int compress(int hash) { return Math.abs(hash) % capacity; }
+\end{lstlisting}
+
+\textbf{Separate chaining.}\quad Each bucket is a \texttt{LinkedList<Entry<K,V>>}; scan with \texttt{key.equals()}.\\
+\textbf{Load factor} $\lambda = n/N$: rehash (double) when $\lambda > 0.75$.\\
+\textbf{BST ordered map.}\quad \texttt{put/get/remove}: $O(h)$; $h = O(\log n)$ average, $O(n)$ worst.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Hash collisions}
+Hash \texttt{"Aa"} and \texttt{"BB"} with Java's \texttt{hashCode()}.
+Do they collide? Try other two-character pairs.
+What does this tell you about compression and bucket chaining?
+\end{tryit}
+
+\begin{tryit}{Load factor and rehashing}
+Insert entries one by one into your \texttt{ChainHashMap}.
+Print the load factor after each insert and note when rehashing occurs.
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{List-Based Map \hfill {\small \itshape (20 min)}}
+Implement \texttt{ListMap<K,V>} backed by a singly linked list of \texttt{Entry<K,V>}.
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{put}: scan for existing key, update or prepend.
+  \item \texttt{get}/\texttt{remove}: linear scan with \texttt{key.equals()}.
+\end{itemize}
+All operations $O(n)$. This is your $O(n)$ baseline.
+\end{labexercise}
+
+\begin{labexercise}{\texttt{ChainHashMap<K,V>} \hfill {\small \itshape (45 min)}}
+Implement using separate chaining, initial capacity 11 (prime).
+\begin{itemize}[leftmargin=*,nosep]
+  \item Compression: \texttt{Math.abs(key.hashCode()) \% capacity}.
+  \item \texttt{put}/\texttt{get}/\texttt{remove}: find bucket, scan with \texttt{equals}.
+  \item Rehash when load factor $> 0.75$ (double to next prime).
+  \item \texttt{keySet()}: iterate all buckets.
+\end{itemize}
+Test: insert 20 entries, look up 5, remove 3, print remaining keys.
+\end{labexercise}
+
+\begin{labexercise}{\texttt{BSTMap<K extends Comparable<K>, V>} \hfill {\small \itshape (40 min)}}
+Implement an ordered map backed by a BST:
+\begin{itemize}[leftmargin=*,nosep]
+  \item Recursive \texttt{put}, \texttt{get}, \texttt{remove} (three-case delete with inorder successor).
+  \item \texttt{K firstKey()} and \texttt{K lastKey()} (leftmost/rightmost).
+  \item \texttt{Iterable<K> keySet()}: inorder traversal yields sorted keys.
+\end{itemize}
+Test with the same 20 entries. Verify \texttt{keySet()} output is sorted.
+\end{labexercise}
+
+\begin{labexercise}{Word Frequency Counter \hfill {\small \itshape (15 min)}}
+Count word frequencies in a 50-word paragraph (case-insensitive, strip punctuation with
+\texttt{replaceAll("[{\textasciicircum}a-zA-Z]","")}).
+Use \texttt{ChainHashMap}, then \texttt{BSTMap}. Print the top-5 most frequent words.
+Verify both maps give the same counts.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Compare \texttt{HashMap} and \texttt{TreeMap} in Java: when would you choose each?''
+  \item ``Why is a prime number recommended for hash table capacity?''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI to predict bucket distribution for keys 0--9 in a table of
+capacity 7. Check with your implementation.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Hash table trace]
+Insert keys 10, 22, 31, 4, 15, 28, 17 into a hash table of capacity 7 ($k \bmod 7$).
+Draw the table (separate chaining). Which buckets have chains of length $> 1$?
+\end{trace}
+
+\begin{trace}[BST trace]
+Insert: 20, 10, 30, 5, 15, 25, 35. Draw the BST.
+Trace \texttt{get(15)}: list each node visited.
+Trace \texttt{remove(10)} (two-child case): show the inorder successor replacement.
+\end{trace}
+
+\begin{writecode}[Open addressing: linear probing]
+Write \texttt{ProbeHashMap<K,V>} using linear probing.
+On collision at index $i$, try $i+1, i+2, \ldots$ (mod capacity).
+Use a \emph{defunct sentinel} for removes so future probes are not broken.
+Explain how \texttt{get} skips defunct entries but stops at a null slot.
+\end{writecode}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab10\_ex*.java} and submit on the course site.
+
+\end{document}

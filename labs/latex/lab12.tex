@@ -1,0 +1,164 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{12}
+\newcommand{\LabTitle}{Graphs and Shortest Paths}
+\newcommand{\LabTopic}{Graph ADT, BFS, DFS, Dijkstra's algorithm}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Represent a weighted directed graph using an adjacency list.
+  \item Implement Breadth-First Search (BFS) for unweighted shortest paths.
+  \item Implement Depth-First Search (DFS) for reachability and cycle detection.
+  \item Implement Dijkstra's algorithm for single-source shortest paths on weighted graphs.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Graph ADT.}
+\begin{lstlisting}
+// Vertex and Edge as objects
+interface Vertex<V> { V element(); }
+interface Edge<E>   { E element(); Vertex[] endVertices(); }
+// Graph methods: vertices(), edges(), insertVertex(v), insertEdge(u,v,w),
+//                outgoingEdges(u), incomingEdges(u), endVertices(e), opposite(u,e)
+\end{lstlisting}
+
+\textbf{Adjacency list.}\quad Map each \texttt{Vertex} to a list of \texttt{Edge} objects.
+Space: $O(V + E)$.
+
+\textbf{BFS.}\quad Use a queue; mark vertices \textit{discovered} on first visit.
+Finds shortest (hop-count) path in an unweighted graph.
+
+\textbf{Dijkstra's algorithm.}\quad Use a priority queue (min-heap on tentative distance $d[v]$).
+On relaxing edge $(u,v,w)$: if $d[u]+w < d[v]$, update $d[v]$ and decrease key.
+\textbf{Assumption:} non-negative edge weights.
+\textbf{Complexity:} $O((V+E)\log V)$ with a binary heap.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Directed vs.\ undirected graphs}
+Build a four-vertex directed graph with edges A$\to$B, B$\to$C, C$\to$A, A$\to$D.
+Print \texttt{outgoingEdges(A)} and \texttt{incomingEdges(A)}.
+Now build the same graph as undirected (each edge goes both ways).
+How does the adjacency list differ?
+\end{tryit}
+
+\begin{tryit}{BFS tree depth}
+Build the undirected graph: vertices 0--5, edges (0,1), (0,2), (1,3), (1,4), (2,5).
+Run BFS from vertex 0. Record the layer (depth) of each vertex.
+What is the shortest path (in hops) from 0 to 5?
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Build a Graph with Adjacency List \hfill {\small \itshape (30 min)}}
+Implement \texttt{AdjacencyListGraph<V,E>} as a directed graph:
+\begin{itemize}[leftmargin=*,nosep]
+  \item Vertices stored in a \texttt{Map<String, Vertex<V>>} (keyed by label).
+  \item Each vertex has an outgoing edge list: \texttt{Map<Vertex, Edge<E>>}.
+  \item \texttt{insertVertex(String label, V element)}, \texttt{insertEdge(String from, String to, E weight)}.
+  \item \texttt{outgoingEdges(Vertex v)}, \texttt{int numVertices()}, \texttt{int numEdges()}.
+  \item \texttt{printAdjList()}: print each vertex and its outgoing neighbours with weights.
+\end{itemize}
+Build the 6-vertex weighted graph from lecture and print its adjacency list.
+\end{labexercise}
+
+\begin{labexercise}{Breadth-First Search \hfill {\small \itshape (25 min)}}
+Implement \texttt{Map<Vertex, Integer> bfs(Vertex start)} that returns a map from each
+reachable vertex to its shortest hop-distance from \texttt{start}.
+Use a \texttt{Queue<Vertex>} and a \texttt{Set<Vertex> visited}.
+\begin{itemize}[leftmargin=*,nosep]
+  \item Also record the \emph{BFS tree} (predecessor map) so you can reconstruct the path.
+  \item Add \texttt{List<Vertex> shortestPath(Vertex start, Vertex end)} that
+        returns the hop-count shortest path using the BFS predecessor map.
+\end{itemize}
+Test on your graph from Exercise 1.
+\end{labexercise}
+
+\begin{labexercise}{Depth-First Search \hfill {\small \itshape (20 min)}}
+Implement recursive \texttt{void dfs(Vertex v, Set<Vertex> visited, List<Vertex> order)}
+that performs a DFS and appends each fully-processed vertex to \texttt{order}
+(post-order = topological sort for a DAG).
+\begin{itemize}[leftmargin=*,nosep]
+  \item Run DFS from every unvisited vertex to handle disconnected graphs.
+  \item Detect a back edge (edge to a currently-active vertex) to detect cycles.
+        Print ``Cycle detected'' if one is found.
+\end{itemize}
+\end{labexercise}
+
+\begin{labexercise}{Dijkstra's Algorithm \hfill {\small \itshape (35 min)}}
+Implement \texttt{Map<Vertex,Integer> dijkstra(Vertex source)} using your
+\texttt{HeapPriorityQueue} from Lab~9 (or \texttt{java.util.PriorityQueue}).
+\begin{enumerate}[leftmargin=*,nosep]
+  \item Initialise $d[\text{source}] = 0$, all others $= \infty$ (\texttt{Integer.MAX\_VALUE}).
+  \item Insert all vertices into the PQ with their initial distances as keys.
+  \item Each iteration: extract the vertex $u$ with minimum $d[u]$; for each outgoing edge
+        $(u,v,w)$: if $d[u] + w < d[v]$, update $d[v]$ and re-insert (or decrease key).
+\end{enumerate}
+Run on the weighted directed graph from lecture. Print $d[v]$ for all vertices and the
+shortest-path tree (predecessor map). Verify against the hand-traced example.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Why does Dijkstra's algorithm fail with negative edge weights?
+        Give a minimal counter-example.''
+  \item ``Explain the difference between BFS and DFS tree edges, back edges, and cross edges.''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI to trace Dijkstra's algorithm on a 5-vertex graph of your choice.
+Run your implementation on the same graph and compare the $d[v]$ values and predecessor map.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[BFS layering]
+Run BFS from vertex A on the undirected graph with edges:
+A-B, A-C, B-D, B-E, C-F, D-G.
+List the BFS discovery order and the layer (distance from A) of each vertex.
+Draw the BFS tree.
+\end{trace}
+
+\begin{trace}[Dijkstra trace]
+Trace Dijkstra's algorithm from source $s$ on the graph below.
+For each extraction from the PQ, record: vertex extracted, its final $d$ value,
+and which neighbours are relaxed.
+\medskip
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Edge & Weight \\
+\midrule
+$s \to a$ & 4 \\
+$s \to b$ & 2 \\
+$b \to a$ & 1 \\
+$b \to c$ & 5 \\
+$a \to c$ & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+What is the shortest path and distance from $s$ to $c$?
+\end{trace}
+
+\begin{writecode}[Has path? using DFS]
+Write a method \texttt{boolean hasPath(String from, String to)} that returns \texttt{true}
+if there is a directed path from vertex \texttt{from} to vertex \texttt{to} in the graph.
+Use an iterative DFS with an explicit \texttt{Stack<Vertex>}.
+\end{writecode}
+
+\begin{drawex}{Adjacency list vs.\ adjacency matrix}
+For the directed graph with vertices $\{1,2,3,4\}$ and edges
+$1{\to}2$, $1{\to}3$, $2{\to}4$, $3{\to}2$, $4{\to}3$:
+(a) Draw the adjacency list representation.
+(b) Draw the $4\times 4$ adjacency matrix.
+(c) Label the space complexity of each.
+(d) State which is faster for \texttt{hasEdge(u,v)} and which is faster for listing all outgoing edges of $u$.
+\end{drawex}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab13\_ex*.java} and submit on the course site.
+
+\end{document}

@@ -1,0 +1,130 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{6}
+\newcommand{\LabTitle}{Queues and Deques}
+\newcommand{\LabTopic}{Queue ADT, circular array, double-ended queue}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Define the Queue ADT (FIFO) and the Deque ADT (double-ended).
+  \item Implement a queue backed by a circular array using modular arithmetic.
+  \item Implement a Deque using a doubly linked list.
+  \item Apply queues to a round-robin task scheduler simulation.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Queue interface.}
+\begin{lstlisting}
+void enqueue(E e);  // add to back
+E dequeue();        // remove from front
+E first();          // peek front, no removal
+int size(); boolean isEmpty();
+\end{lstlisting}
+
+\textbf{Circular array.}\quad Maintain \texttt{front} and \texttt{size}.
+Back index: \texttt{(front + size) \% capacity}.
+\begin{lstlisting}
+// enqueue:
+data[(front + size) % capacity] = e;  size++;
+// dequeue:
+E val = data[front];
+front = (front + 1) % capacity;  size--;
+return val;
+\end{lstlisting}
+
+\textbf{Deque API.}\quad
+\texttt{addFirst}, \texttt{addLast}, \texttt{removeFirst}, \texttt{removeLast},
+\texttt{peekFirst}, \texttt{peekLast} --- all $O(1)$.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Wrap-around with a small capacity}
+Create an \texttt{ArrayQueue<Integer>} of capacity 4.
+Enqueue 1, 2, 3, 4. Dequeue twice. Enqueue 5, 6.
+Print \texttt{front} and the logical contents.
+Confirm \texttt{front} has wrapped around.
+\end{tryit}
+
+\begin{tryit}{Queue vs.\ Stack order}
+Push numbers 1--5 onto a stack, then pop them into a queue.
+Dequeue and print. What order do you see?
+What did the stack-to-queue transfer accomplish?
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Array-Based Queue \hfill {\small \itshape (40 min)}}
+Implement \texttt{ArrayQueue<E>} backed by a fixed-capacity \texttt{Object[]}.
+\begin{itemize}[leftmargin=*,nosep]
+  \item Fields: \texttt{data[]}, \texttt{front}, \texttt{size}, \texttt{capacity}.
+  \item \texttt{enqueue} throws \texttt{IllegalStateException} when full.
+  \item \texttt{dequeue} and \texttt{first} throw \texttt{NoSuchElementException} when empty.
+  \item \texttt{toString()} shows front-to-back, e.g.\ \texttt{front->[1, 2, 3]<-back}.
+\end{itemize}
+Test with wrap-around: capacity 5, enqueue 5, dequeue 2, enqueue 2 more.
+\end{labexercise}
+
+\begin{labexercise}{Linked-List Deque \hfill {\small \itshape (30 min)}}
+Using \texttt{DoublyLinkedList<E>} from Lab~4, wrap it in \texttt{LinkedDeque<E>}
+with the full Deque API. All operations must be $O(1)$.
+Write \texttt{boolean isPalindrome(String s)} using the deque.
+Test on \texttt{"level"}, \texttt{"world"}, \texttt{"noon"}.
+\end{labexercise}
+
+\begin{labexercise}{Round-Robin Scheduler \hfill {\small \itshape (30 min)}}
+Simulate a round-robin CPU scheduler:
+\begin{enumerate}[leftmargin=*,nosep]
+  \item \texttt{Task} has fields \texttt{name} (String) and \texttt{burstTime} (int ms).
+  \item Read at least 4 tasks from the user.
+  \item Time quantum = 3~ms. Each round: dequeue, subtract quantum (or finish if $\leq$ quantum),
+        print a log line, re-enqueue if remaining time $> 0$.
+  \item Continue until the queue is empty.
+\end{enumerate}
+Example log: \texttt{[t=6] Running TaskA, remaining=4ms}.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Why does a circular array avoid wasting space that a naive queue wastes?''
+  \item ``What is the difference between \texttt{Deque} and \texttt{Queue} in Java's standard library?''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI to draw the circular array state after the wrap-around sequence
+in Try It 1. Compare with your own diagram.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Circular array trace]
+Trace on an \texttt{ArrayQueue} of capacity 4.
+After each operation record \texttt{front}, \texttt{size}, and the array (\texttt{-} for empty slots).
+\begin{lstlisting}
+enqueue(A); enqueue(B); enqueue(C); dequeue();
+enqueue(D); enqueue(E); dequeue(); dequeue();
+\end{lstlisting}
+\end{trace}
+
+\begin{writecode}[Reverse a queue using a stack]
+Write \texttt{void reverseQueue(Queue<Integer> q)} that reverses all elements in \texttt{q}
+using only one auxiliary \texttt{Stack<Integer>}. No other data structures allowed.
+\end{writecode}
+
+\begin{drawex}{Round-robin Gantt chart}
+Draw a Gantt chart for these tasks with quantum = 2~ms:
+\medskip
+\begin{tabular}{@{}lll@{}}
+\toprule
+Task & Burst & Arrival \\ \midrule
+P1 & 6 ms & 0 \\ P2 & 4 ms & 0 \\ P3 & 2 ms & 0 \\ P4 & 5 ms & 0 \\
+\bottomrule
+\end{tabular}
+\end{drawex}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab6\_ex*.java} and submit on the course site.
+
+\end{document}

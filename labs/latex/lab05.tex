@@ -1,0 +1,139 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{5}
+\newcommand{\LabTitle}{Stacks}
+\newcommand{\LabTopic}{Stack ADT, array-based implementation, applications}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Define the Stack ADT and its \texttt{push}, \texttt{pop}, \texttt{peek}, \texttt{size}, \texttt{isEmpty} operations.
+  \item Implement a stack backed by a fixed-capacity array.
+  \item Handle stack overflow and underflow with appropriate exceptions.
+  \item Apply stacks to: bracket matching, expression evaluation, and reversing a sequence.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Stack interface.}
+\begin{lstlisting}
+public interface Stack<E> {
+    int size();
+    boolean isEmpty();
+    void push(E element) throws IllegalStateException;
+    E pop()  throws java.util.EmptyStackException;
+    E peek() throws java.util.EmptyStackException;
+}
+\end{lstlisting}
+
+\textbf{Array-based push/pop.}
+\begin{lstlisting}
+// push: data[top++] = e;   (check capacity first)
+// pop:  return (E) data[--top];
+// peek: return (E) data[top-1];
+\end{lstlisting}
+
+\textbf{LIFO rule.} Last element pushed is the first one popped.\\
+\textbf{Complexity.}\quad All Stack operations: $O(1)$.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Overflow and underflow}
+Create an \texttt{ArrayStack<Integer>} of capacity 3. Push four elements.
+What happens? Now pop from an empty stack. What exception is thrown?
+Write a try-catch block that handles both gracefully.
+\end{tryit}
+
+\begin{tryit}{The JVM method stack}
+Write a method that calls itself unconditionally (no base case).
+Run it and observe the exception.
+How does this demonstrate that the JVM uses a stack for method calls?
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Array-Based Stack \hfill {\small \itshape (35 min)}}
+Implement \texttt{ArrayStack<E>} backed by an \texttt{Object[]} of configurable capacity.
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{push} throws \texttt{IllegalStateException("Stack is full")} when at capacity.
+  \item \texttt{pop} and \texttt{peek} throw \texttt{EmptyStackException} when empty.
+  \item \texttt{toString()} prints bottom to top separated by \texttt{|}, e.g.\ \texttt{[1|2|3]} where 3 is on top.
+\end{itemize}
+Test with 6 pushes and 4 pops. Verify \texttt{size()} after each operation.
+\end{labexercise}
+
+\begin{labexercise}{Bracket Matching \hfill {\small \itshape (30 min)}}
+Write \texttt{boolean isBalanced(String expr)} that returns \texttt{true} if every opening
+bracket is matched by the correct closing bracket.
+Support three pairs: \texttt{()}, \texttt{[]}, \texttt{\{\}}.
+\begin{itemize}[leftmargin=*,nosep]
+  \item Push every opening bracket; on a closing bracket, pop and check for a match.
+  \item Return \texttt{false} on mismatch or if the stack is non-empty at the end.
+\end{itemize}
+Test with: \texttt{"([])\{)"}, \texttt{"\{[()]\}"}, \texttt{"((("}, \texttt{""}.
+\end{labexercise}
+
+\begin{labexercise}{Reverse a String \hfill {\small \itshape (15 min)}}
+Using your stack, write \texttt{String reverse(String s)} that pushes each character
+then pops them all into a \texttt{StringBuilder}.
+Verify \texttt{reverse("hello") = "olleh"}.
+\end{labexercise}
+
+\begin{labexercise}{Evaluating Postfix (RPN) Expressions \hfill {\small \itshape (40 min)}}
+Write \texttt{int evalPostfix(String expr)} where \texttt{expr} is space-separated with
+single-digit integers and operators \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}.
+Push digits; on an operator, pop two operands, apply, push result.
+Test: \texttt{"3 4 +"} ($= 7$), \texttt{"5 1 2 + 4 * + 3 -"} ($= 14$).
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Trace the bracket-matching algorithm step by step on \texttt{`\{[()]\}'}.''
+  \item ``Explain why a stack is the natural data structure for evaluating postfix expressions.''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI for a postfix expression that evaluates to 42.
+Trace it manually through your algorithm before running the code.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Stack trace]
+Trace the stack contents (bottom to top) after each operation:
+\begin{lstlisting}
+push(5); push(3); push(8); pop(); push(2); peek(); pop(); pop();
+\end{lstlisting}
+What is returned by each \texttt{pop()} call?
+\end{trace}
+
+\begin{trace}[Bracket matching trace]
+Trace \texttt{isBalanced("(\{[\}]\})")} step by step.
+For each character show: the character, the action (push/pop/mismatch), and the stack contents.
+Does the method return \texttt{true} or \texttt{false}?
+\end{trace}
+
+\begin{bug}[Broken pop]
+Find and fix all errors (assume \texttt{top} starts at 0 and \texttt{push} does \texttt{data[top++] = e}):
+\begin{lstlisting}
+public E pop() {
+    if (isEmpty()) throw new java.util.EmptyStackException();
+    E val = (E) data[top];
+    top--;
+    return val;
+}
+\end{lstlisting}
+\end{bug}
+
+\begin{writecode}[Infix to postfix]
+Write pseudocode (or Java) for converting a simple infix expression
+(single-digit operands, operators \texttt{+} and \texttt{*} only, no parentheses)
+to postfix using a stack.
+State the rule for when to pop vs.\ push an operator.
+\end{writecode}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab5\_ex*.java} and submit on the course site.
+
+\end{document}

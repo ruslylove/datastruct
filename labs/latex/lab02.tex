@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{2}
+\newcommand{\LabTitle}{Arrays and ArrayLists}
+\newcommand{\LabTopic}{Fixed arrays, insertion/deletion, dynamic resizing, amortised analysis}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Declare, initialise, and traverse one-dimensional arrays in Java.
+  \item Implement insertion and deletion in a sorted array and understand the $O(n)$ shift cost.
+  \item Build a \texttt{Scoreboard} class that maintains a sorted top-$k$ array.
+  \item Implement a generic \texttt{ArrayList<E>} backed by an \texttt{Object[]} that doubles when full.
+  \item Analyse the amortised $O(1)$ cost of \texttt{add} using the accounting method.
+\end{itemize}
+
+\begin{summary}[Quick Reference -- Arrays]
+\textbf{Declaring arrays.}
+\begin{lstlisting}
+int[] a = new int[5];                      // all zeros
+String[] names = {"Alice", "Bob", "Carol"};
+int len = a.length;                        // field, NOT a method
+\end{lstlisting}
+\textbf{Shifting right} to insert at index $k$ (loop \emph{backward}):
+\begin{lstlisting}
+for (int i = last; i >= k; i--) a[i+1] = a[i];
+a[k] = newValue;
+\end{lstlisting}
+\textbf{Complexity.}\quad Random access: $O(1)$. Insert/delete (keeping order): $O(n)$.
+\end{summary}
+
+\begin{summary}[Quick Reference -- ArrayList]
+\textbf{Resizing strategy.}\quad When full, allocate double the capacity and copy all elements.
+\begin{lstlisting}
+private void resize() {
+    Object[] bigger = new Object[data.length * 2];
+    for (int i = 0; i < size; i++) bigger[i] = data[i];
+    data = bigger;
+}
+\end{lstlisting}
+\textbf{Amortised analysis.}\quad Starting from capacity 1, resizes at sizes $1,2,4,\ldots,n$
+cost $1+2+4+\cdots+n = 2n-1$ total copies for $n$ adds: $O(1)$ amortised per \texttt{add}.\\
+\textbf{Key operations.}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\texttt{get(i)}/\texttt{set(i,e)} & $O(1)$ & always \\
+\texttt{add(e)} at tail & $O(1)$ & amortised \\
+\texttt{add(i,e)} at index & $O(n)$ & shift cost \\
+\texttt{remove(i)} & $O(n)$ & shift cost \\
+\bottomrule
+\end{tabular}
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Off-by-one index}
+\begin{lstlisting}
+int[] a = {10, 20, 30, 40, 50};
+for (int i = 0; i <= a.length; i++)   // deliberate bug
+    System.out.println(a[i]);
+\end{lstlisting}
+What exception is thrown and on which iteration? Fix the loop bound.
+\end{tryit}
+
+\begin{tryit}{Watch capacity double}
+Add a \texttt{capacity()} accessor to your \texttt{ArrayList}.
+Start with capacity 2 and append elements one by one; print the capacity after each add.
+Count the total number of element copies across 16 appends. Is it less than $2 \times 16$?
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Array Statistics \hfill {\small \itshape (20 min)}}
+Read $n$ integers from the user (first read $n$, then the values).
+Print: the minimum, maximum, and average (as \texttt{double}).
+Handle $n = 1$ correctly.
+\end{labexercise}
+
+\begin{labexercise}{\texttt{Scoreboard} Class \hfill {\small \itshape (40 min)}}
+Implement \texttt{GameEntry} (name + score, \texttt{toString()}) and
+\texttt{Scoreboard(int capacity)} that keeps at most \texttt{capacity} entries in descending score order.
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{add(GameEntry e)}: insert if the board is not full or \texttt{e} beats the lowest score; shift as needed.
+  \item \texttt{remove(int i)}: remove entry at index \texttt{i} and shift left.
+  \item \texttt{toString()}: print all entries, one per line.
+\end{itemize}
+Test with at least 6 entries and one removal.
+\end{labexercise}
+
+\begin{labexercise}{Implement \texttt{ArrayList<E>} \hfill {\small \itshape (50 min)}}
+Build the class with an initial capacity of 4:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{int size()}, \texttt{boolean isEmpty()}, \texttt{int capacity()}.
+  \item \texttt{E get(int i)} --- throws \texttt{IndexOutOfBoundsException} if out of range.
+  \item \texttt{void set(int i, E e)}.
+  \item \texttt{void add(E e)} --- appends; doubles capacity when full.
+  \item \texttt{void add(int i, E e)} --- inserts at index \texttt{i}, shifting right.
+  \item \texttt{E remove(int i)} --- removes and returns; shifts left.
+  \item Shrink policy: if after removal $\texttt{size} < \texttt{capacity}/4$, halve capacity (min 4).
+  \item \texttt{String toString()} --- e.g.\ \texttt{[A, B, C] (size=3, cap=4)}.
+\end{itemize}
+Test: append 6 elements, insert at index 2, remove index 0, print. Verify one resize occurred.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Why must I loop \emph{backwards} when shifting array elements right for insertion?''
+  \item ``Explain amortised $O(1)$ for \texttt{ArrayList.add} using the accounting/potential method.''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI to predict the total element copies for 32 appends starting from
+capacity 1 with a doubling strategy. Compute it yourself and compare.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Insertion shift]
+Trace the following code for \texttt{a = \{2, 5, 8, 0\}}, \texttt{size = 3}, \texttt{v = 6}.
+Show the array after each loop iteration and the final state.
+\begin{lstlisting}
+int pos = size;
+while (pos > 0 && a[pos-1] > v) { a[pos] = a[pos-1]; pos--; }
+a[pos] = v;
+\end{lstlisting}
+\end{trace}
+
+\begin{trace}[ArrayList capacity trace]
+Starting from capacity 2, trace \texttt{capacity()} after each call (use shrink-at-$<1/4$ policy, min 4):
+\texttt{add(A), add(B), add(C), add(D), add(E), remove(0), remove(0), remove(0)}.
+\end{trace}
+
+\begin{writecode}[Binary search on a sorted array]
+Write \texttt{int binarySearch(int[] a, int n, int target)}: returns the index of \texttt{target}
+in the sorted array of length \texttt{n}, or $-1$ if absent. Use the iterative approach.
+\end{writecode}
+
+\begin{drawex}{Amortised accounting table}
+Draw a table: add \#, element, capacity before, resize? (Y/N), copies made.
+Fill it for adds 1--16 starting from capacity 1.
+Sum the copies and show the total is less than $2 \times 16 = 32$.
+\end{drawex}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab2\_ex*.java} and submit on the course site.
+
+\end{document}

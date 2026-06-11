@@ -1,0 +1,132 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{4}
+\newcommand{\LabTitle}{Doubly Linked Lists}
+\newcommand{\LabTopic}{Sentinel nodes, bidirectional linking, addFirst/addLast/remove}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Understand why sentinel (header/trailer) nodes simplify boundary conditions.
+  \item Implement a generic \texttt{DoublyLinkedList<E>} with \texttt{prev} and \texttt{next} pointers.
+  \item Implement \texttt{addFirst}, \texttt{addLast}, and \texttt{remove(Node)} in $O(1)$ time.
+  \item Compare the trade-offs of singly vs.\ doubly linked lists.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Node class.}
+\begin{lstlisting}
+private static class Node<E> {
+    E element;
+    Node<E> prev, next;
+    Node(E e, Node<E> p, Node<E> n) { element = e; prev = p; next = n; }
+}
+\end{lstlisting}
+
+\textbf{Sentinel setup.}
+\begin{lstlisting}
+header  = new Node<>(null, null, null);
+trailer = new Node<>(null, header, null);
+header.next = trailer;
+\end{lstlisting}
+
+\textbf{addBetween} (private helper):
+\begin{lstlisting}
+Node<E> node = new Node<>(e, predecessor, successor);
+predecessor.next = node;
+successor.prev  = node;
+size++;
+\end{lstlisting}
+
+\textbf{remove(Node node):}
+\begin{lstlisting}
+Node<E> p = node.prev, s = node.next;
+p.next = s;  s.prev = p;
+size--;
+return node.element;
+\end{lstlisting}
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Sentinels eliminate special cases}
+Add a print inside \texttt{addBetween} to confirm the same code path handles both the
+empty and non-empty cases. How many \texttt{if}-statements does \texttt{addBetween} need?
+\end{tryit}
+
+\begin{tryit}{Backward traversal}
+Traverse your list from \texttt{trailer.prev} back to \texttt{header.next}.
+Verify the output is the reverse of the forward traversal.
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Implement \texttt{DoublyLinkedList<E>} \hfill {\small \itshape (50 min)}}
+Build the class using header/trailer sentinels:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{int size()}, \texttt{boolean isEmpty()}.
+  \item \texttt{E first()}, \texttt{E last()} --- null if empty.
+  \item \texttt{void addFirst(E e)}, \texttt{void addLast(E e)}.
+  \item \texttt{E removeFirst()}, \texttt{E removeLast()} --- both $O(1)$.
+  \item \texttt{String toString()} --- e.g.\ \texttt{[A <-> B <-> C]}.
+\end{itemize}
+Use private \texttt{addBetween} and \texttt{remove(Node)} helpers.
+Test with at least 10 operations including removes from both ends.
+\end{labexercise}
+
+\begin{labexercise}{Add at Position \hfill {\small \itshape (25 min)}}
+Add \texttt{void add(int index, E e)} that inserts at zero-based position \texttt{index}.
+Traverse to node at position \texttt{index}, then call \texttt{addBetween}.
+What is the time complexity? When is this worse than an array?
+\end{labexercise}
+
+\begin{labexercise}{Deque Adapter \hfill {\small \itshape (25 min)}}
+Wrap \texttt{DoublyLinkedList<E>} in a \texttt{LinkedDeque<E>} with:
+\texttt{addFirst}, \texttt{addLast}, \texttt{removeFirst}, \texttt{removeLast},
+\texttt{peekFirst}, \texttt{peekLast}, \texttt{size}, \texttt{isEmpty} --- all $O(1)$.
+\end{labexercise}
+
+\begin{labexercise}{Palindrome Checker \hfill {\small \itshape (20 min)}}
+Using \texttt{LinkedDeque<Character>}, write \texttt{boolean isPalindrome(String s)}:
+add each character to the deque, then repeatedly remove from both ends and compare.
+Test with \texttt{"racecar"}, \texttt{"hello"}, and \texttt{"madam"}.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Explain how sentinel nodes eliminate edge-case checks in a doubly linked list.''
+  \item ``Why is \texttt{removeLast} $O(1)$ in a doubly linked list but $O(n)$ in a singly linked list?''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI to draw pointer changes for \texttt{addFirst} and \texttt{removeLast}
+on a one-real-node list. Run those operations and confirm the sentinel pointers match.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Pointer trace with sentinels]
+Draw the doubly linked list (including sentinels H and T) after each step.
+Show all \texttt{prev}/\texttt{next} arrows.
+\begin{lstlisting}
+DoublyLinkedList<String> L = new DoublyLinkedList<>();
+L.addFirst("B"); L.addFirst("A"); L.addLast("C"); L.removeFirst(); L.removeLast();
+\end{lstlisting}
+\end{trace}
+
+\begin{writecode}[Reverse in-place]
+Write \texttt{void reverse()} for \texttt{DoublyLinkedList}: swap \texttt{prev} and \texttt{next}
+for every node including sentinels. No new nodes created.
+\end{writecode}
+
+\begin{drawex}{Singly vs.\ doubly linked list}
+Draw side-by-side memory diagrams of a three-element singly linked list and a
+three-element doubly linked list (with sentinels). Label every pointer field.
+Circle the extra fields in the doubly linked version and state the per-node memory overhead.
+\end{drawex}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab4\_ex*.java} and submit on the course site.
+
+\end{document}

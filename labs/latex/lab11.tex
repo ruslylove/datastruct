@@ -1,0 +1,133 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{11}
+\newcommand{\LabTitle}{Merge Sort and Quick Sort}
+\newcommand{\LabTopic}{Divide-and-conquer sorting, partitioning, complexity analysis}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Implement merge sort and understand its $O(n \log n)$ divide-and-conquer structure.
+  \item Implement quick sort with the Lomuto partition scheme; analyse best, average, and worst cases.
+  \item Measure empirical running times and compare with theoretical predictions.
+  \item Apply sorting to practical problems: finding duplicates and the $k$-th smallest element.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Merge sort.}
+\begin{lstlisting}
+void mergeSort(int[] a, int lo, int hi) {
+    if (lo >= hi) return;
+    int mid = (lo + hi) / 2;
+    mergeSort(a, lo, mid);
+    mergeSort(a, mid+1, hi);
+    merge(a, lo, mid, hi);
+}
+\end{lstlisting}
+
+\textbf{Quick sort pivot (Lomuto).}\quad Partition around \texttt{a[hi]}; elements $<$ pivot go left.\\
+\textbf{Worst case.}\quad Already-sorted input with last-element pivot $\Rightarrow O(n^2)$.\\
+\textbf{Fix.}\quad Swap a random element with \texttt{a[hi]} before partitioning.
+
+\bigskip
+\begin{tabular}{@{}lll@{}}
+\toprule
+Algorithm & Worst & Average \\
+\midrule
+Merge sort & $O(n \log n)$ & $O(n \log n)$ \\
+Quick sort & $O(n^2)$ & $O(n \log n)$ \\
+\bottomrule
+\end{tabular}
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{Merge sort on paper first}
+Trace merge sort on $[5, 2, 8, 1, 9, 3]$ by hand.
+Draw the recursive split tree and the merge steps.
+How many total element comparisons are made?
+\end{tryit}
+
+\begin{tryit}{Quick sort worst case}
+Instrument your partition function with a comparison counter.
+Compare the total comparisons for a sorted array of 10 vs.\ a random array of 10.
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Implement Merge Sort \hfill {\small \itshape (40 min)}}
+Implement \texttt{void mergeSort(int[] a, int lo, int hi)} and the helper
+\texttt{void merge(int[] a, int lo, int mid, int hi)}.
+\begin{itemize}[leftmargin=*,nosep]
+  \item Use a temporary array of size \texttt{hi - lo + 1} inside \texttt{merge}.
+  \item Print the array state after each top-level merge call.
+  \item Test on: \texttt{\{5,2,8,1,9,3\}}, a reversed array, an already-sorted array.
+\end{itemize}
+\end{labexercise}
+
+\begin{labexercise}{Implement Quick Sort \hfill {\small \itshape (40 min)}}
+Implement \texttt{void quickSort(int[] a, int lo, int hi)} using the Lomuto partition
+(pivot = \texttt{a[hi]}), where \texttt{int partition(int[] a, int lo, int hi)} returns
+the final pivot index.
+\begin{itemize}[leftmargin=*,nosep]
+  \item Print the array after each \texttt{partition} call.
+  \item Add a randomised-pivot variant.
+  \item Compare call counts with merge sort on the same arrays.
+\end{itemize}
+\end{labexercise}
+
+\begin{labexercise}{Empirical Comparison \hfill {\small \itshape (20 min)}}
+Generate arrays of size 10\,000: random, sorted, reverse-sorted.
+Time merge sort and quick sort (random pivot) using \texttt{System.nanoTime()}.
+Record in a table. Does the ratio $T_{\text{merge}}/T_{\text{quick}}$ stay roughly constant?
+\end{labexercise}
+
+\begin{labexercise}{Find Duplicates \hfill {\small \itshape (20 min)}}
+Given an unsorted \texttt{int[]}, find all duplicate values by sorting then scanning linearly.
+Overall complexity? Compare with brute-force $O(n^2)$.
+Test with \texttt{\{4, 1, 3, 2, 4, 7, 3\}} --- expected duplicates: \texttt{3, 4}.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Trace the Lomuto partition on $[3,6,8,10,1,2,1]$ with pivot = 1.''
+  \item ``Why does randomising the pivot make $O(n^2)$ behaviour negligibly unlikely?''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI for the sorted result and pivot indices for a specific input.
+Run your code on the same input and compare.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Merge sort trace]
+Trace \texttt{mergeSort(a, 0, 4)} on $a = [7, 3, 5, 1, 4]$.
+Show the recursive call tree and array contents after each merge.
+\end{trace}
+
+\begin{trace}[Partition trace]
+Trace \texttt{partition(a, 0, 5)} (Lomuto) on $a = [8, 3, 1, 5, 6, 2]$, pivot = \texttt{a[5] = 2}.
+Show \texttt{i}, \texttt{j}, and the array after each iteration.
+What is the final pivot index?
+\end{trace}
+
+\begin{writecode}[QuickSelect: $k$-th smallest]
+Using quick sort's partition, write \texttt{int kthSmallest(int[] a, int k)}.
+After partitioning at index $p$: if $p = k-1$ return \texttt{a[p]};
+if $p > k-1$ recurse left; else recurse right.
+This is \emph{QuickSelect}: $O(n)$ average.
+\end{writecode}
+
+\begin{drawex}{Merge sort recursion tree}
+Draw the full recursion tree for merge sort on an array of 8 elements.
+Label each node with its subarray range.
+At each level, write the total comparisons in the merge step.
+Show why the total is $O(n \log n)$.
+\end{drawex}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab11\_ex*.java} and submit on the course site.
+
+\end{document}

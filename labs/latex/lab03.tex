@@ -1,0 +1,126 @@
+\documentclass[11pt]{article}
+\newcommand{\LabNumber}{3}
+\newcommand{\LabTitle}{Singly Linked Lists}
+\newcommand{\LabTopic}{Node class, head/tail pointers, addFirst/addLast/removeFirst}
+\input{common.tex}
+
+\begin{document}
+\labheader
+
+\section*{Objectives}
+\begin{itemize}[leftmargin=*,nosep]
+  \item Implement a generic \texttt{Node} nested class with \texttt{element} and \texttt{next} fields.
+  \item Build a \texttt{SinglyLinkedList<E>} that maintains \texttt{head}, \texttt{tail}, and \texttt{size}.
+  \item Implement \texttt{addFirst}, \texttt{addLast}, and \texttt{removeFirst} in $O(1)$ time.
+  \item Traverse the list and understand why \texttt{removeLast} is $O(n)$.
+\end{itemize}
+
+\begin{summary}[Quick Reference]
+\textbf{Node class (nested, private).}
+\begin{lstlisting}
+private static class Node<E> {
+    E element;
+    Node<E> next;
+    Node(E e, Node<E> n) { element = e; next = n; }
+}
+\end{lstlisting}
+
+\textbf{addFirst.} Create a new node pointing to the current head; update head.\\
+\textbf{addLast.} Create a new node; update tail.next and tail (handle empty-list case).\\
+\textbf{removeFirst.} Advance head to head.next; handle single-element case (tail becomes null).\\
+\textbf{Traversal.}
+\begin{lstlisting}
+Node<E> cur = head;
+while (cur != null) { process(cur.element); cur = cur.next; }
+\end{lstlisting}
+\textbf{Complexity.}\quad \texttt{addFirst}/\texttt{addLast}/\texttt{removeFirst}: $O(1)$. \texttt{removeLast}: $O(n)$.
+\end{summary}
+
+\subsection*{Quick Experiments (Try It)}
+
+\begin{tryit}{What happens on \texttt{removeFirst} from an empty list?}
+Add a guard: if \texttt{head == null}, throw \texttt{NoSuchElementException}.
+Call \texttt{removeFirst} twice on a one-element list.
+What is the state of \texttt{head} and \texttt{tail} after the first call? After the second?
+\end{tryit}
+
+\begin{tryit}{Printing the list backwards}
+A singly linked list has no \texttt{prev} pointer.
+Write a recursive method \texttt{void printReverse(Node<E> node)} that prints the list
+in reverse by recursing to the end first, then printing on the way back.
+Call it with \texttt{head}.
+\end{tryit}
+
+\section*{In-Lab Exercises (target: 2 hours)}
+
+\begin{labexercise}{Implement \texttt{SinglyLinkedList<E>} \hfill {\small \itshape (50 min)}}
+Create the class with the following API:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{int size()}, \texttt{boolean isEmpty()}.
+  \item \texttt{E first()}, \texttt{E last()} --- peek without removal; null if empty.
+  \item \texttt{void addFirst(E e)}, \texttt{void addLast(E e)}.
+  \item \texttt{E removeFirst()} --- throws \texttt{NoSuchElementException} if empty.
+  \item \texttt{String toString()} --- e.g.\ \texttt{[A -> B -> C]}.
+\end{itemize}
+Test with at least 8 add/remove calls. Verify \texttt{size()} after each.
+\end{labexercise}
+
+\begin{labexercise}{Rotate \hfill {\small \itshape (20 min)}}
+Add \texttt{void rotate()} that moves the first element to the back in $O(1)$ time
+(no new node created --- re-link only).
+Hint: move \texttt{head} to \texttt{tail.next}, advance \texttt{head}, update \texttt{tail}.
+\end{labexercise}
+
+\begin{labexercise}{Search and Count \hfill {\small \itshape (25 min)}}
+Add:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \texttt{boolean contains(E e)} --- true if any node's element \texttt{equals(e)}.
+  \item \texttt{int countOccurrences(E e)} --- number of nodes whose element equals \texttt{e}.
+\end{itemize}
+Test with a list containing duplicate values.
+\end{labexercise}
+
+\begin{labexercise}{Stack using a Linked List \hfill {\small \itshape (25 min)}}
+Using \texttt{SinglyLinkedList<E>}, implement \texttt{LinkedStack<E>} with:
+\texttt{push(E)}, \texttt{pop()}, \texttt{peek()}, \texttt{size()}, \texttt{isEmpty()}.
+Map top-of-stack to the head of the list so all operations are $O(1)$.
+Demonstrate with 5 pushes and 3 pops.
+\end{labexercise}
+
+\begin{aicollab}
+\textbf{Suggested prompts:}
+\begin{itemize}[leftmargin=*,nosep]
+  \item ``Draw what happens to head and tail pointers when \texttt{addFirst} is called on an empty list.''
+  \item ``Why is \texttt{removeLast} $O(n)$ for a singly linked list but $O(1)$ for a doubly linked list?''
+\end{itemize}
+\medskip\textbf{Verify:} Ask the AI to implement \texttt{addFirst}. Compare with yours line by line
+and identify any edge case (empty list) the AI may have missed.
+\end{aicollab}
+
+\takehomebanner
+
+\begin{trace}[Pointer trace]
+Draw the linked list after \emph{each} operation. Show \texttt{head}, \texttt{tail}, and all \texttt{next} pointers.
+\begin{lstlisting}
+SinglyLinkedList<Integer> L = new SinglyLinkedList<>();
+L.addFirst(3); L.addFirst(1); L.addLast(5); L.removeFirst(); L.addLast(7);
+\end{lstlisting}
+What does \texttt{L.toString()} return at the end?
+\end{trace}
+
+\begin{writecode}[Reverse a singly linked list in-place]
+Write \texttt{void reverse()} that reverses by re-linking nodes --- no new nodes, no array.
+Use the three-pointer technique (\texttt{prev}, \texttt{curr}, \texttt{next}).
+Update \texttt{head} and \texttt{tail} correctly.
+\end{writecode}
+
+\begin{drawex}{Memory diagram}
+Draw the heap memory diagram for a three-node list \texttt{[A -> B -> C]}.
+Show each \texttt{Node} as a two-slot box (\texttt{element}, \texttt{next}).
+Draw arrows for the \texttt{next} references, \texttt{head}, and \texttt{tail}.
+\end{drawex}
+
+\vspace{4pt}
+\noindent\textbf{Submission.} Save files as \texttt{lab3\_ex*.java} and submit on the course site.
+
+\end{document}
