@@ -1,0 +1,246 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{multirow}
+
+\definecolor{kmutnbBlue}{HTML}{1F3A8A}
+\definecolor{accent}{HTML}{0F6FC5}
+\definecolor{lightGray}{HTML}{F2F4F7}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent,
+    citecolor=accent
+}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{kmutnbBlue}}
+  {\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+
+\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=2pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=2pt,topsep=2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{010153103 Algorithms and Data Structures}}
+\fancyhead[R]{\small Semester 1/2026}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\newcommand{\fieldlabel}[1]{\textbf{#1:}}
+
+\begin{document}
+
+%% ─── Title block ────────────────────────────────────────────────────────────
+\begin{center}
+  {\Large\bfseries\color{kmutnbBlue}
+    Electrical and Computer Engineering Course Syllabus}\\[4pt]
+  {\large\bfseries 010153103 \quad Algorithms and Data Structures}\\[2pt]
+  {\normalsize Semester 1 / Academic Year 2026}\\[2pt]
+  {\small Department of Electrical and Computer Engineering (ECE)}\\
+  {\small Faculty of Engineering,
+    King Mongkut's University of Technology North Bangkok}\\[4pt]
+  {\small Instructor: Asst.\ Prof.\ Dr.\ Ruslee Sutthaweekul
+    \quad\textbar\quad
+    \href{mailto:ruslee.s@eng.kmutnb.ac.th}{ruslee.s@eng.kmutnb.ac.th}}
+\end{center}
+
+\noindent\rule{\linewidth}{0.4pt}\medskip
+
+%% ─── 1. Course Information ──────────────────────────────────────────────────
+\section*{1.\quad Course Information}
+\begin{tabular}{@{}p{4.4cm}p{10.8cm}@{}}
+  \fieldlabel{Course Number}   & 010153103 \\[2pt]
+  \fieldlabel{Course Name}     & Algorithms and Data Structures \\[2pt]
+  \fieldlabel{Credits}         & 3 (3--0--6) \\[2pt]
+  \fieldlabel{Contact Hours}   & 3 hours per week \\[2pt]
+  \fieldlabel{Course Type}     & Required \\[2pt]
+  \fieldlabel{Prerequisites}   & 010153002 Computer Programming \\[2pt]
+  \fieldlabel{Textbook}        & Goodrich, M.~T., Tamassia, R., \& Goldwasser, M.~H.\
+                                  \textit{Data Structures and Algorithms in Java},
+                                  6th Edition. John Wiley \& Sons, 2014. \\
+\end{tabular}
+
+%% ─── 2. Course Description ──────────────────────────────────────────────────
+\section*{2.\quad Course Description}
+This course requires students to understand basic data structures for computer
+programming development, including \emph{lists}, \emph{stacks}, \emph{queues},
+and \emph{trees}; core algorithmic techniques for \emph{sorting},
+\emph{searching}, and \emph{hashing}; and the use of \emph{recursion}.
+Students will learn to select and apply appropriate data structures and
+algorithms to solve specific programming problems.
+
+%% ─── 3. Course Learning Outcomes ────────────────────────────────────────────
+\section*{3.\quad Course Learning Outcomes (CLOs)}
+Upon successful completion of this course, students will be able to:
+\begin{enumerate}
+  \item Demonstrate a good understanding of linear data structures, including
+        arrays, linked lists, stacks, and queues.
+  \item Implement abstract data types effectively.
+  \item Understand non-linear data structures, including trees and graphs.
+  \item Select and use appropriate data structures to solve specific problems.
+  \item Understand and implement sorting, searching, and hashing algorithms.
+  \item Choose and apply appropriate algorithms to solve specific problems.
+\end{enumerate}
+
+%% ─── 4. ABET Student Outcomes ───────────────────────────────────────────────
+\section*{4.\quad ABET Student Outcomes Addressed}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\linewidth}{X >{\centering\arraybackslash}p{3.2cm}}
+  \toprule
+  \rowcolor{kmutnbBlue!90}
+  \textcolor{white}{\textbf{ABET Student Outcome (SO)}} &
+  \textcolor{white}{\textbf{Course Learning Outcome (CLO)}} \\
+  \midrule
+  1.\ An ability to identify, formulate, and solve complex engineering problems
+      by applying principles of engineering, science, and mathematics.
+  & 1--6 \\
+  \rowcolor{lightGray}
+  2.\ An ability to apply engineering design to produce solutions that meet
+      specified needs with consideration of public health, safety, and welfare,
+      as well as global, cultural, social, environmental, and economic factors.
+  & 4, 6 \\
+  3.\ An ability to communicate effectively with a range of audiences.
+  & --- \\
+  \rowcolor{lightGray}
+  4.\ An ability to recognize ethical and professional responsibilities in
+      engineering situations and make informed judgments, which must consider
+      the impact of engineering solutions in global, economic, environmental,
+      and societal contexts.
+  & --- \\
+  5.\ An ability to function effectively on a team whose members together
+      provide leadership, create a collaborative and inclusive environment,
+      establish goals, plan tasks, and meet objectives.
+  & --- \\
+  \rowcolor{lightGray}
+  6.\ An ability to develop and conduct appropriate experimentation, analyze
+      and interpret data, and use engineering judgment to draw conclusions.
+  & 2, 4, 6 \\
+  7.\ An ability to acquire and apply new knowledge as needed, using
+      appropriate learning strategies.
+  & 4, 6 \\
+  \bottomrule
+\end{tabularx}
+
+%% ─── 5. CLO–Assessment Mapping ──────────────────────────────────────────────
+\section*{5.\quad CLO Assessment Mapping}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\linewidth}{X >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{3.8cm}}
+  \toprule
+  \rowcolor{kmutnbBlue!90}
+  \textcolor{white}{\textbf{Course Learning Outcome (CLO)}} &
+  \textcolor{white}{\textbf{SO}} &
+  \textcolor{white}{\textbf{Assessment Tools}} \\
+  \midrule
+  1.\ Demonstrate a good understanding of linear data structures,
+      including arrays, linked lists, stacks, and queues.
+  & 1 & Exams \\
+  \rowcolor{lightGray}
+  2.\ Implement abstract data types effectively.
+  & 1, 6 & Exams, Assignment \\
+  3.\ Understand non-linear data structures, including trees and graphs.
+  & 1 & Exams \\
+  \rowcolor{lightGray}
+  4.\ Select and use appropriate data structures to solve specific problems.
+  & 1, 2, 6, 7 & Exams, Assignment \\
+  5.\ Understand and implement sorting, searching, and hashing algorithms.
+  & 1 & Exams \\
+  \rowcolor{lightGray}
+  6.\ Choose and apply appropriate algorithms to solve specific problems.
+  & 1, 2, 6, 7 & Exams, Assignment \\
+  \bottomrule
+\end{tabularx}
+
+%% ─── 6. Weekly Schedule ─────────────────────────────────────────────────────
+\section*{6.\quad Weekly Schedule}
+\renewcommand{\arraystretch}{1.25}
+\rowcolors{2}{lightGray}{white}
+\begin{tabularx}{\linewidth}{>{\centering\arraybackslash}p{1.3cm} X >{\centering\arraybackslash}p{2.6cm}}
+  \toprule
+  \rowcolor{kmutnbBlue!90}
+  \textcolor{white}{\textbf{Week}} &
+  \textcolor{white}{\textbf{Topic}} &
+  \textcolor{white}{\textbf{Reading}} \\
+  \midrule
+  1  & Introduction to Algorithms \& Data Structures; Programming Review   & Ch.\ 1   \\
+  2  & Java \& Object-Oriented Design                                       & Ch.\ 2   \\
+  3  & Algorithm Analysis (Big-O, Big-$\Omega$, Big-$\Theta$)              & Ch.\ 4   \\
+  4  & Array Lists                                                          & Ch.\ 3   \\
+  5  & Singly Linked Lists                                                  & Ch.\ 3   \\
+  6  & Doubly Linked Lists                                                  & Ch.\ 3   \\
+  7  & Stacks \& Queues                                                     & Ch.\ 6   \\
+  \rowcolor{accent!15}
+  \multicolumn{1}{c}{---} & \textbf{Midterm Examination}                   & ---      \\
+  8  & Recursion                                                            & Ch.\ 5   \\
+  9  & Trees \& Binary Trees                                                & Ch.\ 8   \\
+  10 & Graphs                                                               & Ch.\ 14  \\
+  11 & Sorting Algorithms (Merge Sort, Quick Sort, Heap Sort)               & Ch.\ 12  \\
+  12 & Searching Algorithms (Linear, Binary)                                & Ch.\ 12  \\
+  13 & Hashing (Hash Tables, Collision Resolution)                          & Ch.\ 10  \\
+  14 & Review \& Problem-Solving Practice                                   & ---      \\
+  \rowcolor{accent!15}
+  \multicolumn{1}{c}{---} & \textbf{Final Examination}                     & ---      \\
+  \bottomrule
+\end{tabularx}
+\rowcolors{1}{}{}
+
+\medskip
+\noindent\textit{Note:} The schedule above is subject to minor adjustments
+to accommodate the academic calendar and class progress.
+
+%% ─── 7. Assessment & Grading ────────────────────────────────────────────────
+\section*{7.\quad Assessment and Grading}
+
+\noindent
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{Assessment Breakdown}
+  \begin{itemize}
+    \item Midterm Examination \dotfill 30\%
+    \item Final Examination   \dotfill 50\%
+    \item Assignments         \dotfill 20\%
+  \end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \textbf{Grading Scale}\par\smallskip
+  \begin{tabular}{@{}l@{\hspace{1em}}l@{\hspace{2.5em}}l@{\hspace{1em}}l@{}}
+    81--100 & A  & 51--60 & C  \\
+    76--80  & B+ & 46--50 & D+ \\
+    71--75  & B  & 41--45 & D  \\
+    61--70  & C+ & 0--40  & F  \\
+  \end{tabular}
+\end{minipage}
+
+%% ─── 8. Course Materials ────────────────────────────────────────────────────
+\section*{8.\quad Course Materials}
+\begin{itemize}
+  \item Lecture slides: \href{https://ruslylove.github.io/datastruct/}{ruslylove.github.io/datastruct}
+  \item PDF export of slides: \href{https://ruslylove.github.io/datastruct/slides.pdf}{slides.pdf}
+  \item Source repository: \href{https://github.com/ruslylove/datastruct}{github.com/ruslylove/datastruct}
+\end{itemize}
+
+%% ─── Footer ─────────────────────────────────────────────────────────────────
+\vfill
+\noindent\rule{\linewidth}{0.4pt}
+\begin{center}
+  \small\textit{This syllabus is subject to minor adjustments at the
+  instructor's discretion to accommodate the academic calendar and class
+  progress. Students are responsible for staying informed of any changes
+  announced in class or via the course website.}
+\end{center}
+
+\end{document}
