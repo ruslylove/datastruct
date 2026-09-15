@@ -1,0 +1,15 @@
+{
+  "name": "bangkok-transit-navigator-demo",
+  "version": "1.0.0",
+  "description": "Reference/demo implementation of the Bangkok Transit Navigator assignment (graph + Dijkstra + priority queue hand-rolled; Express used only to serve the app).",
+  "private": true,
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/network.test.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bangkok Transit Navigator (Demo)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Bangkok Transit Navigator</h1>
+    <span class="subtitle">Reference demo &middot; Assignment 1/2026</span>
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel">
+      <h2>Plan a trip</h2>
+      <form id="trip-form">
+        <label>
+          From
+          <select id="origin" required></select>
+        </label>
+        <label>
+          To
+          <select id="destination" required></select>
+        </label>
+
+        <fieldset class="time-mode">
+          <legend>Time</legend>
+          <label class="inline">
+            <input type="radio" name="mode" value="depart" checked />
+            Depart at
+          </label>
+          <label class="inline">
+            <input type="radio" name="mode" value="arrive" />
+            Arrive by
+          </label>
+          <input type="time" id="time" value="08:15" required />
+        </fieldset>
+
+        <fieldset class="optimize-mode">
+          <legend>Optimize</legend>
+          <label class="inline">
+            <input type="radio" name="optimize" value="fastest" checked />
+            Fastest time
+          </label>
+          <label class="inline">
+            <input type="radio" name="optimize" value="fewest" />
+            Fewest interchanges
+          </label>
+        </fieldset>
+
+        <button type="submit">Find Route</button>
+        <p id="error" class="error" hidden></p>
+      </form>
+    </section>
+
+    <section class="panel map-panel">
+      <h2>Map view</h2>
+      <div class="legend" id="legend"></div>
+      <svg id="map" viewBox="0 0 900 650" preserveAspectRatio="xMidYMid meet"></svg>
+    </section>
+
+    <section class="panel itinerary-panel">
+      <h2>Itinerary</h2>
+      <div id="itinerary" class="itinerary-empty">Plan a trip to see the itinerary here.</div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
