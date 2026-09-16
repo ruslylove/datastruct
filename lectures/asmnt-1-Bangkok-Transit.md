@@ -1,6 +1,6 @@
 ---
 # Frontmatter for Slidev configuration
-title: 'DSA Assignment: Bangkok Transit Navigator'
+title: "DSA Assignment: Bangkok Transit Navigator"
 transition: slide-left
 theme: seriph
 layout: cover
@@ -8,7 +8,8 @@ background: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Bangkok_BT
 ---
 
 # DSA Assignment: Bangkok Transit Navigator
-## {{ $slidev.configs.subject }}
+## Web App Edition
+### {{ $slidev.configs.subject }}
 ### Semester {{ $slidev.configs.semester }}
 
 ---
@@ -17,128 +18,213 @@ layout: two-cols
 
 ## Objectives
 
-*   Apply graph theory and shortest path algorithms to a real-world problem.
-*   Model the Bangkok mass transit network as a graph.
-*   Implement an algorithm to find the most efficient route between any two stations.
-*   Analyze and justify crucial design decisions regarding data structures and algorithms, demonstrating your understanding of their trade-offs.
+* Build a weighted graph from a real-world, imperfectly-structured CSV file.
+* Model line-transfer penalties as a graph-modeling problem, not just an algorithm problem.
+* Implement Dijkstra's algorithm with **two cost functions** (time vs. interchange count) over the same graph.
+* Render the network visually, with line identity (color) as the primary encoding.
+* Design a small, usable UI on top of a correct backend algorithm.
 
 :: right ::
 
 <img src="/bangkok-transit-map.jpg" style="width: 400px"/>
 
----
+<br>
 
-## Project Description
-
-You are tasked with building a "Bangkok Transit Navigator." This program will:
-
-*   Take a starting station and a destination station as input.
-*   Output the best route based on a defined cost metric.
-*   Focus on three key areas: representation, algorithm implementation, and design justification.
+This assignment builds on Lectures 18–19 (Graphs, Shortest Paths). Review the Graph ADT, Dijkstra's algorithm, and priority queues before starting.
 
 ---
 
-## Part 1: Graph Representation & Modeling (The Data Structure)
+## Scenario
 
-Your first task is to convert the provided transit map into a graph data structure.
+You will build a small web application, the **Bangkok Transit Navigator**, that lets a rider:
 
-* **Vertices (Nodes):** Each station on the map (e.g., 'Siam' , 'Asok' , 'Tao Poon' ) will be a vertex in your graph.
-* **Edges:** An edge will connect two vertices if the corresponding stations are adjacent on the same line. For example, there is an edge between 'Phrom Phong' and 'Thong Lo' on the Sukhumvit Line.
-* **Weights (Cost):** You must assign a weight to each edge. You must also account for the "cost" of transferring between lines.
+1. Enter an **origin** and **destination** station.
+2. Enter either a **departure time** ("leaving at 08:15, when do I arrive?") or a **desired arrival time** ("need to be there by 09:00, when should I leave?").
+3. Choose how the route is optimized: **fastest total time**, or **fewest interchanges**.
+4. See the resulting itinerary as text (stop-by-stop) and as a **line-colored map** with the chosen route highlighted.
 
----
-
-### 1. Choosing a Graph Data Structure
-
-* **Task:** Represent the network of stations and connections using a graph. You must choose the underlying data structure for this graph. Common choices include an adjacency list or an adjacency matrix.
-* **Justification:** In your report, you must justify your choice. Analyze the Bangkok transit network ---is it sparse (few connections relative to the number of stations) or dense? Based on this, explain why your chosen structure is superior in terms of space complexity and the time complexity of operations required by your pathfinding algorithm (e.g., iterating over a station's neighbors).
+This is a full application with a graph engine and a browser-based UI, reasoning about **time**, not just hop count.
 
 ---
 
-### 2. Choosing a Weighting Model
+## The Data
 
-* **Task:** Assign a "cost" to traveling through the network. Choose one of the following models to define what "shortest path" means.
-* **Model A (Fewest Stations):** The cost between any two adjacent stations is 1. The cost of a transfer is 0. This model finds the route with the minimum number of stops.
-* **Model B (Time-Based - Recommended):** This model is more realistic. Assume travel time between adjacent stations is 3 minutes and the penalty for a line transfer at an interchange station (e.g., Asok-Sukhumvit) is 10 minutes.
-* **Justification:** In your report, state which model you chose. Explain the logic of your implementation, detailing how you incorporated the transfer penalty into your graph or algorithm if you chose Model B.
+File: `assignment/bangkok_transit/bangkok_network_graph.csv`
 
----
+| Column | Meaning |
+|---|---|
+| `Source/Target_Station_Code` | Unique code for the platform (e.g. `N8`, `BL12`) |
+| `Source/Target_Station_Name` | Human-readable name (e.g. `Mo Chit`) |
+| `Edge_Type` | `Line Track` (ride) or `Interchange Connection` (walk to change lines) |
+| `Line_Context` | Which line the edge belongs to |
 
-## Part 2: Shortest Path Algorithm (The Algorithm)
-
-* **Task:** Implement Dijkstra's algorithm to find the shortest path between a start and end station. For Dijkstra's to be efficient, it must be paired with a priority queue. You can implement the priority queue using different underlying data structures, such as a binary heap or even a simple sorted array/list.
-* **Justification:** In your report, specify the data structure you used to implement your priority queue. Justify your choice by comparing its time complexity for key operations (insert and extract-min) against other alternatives and explain why it is a suitable choice for this problem.
-
-Your program's output must clearly state:
-
-* The optimal route as an ordered list of stations.
-* The total cost of the route .
+**Read the whole file before you start coding** — it has data-quality quirks that drive real design decisions (next slide).
 
 ---
 
-## Part 3: User Interface
+## Data Quirks You Must Handle
 
-Create a simple command-line interface that:
-
-* Prompts the user to enter a starting station.
-* Prompts the user to enter a destination station.
-* Prints the calculated shortest path and total cost (either the total number of stations for Model A, or the total estimated minutes for Model B)
-* Includes basic error handling for invalid station names.
+* **Codes are identity, names are not.** Some interchange stations have *two codes* for one physical place — e.g. Bang Wa is `S12` (BTS) and `BL33` (MRT). Key your graph on **code**.
+* **`Line Track` rows are traced in one direction** as the line was recorded, but riders travel either way — decide how you represent that, consistently.
+* **MRT Blue Line has a loop and a branch.** `BL01 (Tha Phra)` closes a loop via `BL31`, and also branches toward `BL37 (Lak Song)`. Your representation must support this without special-casing.
+* **A minor duplicate:** the `BL01`–`BL32` edge appears twice, tagged differently. Decide whether to de-duplicate, and say so in your report.
+* **A self-loop at `CEN` (Siam)** — the single most important modeling decision in this assignment. More on this shortly.
 
 ---
 
-## Data
+## Part 1: Build the Graph
 
-*   To simplify data entry, you are not required to transcribe the map yourself.
-*   You will be provided with a `connections.csv` file containing all the direct links between stations.
-    *   The format of the file is: `station_A,station_B,line_name`
-*   You will need to write code to parse this file to build your graph in memory when the program starts.
+* Parse the CSV into an in-memory graph using the Graph ADT style from Lecture 18 (vertices/edges as objects, adjacency list keyed by vertex).
+* Vertices are station **codes**; store display name and line as vertex attributes.
+
+**Justification required:** In your report, justify adjacency list vs. adjacency matrix in terms of the network's sparsity — count the vertices and edges and say so explicitly.
+
+---
+
+## Part 2: Visualize the Network
+
+Render every station and every `Line Track` edge, each line in a **distinct, consistent color**:
+
+| Line | Suggested color |
+|---|---|
+| BTS Sukhumvit Line | Light green |
+| BTS Silom Line | Dark green |
+| MRT Blue Line (incl. branch) | Blue |
+| MRT Purple Line | Purple |
+| Interchange Connection edges | Neutral/grey, drawn differently (dashed, thinner) — "walk here," not "ride here" |
+
+* No real geographic coordinates needed — a clean, readable layout is enough.
+* Once Part 4 works, the same view must **highlight a computed route** (bolder stroke, boarding/alighting/interchange markers).
+* Rendering libraries (D3.js, Cytoscape.js, vis-network, hand-rolled SVG/Canvas) are fine — the graph and pathfinding code must be your own.
+
+---
+
+## Part 3: Weighting the Graph
+
+Assign a **time cost** to every edge:
+
+* **`Line Track` edges:** no travel-time column is given — choose and justify a constant per segment. A reasonable default is **2.5–3 minutes** between adjacent stations.
+* **`Interchange Connection` edges between two different codes** (e.g. `E4` ↔ `BL21`, `S12` ↔ `BL33`): a real walk between platforms/buildings. A reasonable default penalty is **5–7 minutes**.
 
 ---
 layout: two-cols-header
 ---
 
-## Deliverables
-* **Source Code:** All of your source code files, well-commented and organized.
+## The Siam Gotcha — Read Before You Code
+
+At `CEN` (Siam), both the Sukhumvit and Silom lines share the **same vertex code**. A naive walk from `N1` to `S1` can pass straight through `CEN` — arriving on one line, leaving on the other — **without ever using the `CEN→CEN` self-loop**, silently costing zero for a real cross-platform transfer.
+
 :: left ::
-* **Report:**<br>
-A brief report containing:
+
+**You need a strategy that reliably charges the penalty whenever `Line_Context` changes at `CEN`**, and that also counts correctly as an interchange for the fewest-interchanges mode.
+
+:: right ::
+
+Two directions worth considering:
+
+* Search over **`(station_code, current_line)`** pairs — naturally also covers explicit `Interchange Connection` edges elsewhere.
+* Or keep bare-station-code search, and add bookkeeping in path reconstruction that detects a `Line_Context` change at `CEN`.
+
+Either is acceptable — silently free transfers through Siam are not. Justify your choice in the report.
+
+---
+layout: two-cols
+---
+
+## Part 4: The Web App
+
+**Departure mode:** given origin, destination, and departure time, compute the shortest-cost path and report the estimated **arrival time** and full itinerary.
+
+**Arrival mode:** given a desired arrival time, report the **latest departure time** that still meets it (`departure = arrival − total travel time`).
+
+:: right ::
+
+**Optimization mode** — user chooses, over the *same graph*:
+
+* **Fastest route:** minimize total time.
+* **Fewest interchanges:** minimize line changes, using time only to break ties.
+
+Implement as two cost functions/comparators feeding the same Dijkstra implementation — not two unrelated algorithms.
+
+---
+
+## Part 4: UI Requirements
+
+* Origin/destination pickers (autocomplete or dropdown over station **names** — remember several names map to more than one code).
+* A time input, with a toggle between "Depart at" / "Arrive by."
+* A toggle between "Fastest" / "Fewest interchanges."
+* Output: a stop-by-stop itinerary, e.g.:
+
+> *"Board BTS Sukhumvit Line at Mo Chit (08:15) → ride to Siam (08:32) → cross platform to BTS Silom Line (08:35) → ride to Sala Daeng (08:44). Total: 29 min, 1 interchange."*
+
+  plus the highlighted map.
+* Basic error handling: identical origin/destination, unknown station, malformed time.
+
+---
+
+## Technical Constraints
+
+* **You must implement the graph, Dijkstra's algorithm (or your chosen shortest-path algorithm), and the priority queue yourself.** Do not call a library's built-in shortest-path or routing function — that's what's being assessed.
+* Any language/stack is fine (vanilla JS/TS in the browser; a small Node/Express, Java, or Python backend with an HTML/JS frontend). A simple single-page client-side app is entirely sufficient.
+* For **rendering only** (map drawing, layout, UI widgets), third-party libraries are fine — that isn't the DSA content of this assignment.
+
+---
+layout: two-cols
+---
+
+## Deliverables
+
+* **Source code**, organized and readable, with instructions to run it locally (e.g. `README.md`).
+* **Report** covering:
     * Your name and Student ID.
-    * Instructions on how to compile and run your program.
-    * A description of the data structures you used to implement the graph (e.g., adjacency list, adjacency matrix).
-    * Which weighting model (A or B) you chose and a brief justification.
+    * Graph representation choice and sparsity justification.
+    * How you modeled and charged interchange penalties, including your answer to the Siam (`CEN`) gotcha.
 
-:: right::
+:: right ::
 
-* An "Analysis and Justification" section detailing:
-    * Graph Representation: Your choice of data structure and the reasoning behind it (sparsity, time/space complexity).
-    * Weighting Model: Which model you chose and how you implemented the logic for costs and transfers.
-    * Priority Queue: The data structure you used and why it was an effective choice for Dijkstra's algorithm.
-* Example output for a query from:
-    * 'Bang Wa' to 'Lat Phrao' .
-    * 'Lak Song' to 'Kheha'.
+* How you adapted Dijkstra for the fewest-interchanges objective.
+* The travel-time and interchange-penalty constants you chose, and why.
+* Any data-cleaning decisions (e.g. the `BL01`↔`BL32` duplicate).
+* **Example runs** (screenshots or text) for the test cases below.
 
 ---
 
 ## Grading Rubric
 
-Your project will be graded based on the following criteria:
+| Criterion | Weight |
+|---|---|
+| Graph correctly built from the CSV (codes vs. names, loop/branch, direction) | 20% |
+| Correct time-weighted shortest path, both departure and arrival modes | 20% |
+| Correct fewest-interchanges mode, including the Siam case | 20% |
+| Visualization: lines colored and distinguishable, route highlighting works | 15% |
+| Report: clear justification of design decisions above | 15% |
+| UI usability & error handling | 10% |
 
-* **Correctness & Functionality (50%)**
-    * Graph is correctly constructed from the data file.
-    * Shortest path algorithm produces the correct route and cost.
-    * The program runs without errors and handles bad input gracefully.
-* **Analysis & Justification (30%)**
-    * Your report provides clear, well-reasoned justifications for your choice of data structures for the graph and priority queue, referencing algorithmic complexity.
-    * Your explanation of the weighting model implementation is logical and clear.
-* **Code Quality & Documentation (20%)**
-    * Code is readable, clean, and appropriately commented.
-    * The README file is well-written and complete.
+---
+
+## Example Test Cases
+
+Verify your app against at least these routes (exact times depend on your chosen constants — what's graded is that the logic and interchange count are correct):
+
+1. **Bang Wa (`S12`/`BL33`) → Lat Phrao (`BL14`)** — exercises the BTS↔MRT interchange at Bang Wa and the MRT Blue Line loop/branch.
+2. **Lak Song (`BL37`) → Kheha (`E23`)** — a long cross-network trip, traversing most of the Blue Line then most of the Sukhumvit Line.
+3. **Ratchathewi (`N1`) → National Stadium (`W1`)** — the Siam gotcha: must reflect a cross-platform interchange cost at `CEN`, not a free pass-through.
+4. Any pair of your choosing, once **"fastest"** and once **"fewest interchanges"**, where the two modes give a *different* route.
 
 ---
 
 ## 🎁 Bonus Challenges (Optional for Extra Credit)
 
-* **Fewest Transfers:** In addition to the primary path, calculate a secondary path that prioritizes the fewest number of transfers, even if it takes longer.
-* **Line Visualization:** In your output, print the line (e.g., 'MRT Blue Line') the traveler should be on for each segment of the journey.
-* **Exclude a Station:** Allow the user to specify a station to "close" for maintenance, and calculate the best detour.
+* **Train frequency / headway:** assume each line runs every *N* minutes and add expected wait time when boarding or transferring — makes "plan by arrival" genuinely asymmetric with "plan by departure."
+* **First/last train:** model service hours and reject or adjust queries outside them.
+* **Station closure:** let the user mark a station "closed for maintenance" and recompute the best detour.
+* **Shareable route:** encode a computed trip in the URL so it can be copied and reopened directly to that result.
+
+---
+
+## AI Collaboration & Submission
+
+* You may use an AI assistant to discuss graph-modeling approaches (e.g. "how do I represent a rider's current line as part of a Dijkstra search state?") or to debug.
+* You may **not** have it design your whole solution — you must be able to explain, live, any part of your submitted code, including your Siam interchange handling.
+* Disclose any significant AI assistance in your report.
+* Submit your source code repository link (or archive) and report PDF via the course site by the announced deadline.
